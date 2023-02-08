@@ -1,18 +1,19 @@
 
+
 import { 
     BaseWebComponent,
     defineComponent,
-    
 } from 'shared/utils';
 
-defineComponent('my-button',
-    class MyButton extends BaseWebComponent {
+defineComponent('my-input',
+    class MyInput extends BaseWebComponent {
         constructor() {
-            super(document.createElement('button'));
+            super(document.createElement('input'));
+            this.container.classList.add("my-input");
             const children = this.childNodes;
             this.container.append(...children);
             children.forEach(node => this.removeChild(node));
         }
     }
 );
-export { }
+

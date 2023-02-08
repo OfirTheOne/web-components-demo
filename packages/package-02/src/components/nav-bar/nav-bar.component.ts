@@ -8,10 +8,11 @@
     } = await import( /* webpackPrefetch: true */ 'shared/utils');
       
     
+
 defineComponent('my-nav-bar',
   class NavBar extends BaseWebComponent {
     constructor() {
-      super();
+      super('div');
 
       this.container.classList.add('nav-bar-container');
       this.styleElement.textContent = `

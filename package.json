@@ -7,6 +7,7 @@
     "./packages/package-host",
     "./packages/package-01",
     "./packages/package-02",
+    "./packages/package-03",
     "./packages/package-shared"
   ],
   "scripts": {

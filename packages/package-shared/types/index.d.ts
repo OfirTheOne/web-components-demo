@@ -1,4 +1,5 @@
 
+
 declare module 'shared/utils' {
     function attachShadowDom(
         component: HTMLElement,
@@ -16,9 +17,9 @@ declare module 'shared/utils' {
         public readonly shadow: ShadowRoot;
         public readonly styleElement: HTMLStyleElement;
         public readonly container: HTMLElement;
-        constructor(containerTag?: string);
+        constructor(containerElementOrTag: keyof HTMLElementTagNameMap | HTMLElement);
     };
-    
+
     export { 
         BaseWebComponent,
         attachShadowDom,

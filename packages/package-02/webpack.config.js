@@ -23,19 +23,16 @@ module.exports = {
       name: 'app2',
       filename: 'remoteEntry.js',
       exposes: {
-        './components/nav-bar': './src/components/nav-bar', 
+        './views': './src/views',
+        './components': './src/components', 
+        './components/nav-bar': './src/components/nav-bar/nav-bar.component', 
       },
       remotes: {
         shared: `shared@http://localhost:4010/remoteEntry.js`,
       },
-    }),
-    // new HtmlWebpackPlugin({
-    //   title: 'our project', 
-    //   template: 'public/index.html' 
-    // }) 
+    })
   ],
   module: {
-    // esnext:
     rules: [
       {
         test: /\.ts?$/,
@@ -49,10 +46,5 @@ module.exports = {
       'node_modules': path.join(__dirname, '../../node_modules'),
     },
     extensions: ['.ts', '.js'],
-  },
-  // output: {
-  //   filename: 'bundle.js',
-  //   path: path.resolve(__dirname, 'dist'),
-  // },
-
+  }
 };

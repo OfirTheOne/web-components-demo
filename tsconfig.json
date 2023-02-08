@@ -17,6 +17,7 @@
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     // "sourceMap": true,
+    "jsx": "react",
     "outDir": "./public/dist",
     "baseUrl": "./",
     "incremental": true,
