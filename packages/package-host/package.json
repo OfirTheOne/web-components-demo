@@ -5,7 +5,7 @@
   "browser": "index.js",
   "scripts": {
     "start": "webpack-cli serve",
-    "build": "webpack --mode production",
+    "build": "webpack",
     "serve": "serve dist -p 4000",
     "clean": "rm -rf dist"
   },

@@ -1,12 +1,12 @@
 {
-  "name": "web-components-demo-app3",
+  "name": "web-components-demo-app4",
   "version": "1.0.0",
   "description": "",
   "browser": "index.js",
   "scripts": {
     "start": "webpack-cli serve",
     "build": "webpack",
-    "serve": "serve dist -p 4003",
+    "serve": "serve dist -p 4004",
     "clean": "rm -rf dist"
   },
   "keywords": [],
@@ -15,11 +15,10 @@
   "dependencies": {
     "lodash": "^4.17.21",
     "process": "^0.11.10",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "ts-node": "^10.9.1",
     "tsconfig-paths-webpack-plugin": "^4.0.0",
-    "typescript": "^4.9.4"
+    "typescript": "^4.9.4",
+    "wc-jsx": "file:../wc-jsx/wc-jsx-1.0.0.tgz"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.191",

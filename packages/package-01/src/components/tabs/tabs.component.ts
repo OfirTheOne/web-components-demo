@@ -69,14 +69,11 @@ const MyTabsCSS = `
 }
 `;
 
-defineComponent('my-tabs',
+defineComponent('tabs',
     class MyTabs extends BaseWebComponent {
         constructor() {
             super(document.createElement('input'));
-            this.container.classList.add("my-input");
-            const children = this.childNodes;
-            this.container.append(...children);
-            children.forEach(node => this.removeChild(node));
+            this.classCollection.add("my-input");
             this.styleElement.textContent = MyTabsCSS;
 
             `
@@ -119,7 +116,7 @@ defineComponent('my-tabs',
 
 
 defineComponent('tab-item',
-    class MyTabs extends BaseWebComponent {
+    class TabItem extends BaseWebComponent {
 
         public tabId: string;
         public displayTitle: string;

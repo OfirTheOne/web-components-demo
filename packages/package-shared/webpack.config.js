@@ -18,6 +18,7 @@ module.exports = {
       name: 'shared',
       filename: 'remoteEntry.js',
       exposes: {
+        './jsx': './src/jsx', 
         './utils': './src/utils', 
       },
     }),

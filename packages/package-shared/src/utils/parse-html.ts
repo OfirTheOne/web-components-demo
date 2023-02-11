@@ -15,7 +15,6 @@ export function parseHTML(container: HTMLElement,  str: unknown) {
   if (isDOMParserSupport) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(content, 'text/html');
-    // doc.body.
     container.append(...doc.body.childNodes);
     return container; //.querySelector('') as HTMLElement;
   }
