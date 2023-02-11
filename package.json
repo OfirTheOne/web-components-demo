@@ -7,18 +7,19 @@
   "workspaces": [
     "./packages/package-host",
     "./packages/package-01",
-    "./packages/package-03",
     "./packages/package-02",
     "./packages/package-04",
     "./packages/package-shared"
   ],
   "scripts": {
     "lernainit": "lerna init",
-    "lerna:install": "lerna run --scope=web-components-demo* --parallel install",
+
+    "lerna:install": "lerna exec --scope=web-components-demo* -- yarn install",
     "start": "lerna run --scope=web-components-demo* --parallel start",
     "build": "lerna run --scope=web-components-demo* build",
     "serve": "lerna run --scope=web-components-demo* --parallel serve",
-    "clean": "lerna run --scope=web-components-demo* --parallel clean"
+    "clean": "lerna run --scope=web-components-demo* --parallel clean",
+    "lerna:clean": "lerna clean"
   },
   "keywords": [],
   "author": "",

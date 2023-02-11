@@ -1,12 +1,28 @@
 
 
-export const createElement = (tag, props, ...children) => {
+type CapitalEventName = `on${Capitalize<keyof HTMLElementEventMap>}`;
+
+function isCapitalEventName(evName: string): evName is CapitalEventName {
+    return evName.startsWith("on") && evName.toLowerCase() in window;
+}   
+
+type Props 
+    = Record<CapitalEventName, (ev: Event) => void> 
+    | Record<string, boolean|number|string>;
+
+
+export const createElement = (
+    tag: string | Function, 
+    props: Props, 
+    ...children: Array<HTMLElement|string>) => {
     if (typeof tag === "function") return tag(props, ...children);
     const element = document.createElement(tag);
 
-    Object.entries(props || {}).forEach(([name, value]) => {
-        if (name.startsWith("on") && name.toLowerCase() in window)
-            element.addEventListener(name.toLowerCase().substr(2), value);
+    Object.entries(props||{}).forEach(([name, value]) => {        
+        if (isCapitalEventName(name)) {
+            const eventName = name.toLowerCase().substring(2) as keyof HTMLElementEventMap;
+            element.addEventListener(eventName, value);
+        }
         else element.setAttribute(name, value.toString());
     });
 
@@ -17,19 +33,28 @@ export const createElement = (tag, props, ...children) => {
     return element;
 };
 
-const appendChild = (parent, child) => {
-    if (Array.isArray(child))
+const appendChild = (parent: HTMLElement, child: string | HTMLElement) => {
+    if (Array.isArray(child)) {
         child.forEach(nestedChild => appendChild(parent, nestedChild));
-    else
-        parent.appendChild(child.nodeType ? child : document.createTextNode(child));
+    } else {
+        parent.appendChild(typeof child !== 'string' ?
+            child :
+            document.createTextNode(child) 
+        );
+    }
 };
 
-export const createFragment = (props, ...children) => {
+export const createFragment = (_props:Props, ...children: Array<HTMLElement|string>) => {
     return children;
 };
 
-export const WS = {
+export const WC = {
     createElement,
     createFragment
 };
 
+
+export default {
+    createElement,
+    createFragment
+};

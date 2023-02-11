@@ -20,7 +20,8 @@ declare module 'shared/utils' {
         public readonly shadow: ShadowRoot;
         public readonly styleElement: HTMLStyleElement;
         public readonly container: HTMLElement;
-        constructor(containerElementOrTag: keyof HTMLElementTagNameMap | HTMLElement);
+        constructor(containerElement?: JSX.Element);
+        constructor(containerElementOrTag?: keyof HTMLElementTagNameMap | HTMLElement);
         protected appendToShadow(elem: HTMLElement): void;
         protected attachChildNodes(): void ;
     };
@@ -38,4 +39,20 @@ declare module 'shared/utils' {
 declare module 'shared/jsx' {
     export const createElement: (tag, props, ...children) => HTMLElement;
     export const createFragment: (props, ...children) => HTMLElement;
+    export const WC:  {
+        createElement: (tag, props, ...children) => HTMLElement;
+        createFragment: (props, ...children) => HTMLElement;
+    }
+}
+
+type __HTMLElementTagNameMap = {
+    [TAG in keyof HTMLElementTagNameMap] : HTMLElementTagNameMap[TAG]
+}
+
+declare global {
+    namespace JSX {
+        interface IntrinsicElements extends __HTMLElementTagNameMap {
+
+        }
+    }
 }

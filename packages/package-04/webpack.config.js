@@ -54,9 +54,9 @@ module.exports = {
   },
   resolve: {
     // plugins: [new TsconfigPathsPlugin({configFile: "./tsconfig.json" })],
-    alias: {
-      'node_modules': path.join(__dirname, '../../node_modules'),
-    },
+    // alias: {
+    //   'node_modules': path.join(__dirname, '../../node_modules'),
+    // },
     extensions: ['.ts', '.js', '.jsx', '.tsx'],
   }
 };

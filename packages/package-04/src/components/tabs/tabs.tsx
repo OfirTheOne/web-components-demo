@@ -1,13 +1,17 @@
 
-import WC, { createElement, createFragment } from "wc-jsx";
+import { BaseWebComponent } from "shared/utils";
+import { WC, createElement, createFragment } from "shared/jsx";
 
-// import WC from 'shared/jsx';
+class MyTabs extends BaseWebComponent {
+    constructor() {
+        super(<div>{'TABS'}</div>);
+    }
+
+}
+
 customElements.define(
     'my-tabss',
-    (<div>{'TABS'}</div>) as any
-    // HTMLDivElement
+    MyTabs 
 );
-// document.body.appendChild(Tabs);
-
 
 export { }
