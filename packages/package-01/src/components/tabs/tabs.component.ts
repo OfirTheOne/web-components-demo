@@ -71,8 +71,14 @@ const MyTabsCSS = `
 
 defineComponent('tabs',
     class MyTabs extends BaseWebComponent {
+        buildStyle(): string {
+            return '';
+        }
+        buildTemplate(): string | HTMLElement | JSX.Element {
+            return document.createElement('input');
+        }
         constructor() {
-            super(document.createElement('input'));
+            super();
             this.classCollection.add("my-input");
             this.styleElement.textContent = MyTabsCSS;
 
@@ -117,15 +123,20 @@ defineComponent('tabs',
 
 defineComponent('tab-item',
     class TabItem extends BaseWebComponent {
+        buildStyle(): string {
+            return '';
+        }
+        buildTemplate(): string | HTMLElement{
+            return document.createElement('input');
+        }
 
         public tabId: string;
         public displayTitle: string;
         public order: number;
 
         constructor() {
-            super(document.createElement('input'));
+            super();
             this.container.classList.add("div");
-            
             const children = this.childNodes;
             this.container.append(...children);
             children.forEach(node => this.removeChild(node));

@@ -1,21 +1,29 @@
 
 
 (async () => {
-    const {
-        BaseWebComponent,
-        defineComponent,
-        withContainer
-    } = await import( /* webpackPrefetch: true */ 'shared/utils');
-      
-    
+  const {
+    BaseWebComponent,
+    defineComponent,
+    withContainer
+  } = await import( /* webpackPrefetch: true */ 'shared/utils');
 
-defineComponent('my-nav-bar',
-  class NavBar extends BaseWebComponent {
-    constructor() {
-      super('div');
 
-      this.container.classList.add('nav-bar-container');
-      this.styleElement.textContent = `
+
+  defineComponent('my-nav-bar',
+    class NavBar extends BaseWebComponent {
+      buildStyle(): string {
+        return '';
+      }
+      buildTemplate(): string | HTMLElement {
+        return document.createElement('div');
+      }
+
+
+      constructor() {
+        super();
+
+        this.container.classList.add('nav-bar-container');
+        this.styleElement.textContent = `
         .nav-bar-container nav-bar  {
           display: flex;
         }
@@ -25,16 +33,16 @@ defineComponent('my-nav-bar',
         }
       `;
 
-      withContainer(this.container)`
+        withContainer(this.container)`
         <nav-bar> 
           <div> A </div>
           <div> B </div>
           <div> C </div>
         </nav-bar>
       `;
+      }
     }
-  }
-);
+  );
 
 })();
 
