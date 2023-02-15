@@ -2,9 +2,16 @@
 import { BaseWebComponent } from "shared/utils";
 import { WC, createElement, createFragment } from "shared/jsx";
 
-class MyTabs extends BaseWebComponent {
+export class MyTabs extends BaseWebComponent {
+    buildStyle() {
+        return '';
+    }
+    buildTemplate() {
+        return <div>{'TABS'}</div>;
+    }
+
     constructor() {
-        super(<div>{'TABS'}</div>);
+        super();
     }
 
 }

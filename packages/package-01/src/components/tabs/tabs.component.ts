@@ -74,7 +74,7 @@ defineComponent('tabs',
         buildStyle(): string {
             return '';
         }
-        buildTemplate(): string | HTMLElement | JSX.Element {
+        buildTemplate(): string | HTMLElement {
             return document.createElement('input');
         }
         constructor() {

@@ -31,6 +31,6 @@
     //   "./packages/package-shared/types"
     // ]
   },
-  "include": ["packages/**/*"],
+  "include": ["packages/**/*", "**/types/*"],
   "exclude": ["node_modules", "test", "dist", "**/*spec.ts", "public"]
 }

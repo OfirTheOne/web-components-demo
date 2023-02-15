@@ -41,8 +41,7 @@ export class CounterComponent extends BaseWebComponent<Attr> implements OnConnec
   }
 
   buildTemplate() {
-
-    return (<div>
+    return (<div>      
       {/* @ts-ignore */}
       <MyTabs></MyTabs>
       <button id="increaseBtn">+</button>

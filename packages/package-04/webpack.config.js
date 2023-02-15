@@ -28,6 +28,7 @@ module.exports = {
         // './views': './src/views',
         './components': './src/components', 
         './components/tabs': './src/components/tabs/tabs', 
+        './components/counter': './src/components/counter/counter.component', 
       },
       remotes: {
         shared: `shared@http://localhost:4010/remoteEntry.js`,
