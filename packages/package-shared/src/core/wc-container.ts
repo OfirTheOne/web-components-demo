@@ -26,6 +26,7 @@ export class WCContainer<S = any> extends HTMLElement {
     }
 
     public render(): WCContainer {     
+        this.connectNativeHooks();
         this.shadow.childNodes.forEach(node => this.shadow.removeChild(node));
         this.styleElement.textContent = this._presentable.buildStyle(this._props);
         this.appendToShadow(this.styleElement);
@@ -46,7 +47,13 @@ export class WCContainer<S = any> extends HTMLElement {
         this._children = children;
         return this;
     }
-
+    
+    private connectNativeHooks() {
+        this['connectedCallback'] = this._presentable['connectedCallback'];
+        this['disconnectedCallback'] = this._presentable['disconnectedCallback'];
+        this['attributeChangedCallback'] = this._presentable['attributeChangedCallback'];
+        this['adoptedCallback'] = this._presentable['adoptedCallback'];
+    }    
     private buildShadow() {
         return this._host.attachShadow({ mode: 'open' });
     }  

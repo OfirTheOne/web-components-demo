@@ -8,13 +8,14 @@ import { DefineComponent } from "shared/decorators";
 class Box02 extends Presentable {
     public attr: any;
     buildStyle(props?: unknown): string {
-        return '';
+        return ``;
     }
     buildTemplate(props?: unknown) {
         return (
-        <div style={{ border: '1px solid red', margin: '8px' }}>
-            <span>hello from Box 02</span>
-        </div>);
+            <div style={{ border: '1px solid red', margin: '8px' }}>
+                <span>hello from Box 02</span>
+            </div>
+        );
     }
 
 }

@@ -10,7 +10,7 @@ declare module 'shared/core' {
         buildStyle(props: unknown): string;
         buildTemplate(props: unknown, children: any[]): HTMLElement;
     }
-    
+
     interface BaseWebComponentConstructor {
         new(...params: any[]): JSX.ElementClass;
     }
@@ -40,10 +40,10 @@ declare module 'shared/core' {
         public render(): void;
     }
 
-    declare class Presentable<S = any> implements IPresentable {
+    declare class Presentable<P = any, S = any> implements IPresentable {
         public readonly attr: S;
-        abstract buildStyle(props?: unknown): string;
-        abstract buildTemplate(props?: unknown): any;
+        abstract buildStyle(props?: P): string;
+        abstract buildTemplate(props?: P): any;
     }
 
 
