@@ -1,6 +1,9 @@
 
-import { BaseWebComponent } from "shared/utils";
+import { BaseWebComponent } from "shared/core";
 import { WC, createElement, createFragment } from "shared/jsx";
+
+
+ 
 
 export class MyTabs extends BaseWebComponent {
     buildStyle() {

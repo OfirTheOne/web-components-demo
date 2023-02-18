@@ -1,3 +1,4 @@
+import { DefineComponentOptions } from "../models/define-component-options";
 
 export abstract class BaseWebComponent<S = any> extends HTMLElement {
 

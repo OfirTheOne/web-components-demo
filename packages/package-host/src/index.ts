@@ -10,5 +10,8 @@ import(/* webpackPrefetch: true */ "app3/components/card");
 import(/* webpackPrefetch: true */ "app4/components/tabs");
 // @ts-ignore
 import(/* webpackPrefetch: true */ "app4/components/counter");
+// @ts-ignore
+import(/* webpackPrefetch: true */ "app4/app");
+
 
 export { }

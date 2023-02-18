@@ -19,7 +19,9 @@ module.exports = {
       filename: 'remoteEntry.js',
       exposes: {
         './jsx': './src/jsx', 
+        './decorators': './src/decorators', 
         './utils': './src/utils', 
+        './core': './src/core', 
       },
     }),
   ],

@@ -1,13 +1,36 @@
 import { WC, createElement, createFragment } from "shared/jsx";
-import { BaseWebComponent, OnConnected, OnDisconnected, defineComponent, OnAttributeChanged } from "shared/utils";
+import { OnConnected, OnDisconnected, defineComponent, OnAttributeChanged } from "shared/utils";
+import { BaseWebComponent } from "shared/core";
 import { MyTabs } from "../tabs/tabs"
 
 interface Attr {
   value: number;
   step: number;
 }
-
+declare global {
+  namespace JSX {
+      interface IntrinsicElements {
+          ['my-tabss']: { children?: JSX.Element | JSX.Element[] } 
+      }
+  }
+} 
 export class CounterComponent extends BaseWebComponent<Attr> implements OnConnected, OnDisconnected, OnAttributeChanged {
+
+  static get observedAttributes() {
+    return ['value', 'step'];
+  }
+
+  $increaseButton: HTMLElement;
+  $decreaseButton: HTMLElement;
+  $label: HTMLElement;
+
+  constructor() {
+    super();
+    // set references to the DOM elements from the component's template
+    this.$increaseButton = this.shadowRoot.querySelector('#increaseBtn');
+    this.$decreaseButton = this.shadowRoot.querySelector('#decreaseBtn');
+    this.$label = this.shadowRoot.querySelector('#label');
+  }
   
   buildStyle(): string {
     return `
@@ -42,28 +65,14 @@ export class CounterComponent extends BaseWebComponent<Attr> implements OnConnec
 
   buildTemplate() {
     return (<div>      
-      {/* @ts-ignore */}
-      <MyTabs></MyTabs>
+      <my-tabss>
+          <div> hello </div>
+          <div> hello2 </div>
+      </my-tabss>
       <button id="increaseBtn">+</button>
       <span id="label"></span>
       <button id="decreaseBtn">-</button>
     </div>);
-  }
-
-  static get observedAttributes() {
-    return ['value', 'step'];
-  }
-
-  $increaseButton: HTMLElement;
-  $decreaseButton: HTMLElement;
-  $label: HTMLElement;
-
-  constructor() {
-    super();
-    // set references to the DOM elements from the component's template
-    this.$increaseButton = this.shadowRoot.querySelector('#increaseBtn');
-    this.$decreaseButton = this.shadowRoot.querySelector('#decreaseBtn');
-    this.$label = this.shadowRoot.querySelector('#label');
   }
 
   connectedCallback() {

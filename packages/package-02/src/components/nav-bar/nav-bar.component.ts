@@ -1,11 +1,17 @@
 
 
 (async () => {
-  const {
-    BaseWebComponent,
-    defineComponent,
-    withContainer
-  } = await import( /* webpackPrefetch: true */ 'shared/utils');
+  const [
+    {
+      defineComponent,
+      withContainer
+    }, {
+      BaseWebComponent
+    }
+  ] = await Promise.all([
+    import( /* webpackPrefetch: true */ 'shared/utils'),
+    import( /* webpackPrefetch: true */ 'shared/core')
+  ]);
 
 
 

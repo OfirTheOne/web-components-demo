@@ -1,9 +1,9 @@
 
 
 import { 
-    BaseWebComponent,
     defineComponent,
 } from 'shared/utils';
+import { BaseWebComponent } from "shared/core";
 
 defineComponent('my-input',
     class MyInput extends BaseWebComponent {
