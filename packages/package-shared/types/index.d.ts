@@ -1,3 +1,4 @@
+/// <reference  types="../src/models/index.ts"/>
 
 declare namespace JSX {
     interface ElementClass extends BaseWebComponent { }
@@ -44,6 +45,8 @@ declare module 'shared/core' {
         public readonly attr: S;
         abstract buildStyle(props?: P): string;
         abstract buildTemplate(props?: P): any;
+        state: S;
+        setState: (state: S| ((cur: S) => Partial<S>)) => Partial<S>;
     }
 
 
@@ -56,9 +59,10 @@ declare module 'shared/core' {
 }
 
 declare module 'shared/decorators' {
+
     function DefineComponent(
         name: string,
-        options?: ElementDefinitionOptions & { shadow?: boolean }
+        options?: DefineComponentOptions,
     ): ClassDecorator;
 
     export {

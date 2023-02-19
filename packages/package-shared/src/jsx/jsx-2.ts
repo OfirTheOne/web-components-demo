@@ -64,7 +64,7 @@ const handlePresentableElement = (
             defineComponent(name, class extends WCContainer {}, options);
         }
         const WccCtor = customElements.get(name) as Ctor<WCContainer>;
-        const wcc = new WccCtor()
+        const wcc = new WccCtor(options)
             .setPresentable(new tag())
             .setProps(props)
             .setChildren(children)
@@ -75,31 +75,14 @@ const handlePresentableElement = (
     }
 }
 
-const handleNativeTagElement = ( tag: string, props: Props, ) => {
+const handleNativeTagElement = (tag: string, props: Props) => {
 
     const element = document.createElement(tag);
     const nonEmptyProps = props||{};
     const styleProp = nonEmptyProps['style'];
     const propsEntries = Object.entries(nonEmptyProps).filter(([key, _val]) => key !== 'style');
-
     if(styleProp) {
-        const validStyleEntries = Object
-            .entries(styleProp)
-            .map(([name, value]) => {  
-                const validStyleAttr = !name.includes('-') ? name :
-                    name.replace(/(?:^\w|[A-Z]|\b-\w)/g, (match, i) => 
-                        i == 0 ? 
-                            match.toLocaleLowerCase() : 
-                                match[0] == '-' ? 
-                                    match.toLocaleUpperCase() : 
-                                    '-' + match.toLocaleUpperCase()
-                    );
-                return [validStyleAttr, value]
-            });
-        element.setAttribute('style', 
-            validStyleEntries
-                .map(([key, value]) => `${key}: ${value}`)
-                .join(';'));
+        element.setAttribute('style', convertStyleObjectToInlineStyle(styleProp));
     }
 
     propsEntries.forEach(([name, value]) => {    
@@ -111,6 +94,25 @@ const handleNativeTagElement = ( tag: string, props: Props, ) => {
         }
     });
     return element;
+}
+
+const convertStyleObjectToInlineStyle = (styleObject: Record<string, unknown>): string => {
+    const validStyleEntries = Object
+    .entries(styleObject)
+    .map(([name, value]) => {  
+        const validStyleAttr = !name.includes('-') ? name :
+            name.replace(/(?:^\w|[A-Z]|\b-\w)/g, (match, i) => 
+                i == 0 ? 
+                    match.toLocaleLowerCase() : 
+                        match[0] == '-' ? 
+                            match.toLocaleUpperCase() : 
+                            '-' + match.toLocaleUpperCase()
+            );
+        return [validStyleAttr, value];
+    });
+    return validStyleEntries
+                .map(([key, value]) => `${key}: ${value}`)
+                .join(';')
 }
 
 const appendChild = (parent: HTMLElement, child: string | HTMLElement) => {
@@ -140,3 +142,5 @@ export default {
     createElement,
     createFragment
 };
+
+
