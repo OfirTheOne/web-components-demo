@@ -32,15 +32,6 @@ declare module 'shared/core' {
         protected attachChildNodes(): void;
     };
 
-    class WCContainer<S = any> {
-
-        get host(): HTMLElement;
-        public setPresentable(p: IPresentable): WCContainer;
-        public setProps(props: any = {}): WCContainer;
-        public setChildren(children: any[] = []): WCContainer;
-        public render(): void;
-    }
-
     declare class Presentable<P = any, S = any> implements IPresentable {
         public readonly attr: S;
         abstract buildStyle(props?: P): string;
@@ -49,12 +40,13 @@ declare module 'shared/core' {
         setState: (state: S| ((cur: S) => Partial<S>)) => Partial<S>;
     }
 
+    function render(vElem: VirtualElement, id: string): void;
 
     export {
-        WCContainer,
         BaseWebComponent,
         BaseWebComponentConstructor,
-        Presentable
+        Presentable,
+        render
     }
 }
 
@@ -90,6 +82,13 @@ declare module 'shared/utils' {
         adoptedCallback(): void
     }
 
+    interface OnPreRender {
+        preRender(): void
+    }
+    interface OnPostRender {
+        postRender(): void;
+    }
+
     function attachShadowDom(
         component: HTMLElement,
         container: HTMLElement,
@@ -111,6 +110,8 @@ declare module 'shared/utils' {
         OnDisconnected,
         OnAttributeChanged,
         OnAdopted,
+        OnPreRender,
+        OnPostRender,
         attachShadowDom,
         defineComponent,
         parseHTML,

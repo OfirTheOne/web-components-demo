@@ -1,9 +1,10 @@
+import { Ctor } from "../models/ctor";
 
 
 
 export function defineComponent(
     name: string, 
-    ctor: CustomElementConstructor, 
+    ctor: Ctor<any>, 
     options?: ElementDefinitionOptions | undefined
 ) {
     customElements.define(

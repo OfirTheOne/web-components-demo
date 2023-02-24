@@ -1,3 +1,4 @@
 export * from './base-web-component';
 export * from './presentable';
-export * from './wc-container';
+export * from './renderer/wc-renderer/wc-container';
+export * from './renderer/wc-renderer/render';
