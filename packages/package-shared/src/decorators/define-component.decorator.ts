@@ -1,5 +1,5 @@
 
-import { DefineComponentOptions } from "../models/define-component-options";
+import { DefineComponentOptions } from "shared/decorators";
 import { setDefineComponentArg } from "./accessors";
 
 export function DefineComponent(

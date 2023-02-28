@@ -2,14 +2,15 @@
 import { InternalRender } from "../../../../models/internal-render";
 import { VirtualElement } from "../../../../models/virtual-element";
 import { IPresentable } from "../../../../models/i-presentable";
-import { WCContainerOptions } from "../../../../models/wc-container-options";
 import { RenderTaskAgent } from "./render-task-agent";
 import { StateChangesQueue } from "./state-change-queue";
 import { StateProxy } from "./state-proxy";
+import { WCContainerOptions } from "shared/utils";
 
 
 const defaultWCContainerOptions: WCContainerOptions = {
     renderOnce: false,
+    noWrap: false
 };
 
 export class WCContainer extends HTMLElement {
@@ -17,7 +18,7 @@ export class WCContainer extends HTMLElement {
     protected readonly _host: HTMLElement;
     protected readonly _shadow: ShadowRoot;
     protected readonly _styleElement: HTMLStyleElement;
-    protected container: HTMLElement;
+    protected container: HTMLElement | HTMLElement[];
 
     protected readonly _state: Record<string, any>;
     protected readonly _stateProxy: Record<string, any>;
@@ -75,11 +76,14 @@ export class WCContainer extends HTMLElement {
         }
     };
 
-    public render(): WCContainer {
+    public render(): WCContainer | HTMLElement {
         if (this.canRender() && this.shouldRender()) {
             this.preCoreRender();
-            this.coreRender();
+            const wasRendered = this.coreRender();
             this.postCoreRender();
+            if(!wasRendered) {
+                return null
+            }
         }
         return this;
     }
@@ -106,16 +110,26 @@ export class WCContainer extends HTMLElement {
         // }
         // this._shadow.childNodes.forEach(node => this._shadow.removeChild(node));
     }
-    private coreRender(): void {
+    private coreRender(): boolean {
         this._styleElement.textContent = this.presentable.buildStyle(this.props);
         this.appendToShadow(this._styleElement);
         const virtualElement = this.presentable.buildTemplate(this.props, this._children) as unknown as VirtualElement;
-        const element = this._render(virtualElement, this.shadowRoot, this.container);
-        if(this.container) {
-            this.container.replaceWith(element);
+        if(virtualElement == null) {
+            return false
         } else {
+            const element = this._render(virtualElement);
+
+            if(this.container) {
+                if(Array.isArray(this.container)) {
+                    this.container.forEach(node =>node.remove());
+                } else {
+                    this.container.remove();
+                }
+            } 
             this.container = element
             this.appendToShadow(this.container); 
+        
+            return !!element;
         }
     }
     private postCoreRender(): void {
@@ -143,7 +157,9 @@ export class WCContainer extends HTMLElement {
             document.createElement(containerElementOrTag) : containerElementOrTag;
         return container;
     }
-    protected appendToShadow(elem: HTMLElement): void {
-        this._shadow.appendChild(elem);
+    protected appendToShadow(elem: HTMLElement | HTMLElement[]): void {
+        Array.isArray(elem) ? 
+            elem.forEach(node => this._shadow.appendChild(node)) :
+            this._shadow.appendChild(elem);
     }
 }

@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { DEFINE_COMPONENT_ARGS } from "../constants";
-import { DefineComponentOptions } from "../models/define-component-options";
+import { DefineComponentOptions } from "shared/decorators";
 
 export function setDefineComponentArg(name: string, options: DefineComponentOptions = {}, target: Object) {
     Reflect.defineMetadata(

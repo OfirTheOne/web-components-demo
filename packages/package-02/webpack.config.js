@@ -25,26 +25,34 @@ module.exports = {
       exposes: {
         './views': './src/views',
         './components': './src/components', 
-        './components/nav-bar': './src/components/nav-bar/nav-bar.component', 
       },
       remotes: {
-        shared: `shared@http://localhost:4010/remoteEntry.js`,
+        shared: `shared@http://localhost:4010/remoteEntry.js`
       },
     })
   ],
   module: {
-    rules: [
-      {
-        test: /\.ts?$/,
-        use: 'ts-loader',
-        exclude: /node_modules/,
+    rules: [{
+      test: /\.tsx?$/,
+      exclude: /node_modules/,
+      loader: 'ts-loader',
+      options: { 
+        // configFile: "./tsconfig.json",
+        compilerOptions: {
+          removeComments: false,
+          "moduleResolution": "node",
+          "jsx": "react",
+          // "jsxImportSource": "wc-jsx",
+          "jsxFragmentFactory": "WC.createFragment",
+          "jsxFactory": "WC.createElement",
+        }
       },
-    ],
+    }],
   },
   resolve: {
-    alias: {
-      'node_modules': path.join(__dirname, '../../node_modules'),
-    },
-    extensions: ['.ts', '.js'],
+    // alias: {
+    //   'node_modules': path.join(__dirname, '../../node_modules'),
+    // },
+    extensions: ['.ts', '.js', '.jsx', '.tsx'],
   }
 };

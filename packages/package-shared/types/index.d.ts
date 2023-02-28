@@ -1,10 +1,22 @@
 /// <reference  types="../src/models/index.ts"/>
 
-declare namespace JSX {
-    interface ElementClass extends BaseWebComponent { }
+
+interface DefineComponentOptions extends ElementDefinitionOptions {
+    shadow?: boolean;
+    renderOnce?: boolean;
+    noWrap?: boolean;
 }
 
 
+interface WCContainerOptions extends Partial<Pick<
+    DefineComponentOptions, 
+    "shadow" | "renderOnce" | "noWrap"
+>> {
+}
+
+declare namespace JSX {
+    interface ElementClass extends BaseWebComponent { }
+}
 
 declare module 'shared/core' {
     interface IPresentable {
@@ -35,7 +47,7 @@ declare module 'shared/core' {
     declare class Presentable<P = any, S = any> implements IPresentable {
         public readonly attr: S;
         abstract buildStyle(props?: P): string;
-        abstract buildTemplate(props?: P): any;
+        abstract buildTemplate(props?: P, children: any[] = []): any;
         state: S;
         setState: (state: S| ((cur: S) => Partial<S>)) => Partial<S>;
     }
@@ -51,13 +63,13 @@ declare module 'shared/core' {
 }
 
 declare module 'shared/decorators' {
-
     function DefineComponent(
         name: string,
         options?: DefineComponentOptions,
     ): ClassDecorator;
 
     export {
+        DefineComponentOptions,
         DefineComponent
     };
 }
@@ -112,6 +124,7 @@ declare module 'shared/utils' {
         OnAdopted,
         OnPreRender,
         OnPostRender,
+        WCContainerOptions,
         attachShadowDom,
         defineComponent,
         parseHTML,

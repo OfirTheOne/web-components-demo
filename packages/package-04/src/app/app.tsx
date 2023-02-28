@@ -1,10 +1,10 @@
 // @ts-nocheck
 
 import { WC, createElement, createFragment } from "shared/jsx";
-import { BaseWebComponent, Presentable, render } from "shared/core";
+import { Presentable, render } from "shared/core";
 import { DefineComponent } from "shared/decorators";
 import { OnConnected } from "shared/utils";
-
+import { NavBar, Tab } from "app2/components"
 
 @DefineComponent('box-03')
 class Box03 extends Presentable {
@@ -19,9 +19,8 @@ class Box03 extends Presentable {
             </div>
         );
     }
-
     preRender() {
-        console.log('preRender Box03' )
+        console.log('preRender Box03');
     }
 }
 
@@ -41,7 +40,7 @@ class Box02 extends Presentable {
     }
 
     preRender() {
-        console.log('preRender Box02' )
+        console.log('preRender Box02');
     }
 }
 
@@ -86,10 +85,8 @@ class Box01 extends Presentable<Box01Props> implements OnConnected {
         );
     }
     preRender() {
-        console.log('preRender Box01' )
+        console.log('preRender Box01')
     }
-
-    
 }
 
 @DefineComponent('my-wrapper')
@@ -109,7 +106,7 @@ class Wrapper extends Presentable {
     }
 
     preRender() {
-        console.log('preRender Wrapper' )
+        console.log('preRender Wrapper');
     }
 }
 @DefineComponent('my-app')
@@ -119,11 +116,13 @@ export class App extends Presentable {
     }
     buildTemplate() {
         return <div>
+            <NavBar />
+            <Tab />
             <Wrapper />
         </div>;
     }
     preRender() {
-        console.log('preRender App' )
+        console.log('preRender App');
     }
 
 }

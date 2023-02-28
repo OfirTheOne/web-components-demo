@@ -1,4 +1,5 @@
-import { DefineComponentOptions } from "../models/define-component-options";
+import { DefineComponentOptions } from "shared/decorators";
+
 
 export abstract class BaseWebComponent<S = any> extends HTMLElement {
 

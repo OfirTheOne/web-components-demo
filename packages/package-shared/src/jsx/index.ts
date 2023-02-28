@@ -3,6 +3,6 @@ export  {
     createElement,
     createFragment,
     WC
-} from './v3';
+} from './handlers';
 
 
