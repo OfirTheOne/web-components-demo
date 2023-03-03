@@ -111,14 +111,15 @@ class Wrapper extends Presentable {
 }
 @DefineComponent('my-app')
 export class App extends Presentable {
+
+    const incCounter = () => { this.setState(curState =>({ counter: (curState.counter || 0)+1 })); }
+
     buildStyle() {
         return '';
     }
     buildTemplate() {
         return <div>
-            <NavBar />
-            <Tab />
-            <Wrapper />
+            <Tab incCounter={this.incCounter} />
         </div>;
     }
     preRender() {

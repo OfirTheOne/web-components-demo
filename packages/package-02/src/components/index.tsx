@@ -6,12 +6,71 @@ import { DefineComponent } from "shared/decorators";
 
 
 
-@DefineComponent('my-tab-item')
+@DefineComponent('my-tab-item', { noWrap: true })
 export class TabNavItem extends Presentable {
 
   buildStyle(): string {
+    return ``;
+  }
+
+  buildTemplate({ id, title, activeTab, setActiveTab }) {
+
+    const handleClick = () => {
+      setActiveTab(id);
+    };
+
+    return (
+      <li onClick={handleClick} className={activeTab === id ? "active" : ""}>
+        {title}
+      </li>
+    );
+  }
+}
+
+@DefineComponent('my-tab-content')
+export class TabContent extends Presentable {
+
+  buildStyle(): string {
     return `
-         
+    .TabContent {
+      font-size: 2rem;
+      text-align: center;
+    }
+    
+     `;
+  }
+  buildTemplate({ id, activeTab }, children) {
+    return (
+      activeTab === id ? <div className={`TabContent ${id}`}>
+        {children}
+      </div>
+        : null
+    );
+  }
+}
+
+@DefineComponent('my-tab')
+export class Tab extends Presentable {
+
+  setActiveTab = (tabId: string) => this.setState({ activeTab: tabId });
+
+  buildStyle(): string {
+    return `
+    .Tabs {
+      width: 80%;
+      height: auto;
+      min-height: 400px;
+      background: #053742;
+      margin: 3.5rem auto 1.5rem;
+      padding: 2rem 1rem;
+      color: #E8F0F2;
+      border-radius: 2rem;
+      @media (max-width: 769px) {
+        padding: 2rem 0;
+      }
+     
+    }
+     
     /* Tab Navigation */
     ul.nav {
       width: 60%;
@@ -53,69 +112,10 @@ export class TabNavItem extends Presentable {
     ul.nav li.active {
       background: #39A2DB;
     }
-     `;
-  }
-
-  buildTemplate({ id, title, activeTab, setActiveTab }) {
-
-    const handleClick = () => {
-      setActiveTab(id);
-    };
-
-    return (
-      <li onClick={handleClick} className={activeTab === id ? "active" : ""}>
-        {title}
-      </li>
-    );
-  }
-}
-
-@DefineComponent('my-tab-content')
-export class TabContent extends Presentable {
-
-  buildStyle(): string {
-    return `
-    .TabContent {
-      font-size: 2rem;
-      text-align: center;
-    }
-    `;
-  }
-  buildTemplate({ id, activeTab }, children) {
-    return (
-      activeTab === id ? <div className={`TabContent ${id}`}>
-        {children}
-      </div>
-        : null
-    );
-  }
-}
-
-@DefineComponent('my-tab')
-export class Tab extends Presentable {
-
-  setActiveTab = (tabId: string) => this.setState({ activeTab: tabId });
-
-  buildStyle(): string {
-    return `
-    .Tabs {
-      width: 80%;
-      height: auto;
-      min-height: 400px;
-      background: #053742;
-      margin: 3.5rem auto 1.5rem;
-      padding: 2rem 1rem;
-      color: #E8F0F2;
-      border-radius: 2rem;
-      @media (max-width: 769px) {
-        padding: 2rem 0;
-      }
-     
-    }
-
       `;
   }
-  buildTemplate() {
+  buildTemplate({ incCounter }) {
+
     return (
       <div className="Tabs">
         <ul className="nav">
@@ -123,7 +123,7 @@ export class Tab extends Presentable {
           <TabNavItem title="Tab 2" id="tab2" activeTab={this.state.activeTab} setActiveTab={this.setActiveTab} />
           <TabNavItem title="Tab 3" id="tab3" activeTab={this.state.activeTab} setActiveTab={this.setActiveTab} />
         </ul>
-        <div className="outlet">
+        <div className="outlet" onClick={incCounter}>
             <TabContent id="tab1" activeTab={this.state.activeTab}>
               <p>Tab 1 works!</p> 
             </TabContent>
@@ -138,27 +138,3 @@ export class Tab extends Presentable {
     );
   };
 }
-
-
-@DefineComponent('my-navbar')
-export class NavBar extends Presentable {
-  buildStyle(): string {
-    return `
-          .nav-bar-container {
-            display: flex;
-          }
-
-          .nav-bar-container div {
-            display: flex;
-          }
-      `;
-  }
-  buildTemplate() {
-    return (<div className="nav-bar-container">
-      <div> A </div>
-      <div> B </div>
-      <div> C </div>
-    </div>);
-  }
-}
-
