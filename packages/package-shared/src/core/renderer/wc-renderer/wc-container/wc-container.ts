@@ -13,6 +13,8 @@ const defaultWCContainerOptions: WCContainerOptions = {
     noWrap: false
 };
 
+const WCContainerSym = Symbol('WCContainer');
+
 export class WCContainer extends HTMLElement {
 
     protected readonly _host: HTMLElement;
@@ -76,7 +78,7 @@ export class WCContainer extends HTMLElement {
         }
     };
 
-    public render(): WCContainer | HTMLElement {
+    public render(): WCContainer | HTMLElement | HTMLElement[] {
         if (this.canRender() && this.shouldRender()) {
             this.preCoreRender();
             const wasRendered = this.coreRender();
@@ -85,7 +87,11 @@ export class WCContainer extends HTMLElement {
                 return null
             }
         }
-        return this;
+        if(this.options.noWrap) {
+            return this.container;
+        } else {
+            return this;
+        }   
     }
     private canRender(): boolean {
         if (this._shadow && this.presentable && this._styleElement) {
@@ -117,19 +123,17 @@ export class WCContainer extends HTMLElement {
         if(virtualElement == null) {
             return false
         } else {
-            const element = this._render(virtualElement);
-
-            if(this.container) {
-                if(Array.isArray(this.container)) {
-                    this.container.forEach(node =>node.remove());
-                } else {
-                    this.container.remove();
-                }
-            } 
-            this.container = element
+            const domElement = this._render(virtualElement);
+            DOMHelpers.removeSelf(this.container);
+            this.container = domElement
+            if(Array.isArray(this.container)) {
+                this.container.forEach(node => node[WCContainerSym] = this);
+            } else {
+                this.container[WCContainerSym] = this;
+            }
             this.appendToShadow(this.container); 
         
-            return !!element;
+            return !!domElement;
         }
     }
     private postCoreRender(): void {
@@ -161,5 +165,17 @@ export class WCContainer extends HTMLElement {
         Array.isArray(elem) ? 
             elem.forEach(node => this._shadow.appendChild(node)) :
             this._shadow.appendChild(elem);
+    }
+}
+
+
+
+class DOMHelpers {
+    static removeSelf(elm?: HTMLElement | HTMLElement[]) {
+        if(elm) {
+            Array.isArray(elm) ?
+                elm.forEach(node => node.remove()) :
+                elm.remove();
+        } 
     }
 }
