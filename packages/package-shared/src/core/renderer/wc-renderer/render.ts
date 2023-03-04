@@ -1,9 +1,8 @@
 import { Presentable } from "../../presentable";
 import { WCContainer } from "./wc-container/wc-container";
 import { getDefineComponentArg } from "../../../decorators/accessors";
-import { Props } from "../../../models/props";
 import { defineComponent } from "../../../utils/define-component";
-import { VirtualElement } from "../../../models/virtual-element";
+import { Ctor, Props, VirtualElement } from "../../../models";
 import { PreserveElementStateMap, InternalRender } from "./types";
 
 type DomElement =
@@ -12,8 +11,6 @@ type DomElement =
   | string
   | HTMLElement
   | (string | HTMLElement)[];
-
-type Ctor<T> = new (...args: any[]) => T;
 
 type CapitalEventName = `on${Capitalize<keyof HTMLElementEventMap>}`;
 
@@ -83,16 +80,16 @@ function virtualRenderChildren(
       .map((child, i) => {
         if (child === undefined || child === null) {
           return child as null;
+        } else if (typeof child !== "string") {
+          return virtualRender(
+            child.tag,
+            child.props,
+            child.children,
+            parentPreservedStateMap,
+            String(key + `.${i}`)
+          );
         } else {
-          return typeof child === "string"
-            ? child
-            : virtualRender(
-                child.tag,
-                child.props,
-                child.children,
-                parentPreservedStateMap,
-                String(key + `.${i}`)
-              );
+          return child;
         }
       })
       .forEach((child) => RenderUtils.appendDomChildren(parent, child));
