@@ -1,10 +1,10 @@
 
-import { InternalRender } from "../../../../models/internal-render";
 import { VirtualElement } from "../../../../models/virtual-element";
 import { IPresentable } from "../../../../models/i-presentable";
 import { RenderTaskAgent } from "./render-task-agent";
 import { StateChangesQueue } from "./state-change-queue";
 import { StateProxy } from "./state-proxy";
+import { PreserveElementStateMap, InternalRender } from "../types";
 import { WCContainerOptions } from "shared/utils";
 
 
@@ -13,19 +13,20 @@ const defaultWCContainerOptions: WCContainerOptions = {
     noWrap: false
 };
 
-const WCContainerSym = Symbol('WCContainer');
 
 export class WCContainer extends HTMLElement {
+
+    protected readonly preservedStateMap: PreserveElementStateMap
 
     protected readonly _host: HTMLElement;
     protected readonly _shadow: ShadowRoot;
     protected readonly _styleElement: HTMLStyleElement;
     protected container: HTMLElement | HTMLElement[];
 
-    protected readonly _state: Record<string, any>;
-    protected readonly _stateProxy: Record<string, any>;
     protected readonly _renderTaskAgent: RenderTaskAgent;
     protected readonly _stateChangesQueue: StateChangesQueue;
+    protected _state: Record<string, any>;
+    protected _stateProxy: Record<string, any>;
 
     public get host(): HTMLElement {
         return this._host;
@@ -43,10 +44,10 @@ export class WCContainer extends HTMLElement {
     ) {
         super();
         this._host = this;
+        this.preservedStateMap = new Map();
         this._styleElement = document.createElement('style');
         this._shadow = this.buildShadow();
-        this._state = {};
-        this._stateProxy = StateProxy.create(this._state);
+        this.injectState({});
         this._stateChangesQueue = new StateChangesQueue();
         this._renderTaskAgent = new RenderTaskAgent(this,
             () => { 
@@ -54,6 +55,11 @@ export class WCContainer extends HTMLElement {
                 this._stateChangesQueue.clear(); 
             }
         );
+    }
+
+    injectState(state: any) {
+        this._state = state;
+        this._stateProxy = StateProxy.create(this._state);
         this.connectState();
     }
 
@@ -77,6 +83,7 @@ export class WCContainer extends HTMLElement {
             <Function>this.presentable['adoptedCallback'](...args);
         }
     };
+
 
     public render(): WCContainer | HTMLElement | HTMLElement[] {
         if (this.canRender() && this.shouldRender()) {
@@ -111,10 +118,6 @@ export class WCContainer extends HTMLElement {
         if(typeof this.presentable['preRender'] === 'function') {
             this.presentable['preRender']();
         }
-        // if (this.container) {
-        //     this._shadow.removeChild(this.container);
-        // }
-        // this._shadow.childNodes.forEach(node => this._shadow.removeChild(node));
     }
     private coreRender(): boolean {
         this._styleElement.textContent = this.presentable.buildStyle(this.props);
@@ -123,14 +126,9 @@ export class WCContainer extends HTMLElement {
         if(virtualElement == null) {
             return false
         } else {
-            const domElement = this._render(virtualElement);
+            const domElement = this._render(virtualElement, this.preservedStateMap);
             DOMHelpers.removeSelf(this.container);
-            this.container = domElement
-            if(Array.isArray(this.container)) {
-                this.container.forEach(node => node[WCContainerSym] = this);
-            } else {
-                this.container[WCContainerSym] = this;
-            }
+            this.container = domElement;
             this.appendToShadow(this.container); 
         
             return !!domElement;

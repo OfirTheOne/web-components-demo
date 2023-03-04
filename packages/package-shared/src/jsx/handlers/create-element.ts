@@ -8,9 +8,13 @@ export const createElement = (
     ...children: Array<VirtualElement|string>
 ): VirtualElement => {
     const flatChildren = children.flat();
-    const nonEmptyChildren = flatChildren.filter(c =>  
-        (typeof c == 'string' && c.trim().length > 0) || 
-        (typeof c != 'string' && c !== null && c != undefined));
+    const nonEmptyChildren = flatChildren.map(c =>  {
+        if(typeof c === 'string' && c.trim().length === 0) {
+            return null;
+        } else {
+            return c
+        }
+    });
     return {
         tag,
         props, 

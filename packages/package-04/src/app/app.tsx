@@ -89,6 +89,46 @@ class Box01 extends Presentable<Box01Props> implements OnConnected {
     }
 }
 
+@DefineComponent('my-counter-and-tab')
+class CounterAndTab extends Presentable<Box01Props, { counter: number }> implements OnConnected {
+    connectedCallback(): void {
+        this.setState(({ counter: 0 }));
+    }
+
+    inc = () => {
+        this.setState(({counter}) => ({ counter: counter+1 }));
+    }
+
+    buildStyle(_props: Box01Props): string {
+        return ``;
+    }
+
+    buildTemplate(props: Box01Props) {
+        return (
+            <div>
+                <div style={{
+                    border: `1px solid red`,
+                    margin: '8px'
+                }}>
+                    
+                    <button className="my-button"
+                        onClick={this.inc}>
+                        Inc
+                    </button>
+                    
+                    <span>Counter : {String(this.state.counter)} </span>
+                </div>
+                <Tab />
+
+            </div>
+        );
+    }
+    preRender() {
+        console.log('preRender Box01')
+    }
+}
+
+
 @DefineComponent('my-wrapper')
 class Wrapper extends Presentable {
     public attr: any;
@@ -112,14 +152,13 @@ class Wrapper extends Presentable {
 @DefineComponent('my-app')
 export class App extends Presentable {
 
-    const incCounter = () => { this.setState(curState =>({ counter: (curState.counter || 0)+1 })); }
 
     buildStyle() {
         return '';
     }
     buildTemplate() {
         return <div>
-            <Tab incCounter={this.incCounter} />
+            <CounterAndTab></CounterAndTab>
         </div>;
     }
     preRender() {

@@ -114,7 +114,7 @@ export class Tab extends Presentable {
     }
       `;
   }
-  buildTemplate({ incCounter }) {
+  buildTemplate() {
 
     return (
       <div className="Tabs">
@@ -123,7 +123,7 @@ export class Tab extends Presentable {
           <TabNavItem title="Tab 2" id="tab2" activeTab={this.state.activeTab} setActiveTab={this.setActiveTab} />
           <TabNavItem title="Tab 3" id="tab3" activeTab={this.state.activeTab} setActiveTab={this.setActiveTab} />
         </ul>
-        <div className="outlet" onClick={incCounter}>
+        <div className="outlet">
             <TabContent id="tab1" activeTab={this.state.activeTab}>
               <p>Tab 1 works!</p> 
             </TabContent>
