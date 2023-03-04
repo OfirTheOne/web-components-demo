@@ -4,17 +4,13 @@ import { WC, createElement, createFragment } from "shared/jsx";
 import { Presentable } from "shared/core";
 import { DefineComponent } from "shared/decorators";
 
-
-
-@DefineComponent('my-tab-item', { noWrap: true })
+@DefineComponent("my-tab-item", { noWrap: true })
 export class TabNavItem extends Presentable {
-
   buildStyle(): string {
     return ``;
   }
 
   buildTemplate({ id, title, activeTab, setActiveTab }) {
-
     const handleClick = () => {
       setActiveTab(id);
     };
@@ -27,9 +23,8 @@ export class TabNavItem extends Presentable {
   }
 }
 
-@DefineComponent('my-tab-content')
+@DefineComponent("my-tab-content")
 export class TabContent extends Presentable {
-
   buildStyle(): string {
     return `
     .TabContent {
@@ -40,18 +35,22 @@ export class TabContent extends Presentable {
      `;
   }
   buildTemplate({ id, activeTab }, children) {
-    return (
-      activeTab === id ? <div className={`TabContent ${id}`}>
-        {children}
-      </div>
-        : null
-    );
+    return activeTab === id ? (
+      <div className={`TabContent ${id}`}>{children}</div>
+    ) : null;
   }
 }
 
-@DefineComponent('my-tab')
-export class Tab extends Presentable {
+interface TabProps {
+  tabs: {
+    title: string;
+    id: string;
+    content: JSX.Element;
+  }[]
+}
 
+@DefineComponent("my-tab")
+export class Tab extends Presentable<TabProps> {
   setActiveTab = (tabId: string) => this.setState({ activeTab: tabId });
 
   buildStyle(): string {
@@ -114,27 +113,29 @@ export class Tab extends Presentable {
     }
       `;
   }
-  buildTemplate() {
+  buildTemplate(props: TabProps) {
+    const tabs = props.tabs; 
 
     return (
       <div className="Tabs">
         <ul className="nav">
-          <TabNavItem title="Tab 1" id="tab1" activeTab={this.state.activeTab} setActiveTab={this.setActiveTab} />
-          <TabNavItem title="Tab 2" id="tab2" activeTab={this.state.activeTab} setActiveTab={this.setActiveTab} />
-          <TabNavItem title="Tab 3" id="tab3" activeTab={this.state.activeTab} setActiveTab={this.setActiveTab} />
+          {tabs.map((tab) => (
+            <TabNavItem
+              title={tab.title}
+              id={tab.id}
+              activeTab={this.state.activeTab}
+              setActiveTab={this.setActiveTab}
+            />
+          ))}
         </ul>
         <div className="outlet">
-            <TabContent id="tab1" activeTab={this.state.activeTab}>
-              <p>Tab 1 works!</p> 
+          {tabs.map((tab) => (
+            <TabContent id={tab.id} activeTab={this.state.activeTab}>
+              {tab.content}
             </TabContent>
-            <TabContent id="tab2" activeTab={this.state.activeTab}>
-              <p>Tab 2 works!</p> 
-            </TabContent>
-            <TabContent id="tab3" activeTab={this.state.activeTab}>
-              <p>Tab 3 works!</p> 
-            </TabContent>
+          ))}
         </div>
       </div>
     );
-  };
+  }
 }
