@@ -4,7 +4,7 @@ import { WC, createElement, createFragment } from "shared/jsx";
 import { Presentable, render } from "shared/core";
 import { DefineComponent } from "shared/decorators";
 import { OnConnected } from "shared/utils";
-import { NavBar, Tab } from "app2/components"
+import { Tab } from "app2/components"
 
 
 @DefineComponent('my-counter-and-tab')

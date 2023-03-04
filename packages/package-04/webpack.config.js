@@ -27,8 +27,6 @@ module.exports = {
       exposes: {
         // './views': './src/views',
         './components': './src/components', 
-        './components/tabs': './src/components/tabs/tabs', 
-        './components/counter': './src/components/counter/counter.component', 
         './app': './src/app/app', 
       },
       remotes: {

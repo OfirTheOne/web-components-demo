@@ -24,25 +24,6 @@ declare module 'shared/core' {
         buildTemplate(props: unknown, children: any[]): HTMLElement;
     }
 
-    interface BaseWebComponentConstructor {
-        new(...params: any[]): JSX.ElementClass;
-    }
-    class BaseWebComponent<S = any, P = any> extends HTMLElement, implements BaseWebComponentConstructor {
-        abstract buildStyle(prop?: P): string;
-        abstract buildTemplate(prop?: P): JSX.Element | HTMLElement | string;
-
-        public readonly attr: S & { [key: string]: string };
-        constructor();
-        public get outerContainer(): BaseWebComponent;
-        public get childrenCollection(): HTMLCollection;
-        public get classCollection(): DOMTokenList;
-        public readonly shadow: ShadowRoot;
-        public readonly styleElement: HTMLStyleElement;
-        public readonly container: HTMLElement;
-        constructor(containerTag?: keyof HTMLElementTagNameMap, css?: string);
-        protected appendToShadow(elem: HTMLElement): void;
-        protected attachChildNodes(): void;
-    };
 
     declare class Presentable<P = any, S = any> implements IPresentable {
         public readonly attr: S;
@@ -55,8 +36,6 @@ declare module 'shared/core' {
     function render(vElem: VirtualElement, id: string): void;
 
     export {
-        BaseWebComponent,
-        BaseWebComponentConstructor,
         Presentable,
         render
     }
