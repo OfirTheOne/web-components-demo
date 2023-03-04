@@ -8,13 +8,8 @@ export const createElement = (
     ...children: Array<VirtualElement|string>
 ): VirtualElement => {
     const flatChildren = children.flat();
-    const nonEmptyChildren = flatChildren.map(c =>  {
-        if(typeof c === 'string' && c.trim().length === 0) {
-            return null;
-        } else {
-            return c
-        }
-    });
+    const nonEmptyChildren = flatChildren.map(c => 
+        (typeof c === 'string' && c.trim().length === 0) ?  null : c );
     return {
         tag,
         props, 
