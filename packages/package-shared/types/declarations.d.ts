@@ -1,4 +1,30 @@
-/// <reference  types="../src/models/index.ts"/>
+
+interface IPresentable {
+    buildStyle(props: unknown): string;
+    buildTemplate(props: unknown, children: any[]): HTMLElement;
+}
+
+declare class Presentable<P = any, S = any> implements IPresentable {
+    public readonly attr: S;
+    abstract buildStyle(props?: P): string;
+    abstract buildTemplate(props?: P, children: any[] = []): any;
+    state: S;
+    setState: (state: S| ((cur: S) => Partial<S>)) => Partial<S>;
+}
+
+
+declare global {
+    
+    namespace JSX {
+        export interface Element extends IPresentable {}
+        export interface ElementClass extends Presentable { }
+        export interface IntrinsicElements {
+          [key: string]: any;
+          // ...
+        }
+      }
+
+}
 
 
 interface DefineComponentOptions extends ElementDefinitionOptions {
@@ -14,24 +40,9 @@ interface WCContainerOptions extends Partial<Pick<
 >> {
 }
 
-declare namespace JSX {
-    interface ElementClass extends BaseWebComponent { }
-}
+
 
 declare module 'shared/core' {
-    interface IPresentable {
-        buildStyle(props: unknown): string;
-        buildTemplate(props: unknown, children: any[]): HTMLElement;
-    }
-
-
-    declare class Presentable<P = any, S = any> implements IPresentable {
-        public readonly attr: S;
-        abstract buildStyle(props?: P): string;
-        abstract buildTemplate(props?: P, children: any[] = []): any;
-        state: S;
-        setState: (state: S| ((cur: S) => Partial<S>)) => Partial<S>;
-    }
 
     function render(vElem: VirtualElement, id: string): void;
 

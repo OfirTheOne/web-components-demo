@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { ModuleFederationPlugin } = require('webpack').container;
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const { ProvidePlugin } = require('webpack');
 const path = require('path');
 
@@ -39,17 +40,22 @@ module.exports = {
       options: { 
         // configFile: "./tsconfig.json",
         compilerOptions: {
-          removeComments: false,
-          "moduleResolution": "node",
-          "jsx": "react",
-          // "jsxImportSource": "wc-jsx",
-          "jsxFragmentFactory": "WC.createFragment",
-          "jsxFactory": "WC.createElement",
+        //   removeComments: false,
+        //   "moduleResolution": "node",
+        //   "jsx": "react",
+        //   "jsxFragmentFactory": "WC.createFragment",
+        //   "jsxFactory": "WC.createElement",
+        //   "typeRoots": [
+        //     "node_modules/@types", 
+        //     "types",
+        //     "../../types"
+        // ]
         }
       },
     }],
   },
   resolve: {
+    // plugins: [new TsconfigPathsPlugin({configFile: "./tsconfig.json" })],
     // alias: {
     //   'node_modules': path.join(__dirname, '../../node_modules'),
     // },

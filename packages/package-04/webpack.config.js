@@ -40,17 +40,22 @@ module.exports = {
       test: /\.tsx?$/,
       exclude: /node_modules/,
       loader: 'ts-loader',
-      options: { 
+      // options: { 
         // configFile: "./tsconfig.json",
-        compilerOptions: {
-          removeComments: false,
-          "moduleResolution": "node",
-          "jsx": "react",
-          // "jsxImportSource": "wc-jsx",
-          "jsxFragmentFactory": "WC.createFragment",
-          "jsxFactory": "WC.createElement",
-        }
-      },
+        // compilerOptions: {
+        //   removeComments: false,
+        //   "moduleResolution": "node",
+        //   "jsx": "react",
+        //   "jsxFragmentFactory": "WC.createFragment",
+        //   "jsxFactory": "WC.createElement",
+        //   "typeRoots": [
+        //     "node_modules/@types", 
+        //     "types",
+        //     "../../types"
+        //   ]
+        // },
+
+      // },
     }],
   },
   resolve: {

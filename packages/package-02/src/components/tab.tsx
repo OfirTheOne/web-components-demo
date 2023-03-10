@@ -1,4 +1,3 @@
-// @ts-nocheck
 
 import { WC, createElement, createFragment } from "shared/jsx";
 import { Presentable } from "shared/core";
@@ -45,7 +44,7 @@ interface TabProps {
   tabs: {
     title: string;
     id: string;
-    content: JSX.Element;
+    content: any;
   }[]
 }
 

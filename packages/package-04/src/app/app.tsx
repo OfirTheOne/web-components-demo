@@ -1,14 +1,14 @@
-// @ts-nocheck
+
 
 import { WC, createElement, createFragment } from "shared/jsx";
 import { Presentable, render } from "shared/core";
 import { DefineComponent } from "shared/decorators";
 import { OnConnected } from "shared/utils";
-import { Tab } from "app2/components"
+import { Tab } from "app2/components";
 
 
 @DefineComponent('my-counter-and-tab')
-class CounterAndTab extends Presentable<Box01Props, { counter: number }> implements OnConnected {
+class CounterAndTab extends Presentable<any, { counter: number }> implements OnConnected {
     
     inc = () => {
         this.setState(({counter}) => ({ counter: counter+1 }));
@@ -18,11 +18,11 @@ class CounterAndTab extends Presentable<Box01Props, { counter: number }> impleme
         this.setState(({ counter: 0 }));
     }
 
-    buildStyle(_props: Box01Props): string {
+    buildStyle(_props: any): string {
         return ``;
     }
 
-    buildTemplate(props: Box01Props) {
+    buildTemplate(props: any) {
         return (
             <div>
                 <div style={{

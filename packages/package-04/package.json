@@ -17,14 +17,11 @@
     "process": "^0.11.10",
     "ts-node": "^10.9.1",
     "tsconfig-paths-webpack-plugin": "^4.0.0",
-    "typescript": "^4.9.4",
-    "wc-jsx": "file:../wc-jsx/wc-jsx-1.0.0.tgz"
+    "typescript": "^4.9.4"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.191",
     "@types/node": "^18.11.18",
-    "@types/react": "^18.0.27",
-    "@types/react-dom": "^18.0.10",
     "html-webpack-plugin": "^5.5.0",
     "ts-loader": "^9.4.2",
     "webpack": "^5.75.0",
