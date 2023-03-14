@@ -28,6 +28,7 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "typeRoots": ["node_modules/@types", "src/types"],
+    "plugins": [{ "name": "typescript-plugin-css-modules" }]
 
     
   },

@@ -1,5 +1,5 @@
 
-import { WC, createElement, createFragment } from "../lib/jsx";
+import { WC } from "../lib/jsx";
 import { render } from "../lib/core";
 
 import { App } from "./app"

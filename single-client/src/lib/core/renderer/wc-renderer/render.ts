@@ -121,7 +121,10 @@ class RenderUtils {
         new tag(),
         props,
         children,
-        internalRender
+        internalRender,
+        { 
+          presentableName: tag.name
+        }
       );
 
       if (!parentPreservedStateMap.has(key)) {
@@ -143,7 +146,7 @@ class RenderUtils {
     const element = document.createElement(tag);
     if (props) {
       const nonEmptyProps = props;
-      const styleProp = nonEmptyProps["style"];
+      const styleProp = <Record<string, unknown>>nonEmptyProps["style"];
       const propsEntries = Object.entries(nonEmptyProps).filter(
         ([propKey, _val]) => propKey !== "style"
       );
@@ -153,7 +156,7 @@ class RenderUtils {
         element.setAttribute(
           "style",
           RenderUtils.convertStyleObjectToInlineStyle(
-            <Record<string, unknown>>styleProp
+            styleProp
           )
         );
       }

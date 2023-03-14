@@ -1,7 +1,12 @@
-const { ModuleFederationPlugin } = require("webpack").container;
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
-const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+const {
+  getRules
+} = require("./webpack-utils");
+
+const isDevelopment = true;
 
 module.exports = {
   entry: "./src/index.ts",
@@ -17,37 +22,17 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'our project', 
-      template: 'public/index.html' }) 
-    // new ModuleFederationPlugin({
-    //   name: "shared",
-    //   filename: "remoteEntry.js",
-    //   exposes: {
-    //     "./jsx": "./src/jsx",
-    //     "./decorators": "./src/decorators",
-    //     "./utils": "./src/utils",
-    //     "./core": "./src/core",
-    //   },
-    // }),
+      title: "our project",
+      template: "public/index.html",
+    }),
+    new MiniCssExtractPlugin({
+      filename: isDevelopment ? "[name].css" : "[name].[hash].css",
+      chunkFilename: isDevelopment ? "[id].css" : "[id].[hash].css",
+    }),
   ],
   module: {
     rules: [
-      {
-        test: /\.tsx?$/,
-        loader: "ts-loader",
-        exclude: /node_modules/,
-        options: {
-          // configFile: "./tsconfig.json",
-          compilerOptions: {
-            removeComments: false,
-            moduleResolution: "node",
-            jsx: "react",
-            jsxFragmentFactory: "WC.createFragment",
-            jsxFactory: "WC.createElement",
-            // typeRoots: ["node_modules/@types", "types", "../../types"],
-          },
-        },
-      },
+      ...getRules()
     ],
   },
   resolve: {
@@ -56,6 +41,6 @@ module.exports = {
     alias: {
       node_modules: path.join(__dirname, "../../node_modules"),
     },
-    extensions: [".ts", ".tsx", ".js"],
+    extensions: [".ts", ".tsx", ".js", ".scss", ".css"],
   },
 };

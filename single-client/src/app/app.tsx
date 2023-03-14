@@ -1,10 +1,10 @@
 
 
-import { WC, createElement, createFragment } from "../lib/jsx";
+import { WC } from "../lib/jsx";
 import { Presentable } from "../lib/core";
 import { DefineComponent } from "../lib/decorators";
 import { OnConnected } from "../lib/models/hooks";
-import { Tab } from "./tab";
+import { Tab } from "./components";
 
 
 

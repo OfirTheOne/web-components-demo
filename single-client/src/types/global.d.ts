@@ -1,36 +1,104 @@
 
-interface IPresentable {
-    buildStyle(props: unknown): string;
-    buildTemplate(props: unknown, children: any[]): HTMLElement;
+export interface SetState<S = any> {
+  (state: S| ((cur: S) => Partial<S>)): Partial<S>;
 }
 
-declare class Presentable<P = any, S = any> implements IPresentable {
-    public readonly attr: S;
-    abstract buildStyle(props?: P): string;
-    abstract buildTemplate(props?: P, children: any[] = []): any;
-    state: S;
-    setState: (state: S| ((cur: S) => Partial<S>)) => Partial<S>;
+export interface LazyStyleExport {
+  use(options: Record<string, any>): any;
+  unuse(): any;
 }
 
+
+export interface BuildStyle<P = any> {
+  (props: P): string | LazyStyleExport;
+}
+
+
+export interface IPresentable<P = any, S = any> {
+  buildStyle?(props?: P): string | LazyStyleExport;
+  buildTemplate(props?: P, children?: JSX.Element[]): HTMLElement;
+  state: S;
+  setState: SetState;
+}
+
+
+export interface Presentable<P = any, S = any> extends IPresentable<P, S> {
+  buildStyle?(props?: P): string | LazyStyleExport;
+}
+export abstract class Presentable<P = any, S = any> implements IPresentable<P, S> {
+  public readonly attr: S;
+  constructor() { }
+  // abstract buildStyle?(props?: P): string | LazyStyleExport;
+  abstract buildTemplate(props?: P, children?: JSX.Element[]): any;
+  state: S;
+  setState: SetState<S>;
+}
 
 declare global {
-    
-    interface String {
-        hello(): string;
+  interface String {
+    hello(): string;
+  }
+
+  export namespace JSX {
+    export interface Element extends IPresentable {}
+    export interface ElementClass extends Presentable {}
+    export interface IntrinsicElements {
+      [key: string]: any;
+      // ...
     }
+  }
 
-    export namespace JSX {
-        export interface Element extends IPresentable {}
-        export interface ElementClass extends Presentable { }
-        export interface IntrinsicElements {
-          [key: string]: any;
-          // ...
-        }
-      }
+  declare module "*.lazy.css" {
+    const style: { 
+      use(options: Record<string, any>): any;
+      unuse(): any;
+     };
+    export default style;
+  }
+  declare module "*.css" {
+    const classes: { [key: string]: string };
+    export default classes;
+  }
 
+  declare module "*.lazy.scss" {
+    const style: { 
+      use(options: Record<string, any>): any;
+      unuse(): any;
+     };
+    export default style;
+  }
+  declare module "*.scss" {
+    const classes: { [key: string]: string };
+    export default classes;
+  }
+
+  declare module "*.module.css" {
+    const classes: { [key: string]: string };
+    export default classes;
+  }
+
+  declare module "*.module.scss" {
+    const classes: { [key: string]: string };
+    export default classes;
+  }
+
+  declare module "*.module.sass" {
+    const classes: { [key: string]: string };
+    export default classes;
+  }
+
+  declare module "*.module.less" {
+    const classes: { [key: string]: string };
+    export default classes;
+  }
+
+  declare module "*.module.styl" {
+    const classes: { [key: string]: string };
+    export default classes;
+  }
 }
 
-export { }
+export {};
 
 /*
 
