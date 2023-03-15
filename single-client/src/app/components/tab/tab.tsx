@@ -1,8 +1,5 @@
 
-import { WC } from "../../../lib/jsx";
-import { Presentable } from "../../../lib/core";
-import { DefineComponent } from "../../../lib/decorators";
-
+import { WC, Presentable, DefineComponent } from "../../../lib";
 import styles from './tab.lazy.scss';
 
 interface TabNavItemProps { 
@@ -26,6 +23,9 @@ export class TabNavItem extends Presentable<TabNavItemProps> {
       </li>
     );
   }
+  preRender() {
+    console.log('preRender TabNavItem')
+  }
 }
 
 interface TabContentProps {
@@ -41,6 +41,9 @@ export class TabContent extends Presentable<TabContentProps> {
       <div className={`TabContent ${id}`}>{children}</div>
     ) : null;
   }
+  preRender() {
+    console.log('preRender TabContent')
+  }
 }
 
 interface TabProps {
@@ -55,7 +58,7 @@ interface TabProps {
 export class Tab extends Presentable<TabProps> {
   setActiveTab = (tabId: string) => this.setState({ activeTab: tabId });
   
-  buildStyle(_props: TabProps){
+  buildStyle(){
     return styles;
   }
   buildTemplate(props: TabProps) {
@@ -81,6 +84,10 @@ export class Tab extends Presentable<TabProps> {
         </div>
       </div>
     );
+  }
+
+  preRender() {
+    console.log('preRender Tab')
   }
 }
 

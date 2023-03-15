@@ -1,12 +1,7 @@
 
 
-import { WC } from "../lib/jsx";
-import { Presentable } from "../lib/core";
-import { DefineComponent } from "../lib/decorators";
-import { OnConnected } from "../lib/models/hooks";
+import { WC, Presentable, DefineComponent, OnConnected } from "../lib";
 import { Tab } from "./components";
-
-
 
 @DefineComponent('my-counter-and-tab')
 class CounterAndTab extends Presentable<any, { counter: number }> implements OnConnected {
@@ -17,10 +12,6 @@ class CounterAndTab extends Presentable<any, { counter: number }> implements OnC
 
     connectedCallback(): void {
         this.setState(({ counter: 0 }));
-    }
-
-    buildStyle(_props: any): string {
-        return ``;
     }
 
     buildTemplate(props: any) {
@@ -61,7 +52,7 @@ class CounterAndTab extends Presentable<any, { counter: number }> implements OnC
     }
 
     preRender() {
-        console.log('preRender Box01')
+        console.log('preRender CounterAndTab')
     }
 }
 
@@ -69,9 +60,6 @@ class CounterAndTab extends Presentable<any, { counter: number }> implements OnC
 @DefineComponent('my-app')
 export class App extends Presentable {
 
-    buildStyle() {
-        return '';
-    }
     buildTemplate() {
         return <div>
             <CounterAndTab></CounterAndTab>

@@ -217,9 +217,6 @@ class RenderUtils {
     );
     if (classnameIndex > -1) {
       propsEntries[classnameIndex] = ["class", propsEntries[classnameIndex][1]];
-      if (propsEntries[classnameIndex][1].includes("TabContent tab2")) {
-        console.log("herrerere");
-      }
     }
     return propsEntries;
   }
