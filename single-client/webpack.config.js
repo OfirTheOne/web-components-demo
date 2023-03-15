@@ -1,9 +1,8 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const {
-  getRules
+  getRules,
+  getPlugins
 } = require("./webpack-utils");
 
 const isDevelopment = true;
@@ -21,18 +20,11 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      title: "our project",
-      template: "public/index.html",
-    }),
-    new MiniCssExtractPlugin({
-      filename: isDevelopment ? "[name].css" : "[name].[hash].css",
-      chunkFilename: isDevelopment ? "[id].css" : "[id].[hash].css",
-    }),
+    ...getPlugins(isDevelopment)
   ],
   module: {
     rules: [
-      ...getRules()
+      ...getRules(isDevelopment)
     ],
   },
   resolve: {
