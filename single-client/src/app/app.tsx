@@ -32,17 +32,17 @@ class CounterAndTab extends Presentable<any, { counter: number }> implements OnC
                 <Tab tabs={[
                     {
                         title: "Tab 1",
-                        id: "tab1",
+                        id: "0",
                         content: <p>Tab 1 works!</p>,
                     },
                     {
                         title: "Tab 2",
-                        id: "tab2",
+                        id: "1",
                         content: <p>Tab 2 works!</p>,
                     },
                     {
                         title: "Tab 3",
-                        id: "tab3",
+                        id: "2",
                         content: <p>Tab 3 works!</p>,
                     },
                 ]} />
