@@ -24,24 +24,27 @@ export class RenderUtils {
         defineComponent(name, class extends WCContainer {}, options);
       }
       const WccCtor = customElements.get(name) as Ctor<WCContainer>;
+      if (!parentPreservedStateMap.has(key)) {
+        const componentInstance = new tag();
+        parentPreservedStateMap.set(key, {
+          state: {},
+          componentInstance
+        });
+      }
+      const preservedState = parentPreservedStateMap.get(key)?.state || {};
+      const componentInstance = parentPreservedStateMap.get(key)?.componentInstance;;
 
       const wcc = new WccCtor(
         options,
-        new tag(),
+        componentInstance,
         props,
+        key,
         children,
         internalRender,
         { 
           presentableName: tag.name
         }
       );
-
-      if (!parentPreservedStateMap.has(key)) {
-        parentPreservedStateMap.set(key, {
-          state: {},
-        });
-      }
-      const preservedState = parentPreservedStateMap.get(key)?.state || {};
       wcc.injectState(preservedState);
       return wcc.render();
     } else {
