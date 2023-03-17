@@ -17,7 +17,7 @@ const defaultWCContainerOptions: WCContainerOptions = {
 };
 
 export class WCContainer extends HTMLElement {
-  protected readonly preservedStateMap: PreserveElementStateMap;
+  protected readonly _preservedStateMap: PreserveElementStateMap;
   protected readonly _host: HTMLElement;
   protected readonly _shadow: ShadowRoot;
   protected readonly _renderTaskAgent: RenderTaskAgent;
@@ -26,6 +26,10 @@ export class WCContainer extends HTMLElement {
   protected _stateProxy: Record<string, any>;
   protected styleContainer: HTMLStyleElement;
   protected container: HTMLElement | HTMLElement[];
+
+  public get key(): string {
+    return this._key;
+  }
   public get host(): HTMLElement {
     return this._host;
   }
@@ -36,14 +40,15 @@ export class WCContainer extends HTMLElement {
   constructor(
     protected readonly options: WCContainerOptions = defaultWCContainerOptions,
     protected readonly presentable: IPresentable,
-    protected readonly props: Record<string, any> = {},
+    protected readonly _props: Record<string, any> = {},
+    protected readonly _key: string,
     protected readonly _children: any[] = [],
     protected readonly _render: InternalRender,
     protected readonly _meta: PresentableMeta
   ) {
     super();
     this._host = this;
-    this.preservedStateMap = new Map();
+    this._preservedStateMap = new Map();
     this._shadow = DOMHelpers.buildShadow(this._host);
     this.injectState({});
     this._stateChangesQueue = new StateChangesQueue();
@@ -124,7 +129,7 @@ export class WCContainer extends HTMLElement {
       this.presentable.buildStyle &&
       typeof this.presentable.buildStyle == "function"
     ) {
-      const componentStyle = this.presentable.buildStyle(this.props);
+      const componentStyle = this.presentable.buildStyle(this._props);
       if (componentStyle) {
         if (typeof componentStyle == "string") {
           styleElement = document.createElement("style");
@@ -145,7 +150,7 @@ export class WCContainer extends HTMLElement {
   }
   private coreRender(): boolean {
     const virtualElement = this.presentable.buildTemplate(
-      this.props,
+      this._props,
       this._children
     ) as unknown as VirtualElement;
 
@@ -154,7 +159,7 @@ export class WCContainer extends HTMLElement {
     }
 
     const domStyleElement = this.coreRenderStyle();
-    const domElement = this._render(virtualElement, this.preservedStateMap);
+    const domElement = this._render(virtualElement, this._preservedStateMap);
 
     DOMHelpers.removeSelf(this.styleContainer);
     this.styleContainer = domStyleElement;
