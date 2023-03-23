@@ -6,11 +6,13 @@ import { Ctor, Props, VirtualElement } from "../../../models";
 import { PreserveElementStateMap, InternalRender } from "./types";
 import { isCapitalEventName } from "../../../utils/is-capital-event-name";
 import { DomElement } from "../../../models/dom-element";
+import { Logger } from "../../../services/logger";
 
 
 export class RenderUtils {
   public static handlePresentableElement(
     internalRender: InternalRender,
+    parent: HTMLElement,
     tag: Ctor<Presentable<any>>,
     props: Props,
     children: Array<string | VirtualElement>,
@@ -25,27 +27,32 @@ export class RenderUtils {
       }
       const WccCtor = customElements.get(name) as Ctor<WCContainer>;
       if (!parentPreservedStateMap.has(key)) {
+        Logger.logAction('componentInit', `element ${tag.name}, key ${key}.`);
         const componentInstance = new tag();
+        const initState = componentInstance.state;
         parentPreservedStateMap.set(key, {
-          state: {},
+          state: initState || {},
           componentInstance
         });
       }
       const preservedState = parentPreservedStateMap.get(key)?.state || {};
-      const componentInstance = parentPreservedStateMap.get(key)?.componentInstance;;
+      const componentInstance = parentPreservedStateMap.get(key)?.componentInstance;
 
       const wcc = new WccCtor(
         options,
         componentInstance,
+        parent,
         props,
         key,
         children,
+        // undefined,
         internalRender,
         { 
           presentableName: tag.name
         }
       );
       wcc.injectState(preservedState);
+      Logger.logAction('render', `element ${tag.name}, key ${key}.`);
       return wcc.render();
     } else {
       throw new Error(
@@ -86,6 +93,8 @@ export class RenderUtils {
     return element;
   }
 
+
+
   public static appendDomChildren(parent: HTMLElement, child: DomElement) {
     if (child) {
       const children = Array.isArray(child) ? child : [child];
@@ -94,12 +103,18 @@ export class RenderUtils {
           parent.appendChild(
             typeof nestedChild !== "string"
               ? nestedChild
-              : document.createTextNode(nestedChild)
+              : this.renderText(nestedChild)
           );
         }
       });
     }
   }
+
+  public static renderText(child?: string) {
+    return document.createTextNode(child || '');
+    
+  }
+
 
   public static convertStyleObjectToInlineStyle(
     styleObject: Record<string, unknown>

@@ -58,11 +58,11 @@ interface TabProps {
 export class Tab extends Presentable<TabProps> implements OnConnected {
   connectedCallback(): void {
     
-    setInterval(() => {
-      const activeTab = this.state.activeTab === undefined ? 0 : (this.state.activeTab + 1) % 3 ;
-      console.log(activeTab)
-      this.setActiveTab(`${activeTab}`);
-    }, 4000);
+    // setInterval(() => {
+    //   const activeTab = this.state.activeTab === undefined ? 0 : (this.state.activeTab + 1) % 3 ;
+    //   console.log(activeTab)
+    //   this.setActiveTab(`${activeTab}`);
+    // }, 4000);
   }
   setActiveTab = (tabId: string) => this.setState({ activeTab: tabId });
   

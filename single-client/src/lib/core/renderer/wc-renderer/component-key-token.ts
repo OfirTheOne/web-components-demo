@@ -1,6 +1,7 @@
 export const ComponentKeyToken = {
     ROOT: '$',
-    SEPARATOR: '.'
-  };
+    SEPARATOR: '.',
+    FRAGMENT: '<>'
+  } as const;
   
   

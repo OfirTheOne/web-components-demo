@@ -2,12 +2,18 @@
 
 import { WC, Presentable, DefineComponent, OnConnected } from "../lib";
 import { Tab } from "./components";
+import { ListExample } from "./components/list-example";
+import { SearchBar } from "./components/search-bar";
 
 @DefineComponent('my-counter-and-tab')
-class CounterAndTab extends Presentable<any, { counter: number }> implements OnConnected {
+class CounterAndTab extends Presentable<any, { counter: number, searchResult?: string }> implements OnConnected {
     
     inc = () => {
         this.setState(({counter}) => ({ counter: counter+1 }));
+    }
+
+    onSearch = () => {
+        this.setState((state) => ({ ...(state||{}), searchResult: 'searchResult' }));
     }
 
     connectedCallback(): void {
@@ -17,6 +23,8 @@ class CounterAndTab extends Presentable<any, { counter: number }> implements OnC
     buildTemplate(props: any) {
         return (
             <div>
+                <ListExample></ListExample>
+                <SearchBar onSearchClick={this.onSearch}></SearchBar>
                 <div style={{
                     border: `1px solid red`,
                     margin: '8px'
@@ -33,7 +41,7 @@ class CounterAndTab extends Presentable<any, { counter: number }> implements OnC
                     {
                         title: "Tab 1",
                         id: "0",
-                        content: <p>Tab 1 works!</p>,
+                        content: <p>{this.state.searchResult||''}</p>,
                     },
                     {
                         title: "Tab 2",

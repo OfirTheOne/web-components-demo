@@ -1,4 +1,5 @@
-import { IPresentable } from "src/lib/models";
+import { IPresentable } from "../../../models/i-presentable";
+import { DomCompatibleElement } from "../../../models/dom-element";
 import { VirtualElement } from "../../../models/virtual-element";
 
 export interface PreserveElementState<E extends HTMLElement = HTMLElement> {
@@ -12,6 +13,7 @@ export type PreserveElementStateMap = Map<string, PreserveElementState>;
 export interface InternalRender {
     (
         vElem: VirtualElement, 
+        parent: HTMLElement,
         parentPreservedStateMap?: PreserveElementStateMap
-    ): HTMLElement | HTMLElement[];
+    ): DomCompatibleElement | DomCompatibleElement[];
 }

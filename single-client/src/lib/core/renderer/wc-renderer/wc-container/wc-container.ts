@@ -7,6 +7,8 @@ import { RenderTaskAgent } from "./render-task-agent";
 import { StateChangesQueue } from "./state-change-queue";
 import { StateProxy } from "./state-proxy";
 import { DOMHelpers } from "./dom-helpers";
+import { DomCompatibleElement } from "../../../../models/dom-element";
+import { ComponentKeyToken } from "../component-key-token";
 
 const styleElementsMap = new Map<string, HTMLStyleElement>();
 
@@ -40,17 +42,19 @@ export class WCContainer extends HTMLElement {
   constructor(
     protected readonly options: WCContainerOptions = defaultWCContainerOptions,
     protected readonly presentable: IPresentable,
+    protected readonly _parent: HTMLElement,
     protected readonly _props: Record<string, any> = {},
     protected readonly _key: string,
     protected readonly _children: any[] = [],
+    // protected readonly _initState: any = {},
     protected readonly _render: InternalRender,
     protected readonly _meta: PresentableMeta
   ) {
     super();
     this._host = this;
     this._preservedStateMap = new Map();
+    // this.injectState(this._initState);
     this._shadow = DOMHelpers.buildShadow(this._host);
-    this.injectState({});
     this._stateChangesQueue = new StateChangesQueue();
     this._renderTaskAgent = new RenderTaskAgent(this, () => {
       this._stateChangesQueue.runChanges();
@@ -87,9 +91,30 @@ export class WCContainer extends HTMLElement {
   public render(): WCContainer | HTMLElement | HTMLElement[] {
     if (this.canRender() && this.shouldRender()) {
       this.preCoreRender();
-      const wasRendered = this.coreRender();
+      const { domStyleElement, domElement } = this.coreRender();
+      
+      if(this.options.noWrap) {
+        if(this._parent) {
+          if(!this.container) {
+            DOMHelpers.appendToParent(this._parent, <HTMLElement>domElement);
+            
+          } else {
+            const firstContainerNode = Array.isArray(this.container) ? this.container[0] : this.container;
+            const renderStartPointNode = 
+              (firstContainerNode.parentNode.children.length == 1 ? 
+                null : firstContainerNode.previousSibling) as HTMLElement | null;     
+            DOMHelpers.insertChildAfterNode(this._parent, domElement, renderStartPointNode)
+
+          }
+          // DOMHelpers.removeSelf(this.container);
+        }
+      } else {
+
+      }
+      this.detachFromParent();
+      this.reattachToParent(domStyleElement, domElement);
       this.postCoreRender();
-      if (!wasRendered) {
+      if (!domElement) {
         return null;
       }
     }
@@ -100,7 +125,7 @@ export class WCContainer extends HTMLElement {
     }
   }
   private canRender(): boolean {
-    if (this._shadow && this.presentable) {
+    if (this._shadow && this.presentable && this._stateProxy) {
       return true;
     } else {
       return false;
@@ -119,59 +144,106 @@ export class WCContainer extends HTMLElement {
     }
   }
   private postCoreRender(): void {
+    if (Array.isArray(this.container)) {
+      this.container.forEach((n, i) =>
+        n?.setAttribute(
+          "virtual_key",
+          String(
+            ComponentKeyToken.ROOT +
+              ComponentKeyToken.SEPARATOR +
+              this._meta.presentableName +
+              ComponentKeyToken.SEPARATOR +
+              ComponentKeyToken.FRAGMENT +
+              ComponentKeyToken.SEPARATOR +
+              `${i}` +
+              ComponentKeyToken.SEPARATOR +
+              n.tagName
+          )
+        )
+      );
+      ComponentKeyToken;
+    } else if (this.container) {
+      const tagName = this.container.tagName;
+      this.container.setAttribute(
+        "virtual_key",
+        String(
+          ComponentKeyToken.ROOT +
+            ComponentKeyToken.SEPARATOR +
+            this._meta.presentableName +
+            ComponentKeyToken.SEPARATOR +
+            `${0}` +
+            ComponentKeyToken.SEPARATOR +
+            tagName
+        )
+      );
+    }
+
     if (typeof this.presentable["postRender"] === "function") {
       this.presentable["postRender"]();
     }
-  }  
-  private coreRenderStyle(): HTMLStyleElement | undefined {
-    let styleElement: HTMLStyleElement | undefined;
-    if (
-      this.presentable.buildStyle &&
-      typeof this.presentable.buildStyle == "function"
-    ) {
-      const componentStyle = this.presentable.buildStyle(this._props);
-      if (componentStyle) {
-        if (typeof componentStyle == "string") {
-          styleElement = document.createElement("style");
-          styleElement.textContent = componentStyle;
-        } else if (typeof componentStyle.use == "function") {
-          if (!styleElementsMap.has(this._meta.presentableName)) {
-            componentStyle.use({
-              target: this._shadow,
-              registerStyle: (stlElm) =>
-                styleElementsMap.set(this._meta.presentableName, stlElm),
-            });
-          }
-          styleElement = styleElementsMap.get(this._meta.presentableName);
-        }
-      }
-    }
-    return styleElement;
   }
-  private coreRender(): boolean {
-    const virtualElement = this.presentable.buildTemplate(
+  private coreRender() {
+    const domElement = renderElement(
+      this._parent,
+      this.presentable,
       this._props,
-      this._children
-    ) as unknown as VirtualElement;
-
-    if (virtualElement == null) {
-      return false;
+      this._children,
+      this._preservedStateMap,
+      this._render
+    );
+    if (!domElement) {
+      return {
+        domElement: undefined,
+        domStyleElement: undefined,
+      };
     }
-
-    const domStyleElement = this.coreRenderStyle();
-    const domElement = this._render(virtualElement, this._preservedStateMap);
-
-    DOMHelpers.removeSelf(this.styleContainer);
-    this.styleContainer = domStyleElement;
-    DOMHelpers.removeSelf(this.container);
-    this.container = domElement;
-    if (this.styleContainer) {
-      DOMHelpers.appendToShadow(this._shadow, this.styleContainer);
+    if (this.options.noWrap) {
+      return {
+        domElement,
+        domStyleElement: undefined,
+      };
     }
-    DOMHelpers.appendToShadow(this._shadow, this.container);
+    const domStyleElement = renderStyle(
+      this.presentable,
+      this._meta.presentableName,
+      this._props
+    );
 
-    return !!domElement;
+    return {
+      domElement,
+      domStyleElement,
+    };
+    // DOMHelpers.removeSelf(this.styleContainer);
+    // this.styleContainer = domStyleElement;
+    // DOMHelpers.removeSelf(this.container);
+    // this.container = domElement;
+    // if (this.styleContainer) {
+    //   DOMHelpers.appendToShadow(this._shadow, this.styleContainer);
+    // }
+    // DOMHelpers.appendToShadow(this._shadow, this.container);
+    // return !!domElement;
   }
+
+  private detachFromParent() {
+    if( this.options.noWrap) {
+
+    } else {
+      DOMHelpers.removeSelf(this.styleContainer);
+      DOMHelpers.removeSelf(this.container);
+    }
+  }
+
+  private reattachToParent(
+    domStyleElement: HTMLStyleElement | undefined,
+    domElement: DomCompatibleElement | DomCompatibleElement[] | undefined
+  ) {
+    this.styleContainer = domStyleElement;
+    this.container = <HTMLElement | HTMLElement[]>domElement;
+    DOMHelpers.appendToParent(this._shadow, this.styleContainer);
+    DOMHelpers.appendToParent(this._shadow, this.container);
+  }
+
+  selfRender() {}
 
   private setState(assignedState: SetState<Record<string, any>>): void {
     const actualAssignedState =
@@ -187,4 +259,47 @@ export class WCContainer extends HTMLElement {
     this.presentable["state"] = this._stateProxy;
     this.presentable["setState"] = this.setState.bind(this);
   }
+}
+
+function renderStyle(
+  presentable: IPresentable,
+  presentableName: string,
+  props: Record<string, any>
+): HTMLStyleElement | undefined {
+  let styleElement: HTMLStyleElement | undefined;
+  if (presentable.buildStyle && typeof presentable.buildStyle == "function") {
+    const componentStyle = presentable.buildStyle(props);
+    if (typeof componentStyle === "string") {
+      styleElement = document.createElement("style");
+      styleElement.textContent = componentStyle;
+    } else if (typeof componentStyle?.use === "function") {
+      if (!styleElementsMap.has(presentableName)) {
+        componentStyle.use({
+          registerStyle: (s) => styleElementsMap.set(presentableName, s),
+        });
+      }
+      styleElement = styleElementsMap.get(presentableName);
+    }
+  }
+  return styleElement;
+}
+
+function renderElement(
+  parent: HTMLElement,
+  presentable: IPresentable,
+  props: Record<string, any>,
+  children: any[],
+  preservedStateMap: PreserveElementStateMap,
+  render: InternalRender
+): DomCompatibleElement | DomCompatibleElement[] | undefined {
+  const virtualElement = presentable.buildTemplate(
+    props,
+    children
+  ) as unknown as VirtualElement;
+
+  if (virtualElement == null) {
+    return undefined;
+  }
+  const domElement = render(virtualElement, parent, preservedStateMap);
+  return domElement;
 }

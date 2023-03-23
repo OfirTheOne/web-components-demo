@@ -25,7 +25,7 @@ export interface IPresentable<P = any, S = any> {
 export interface Presentable<P = any, S = any> extends IPresentable<P, S> {
   buildStyle?(props?: P): string | LazyStyleExport;
 }
-export abstract class Presentable<P = any, S = any> implements IPresentable<P, S> {
+export abstract class Presentable<P extends Record<string, any> = any, S = any> implements IPresentable<P, S> {
   public readonly attr: S;
   constructor() { }
   // abstract buildStyle?(props?: P): string | LazyStyleExport;
@@ -40,8 +40,10 @@ declare global {
   }
 
   export namespace JSX {
-    export interface Element extends IPresentable {}
-    export interface ElementClass extends Presentable {}
+    export interface Element extends Presentable {}
+    export interface ElementClass extends Presentable {
+
+    }
     export interface IntrinsicElements {
       [key: string]: any;
       // ...
