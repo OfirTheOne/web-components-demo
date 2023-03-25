@@ -13,8 +13,9 @@ export class ListExample extends Presentable<Props, { arr: any[] }> {
   inc = () => this.setState(({ arr }) => ({ arr: [...arr, 1] }));
   dec = () =>
     this.setState(({ arr }) => {
-      arr.pop;
-      return { arr: [...arr] };
+        const a = [...arr];
+      a.pop();
+      return { arr: [...a] };
     });
 
   buildTemplate() {

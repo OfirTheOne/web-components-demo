@@ -31,9 +31,14 @@ export class DOMHelpers {
   static insertChildAfterNode(parent: ShadowRoot | HTMLElement, child: DomCompatibleElement | DomCompatibleElement[], node?: HTMLElement | null): void {
     const children = Array.isArray(child)? child : [child]
     if (!node) {
-      children.forEach((c) => {
-        parent.appendChild(c);
-      });
+      const [firstNewChild, ...restChildren]  = children;
+      parent.insertBefore(firstNewChild, parent.firstChild);
+      let referenceNode: DomCompatibleElement = firstNewChild;
+      for(let i = 0; i < restChildren.length; i++) {
+        const c = restChildren[i];
+        this.insertNodeAfter(c, referenceNode);
+        referenceNode = c;
+      }
     } else {
       let referenceNode: DomCompatibleElement = node;
       for(let i = 0; i < children.length; i++) {
@@ -47,4 +52,11 @@ export class DOMHelpers {
   static insertNodeAfter(child: DomCompatibleElement, referenceNode: DomCompatibleElement) {
     referenceNode.parentNode.insertBefore(child, referenceNode.nextSibling);
 }
+
+
+  static isOnlyChild(child: DomCompatibleElement): boolean {
+    return child.isConnected && 
+      child.parentNode && 
+      child.parentNode.children.length == 1;
+  }
 }

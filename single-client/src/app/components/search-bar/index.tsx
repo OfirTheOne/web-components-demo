@@ -8,30 +8,26 @@ interface Props {
 }
 
 @DefineComponent("my-search-bar", { noWrap: true })
-export class SearchBar extends Presentable<Props> {
+export class SearchBar extends Presentable<Props, { text: string }> {
+  state = { text: "" };
 
-  onInputChange = (e) => { this.setState({ text: e?.target?.value })};
+  onInputChange = (e) => {
+    this.setState({ text: e?.target?.value });
+  };
 
   buildTemplate({ onSearchClick }: Props) {
     return (
-        <>
-            <div className='SearchBar' >
-                <div>
-                <Input onChange={this.onInputChange} ></Input>
-                </div>
-                <div>
-                <Button text={"Search"} onClick={() => onSearchClick(this.state.text)} ></Button>
-                </div>
-            </div>
-            <div className='SearchBar2' >
-                <div>
-                <Input onChange={this.onInputChange} ></Input>
-                </div>
-                <div>
-                <Button text={"Search"} onClick={() => onSearchClick(this.state.text)} ></Button>
-                </div>
-            </div>
-        </>
+      <div className="SearchBar">
+        <div>
+          <Input text={this.state.text} onChange={this.onInputChange} />
+        </div>
+        <div>
+          <Button
+            text={"Search"}
+            onClick={() => onSearchClick(this.state.text)}
+          />
+        </div>
+      </div>
     );
   }
 }

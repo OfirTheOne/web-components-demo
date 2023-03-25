@@ -46,20 +46,21 @@ export class WCContainer extends HTMLElement {
     protected readonly _props: Record<string, any> = {},
     protected readonly _key: string,
     protected readonly _children: any[] = [],
-    // protected readonly _initState: any = {},
     protected readonly _render: InternalRender,
     protected readonly _meta: PresentableMeta
   ) {
     super();
     this._host = this;
     this._preservedStateMap = new Map();
-    // this.injectState(this._initState);
     this._shadow = DOMHelpers.buildShadow(this._host);
     this._stateChangesQueue = new StateChangesQueue();
-    this._renderTaskAgent = new RenderTaskAgent(this, () => {
-      this._stateChangesQueue.runChanges();
-      this._stateChangesQueue.clear();
-    });
+    this._renderTaskAgent = new RenderTaskAgent(
+      { render: () => this.selfRender() },
+      () => {
+        this._stateChangesQueue.runChanges();
+        this._stateChangesQueue.clear();
+      }
+    );
   }
 
   connectedCallback(...args: unknown[]) {
@@ -92,27 +93,32 @@ export class WCContainer extends HTMLElement {
     if (this.canRender() && this.shouldRender()) {
       this.preCoreRender();
       const { domStyleElement, domElement } = this.coreRender();
-      
-      if(this.options.noWrap) {
-        if(this._parent) {
-          if(!this.container) {
-            DOMHelpers.appendToParent(this._parent, <HTMLElement>domElement);
-            
-          } else {
-            const firstContainerNode = Array.isArray(this.container) ? this.container[0] : this.container;
-            const renderStartPointNode = 
-              (firstContainerNode.parentNode.children.length == 1 ? 
-                null : firstContainerNode.previousSibling) as HTMLElement | null;     
-            DOMHelpers.insertChildAfterNode(this._parent, domElement, renderStartPointNode)
 
-          }
-          // DOMHelpers.removeSelf(this.container);
+      if (this.options.noWrap && this._parent) {
+        if (!this.container) {
+          DOMHelpers.appendToParent(this._parent, <HTMLElement>domElement);
+          this.container = <HTMLElement>domElement;
+        } else {
+          const firstContainerNode = Array.isArray(this.container)
+            ? this.container[0]
+            : this.container;
+          const renderStartPointNode = (
+            DOMHelpers.isOnlyChild(firstContainerNode)
+              ? null
+              : firstContainerNode.previousSibling
+          ) as HTMLElement | null;
+          DOMHelpers.removeSelf(this.container);
+          DOMHelpers.insertChildAfterNode(
+            this._parent,
+            domElement,
+            renderStartPointNode
+          );
+          this.container = <HTMLElement>domElement;
         }
       } else {
-
+        this.detachFromParent();
+        this.reattachToParent(domStyleElement, domElement);
       }
-      this.detachFromParent();
-      this.reattachToParent(domStyleElement, domElement);
       this.postCoreRender();
       if (!domElement) {
         return null;
@@ -225,8 +231,7 @@ export class WCContainer extends HTMLElement {
   }
 
   private detachFromParent() {
-    if( this.options.noWrap) {
-
+    if (this.options.noWrap) {
     } else {
       DOMHelpers.removeSelf(this.styleContainer);
       DOMHelpers.removeSelf(this.container);
@@ -243,7 +248,47 @@ export class WCContainer extends HTMLElement {
     DOMHelpers.appendToParent(this._shadow, this.container);
   }
 
-  selfRender() {}
+  selfRender(): WCContainer | HTMLElement | HTMLElement[] {
+    if (this.canRender() && this.shouldRender()) {
+      this.preCoreRender();
+      const { domStyleElement, domElement } = this.coreRender();
+
+      if (this.options.noWrap && this._parent) {
+        if (!this.container) {
+          DOMHelpers.appendToParent(this._parent, <HTMLElement>domElement);
+          this.container = <HTMLElement>domElement;
+        } else {
+          const firstContainerNode = Array.isArray(this.container)
+            ? this.container[0]
+            : this.container;
+          const renderStartPointNode = (
+            DOMHelpers.isOnlyChild(firstContainerNode)
+              ? null
+              : firstContainerNode.previousSibling
+          ) as HTMLElement | null;
+          DOMHelpers.removeSelf(this.container);
+          DOMHelpers.insertChildAfterNode(
+            this._parent,
+            domElement,
+            renderStartPointNode
+          );
+          this.container = <HTMLElement>domElement;
+        }
+      } else {
+        this.detachFromParent();
+        this.reattachToParent(domStyleElement, domElement);
+      }
+      this.postCoreRender();
+      if (!domElement) {
+        return null;
+      }
+    }
+    if (this.options.noWrap) {
+      return this.container;
+    } else {
+      return this;
+    }
+  }
 
   private setState(assignedState: SetState<Record<string, any>>): void {
     const actualAssignedState =
