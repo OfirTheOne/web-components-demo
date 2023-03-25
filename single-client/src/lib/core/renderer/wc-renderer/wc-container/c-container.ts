@@ -6,9 +6,8 @@ import { RenderTaskAgent } from "./render-task-agent";
 import { StateChangesQueue } from "./state-change-queue";
 import { StateProxy } from "./state-proxy";
 import { DOMHelpers } from "./dom-helpers";
-import { ComponentKeyToken } from "../component-key-token";
 import { RenderUtils } from "../render-utils";
-
+import { ComponentKeyBuilder as ComponentKey } from "../component-key-builder";
 
 const defaultWCContainerOptions: WCContainerOptions = {
   renderOnce: false,
@@ -108,32 +107,25 @@ export class CContainer {
       this.container.forEach((n, i) =>
         n?.setAttribute(
           "virtual_key",
-          String(
-            ComponentKeyToken.ROOT +
-              ComponentKeyToken.SEPARATOR +
-              this._meta.presentableName +
-              ComponentKeyToken.SEPARATOR +
-              ComponentKeyToken.FRAGMENT +
-              ComponentKeyToken.SEPARATOR +
-              `${i}` +
-              ComponentKeyToken.SEPARATOR +
-              n.tagName
-          )
+          ComponentKey.build()
+            .root()
+            .tag(this._meta.presentableName)
+            .fragment()
+            .idx(i)
+            .tag(n.tagName)
+            .toString()
         )
       );
     } else if (this.container) {
       const tagName = this.container.tagName;
       this.container.setAttribute(
         "virtual_key",
-        String(
-          ComponentKeyToken.ROOT +
-            ComponentKeyToken.SEPARATOR +
-            this._meta.presentableName +
-            ComponentKeyToken.SEPARATOR +
-            `${0}` +
-            ComponentKeyToken.SEPARATOR +
-            tagName
-        )
+        ComponentKey.build()
+          .root()
+          .tag(this._meta.presentableName)
+          .idx(0)
+          .tag(tagName)
+          .toString()
       );
     }
 

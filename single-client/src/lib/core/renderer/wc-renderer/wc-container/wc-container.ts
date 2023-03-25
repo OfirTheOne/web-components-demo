@@ -1,4 +1,3 @@
-import { VirtualElement } from "../../../../models/virtual-element";
 import { IPresentable, SetState } from "../../../../models/i-presentable";
 import { WCContainerOptions } from "../../../../models/wc-container-options";
 import { PresentableMeta } from "../../../../models/container-meta";
@@ -8,9 +7,8 @@ import { StateChangesQueue } from "./state-change-queue";
 import { StateProxy } from "./state-proxy";
 import { DOMHelpers } from "./dom-helpers";
 import { DomCompatibleElement } from "../../../../models/dom-element";
-import { ComponentKeyToken } from "../component-key-token";
 import { RenderUtils } from "../render-utils";
-
+import { ComponentKeyBuilder as ComponentKey } from "../component-key-builder";
 
 const defaultWCContainerOptions: WCContainerOptions = {
   renderOnce: false,
@@ -151,33 +149,25 @@ export class WCContainer extends HTMLElement {
       this.container.forEach((n, i) =>
         n?.setAttribute(
           "virtual_key",
-          String(
-            ComponentKeyToken.ROOT +
-              ComponentKeyToken.SEPARATOR +
-              this._meta.presentableName +
-              ComponentKeyToken.SEPARATOR +
-              ComponentKeyToken.FRAGMENT +
-              ComponentKeyToken.SEPARATOR +
-              `${i}` +
-              ComponentKeyToken.SEPARATOR +
-              n.tagName
-          )
+          ComponentKey.build()
+            .root()
+            .tag(this._meta.presentableName)
+            .fragment()
+            .idx(i)
+            .tag(n.tagName)
+            .toString()
         )
       );
-      ComponentKeyToken;
     } else if (this.container) {
       const tagName = this.container.tagName;
       this.container.setAttribute(
         "virtual_key",
-        String(
-          ComponentKeyToken.ROOT +
-            ComponentKeyToken.SEPARATOR +
-            this._meta.presentableName +
-            ComponentKeyToken.SEPARATOR +
-            `${0}` +
-            ComponentKeyToken.SEPARATOR +
-            tagName
-        )
+        ComponentKey.build()
+          .root()
+          .tag(this._meta.presentableName)
+          .idx(0)
+          .tag(tagName)
+          .toString()
       );
     }
 
@@ -228,7 +218,7 @@ export class WCContainer extends HTMLElement {
     domStyleElement: HTMLStyleElement | undefined,
     domElement: DomCompatibleElement | DomCompatibleElement[] | undefined
   ) {
-    if(this.isUsingShadowRoot) {
+    if (this.isUsingShadowRoot) {
       this.styleContainer = domStyleElement;
       this.container = <HTMLElement | HTMLElement[]>domElement;
       DOMHelpers.appendToParent(this._shadow, this.styleContainer);

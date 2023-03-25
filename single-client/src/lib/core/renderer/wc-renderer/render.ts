@@ -1,13 +1,10 @@
 import { Props, VirtualElement } from "../../../models";
 import { PreserveElementStateMap, InternalRender } from "./types";
 import { isPresentable } from "../../../utils/is-presentable";
-import { ComponentKeyToken } from "./component-key-token";
 import { RenderUtils } from "./render-utils";
 import { FRAGMENT_FACTORY_NAME } from "../../../constants";
 import { DomCompatibleElement } from "../../../models/dom-element";
-
-
-
+import { ComponentKeyBuilder as ComponentKey } from "./component-key-builder";
 
 export function render(elem: JSX.Element | VirtualElement, id: string) {
   const vElem = elem as VirtualElement;
@@ -17,7 +14,7 @@ export function render(elem: JSX.Element | VirtualElement, id: string) {
     vElem.props,
     vElem.children,
     new Map(),
-    ComponentKeyToken.ROOT
+    ComponentKey.build().root().toString()
   );
   Array.isArray(element)
     ? element.forEach((node) => document.getElementById(id).appendChild(node))
@@ -27,7 +24,7 @@ export function render(elem: JSX.Element | VirtualElement, id: string) {
 const internalRender: InternalRender = (
   vElem,
   parent,
-  parentPreservedStateMap,
+  parentPreservedStateMap
 ): DomCompatibleElement | DomCompatibleElement[] => {
   return virtualRender(
     parent,
@@ -35,7 +32,7 @@ const internalRender: InternalRender = (
     vElem.props,
     vElem.children,
     parentPreservedStateMap,
-    ComponentKeyToken.ROOT
+    ComponentKey.build().root().toString()
   );
 };
 
@@ -56,14 +53,14 @@ const virtualRender = (
       props,
       children,
       parentPreservedStateMap,
-      String(key + `.${tag.name}`)
+      ComponentKey.build().root().tag(tag.name).toString()
     );
-  } else if(typeof tag === "function" && tag.name === FRAGMENT_FACTORY_NAME) {
+  } else if (typeof tag === "function" && tag.name === FRAGMENT_FACTORY_NAME) {
     element = virtualRenderChildren(
       parent,
       children,
       parentPreservedStateMap,
-      String(key + ComponentKeyToken.SEPARATOR + ComponentKeyToken.FRAGMENT),
+      ComponentKey.build(key).fragment().toString()
     ).flat();
   } else if (typeof tag === "string") {
     const nativeElement = RenderUtils.handleNativeTagElement(tag, props);
@@ -71,10 +68,11 @@ const virtualRender = (
       nativeElement,
       children,
       parentPreservedStateMap,
-      String(key + ComponentKeyToken.SEPARATOR + `${tag}`),
+      ComponentKey.build(key).tag(tag).toString()
     );
-    renderedChildren.forEach((child) => 
-      RenderUtils.appendDomChildren(nativeElement, child));
+    renderedChildren.forEach((child) =>
+      RenderUtils.appendDomChildren(nativeElement, child)
+    );
 
     element = nativeElement;
   }
@@ -85,7 +83,7 @@ function virtualRenderChildren(
   parent: HTMLElement,
   children: (string | VirtualElement)[],
   parentPreservedStateMap: PreserveElementStateMap,
-  key: string,
+  key: string
 ): DomCompatibleElement[] {
   if (children.length > 0) {
     return children
@@ -99,14 +97,14 @@ function virtualRenderChildren(
             child.props,
             child.children,
             parentPreservedStateMap,
-            String(key + ComponentKeyToken.SEPARATOR + `${i}`)
+            ComponentKey.build(key).idx(i).toString()
           );
         } else {
           return RenderUtils.renderText(child);
         }
-      }).flat()
+      })
+      .flat();
   } else {
-    return []
+    return [];
   }
 }
-
