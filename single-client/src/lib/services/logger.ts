@@ -6,6 +6,7 @@ export const SysAction = {
     internalRender: 'internal-render',
     containerInit: 'container-init',
     componentInit: 'component-init',
+    unmounted: 'unmounted',
 }
 
 export class Logger {

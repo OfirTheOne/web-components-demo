@@ -53,7 +53,12 @@ export class RenderUtils {
       );
       wcc.injectState(preservedState);
       Logger.logAction('render', `element ${tag.name}, key ${key}.`);
-      return wcc.render();
+      const rendered = wcc.render();
+      if(rendered == null) {
+        Logger.logAction('unmounted', `element ${tag.name}, key ${key}.`);
+        parentPreservedStateMap.delete(key);
+      }
+      return rendered;
     } else {
       throw new Error(
         "Presentable component must be decorated with @DefineComponent."
