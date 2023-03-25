@@ -9,8 +9,8 @@ import { StateProxy } from "./state-proxy";
 import { DOMHelpers } from "./dom-helpers";
 import { DomCompatibleElement } from "../../../../models/dom-element";
 import { ComponentKeyToken } from "../component-key-token";
+import { RenderUtils } from "../render-utils";
 
-const styleElementsMap = new Map<string, HTMLStyleElement>();
 
 const defaultWCContainerOptions: WCContainerOptions = {
   renderOnce: false,
@@ -35,7 +35,7 @@ export class WCContainer extends HTMLElement {
   public get host(): HTMLElement {
     return this._host;
   }
-  private get isRenderOnce() {
+  private get wasRenderedBefore() {
     return this.container !== undefined;
   }
   public get isUsingShadowRoot() {
@@ -99,7 +99,7 @@ export class WCContainer extends HTMLElement {
       const { domStyleElement, domElement } = this.coreRender();
 
       if (!this.isUsingShadowRoot && this._parent) {
-        if (!this.container) {
+        if (!this.wasRenderedBefore) {
           DOMHelpers.appendToParent(this._parent, <HTMLElement>domElement);
           this.container = <HTMLElement>domElement;
         } else {
@@ -136,18 +136,10 @@ export class WCContainer extends HTMLElement {
   }
 
   private canRender(): boolean {
-    if (this._shadow && this.presentable && this._stateProxy) {
-      return true;
-    } else {
-      return false;
-    }
+    return !!(this._shadow && this.presentable && this._stateProxy);
   }
   private shouldRender(): boolean {
-    if (this.isRenderOnce && this.options.renderOnce) {
-      return false;
-    } else {
-      return true;
-    }
+    return !(this.wasRenderedBefore && this.options.renderOnce);
   }
   private preCoreRender(): void {
     if (typeof this.presentable["preRender"] === "function") {
@@ -194,7 +186,7 @@ export class WCContainer extends HTMLElement {
     }
   }
   private coreRender() {
-    const domElement = renderElement(
+    const domElement = RenderUtils.renderElement(
       this._parent,
       this.presentable,
       this._props,
@@ -214,7 +206,7 @@ export class WCContainer extends HTMLElement {
         domStyleElement: undefined,
       };
     }
-    const domStyleElement = renderStyle(
+    const domStyleElement = RenderUtils.renderStyle(
       this.presentable,
       this._meta.presentableName,
       this._props
@@ -244,7 +236,6 @@ export class WCContainer extends HTMLElement {
     }
   }
 
-
   private setState(assignedState: SetState<Record<string, any>>): void {
     const actualAssignedState =
       typeof assignedState === "function"
@@ -259,47 +250,4 @@ export class WCContainer extends HTMLElement {
     this.presentable["state"] = this._stateProxy;
     this.presentable["setState"] = this.setState.bind(this);
   }
-}
-
-function renderStyle(
-  presentable: IPresentable,
-  presentableName: string,
-  props: Record<string, any>
-): HTMLStyleElement | undefined {
-  let styleElement: HTMLStyleElement | undefined;
-  if (presentable.buildStyle && typeof presentable.buildStyle == "function") {
-    const componentStyle = presentable.buildStyle(props);
-    if (typeof componentStyle === "string") {
-      styleElement = document.createElement("style");
-      styleElement.textContent = componentStyle;
-    } else if (typeof componentStyle?.use === "function") {
-      if (!styleElementsMap.has(presentableName)) {
-        componentStyle.use({
-          registerStyle: (s) => styleElementsMap.set(presentableName, s),
-        });
-      }
-      styleElement = styleElementsMap.get(presentableName);
-    }
-  }
-  return styleElement;
-}
-
-function renderElement(
-  parent: HTMLElement,
-  presentable: IPresentable,
-  props: Record<string, any>,
-  children: any[],
-  preservedStateMap: PreserveElementStateMap,
-  render: InternalRender
-): DomCompatibleElement | DomCompatibleElement[] | undefined {
-  const virtualElement = presentable.buildTemplate(
-    props,
-    children
-  ) as unknown as VirtualElement;
-
-  if (virtualElement == null) {
-    return undefined;
-  }
-  const domElement = render(virtualElement, parent, preservedStateMap);
-  return domElement;
 }

@@ -20,13 +20,6 @@ export class DOMHelpers {
     }
   }
 
-  // static insertChildAtIndex(parent: ShadowRoot | HTMLElement, child: HTMLElement, index: number = 0): void {
-  //   if (index >= parent.children.length) {
-  //     parent.appendChild(child)
-  //   } else {
-  //     parent.insertBefore(child, parent.children[index])
-  //   }
-  // }
 
   static insertChildAfterNode(parent: ShadowRoot | HTMLElement, child: DomCompatibleElement | DomCompatibleElement[], node?: HTMLElement | null): void {
     const children = Array.isArray(child)? child : [child]

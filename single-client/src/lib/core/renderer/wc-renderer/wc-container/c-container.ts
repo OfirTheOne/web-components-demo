@@ -1,4 +1,3 @@
-import { VirtualElement } from "../../../../models/virtual-element";
 import { IPresentable, SetState } from "../../../../models/i-presentable";
 import { WCContainerOptions } from "../../../../models/wc-container-options";
 import { PresentableMeta } from "../../../../models/container-meta";
@@ -7,10 +6,9 @@ import { RenderTaskAgent } from "./render-task-agent";
 import { StateChangesQueue } from "./state-change-queue";
 import { StateProxy } from "./state-proxy";
 import { DOMHelpers } from "./dom-helpers";
-import { DomCompatibleElement } from "../../../../models/dom-element";
 import { ComponentKeyToken } from "../component-key-token";
+import { RenderUtils } from "../render-utils";
 
-const styleElementsMap = new Map<string, HTMLStyleElement>();
 
 const defaultWCContainerOptions: WCContainerOptions = {
   renderOnce: false,
@@ -18,28 +16,19 @@ const defaultWCContainerOptions: WCContainerOptions = {
   staticStyle: true,
 };
 
-export class WCContainer extends HTMLElement {
+export class CContainer {
   protected readonly _preservedStateMap: PreserveElementStateMap;
-  protected readonly _host: HTMLElement;
-  protected readonly _shadow: ShadowRoot;
   protected readonly _renderTaskAgent: RenderTaskAgent;
   protected readonly _stateChangesQueue: StateChangesQueue;
   protected _state: Record<string, any>;
   protected _stateProxy: Record<string, any>;
   protected styleContainer: HTMLStyleElement;
   protected container: HTMLElement | HTMLElement[];
-
   public get key(): string {
     return this._key;
   }
-  public get host(): HTMLElement {
-    return this._host;
-  }
-  private get isRenderOnce() {
+  private get wasRenderedBefore() {
     return this.container !== undefined;
-  }
-  public get isUsingShadowRoot() {
-    return this.options.noWrap !== true;
   }
 
   constructor(
@@ -52,10 +41,7 @@ export class WCContainer extends HTMLElement {
     protected readonly _render: InternalRender,
     protected readonly _meta: PresentableMeta
   ) {
-    super();
-    this._host = this;
     this._preservedStateMap = new Map();
-    this._shadow = DOMHelpers.buildShadow(this._host);
     this._stateChangesQueue = new StateChangesQueue();
     this._renderTaskAgent = new RenderTaskAgent(
       { render: () => this.render() },
@@ -66,40 +52,18 @@ export class WCContainer extends HTMLElement {
     );
   }
 
-  connectedCallback(...args: unknown[]) {
-    if (typeof this.presentable?.["connectedCallback"] === "function") {
-      <Function>this.presentable["connectedCallback"](...args);
-    }
-  }
-  disconnectedCallback(...args: unknown[]) {
-    if (typeof this.presentable?.["disconnectedCallback"] === "function") {
-      <Function>this.presentable["disconnectedCallback"](...args);
-    }
-  }
-  attributeChangedCallback(...args: unknown[]) {
-    if (typeof this.presentable?.["attributeChangedCallback"] === "function") {
-      <Function>this.presentable["attributeChangedCallback"](...args);
-    }
-  }
-  adoptedCallback(...args: unknown[]) {
-    if (typeof this.presentable?.["adoptedCallback"] === "function") {
-      <Function>this.presentable["adoptedCallback"](...args);
-    }
-  }
-
   public injectState(state: any) {
     this._state = state;
     this._stateProxy = StateProxy.create(this._state);
     this.connectState();
   }
-
-  public render(): WCContainer | HTMLElement | HTMLElement[] {
+  public render(): HTMLElement | HTMLElement[] {
     if (this.canRender() && this.shouldRender()) {
       this.preCoreRender();
-      const { domStyleElement, domElement } = this.coreRender();
+      const { domElement } = this.coreRender();
 
-      if (!this.isUsingShadowRoot && this._parent) {
-        if (!this.container) {
+      if (this._parent) {
+        if (!this.wasRenderedBefore) {
           DOMHelpers.appendToParent(this._parent, <HTMLElement>domElement);
           this.container = <HTMLElement>domElement;
         } else {
@@ -119,35 +83,20 @@ export class WCContainer extends HTMLElement {
           );
           this.container = <HTMLElement>domElement;
         }
-      } else {
-        this.detachFromShadowParent();
-        this.reattachToShadowParent(domStyleElement, domElement);
       }
       this.postCoreRender();
       if (!domElement) {
         return null;
       }
     }
-    if (this.options.noWrap) {
-      return this.container;
-    } else {
-      return this;
-    }
+    return this.container;
   }
 
   private canRender(): boolean {
-    if (this._shadow && this.presentable && this._stateProxy) {
-      return true;
-    } else {
-      return false;
-    }
+    return !!(this.presentable && this._stateProxy);
   }
   private shouldRender(): boolean {
-    if (this.isRenderOnce && this.options.renderOnce) {
-      return false;
-    } else {
-      return true;
-    }
+    return !(this.wasRenderedBefore && this.options.renderOnce);
   }
   private preCoreRender(): void {
     if (typeof this.presentable["preRender"] === "function") {
@@ -172,7 +121,6 @@ export class WCContainer extends HTMLElement {
           )
         )
       );
-      ComponentKeyToken;
     } else if (this.container) {
       const tagName = this.container.tagName;
       this.container.setAttribute(
@@ -194,7 +142,7 @@ export class WCContainer extends HTMLElement {
     }
   }
   private coreRender() {
-    const domElement = renderElement(
+    const domElement = RenderUtils.renderElement(
       this._parent,
       this.presentable,
       this._props,
@@ -205,46 +153,12 @@ export class WCContainer extends HTMLElement {
     if (!domElement) {
       return {
         domElement: undefined,
-        domStyleElement: undefined,
       };
     }
-    if (!this.isUsingShadowRoot) {
-      return {
-        domElement,
-        domStyleElement: undefined,
-      };
-    }
-    const domStyleElement = renderStyle(
-      this.presentable,
-      this._meta.presentableName,
-      this._props
-    );
     return {
       domElement,
-      domStyleElement,
     };
   }
-
-  private detachFromShadowParent() {
-    if (this.isUsingShadowRoot) {
-      DOMHelpers.removeSelf(this.styleContainer);
-      DOMHelpers.removeSelf(this.container);
-    }
-  }
-
-  private reattachToShadowParent(
-    domStyleElement: HTMLStyleElement | undefined,
-    domElement: DomCompatibleElement | DomCompatibleElement[] | undefined
-  ) {
-    if(this.isUsingShadowRoot) {
-      this.styleContainer = domStyleElement;
-      this.container = <HTMLElement | HTMLElement[]>domElement;
-      DOMHelpers.appendToParent(this._shadow, this.styleContainer);
-      DOMHelpers.appendToParent(this._shadow, this.container);
-    }
-  }
-
-
   private setState(assignedState: SetState<Record<string, any>>): void {
     const actualAssignedState =
       typeof assignedState === "function"
@@ -259,47 +173,4 @@ export class WCContainer extends HTMLElement {
     this.presentable["state"] = this._stateProxy;
     this.presentable["setState"] = this.setState.bind(this);
   }
-}
-
-function renderStyle(
-  presentable: IPresentable,
-  presentableName: string,
-  props: Record<string, any>
-): HTMLStyleElement | undefined {
-  let styleElement: HTMLStyleElement | undefined;
-  if (presentable.buildStyle && typeof presentable.buildStyle == "function") {
-    const componentStyle = presentable.buildStyle(props);
-    if (typeof componentStyle === "string") {
-      styleElement = document.createElement("style");
-      styleElement.textContent = componentStyle;
-    } else if (typeof componentStyle?.use === "function") {
-      if (!styleElementsMap.has(presentableName)) {
-        componentStyle.use({
-          registerStyle: (s) => styleElementsMap.set(presentableName, s),
-        });
-      }
-      styleElement = styleElementsMap.get(presentableName);
-    }
-  }
-  return styleElement;
-}
-
-function renderElement(
-  parent: HTMLElement,
-  presentable: IPresentable,
-  props: Record<string, any>,
-  children: any[],
-  preservedStateMap: PreserveElementStateMap,
-  render: InternalRender
-): DomCompatibleElement | DomCompatibleElement[] | undefined {
-  const virtualElement = presentable.buildTemplate(
-    props,
-    children
-  ) as unknown as VirtualElement;
-
-  if (virtualElement == null) {
-    return undefined;
-  }
-  const domElement = render(virtualElement, parent, preservedStateMap);
-  return domElement;
 }

@@ -2,11 +2,12 @@ import { Presentable } from "../../presentable";
 import { WCContainer } from "./wc-container/wc-container";
 import { getDefineComponentArg } from "../../../decorators/accessors";
 import { defineComponent } from "../../../utils/define-component";
-import { Ctor, Props, VirtualElement } from "../../../models";
+import { Ctor, IPresentable, Props, VirtualElement } from "../../../models";
 import { PreserveElementStateMap, InternalRender } from "./types";
 import { isCapitalEventName } from "../../../utils/is-capital-event-name";
-import { DomElement } from "../../../models/dom-element";
+import { DomCompatibleElement, DomElement } from "../../../models/dom-element";
 import { Logger } from "../../../services/logger";
+import { globalStyleMap } from "./global-style-map";
 
 
 export class RenderUtils {
@@ -45,7 +46,6 @@ export class RenderUtils {
         props,
         key,
         children,
-        // undefined,
         internalRender,
         { 
           presentableName: tag.name
@@ -92,8 +92,6 @@ export class RenderUtils {
     }
     return element;
   }
-
-
 
   public static appendDomChildren(parent: HTMLElement, child: DomElement) {
     if (child) {
@@ -147,4 +145,48 @@ export class RenderUtils {
     }
     return propsEntries;
   }
+
+  public static  renderStyle(
+    presentable: IPresentable,
+    presentableName: string,
+    props: Record<string, any>
+  ): HTMLStyleElement | undefined {
+    let styleElement: HTMLStyleElement | undefined;
+    if (presentable.buildStyle && typeof presentable.buildStyle == "function") {
+      const componentStyle = presentable.buildStyle(props);
+      if (typeof componentStyle === "string") {
+        styleElement = document.createElement("style");
+        styleElement.textContent = componentStyle;
+      } else if (typeof componentStyle?.use === "function") {
+        if (!globalStyleMap.has(presentableName)) {
+          componentStyle.use({
+            registerStyle: (s) => globalStyleMap.set(presentableName, s),
+          });
+        }
+        styleElement = globalStyleMap.get(presentableName);
+      }
+    }
+    return styleElement;
+  }
+  
+  public static  renderElement(
+    parent: HTMLElement,
+    presentable: IPresentable,
+    props: Record<string, any>,
+    children: any[],
+    preservedStateMap: PreserveElementStateMap,
+    render: InternalRender
+  ): DomCompatibleElement | DomCompatibleElement[] | undefined {
+    const virtualElement = presentable.buildTemplate(
+      props,
+      children
+    ) as unknown as VirtualElement;
+  
+    if (virtualElement == null) {
+      return undefined;
+    }
+    const domElement = render(virtualElement, parent, preservedStateMap);
+    return domElement;
+  }
+  
 }
