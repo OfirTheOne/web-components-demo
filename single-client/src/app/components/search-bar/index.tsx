@@ -17,9 +17,9 @@ export class SearchBar extends Presentable<Props, { text: string }> {
 
   buildTemplate({ onSearchClick }: Props) {
     return (
-      <div className="SearchBar">
+      <div className="SearchBar" style={{ display: 'flex' }}>
         <div>
-          <Input text={this.state.text} onChange={this.onInputChange} />
+          <Input text={this.state.text} onKeyup={this.onInputChange} />
         </div>
         <div>
           <Button

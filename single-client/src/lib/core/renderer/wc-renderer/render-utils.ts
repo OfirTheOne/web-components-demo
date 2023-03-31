@@ -114,24 +114,25 @@ export class RenderUtils {
   }
 
   public static renderText(child?: string) {
-    return document.createTextNode(child || '');
-    
+    return document.createTextNode(child || '');  
   }
-
 
   public static convertStyleObjectToInlineStyle(
     styleObject: Record<string, unknown>
   ): string {
     const validStyleEntries = Object.entries(styleObject).map(
       ([name, value]) => {
-        const validStyleAttr = !name.includes("-")
+        const validStyleAttr = 
+          name.startsWith("--") ? 
+          name : 
+          isAllLowerCase(name)
           ? name
           : name.replace(/(?:^\w|[A-Z]|\b-\w)/g, (match, i) =>
               i == 0
                 ? match.toLocaleLowerCase()
                 : match[0] == "-"
-                ? match.toLocaleUpperCase()
-                : "-" + match.toLocaleUpperCase()
+                ? match.toLocaleLowerCase()
+                : "-" + match.toLocaleLowerCase()
             );
         return [validStyleAttr, value];
       }
@@ -174,10 +175,10 @@ export class RenderUtils {
     return styleElement;
   }
   
-  public static  renderElement(
+  public static renderElement(
     parent: HTMLElement,
     presentable: IPresentable,
-    props: Record<string, any>,
+    props: Record<string, any> = {},
     children: any[],
     preservedStateMap: PreserveElementStateMap,
     render: InternalRender
@@ -194,4 +195,10 @@ export class RenderUtils {
     return domElement;
   }
   
+}
+
+
+
+function isAllLowerCase(str: string) {
+  return str === str.toLowerCase();
 }

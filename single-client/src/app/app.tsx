@@ -4,6 +4,7 @@ import { WC, Presentable, DefineComponent, OnConnected } from "../lib";
 import { Tab } from "./components";
 import { ListExample } from "./components/list-example";
 import { SearchBar } from "./components/search-bar";
+import { SearchPage } from "./components/search-page";
 
 @DefineComponent('my-counter-and-tab')
 class CounterAndTab extends Presentable<any, { counter: number, searchResult?: string }> implements OnConnected {
@@ -23,8 +24,8 @@ class CounterAndTab extends Presentable<any, { counter: number, searchResult?: s
     buildTemplate(props: any) {
         return (
             <div>
+                <SearchPage />
                 <ListExample></ListExample>
-                <SearchBar onSearchClick={this.onSearch}></SearchBar>
                 <div style={{
                     border: `1px solid red`,
                     margin: '8px'
