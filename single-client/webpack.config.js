@@ -8,7 +8,7 @@ const {
 const isDevelopment = true;
 
 module.exports = {
-  entry: "./src/index.ts",
+  entry: "./src.functional/index.ts",
   mode: "development",
   devServer: {
     static: path.join(__dirname, "dist"),

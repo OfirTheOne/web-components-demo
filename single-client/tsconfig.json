@@ -32,6 +32,6 @@
 
     
   },
-  "include": ["src/**/*", "src/types/*"],
+  "include": ["src/**/*", "src/types/*", "src.functional/**/*", "src.functional/types/*"],
   "exclude": ["node_modules", "test", "dist", "**/*spec.ts", "public"]
 }
