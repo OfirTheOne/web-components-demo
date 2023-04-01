@@ -5,10 +5,21 @@ import { stateMemoryMap } from "./../global-storage";
 class RenderSignalContext {
 
     private _currentContext: RenderContext | null = null;
+    private _hookCounter: number = 0;
 
     get currentContext() {
+        this._hookCounter = this._hookCounter + 1;
+        if(this._currentContext.stateHolder.length < this._hookCounter) {
+            this._currentContext.stateHolder.push({
+                value: null,
+                initialized: false
+            });    
+        }
+        this._currentContext.projectedState = this._currentContext.stateHolder[this._hookCounter] || null;
+
         return this._currentContext;
     }
+
 
     signalContext(componentKey: string) {
         let context: RenderContext;
@@ -16,7 +27,8 @@ class RenderSignalContext {
             context = stateMemoryMap.get(componentKey);
         } else {
             context =  {
-                state: {},
+                projectedState: null,
+                stateHolder: [],
                 key: componentKey,
                 props: {}
             };
@@ -26,6 +38,7 @@ class RenderSignalContext {
     }
     
     removeContext() {
+        this._hookCounter = 0;
         this._currentContext = null;
     }
 

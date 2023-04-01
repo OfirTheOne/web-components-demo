@@ -1,7 +1,11 @@
 
 
 export interface RenderContext {
-    state: Record<any, any>;
+    projectedState: {
+        value?: any
+        initialized: boolean;
+    },
+    stateHolder: Array<any>, 
     props: Record<any, any>;
     key: string;
 }
