@@ -5,12 +5,12 @@
 import { InternalRender } from "../types";
 import { isCapitalEventName } from "./is-capital-event-name";
 import { Props, VirtualElement } from "../../models";
-import { DomCompatibleElement, DomElement } from "../../models/dom-element";
+import { DomElement } from "../../models/dom-element";
 import { Logger } from "../../common/logger";
-import { globalStyleMap } from "../global-storage";
 import { ComponentContainer } from "../component-container/component-container";
 import { isAllLowerCase } from "./common-utils";
 import { RenderSignal } from "../render-signal/render-signal";
+import { renderContextMemoryMap } from "../global-storage";
 
 export class RenderUtils {
   public static handleComponentElement(
@@ -22,21 +22,24 @@ export class RenderUtils {
     key: string
   ): HTMLElement | HTMLElement[] {
     Logger.logAction("componentInit", `element ${tag.name}, key ${key}.`);
-    const componentContainer = new ComponentContainer(
-      tag, 
-      props, 
-      children, 
-      key, 
-      parent,
-      undefined, 
-      {},
-      internalRender
-    );
+    // here look up for the ComponentContainer in the map
+    const existingComponentContainer = renderContextMemoryMap.get(key)?.componentContainerRef as ComponentContainer;
+    const componentContainer = existingComponentContainer || 
+      new ComponentContainer(
+        tag, 
+        props, 
+        children, 
+        key, 
+        parent,
+        undefined, 
+        {},
+        internalRender
+      );
     Logger.logAction("render", `element ${tag.name}, key ${key}.`);
     const rendered = componentContainer.render() as HTMLElement[];
     if (rendered == null) {
       Logger.logAction("unmounted", `element ${tag.name}, key ${key}.`);
-      RenderSignal.deleteStoredContext(key);
+      RenderSignal.instance.deleteStoredContext(key);
     }
     return rendered;
   }
@@ -147,22 +150,4 @@ export class RenderUtils {
   //   return styleElement;
   // }
 
-  public static renderElement(
-    parent: HTMLElement,
-    componentFn: Function,
-    props: Record<string, any> = {},
-    children: any[],
-    render: InternalRender
-  ): DomCompatibleElement | DomCompatibleElement[] | undefined {
-    const virtualElement = componentFn(
-      props,
-      children
-    ) as unknown as VirtualElement;
-
-    if (virtualElement == null) {
-      return undefined;
-    }
-    const domElement = render(virtualElement, parent);
-    return domElement;
-  }
 }

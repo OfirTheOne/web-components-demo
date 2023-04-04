@@ -4,4 +4,4 @@
 import { RenderContext } from "../../models/render-context";
 
 export const globalStyleMap = new Map<string, HTMLStyleElement>();
-export const stateMemoryMap = new Map<string, RenderContext>();
+export const renderContextMemoryMap = new Map<string, RenderContext>();

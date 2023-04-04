@@ -1,12 +1,16 @@
 
+import { IComponentContainer } from "src.functional/lib/models/i-component-container";
 import { RenderContext } from "../../models/render-context";
-import { stateMemoryMap } from "./../global-storage";
+import { StateChangesQueue } from "../render-task-agent/state-change-queue";
+import { renderContextMemoryMap } from "./../global-storage";
 
 class RenderSignalContext {
+
 
     private _currentContext: RenderContext | null = null;
     private _hookCounter: number = 0;
 
+    protected constructor () {}
     get currentContext() {
         this._hookCounter = this._hookCounter + 1;
         if(this._currentContext.stateHolder.length < this._hookCounter) {
@@ -16,23 +20,27 @@ class RenderSignalContext {
             });    
         }
         this._currentContext.projectedState = this._currentContext.stateHolder[this._hookCounter] || null;
-
         return this._currentContext;
     }
 
+    accessCurrentContext() {
+        return this._currentContext;
+    }
 
-    signalContext(componentKey: string) {
+    signalContext(componentKey: string, componentContainerRef: IComponentContainer) {
         let context: RenderContext;
-        if(stateMemoryMap.has(componentKey)) {
-            context = stateMemoryMap.get(componentKey);
+        if(renderContextMemoryMap.has(componentKey)) {
+            context = renderContextMemoryMap.get(componentKey);
         } else {
             context =  {
+                componentContainerRef,
+                stateChangesQueue: new StateChangesQueue(),
                 projectedState: null,
                 stateHolder: [],
                 key: componentKey,
                 props: {}
             };
-            stateMemoryMap.set(componentKey, context);
+            renderContextMemoryMap.set(componentKey, context);
         }
         this._currentContext = context;
     }
@@ -43,10 +51,25 @@ class RenderSignalContext {
     }
 
     deleteStoredContext(componentKey: string) {
-        return stateMemoryMap.delete(componentKey);
+        return renderContextMemoryMap.delete(componentKey);
+    }
+}
+
+
+export class RenderSignal extends RenderSignalContext {
+    protected constructor() {
+        super();
+    }
+    private static _instance: RenderSignalContext;
+
+    static get instance() {
+        if(!RenderSignal._instance) {
+            RenderSignal._instance = new RenderSignalContext();
+        }
+        return RenderSignal._instance;
     }
 }
 
 
 
-export const RenderSignal = new RenderSignalContext();
+

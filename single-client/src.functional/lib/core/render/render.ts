@@ -1,4 +1,3 @@
-import { RenderSignal } from "../render-signal/render-signal";
 import { ComponentKeyBuilder as ComponentKey } from "./../component-key-builder";
 import { Props, VirtualElement, DomCompatibleElement } from "../../models";
 import { RenderUtils } from "./../utils/render-utils";
@@ -22,13 +21,14 @@ export function render(elem: JSX.Element | VirtualElement, id: string) {
 const internalRender: InternalRender = (
   vElem,
   parent,
+  elemKey,
 ): DomCompatibleElement | DomCompatibleElement[] => {
   return virtualRender(
     parent,
     vElem.tag,
     vElem.props,
     vElem.children,
-    ComponentKey.build().root().toString()
+    elemKey || ComponentKey.build().root().toString()
   );
 };
 
@@ -41,21 +41,23 @@ const virtualRender = (
 ): DomCompatibleElement | DomCompatibleElement[] => {
   let element: DomCompatibleElement | DomCompatibleElement[];
   if (typeof tag === "function") {
-    element = RenderUtils.handleComponentElement(
-      internalRender,
-      parent,
-      tag,
-      props,
-      children,
-      ComponentKey.build().root().tag(tag.name).toString()
-    );
-    if (typeof tag === "function" && tag.name === FRAGMENT_FACTORY_NAME) {
+    if (tag.name === FRAGMENT_FACTORY_NAME) {
       element = virtualRenderChildren(
         parent,
         children,
         ComponentKey.build(key).fragment().toString()
       ).flat();
-    } 
+    }  else {
+      element = RenderUtils.handleComponentElement(
+        internalRender,
+        parent,
+        tag,
+        props,
+        children,
+        ComponentKey.build(key).tag(tag.name).toString()
+      );
+    }
+    
   } else if (typeof tag === "string") {
     const nativeElement = RenderUtils.handleNativeTagElement(tag, props);
     const renderedChildren = virtualRenderChildren(
@@ -66,7 +68,6 @@ const virtualRender = (
     renderedChildren.forEach((child) =>
       RenderUtils.appendDomChildren(nativeElement, child)
     );
-
     element = nativeElement;
   }
   return element;

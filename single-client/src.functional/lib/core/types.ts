@@ -13,6 +13,7 @@ export interface InternalRender {
     (
         vElem: VirtualElement, 
         parent: HTMLElement,
+        elemKey?: string,
         // parentPreservedStateMap?: PreserveElementStateMap
     ): DomCompatibleElement | DomCompatibleElement[];
 }
