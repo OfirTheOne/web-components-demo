@@ -3,18 +3,18 @@ import { IComponentContainer } from "./i-component-container";
 import { IRenderTaskAgent } from "./i-render-task-agent";
 
 
+export interface HookSlot {
+    value?: any;
+    initialized: boolean;
+}
+
 export interface IRenderContext {
-    // projectedState: {
-    //     value?: any
-    //     initialized: boolean;
-    // },
     componentContainerRef: IComponentContainer,
     renderTaskAgent: IRenderTaskAgent;
     stateChangesQueue: StateChangesQueue;
-    stateHolder: Array<{
-        value?: any;
-        initialized: boolean;
-    }>;
-    props: Record<any, any>;
+    hookSlotList: Array<HookSlot>;
+    // props: Record<any, any>;
     key: string;
 }
+
+
