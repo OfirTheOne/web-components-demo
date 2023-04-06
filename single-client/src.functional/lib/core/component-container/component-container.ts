@@ -5,9 +5,6 @@ import { IComponentContainer } from "../../models/i-component-container";
 
 export class ComponentContainer implements IComponentContainer{
 
-
-  childrenComponentMap: Map<string, ComponentContainer>;
-
   protected container: HTMLElement | HTMLElement[];
   constructor(
     protected fnComponent: Function,
@@ -21,6 +18,14 @@ export class ComponentContainer implements IComponentContainer{
     protected internalRender: InternalRender
   ) {}
 
+  setProps(props: Record<string, any>) {
+    this.props = props;
+    return this;
+  }
+  setChildren(children: any[]) {
+    this.children = children;
+    return this;
+  }
   public get wasRenderedBefore() {
     return this.container !== undefined;
   }
@@ -28,7 +33,6 @@ export class ComponentContainer implements IComponentContainer{
   render() {
     RenderSignal.instance.signalContext(this.key, this);
     const virtualElement = this.fnComponent(this.props, this.children);
-    RenderSignal.instance.accessCurrentContext().stateChangesQueue.runChanges();
     RenderSignal.instance.removeContext();
     if (virtualElement == null) {
       return undefined;

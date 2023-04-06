@@ -1,52 +1,33 @@
 
 import { IComponentContainer } from "src.functional/lib/models/i-component-container";
-import { RenderContext } from "../../models/render-context";
-import { StateChangesQueue } from "../render-task-agent/state-change-queue";
+import { RenderContext } from "./render-context";
 import { renderContextMemoryMap } from "./../global-storage";
 
 class RenderSignalContext {
-
-
     private _currentContext: RenderContext | null = null;
-    private _hookCounter: number = 0;
 
     protected constructor () {}
     get currentContext() {
-        this._hookCounter = this._hookCounter + 1;
-        if(this._currentContext.stateHolder.length < this._hookCounter) {
-            this._currentContext.stateHolder.push({
-                value: null,
-                initialized: false
-            });    
-        }
-        this._currentContext.projectedState = this._currentContext.stateHolder[this._hookCounter] || null;
         return this._currentContext;
     }
 
-    accessCurrentContext() {
+    accessCurrentContext(): RenderContext | null {
         return this._currentContext;
     }
 
     signalContext(componentKey: string, componentContainerRef: IComponentContainer) {
         let context: RenderContext;
         if(renderContextMemoryMap.has(componentKey)) {
-            context = renderContextMemoryMap.get(componentKey);
+            context = renderContextMemoryMap.get(componentKey) as RenderContext;
         } else {
-            context =  {
-                componentContainerRef,
-                stateChangesQueue: new StateChangesQueue(),
-                projectedState: null,
-                stateHolder: [],
-                key: componentKey,
-                props: {}
-            };
+            context = new RenderContext(componentContainerRef, componentKey);
             renderContextMemoryMap.set(componentKey, context);
         }
         this._currentContext = context;
     }
     
     removeContext() {
-        this._hookCounter = 0;
+        this._currentContext.resetProjectState()
         this._currentContext = null;
     }
 

@@ -1,16 +1,20 @@
 import { RenderSignal } from "../render-signal/render-signal";
 
 export function createSignal<T = any>(initValue: T) {
+    RenderSignal.instance.currentContext.declareHook();
+    const hookPositionInContext = RenderSignal.instance.currentContext.hookCounter-1;
     const currentContext = RenderSignal.instance.currentContext;
-    if(!currentContext.projectedState.initialized) {
-        currentContext.projectedState.value = initValue;
-        currentContext.projectedState.initialized = true; 
+    const projectedState = currentContext.projectState(hookPositionInContext);
+    if(!projectedState.initialized) {
+        projectedState.value = initValue;
+        projectedState.initialized = true; 
     }
     const getSignal = (): T => {
-        return currentContext.projectedState.value;
+        return projectedState.value;
     };
     const setSignal = (value: T) => {
-        currentContext.stateChangesQueue.push(() => currentContext.projectedState.value = value);
+        currentContext.stateChangesQueue.push(() => projectedState.value = value);
+        currentContext.renderTaskAgent.registerRender();
     };
     return [getSignal, setSignal] as const;
 }

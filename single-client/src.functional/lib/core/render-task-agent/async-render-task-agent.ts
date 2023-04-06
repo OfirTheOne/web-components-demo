@@ -1,15 +1,11 @@
+import { IRenderTaskAgent, RenderTaskSubject } from "../../models/i-render-task-agent";
 
 
-interface RenderSubject {
-    render(): void;
-}
-
-
-export class AsyncRenderTaskAgent {
+export class AsyncRenderTaskAgent implements IRenderTaskAgent{
     protected readonly registeredRenderTimers = new Set<NodeJS.Timeout>();
 
     constructor(
-        private subject: RenderSubject,
+        private subject: RenderTaskSubject,
         private preRender: () => void = (() => {})
     ) { }
 

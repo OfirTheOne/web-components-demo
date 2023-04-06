@@ -1,7 +1,4 @@
-// import { Presentable } from "../../presentable";
-// import { WCContainer } from "./wc-container/wc-container";
-// import { getDefineComponentArg } from "../../../decorators/accessors";
-// import { defineComponent } from "../../../utils/define-component";
+
 import { InternalRender } from "../types";
 import { isCapitalEventName } from "./is-capital-event-name";
 import { Props, VirtualElement } from "../../models";
@@ -21,9 +18,10 @@ export class RenderUtils {
     children: Array<string | VirtualElement>,
     key: string
   ): HTMLElement | HTMLElement[] {
-    Logger.logAction("componentInit", `element ${tag.name}, key ${key}.`);
-    // here look up for the ComponentContainer in the map
     const existingComponentContainer = renderContextMemoryMap.get(key)?.componentContainerRef as ComponentContainer;
+    if(!existingComponentContainer) {
+      Logger.logAction("componentInit", `element ${tag.name}, key ${key}.`);
+    }
     const componentContainer = existingComponentContainer || 
       new ComponentContainer(
         tag, 
@@ -35,6 +33,11 @@ export class RenderUtils {
         {},
         internalRender
       );
+
+    componentContainer
+      .setProps(props)
+      .setChildren(children);
+    
     Logger.logAction("render", `element ${tag.name}, key ${key}.`);
     const rendered = componentContainer.render() as HTMLElement[];
     if (rendered == null) {
