@@ -1,5 +1,5 @@
 import { IComponentContainer } from "../../models/i-component-container";
-import { IRenderContext, HookSlot } from "../../models/i-render-context";
+import { IRenderContext, HookSlot, HookType } from "../../models/i-render-context";
 import { IRenderTaskAgent } from "../../models/i-render-task-agent";
 import { StateChangesQueue } from "../render-task-agent/state-change-queue";
 import { AsyncRenderTaskAgent } from "../render-task-agent/async-render-task-agent";
@@ -33,10 +33,11 @@ export class RenderContext implements IRenderContext {
     return this.hookSlotList[hookIndex] || null;
   }
 
-  declareHook() {
+  declareHook(type: HookType) {
     this.incHookCounter();
     if (this.hookSlotList.length < this._hookCounter) {
       this.hookSlotList.push({
+        type,
         value: null,
         initialized: false,
       });

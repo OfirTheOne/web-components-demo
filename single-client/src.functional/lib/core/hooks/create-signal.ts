@@ -1,7 +1,8 @@
+import { HookType } from "../../models/i-render-context";
 import { RenderSignal } from "../render-signal/render-signal";
 
 export function createSignal<T = any>(initValue: T) {
-    RenderSignal.instance.currentContext.declareHook();
+    RenderSignal.instance.currentContext.declareHook(HookType.createSignal);
     const hookPositionInContext = RenderSignal.instance.currentContext.hookCounter-1;
     const currentContext = RenderSignal.instance.currentContext;
     const projectedState = currentContext.projectState(hookPositionInContext);
