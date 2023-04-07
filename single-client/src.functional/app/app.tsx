@@ -1,6 +1,6 @@
 
 import { WC } from "../lib/jsx";
-import { createSignal } from "../lib/core";
+import { createRef, createSignal } from "../lib/core";
 import { useEffect } from "../lib/core/hooks/use-effect";
 
 function SearchBar()  {
@@ -35,7 +35,11 @@ interface ButtonProps {
 }
 
 function Button(props: ButtonProps) {
+    const [getButton, setButton] = createRef<HTMLButtonElement>();
+    console.log(getButton() instanceof HTMLButtonElement);
+    
     return <button
+        ref={setButton}
         onClick={props.onClick}
     >{props.text}</button>;
 }
