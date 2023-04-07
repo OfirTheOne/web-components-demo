@@ -8,6 +8,6 @@ export interface RenderTaskSubject {
 }
 
 
-export interface IRenderTaskAgent {
-    registerRender(): void;
+export interface ITaskAgent {
+    registerTask(): void;
 }

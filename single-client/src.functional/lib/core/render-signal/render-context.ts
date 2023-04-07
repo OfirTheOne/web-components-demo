@@ -1,12 +1,12 @@
 import { IComponentContainer } from "../../models/i-component-container";
 import { IRenderContext, HookSlot, HookType } from "../../models/i-render-context";
-import { IRenderTaskAgent } from "../../models/i-render-task-agent";
+import { ITaskAgent } from "../../models/i-task-agent";
 import { StateChangesQueue } from "../render-task-agent/state-change-queue";
-import { AsyncRenderTaskAgent } from "../render-task-agent/async-render-task-agent";
+import { TaskAgent } from "../render-task-agent/async-render-task-agent";
 
 export class RenderContext implements IRenderContext {
   componentContainerRef: IComponentContainer;
-  renderTaskAgent: IRenderTaskAgent;
+  renderTaskAgent: ITaskAgent;
   stateChangesQueue: StateChangesQueue;
   hookSlotList: HookSlot[];
   key: string;
@@ -19,18 +19,18 @@ export class RenderContext implements IRenderContext {
     this.componentContainerRef = componentContainerRef;
     this.key = key;
     this.stateChangesQueue = new StateChangesQueue();
-    this.renderTaskAgent = new AsyncRenderTaskAgent(
-      componentContainerRef,
+    this.renderTaskAgent = new TaskAgent(
       () => {
         this.stateChangesQueue.runChanges();
         this.stateChangesQueue.clear();
+        this.componentContainerRef.render();
       }
     );
     this.hookSlotList = [];
   }
 
-  projectState(hookIndex: number) {
-    return this.hookSlotList[hookIndex] || null;
+  projectState<HS extends HookSlot = HookSlot>(hookIndex: number): HS | null {
+    return (this.hookSlotList[hookIndex] || null) as HS;
   }
 
   declareHook(type: HookType) {

@@ -1,23 +1,22 @@
-import { IRenderTaskAgent, RenderTaskSubject } from "../../models/i-render-task-agent";
+import { ITaskAgent, RenderTaskSubject } from "../../models/i-task-agent";
 
 
-export class AsyncRenderTaskAgent implements IRenderTaskAgent{
-    protected readonly registeredRenderTimers = new Set<NodeJS.Timeout>();
+export class TaskAgent implements ITaskAgent{
+    protected readonly registeredTaskTimers = new Set<NodeJS.Timeout>();
 
     constructor(
-        private subject: RenderTaskSubject,
-        private preRender: () => void = (() => {})
+        private task: () => void = (() => {})
     ) { }
 
-    public registerRender() {
+    public registerTask() {
         const timer = setTimeout(() => {
-            this.registeredRenderTimers.delete(timer);
-            this.registeredRenderTimers.forEach(registeredTimer => clearTimeout(registeredTimer));
-            this.registeredRenderTimers.clear();
-            this.preRender()
-            this.subject.render();
+            this.registeredTaskTimers.delete(timer);
+            this.registeredTaskTimers.forEach(registeredTimer => clearTimeout(registeredTimer));
+            this.registeredTaskTimers.clear();
+            this.task();
+            // this.subject.render();
         }, 0);
-        this.registeredRenderTimers.add(timer)
+        this.registeredTaskTimers.add(timer)
     }
 }
 

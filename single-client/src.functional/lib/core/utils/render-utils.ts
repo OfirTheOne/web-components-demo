@@ -52,29 +52,39 @@ export class RenderUtils {
     if (props) {
       const nonEmptyProps = props;
       const styleProp = <Record<string, unknown>>nonEmptyProps["style"];
+      const refProp = <Function>nonEmptyProps["ref"];
       const propsEntries = Object.entries(nonEmptyProps).filter(
-        ([propKey, _val]) => propKey !== "style"
+        ([propKey, _val]) => !(["style", "ref"].includes(propKey))
       );
-      const mutatedPropsEntries =
-        RenderUtils.handleAttributeMutation(propsEntries);
+      const mutatedPropsEntries = RenderUtils.handleAttributeMutation(propsEntries);
       if (styleProp && typeof styleProp == "object") {
         element.setAttribute(
           "style",
           RenderUtils.convertStyleObjectToInlineStyle(styleProp)
         );
       }
-      mutatedPropsEntries.forEach(([name, value]) => {
-        if (isCapitalEventName(name)) {
-          const eventName = name
-            .toLowerCase()
-            .substring(2) as keyof HTMLElementEventMap;
-          element.addEventListener(eventName, value);
-        } else {
-          element.setAttribute(name, value.toString());
-        }
-      });
+      if(refProp && typeof refProp == "function") {
+        refProp(element);
+      }
+      RenderUtils.appendDomProps(element, mutatedPropsEntries);
     }
     return element;
+  }
+
+  public static appendDomProps(
+    element: HTMLElement,
+    propsEntries: Array<[string, any]>
+  ) {
+    propsEntries.forEach(([name, value]) => {
+      if (isCapitalEventName(name)) {
+        const eventName = name
+          .toLowerCase()  
+          .substring(2) as keyof HTMLElementEventMap;
+        element.addEventListener(eventName, value);
+      } else {
+        element.setAttribute(name, value.toString());
+      }
+    });
   }
 
   public static appendDomChildren(parent: HTMLElement, child: DomElement) {

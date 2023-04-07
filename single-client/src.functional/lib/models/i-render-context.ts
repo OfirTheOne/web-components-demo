@@ -1,14 +1,14 @@
 import { StateChangesQueue } from "../core/render-task-agent/state-change-queue";
 import { IComponentContainer } from "./i-component-container";
-import { IRenderTaskAgent } from "./i-render-task-agent";
+import { ITaskAgent } from "./i-task-agent";
 
 
 export enum HookType {
     createSignal,
+    createRef,
     useEffect,
     useCallback,
     useMemo,
-    useRef,
 }
 
 export interface HookSlot {
@@ -19,7 +19,7 @@ export interface HookSlot {
 
 export interface IRenderContext {
     componentContainerRef: IComponentContainer,
-    renderTaskAgent: IRenderTaskAgent;
+    renderTaskAgent: ITaskAgent;
     stateChangesQueue: StateChangesQueue;
     hookSlotList: Array<HookSlot>;
     key: string;
