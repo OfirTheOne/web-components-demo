@@ -17,6 +17,14 @@ export interface HookSlot {
     initialized: boolean;
 }
 
+export interface EffectHookSlot extends HookSlot {
+    value: () => (void | (() => any));
+    dependencies: any[]
+    onUnmount: () => any;
+    initialized: boolean;
+}
+
+
 export interface IRenderContext {
     componentContainerRef: IComponentContainer,
     effectTaskAgent: ITaskAgent;

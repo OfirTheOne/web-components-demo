@@ -2,7 +2,7 @@ import { DOMUtils } from "../utils/dom-utils";
 import { InternalRender } from "../types";
 import { RenderSignal } from "../render-signal/render-signal";
 import { IComponentContainer } from "../../models/i-component-container";
-import { HookType } from "src.functional/lib/models/i-render-context";
+import { EffectHookSlot, HookType } from "../../models/i-render-context";
 
 export class ComponentContainer implements IComponentContainer {
 
@@ -33,23 +33,23 @@ export class ComponentContainer implements IComponentContainer {
   render() {
     RenderSignal.instance.signalContext(this.key, this);
     const virtualElement = this.fnComponent(this.props, this.children);
-    const isUnmounted = virtualElement === null;
+    const isUnmounted = virtualElement == null;
     if (isUnmounted) {
       RenderSignal.instance.accessCurrentContext().hookSlotList.forEach(
         (hookSlot) => {
-          if(hookSlot.type === HookType.useEffect && hookSlot.onUnmount) {
-            hookSlot.onUnmount();
+          if(hookSlot.type === HookType.useEffect && 
+            (<EffectHookSlot>hookSlot).onUnmount) {
+            (<EffectHookSlot>hookSlot).onUnmount();
           }
-        }
+        });
+      RenderSignal.instance.removeContext();
+      return undefined;
     }
+    
     if (RenderSignal.instance.accessCurrentContext().effectQueue.length > 0) {
       RenderSignal.instance.accessCurrentContext().effectTaskAgent.registerTask();
     }
-
     RenderSignal.instance.removeContext();
-    if (isUnmounted) {
-      return undefined;
-    }
     const domElement = this.internalRender(virtualElement, this.parent, this.key);
     if (this.parent) {
       if (!this.wasRenderedBefore) {
