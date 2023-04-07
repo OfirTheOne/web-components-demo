@@ -2,6 +2,7 @@ import { DOMUtils } from "../utils/dom-utils";
 import { InternalRender } from "../types";
 import { RenderSignal } from "../render-signal/render-signal";
 import { IComponentContainer } from "../../models/i-component-container";
+import { HookType } from "src.functional/lib/models/i-render-context";
 
 export class ComponentContainer implements IComponentContainer {
 
@@ -32,11 +33,21 @@ export class ComponentContainer implements IComponentContainer {
   render() {
     RenderSignal.instance.signalContext(this.key, this);
     const virtualElement = this.fnComponent(this.props, this.children);
+    const isUnmounted = virtualElement === null;
+    if (isUnmounted) {
+      RenderSignal.instance.accessCurrentContext().hookSlotList.forEach(
+        (hookSlot) => {
+          if(hookSlot.type === HookType.useEffect && hookSlot.onUnmount) {
+            hookSlot.onUnmount();
+          }
+        }
+    }
     if (RenderSignal.instance.accessCurrentContext().effectQueue.length > 0) {
       RenderSignal.instance.accessCurrentContext().effectTaskAgent.registerTask();
     }
+
     RenderSignal.instance.removeContext();
-    if (virtualElement == null) {
+    if (isUnmounted) {
       return undefined;
     }
     const domElement = this.internalRender(virtualElement, this.parent, this.key);
