@@ -3,7 +3,7 @@ import { InternalRender } from "../types";
 import { RenderSignal } from "../render-signal/render-signal";
 import { IComponentContainer } from "../../models/i-component-container";
 
-export class ComponentContainer implements IComponentContainer{
+export class ComponentContainer implements IComponentContainer {
 
   protected container: HTMLElement | HTMLElement[];
   constructor(
@@ -11,12 +11,11 @@ export class ComponentContainer implements IComponentContainer{
     protected props: Record<string, any>,
     protected children: any[],
     protected key: string,
-
     protected parent: any,
     protected style: any,
     protected options: Record<string, any>,
     protected internalRender: InternalRender
-  ) {}
+  ) { }
 
   setProps(props: Record<string, any>) {
     this.props = props;
@@ -33,8 +32,8 @@ export class ComponentContainer implements IComponentContainer{
   render() {
     RenderSignal.instance.signalContext(this.key, this);
     const virtualElement = this.fnComponent(this.props, this.children);
-    if(RenderSignal.instance.accessCurrentContext().effectQueue.length > 0) {
-      RenderSignal.instance.accessCurrentContext().effectTaskAgent.registerTask(); 
+    if (RenderSignal.instance.accessCurrentContext().effectQueue.length > 0) {
+      RenderSignal.instance.accessCurrentContext().effectTaskAgent.registerTask();
     }
     RenderSignal.instance.removeContext();
     if (virtualElement == null) {

@@ -1,6 +1,5 @@
-
 export class Queue<T> {
-    protected readonly queue: Array<T> = [];  
+    protected readonly queue: Array<T> = [];
     get length(): number {
         return this.queue.length;
     }
@@ -14,6 +13,6 @@ export class Queue<T> {
 
 export class ActionQueue extends Queue<Function> {
     runAll(): void {
-        this.queue.forEach(action => action());
+        this.queue.forEach((action) => action());
     }
 }

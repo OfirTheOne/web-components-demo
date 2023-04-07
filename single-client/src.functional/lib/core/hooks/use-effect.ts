@@ -1,7 +1,6 @@
 import { HookType, HookSlot } from "../../models/i-render-context";
 import { RenderSignal } from "../render-signal/render-signal";
-
-
+import { isArrayShallowEqual } from "../utils/common-utils";
 
 interface EffectHookSlot extends HookSlot {
     value: () => (void | (() => any));
@@ -31,16 +30,6 @@ export function useEffect(callback: () => void, dependencies: any[]) {
     }
 }
 
-
-
 function isDependenciesChanged(oldDependencies: any[], newDependencies: any[]) {
-    if(oldDependencies.length !== newDependencies.length) {
-        return true;
-    }
-    for(let i = 0; i < oldDependencies.length; i++) {
-        if(oldDependencies[i] !== newDependencies[i]) {
-            return true;
-        }
-    }
-    return false;
+    return isArrayShallowEqual(oldDependencies, newDependencies);
 }

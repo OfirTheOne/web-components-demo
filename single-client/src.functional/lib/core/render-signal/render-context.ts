@@ -9,15 +9,14 @@ import { ActionQueue } from "../render-task-agent/state-change-queue";
 import { TaskAgent } from "../render-task-agent/async-render-task-agent";
 
 export class RenderContext implements IRenderContext {
-  componentContainerRef: IComponentContainer;
-  hookSlotList: HookSlot[];
   key: string;
-  
+  hookSlotList: HookSlot[];
+  componentContainerRef: IComponentContainer;
   effectTaskAgent: ITaskAgent;
   effectQueue: ActionQueue;
   renderTaskAgent: ITaskAgent;
   stateChangesQueue: ActionQueue;
-  
+
   private _hookCounter: number = 0;
   get hookCounter() {
     return this._hookCounter;
@@ -40,7 +39,9 @@ export class RenderContext implements IRenderContext {
     this.hookSlotList = [];
   }
 
-  public getHookSlot<HS extends HookSlot = HookSlot>(hookIndex: number): HS | null {
+  public getHookSlot<HS extends HookSlot = HookSlot>(
+    hookIndex: number
+  ): HS | null {
     return (this.hookSlotList[hookIndex] || null) as HS;
   }
 
