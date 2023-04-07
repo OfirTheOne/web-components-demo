@@ -1,4 +1,4 @@
-import { ActionQueue } from "../core/render-task-agent/state-change-queue";
+import { ActionQueue } from "../core/task-agent/action-queue";
 import { IComponentContainer } from "./i-component-container";
 import { ITaskAgent } from "./i-task-agent";
 

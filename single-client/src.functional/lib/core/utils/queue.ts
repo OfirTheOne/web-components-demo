@@ -10,9 +10,3 @@ export class Queue<T> {
         this.queue.length = 0;
     }
 }
-
-export class ActionQueue extends Queue<Function> {
-    runAll(): void {
-        this.queue.forEach((action) => action());
-    }
-}

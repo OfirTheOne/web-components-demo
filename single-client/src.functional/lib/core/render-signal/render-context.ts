@@ -5,8 +5,8 @@ import {
   HookType,
 } from "../../models/i-render-context";
 import { ITaskAgent } from "../../models/i-task-agent";
-import { ActionQueue } from "../render-task-agent/state-change-queue";
-import { TaskAgent } from "../render-task-agent/async-render-task-agent";
+import { ActionQueue } from "../task-agent/action-queue";
+import { TaskAgent } from "../task-agent/task-agent";
 
 export class RenderContext implements IRenderContext {
   key: string;
