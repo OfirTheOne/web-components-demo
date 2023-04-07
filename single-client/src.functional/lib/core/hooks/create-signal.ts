@@ -5,16 +5,16 @@ export function createSignal<T = any>(initValue: T) {
     RenderSignal.instance.currentContext.declareHook(HookType.createSignal);
     const hookPositionInContext = RenderSignal.instance.currentContext.hookCounter-1;
     const currentContext = RenderSignal.instance.currentContext;
-    const projectedState = currentContext.projectState(hookPositionInContext);
-    if(!projectedState.initialized) {
-        projectedState.value = initValue;
-        projectedState.initialized = true; 
+    const hookSlot = currentContext.getHookSlot(hookPositionInContext);
+    if(!hookSlot.initialized) {
+        hookSlot.value = initValue;
+        hookSlot.initialized = true; 
     }
     const getSignal = (): T => {
-        return projectedState.value;
+        return hookSlot.value;
     };
     const setSignal = (value: T) => {
-        currentContext.stateChangesQueue.push(() => projectedState.value = value);
+        currentContext.stateChangesQueue.push(() => hookSlot.value = value);
         currentContext.renderTaskAgent.registerTask();
     };
     return [getSignal, setSignal] as const;

@@ -4,8 +4,9 @@ import { RenderSignal } from "../render-signal/render-signal";
 
 
 interface EffectHookSlot extends HookSlot {
-    value: () => void;
+    value: () => (void | (() => any));
     dependencies: any[]
+    onUnmount: () => any;
     initialized: boolean;
 }
 
@@ -13,28 +14,21 @@ export function useEffect(callback: () => void, dependencies: any[]) {
     RenderSignal.instance.currentContext.declareHook(HookType.useEffect);
     const hookPositionInContext = RenderSignal.instance.currentContext.hookCounter-1;
     const currentContext = RenderSignal.instance.currentContext;
-    const projectedState = currentContext.projectState<EffectHookSlot>(hookPositionInContext);
-    const isFirstRender = !projectedState.initialized;
-    if(isFirstRender) {
-        projectedState.value = callback;
-        projectedState.dependencies = dependencies;
-        projectedState.initialized = true;
-    } else if(isDependenciesChanged(projectedState.dependencies, dependencies)) {
-        projectedState.value = callback;
-        projectedState.dependencies = dependencies;
-        
-    
-    }
-
-    
-
-    if(!dependencies) {
-        currentContext.stateChangesQueue.push(() => {
-            projectedState.value();
+    const hookSlot = currentContext.getHookSlot<EffectHookSlot>(hookPositionInContext);
+    const isFirstRender = !hookSlot.initialized;
+    if(isFirstRender || isDependenciesChanged(hookSlot.dependencies, dependencies)) {
+        if(isFirstRender) {
+            hookSlot.initialized = true;
+        }
+        hookSlot.value = callback;
+        hookSlot.dependencies = dependencies;
+        currentContext.effectQueue.push(() => {
+            const maybeOnUnmount = hookSlot.value();
+            if(maybeOnUnmount && typeof maybeOnUnmount === "function") {
+                hookSlot.onUnmount = maybeOnUnmount;
+            }
         });
-        currentContext.renderTaskAgent.registerTask();
     }
-
 }
 
 

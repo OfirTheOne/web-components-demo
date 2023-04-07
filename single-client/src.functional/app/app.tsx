@@ -1,9 +1,18 @@
 
 import { WC } from "../lib/jsx";
 import { createSignal } from "../lib/core";
+import { useEffect } from "../lib/core/hooks/use-effect";
 
 function SearchBar()  {
     const [getText, setText] = createSignal('');
+
+    useEffect(() => {
+        console.log('SearchBar useEffect');
+        if(getText().length > 3) {
+            alert(getText());
+        }
+    }, [getText()]);
+
     return <div>
         <Input
             text={getText()}

@@ -33,6 +33,9 @@ export class ComponentContainer implements IComponentContainer{
   render() {
     RenderSignal.instance.signalContext(this.key, this);
     const virtualElement = this.fnComponent(this.props, this.children);
+    if(RenderSignal.instance.accessCurrentContext().effectQueue.length > 0) {
+      RenderSignal.instance.accessCurrentContext().effectTaskAgent.registerTask(); 
+    }
     RenderSignal.instance.removeContext();
     if (virtualElement == null) {
       return undefined;

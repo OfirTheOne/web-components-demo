@@ -6,16 +6,16 @@ export function createRef<T = any>(initValue: T = null) {
     RenderSignal.instance.currentContext.declareHook(HookType.createRef);
     const hookPositionInContext = RenderSignal.instance.currentContext.hookCounter-1;
     const currentContext = RenderSignal.instance.currentContext;
-    const projectedState = currentContext.projectState(hookPositionInContext);
-    if(!projectedState.initialized) {
-        projectedState.value = initValue;
-        projectedState.initialized = true; 
+    const hookSlot = currentContext.getHookSlot(hookPositionInContext);
+    if(!hookSlot.initialized) {
+        hookSlot.value = initValue;
+        hookSlot.initialized = true; 
     }
     const getRef = (): T => {
-        return projectedState.value;
+        return hookSlot.value;
     };
     const setRef = (value: T) => {
-        projectedState.value = value;
+        hookSlot.value = value;
     };
     return [getRef, setRef] as const;
 }

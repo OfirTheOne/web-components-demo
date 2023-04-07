@@ -11,11 +11,11 @@ class RenderSignalContext {
         return this._currentContext;
     }
 
-    accessCurrentContext(): RenderContext | null {
+    public accessCurrentContext(): RenderContext | null {
         return this._currentContext;
     }
 
-    signalContext(componentKey: string, componentContainerRef: IComponentContainer) {
+    public signalContext(componentKey: string, componentContainerRef: IComponentContainer) {
         let context: RenderContext;
         if(renderContextMemoryMap.has(componentKey)) {
             context = renderContextMemoryMap.get(componentKey) as RenderContext;
@@ -26,12 +26,12 @@ class RenderSignalContext {
         this._currentContext = context;
     }
     
-    removeContext() {
-        this._currentContext.resetProjectState()
+    public removeContext() {
+        this._currentContext.cleanup()
         this._currentContext = null;
     }
 
-    deleteStoredContext(componentKey: string) {
+    public deleteStoredContext(componentKey: string) {
         return renderContextMemoryMap.delete(componentKey);
     }
 }

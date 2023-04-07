@@ -1,4 +1,4 @@
-import { StateChangesQueue } from "../core/render-task-agent/state-change-queue";
+import { ActionQueue } from "../core/render-task-agent/state-change-queue";
 import { IComponentContainer } from "./i-component-container";
 import { ITaskAgent } from "./i-task-agent";
 
@@ -19,8 +19,10 @@ export interface HookSlot {
 
 export interface IRenderContext {
     componentContainerRef: IComponentContainer,
+    effectTaskAgent: ITaskAgent;
+    effectQueue: ActionQueue;
     renderTaskAgent: ITaskAgent;
-    stateChangesQueue: StateChangesQueue;
+    stateChangesQueue: ActionQueue;
     hookSlotList: Array<HookSlot>;
     key: string;
 }

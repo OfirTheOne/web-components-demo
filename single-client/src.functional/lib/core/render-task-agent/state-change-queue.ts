@@ -1,21 +1,19 @@
 
-
-export class StateChangesQueue {
-    protected readonly queue: Array<Function> = [];
-
-    // pushStateChange(state: Record<string, unknown>,assignedState: Record<string, unknown>): number {
-    //     return this.push(
-    //         () => Object.keys(assignedState)
-    //             .forEach(key => state[key] = assignedState[key])
-    //     );
-    // }    
-    push(change: Function): number {
-        return this.queue.push(change);
+export class Queue<T> {
+    protected readonly queue: Array<T> = [];  
+    get length(): number {
+        return this.queue.length;
+    }
+    push(item: T): number {
+        return this.queue.push(item);
     }
     clear(): void {
         this.queue.length = 0;
     }
-    runChanges(): void {
-        this.queue.forEach(change => change());
+}
+
+export class ActionQueue extends Queue<Function> {
+    runAll(): void {
+        this.queue.forEach(action => action());
     }
 }

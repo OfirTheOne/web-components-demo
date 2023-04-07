@@ -1,15 +1,23 @@
 import { IComponentContainer } from "../../models/i-component-container";
-import { IRenderContext, HookSlot, HookType } from "../../models/i-render-context";
+import {
+  IRenderContext,
+  HookSlot,
+  HookType,
+} from "../../models/i-render-context";
 import { ITaskAgent } from "../../models/i-task-agent";
-import { StateChangesQueue } from "../render-task-agent/state-change-queue";
+import { ActionQueue } from "../render-task-agent/state-change-queue";
 import { TaskAgent } from "../render-task-agent/async-render-task-agent";
 
 export class RenderContext implements IRenderContext {
   componentContainerRef: IComponentContainer;
-  renderTaskAgent: ITaskAgent;
-  stateChangesQueue: StateChangesQueue;
   hookSlotList: HookSlot[];
   key: string;
+  
+  effectTaskAgent: ITaskAgent;
+  effectQueue: ActionQueue;
+  renderTaskAgent: ITaskAgent;
+  stateChangesQueue: ActionQueue;
+  
   private _hookCounter: number = 0;
   get hookCounter() {
     return this._hookCounter;
@@ -18,22 +26,25 @@ export class RenderContext implements IRenderContext {
   constructor(componentContainerRef: IComponentContainer, key: string) {
     this.componentContainerRef = componentContainerRef;
     this.key = key;
-    this.stateChangesQueue = new StateChangesQueue();
-    this.renderTaskAgent = new TaskAgent(
-      () => {
-        this.stateChangesQueue.runChanges();
-        this.stateChangesQueue.clear();
-        this.componentContainerRef.render();
-      }
-    );
+    this.effectQueue = new ActionQueue();
+    this.effectTaskAgent = new TaskAgent(() => {
+      this.effectQueue.runAll();
+      this.effectQueue.clear();
+    });
+    this.stateChangesQueue = new ActionQueue();
+    this.renderTaskAgent = new TaskAgent(() => {
+      this.stateChangesQueue.runAll();
+      this.stateChangesQueue.clear();
+      this.componentContainerRef.render();
+    });
     this.hookSlotList = [];
   }
 
-  projectState<HS extends HookSlot = HookSlot>(hookIndex: number): HS | null {
+  public getHookSlot<HS extends HookSlot = HookSlot>(hookIndex: number): HS | null {
     return (this.hookSlotList[hookIndex] || null) as HS;
   }
 
-  declareHook(type: HookType) {
+  public declareHook(type: HookType): void {
     this.incHookCounter();
     if (this.hookSlotList.length < this._hookCounter) {
       this.hookSlotList.push({
@@ -44,15 +55,15 @@ export class RenderContext implements IRenderContext {
     }
   }
 
-  incHookCounter() {
+  public cleanup(): void {
+    this.resetHookCounter();
+  }
+
+  protected incHookCounter() {
     this._hookCounter = this._hookCounter + 1;
   }
 
-  resetHookCounter() {
+  protected resetHookCounter() {
     this._hookCounter = 0;
-  }
-
-  resetProjectState() {
-    this.resetHookCounter();
   }
 }
