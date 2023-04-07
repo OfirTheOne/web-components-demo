@@ -1,4 +1,4 @@
-import { Queue } from "../utils/queue";
+import { Queue } from "../../common/queue";
 
 export class ActionQueue extends Queue<Function> {
     runAll(): void {
