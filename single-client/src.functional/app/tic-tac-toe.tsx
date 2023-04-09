@@ -1,10 +1,14 @@
 import { WC } from "../lib/jsx";
-import { createSignal } from "../lib/core";
+import { createSignal, useEffect } from "../lib/core";
+import "./tic-tac-toe.scss";
 
-
-import './tic-tac-toe.scss';
-
-function Square({ value, onSquareClick }: { value: string; onSquareClick: () => void }) {
+function Square({
+  value,
+  onSquareClick,
+}: {
+  value: string;
+  onSquareClick: () => void;
+}) {
   return (
     <button className="square" onClick={onSquareClick}>
       {value}
@@ -19,9 +23,9 @@ function Board({ xIsNext, squares, onPlay }) {
     }
     const nextSquares = squares.slice();
     if (xIsNext) {
-      nextSquares[i] = 'X';
+      nextSquares[i] = "X";
     } else {
-      nextSquares[i] = 'O';
+      nextSquares[i] = "O";
     }
     onPlay(nextSquares);
   }
@@ -29,10 +33,16 @@ function Board({ xIsNext, squares, onPlay }) {
   const winner = calculateWinner(squares);
   let status;
   if (winner) {
-    status = 'Winner: ' + winner;
+    status = "Winner: " + winner;
   } else {
-    status = 'Next player: ' + (xIsNext ? 'X' : 'O');
+    status = "Next player: " + (xIsNext ? "X" : "O");
   }
+
+  useEffect(() => {
+    if (winner) {
+      alert("Winner: " + winner);
+    }
+  }, [winner]);
 
   return (
     <>
@@ -57,13 +67,18 @@ function Board({ xIsNext, squares, onPlay }) {
 }
 
 export function Game() {
-  const [getHistory, setHistory] = createSignal<Readonly<Array<number>[]>>([Array(9).fill(null)]);
+  const [getHistory, setHistory] = createSignal<Readonly<Array<number>[]>>([
+    Array(9).fill(null),
+  ]);
   const [getCurrentMove, setCurrentMove] = createSignal(0);
   const xIsNext = getCurrentMove() % 2 === 0;
   const currentSquares = getHistory()[getCurrentMove()];
 
   function handlePlay(nextSquares: number[]) {
-    const nextHistory = [...getHistory().slice(0, getCurrentMove() + 1), nextSquares];
+    const nextHistory = [
+      ...getHistory().slice(0, getCurrentMove() + 1),
+      nextSquares,
+    ];
     setHistory(nextHistory);
     setCurrentMove(nextHistory.length - 1);
   }
@@ -75,9 +90,9 @@ export function Game() {
   const moves = getHistory().map((_squares, move) => {
     let description: string;
     if (move > 0) {
-      description = 'Go to move #' + move;
+      description = "Go to move #" + move;
     } else {
-      description = 'Go to game start';
+      description = "Go to game start";
     }
     return (
       <li key={move}>

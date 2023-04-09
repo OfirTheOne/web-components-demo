@@ -6,8 +6,8 @@ import { ITaskAgent } from "./i-task-agent";
 export enum HookType {
     createSignal,
     createRef,
+    createCallback,
     useEffect,
-    useCallback,
     useMemo,
 }
 
@@ -17,7 +17,17 @@ export interface HookSlot {
     initialized: boolean;
 }
 
-export interface EffectHookSlot extends HookSlot {
+
+
+export interface MemoHookSlot {
+    type: HookType
+    value?: any;
+    initialized: boolean;
+    dependencies: any[];
+}
+
+
+export interface EffectHookSlot extends MemoHookSlot {
     value: () => (void | (() => any));
     dependencies: any[]
     onUnmount: () => any;
