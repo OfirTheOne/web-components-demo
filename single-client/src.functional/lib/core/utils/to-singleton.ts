@@ -1,12 +1,12 @@
 type Singleton<T> = {
-  instance: T;
+  get instance(): T;
 };
 
-export function toSingleton<T>(Constructor: new () => T): Singleton<T> {
-  const Ctor = Constructor as new () => any;
+export function toSingleton<T>(Constructor: new (...args: any[]) => T): Singleton<T> {
+  const Ctor = Constructor as new (...args: any[]) => any;
   return class extends Ctor {
-    protected constructor() {
-      super();
+    protected constructor(...args: any[]) {
+      super(...args);
     }
     private static _instance: typeof Ctor;
 

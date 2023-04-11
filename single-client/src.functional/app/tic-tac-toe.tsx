@@ -1,5 +1,5 @@
 import { WC } from "../lib/jsx";
-import { createSignal, useEffect } from "../lib/core";
+import { createCallback, createSignal, useEffect } from "../lib/core";
 import "./tic-tac-toe.scss";
 
 function Square({
@@ -17,7 +17,7 @@ function Square({
 }
 
 function Board({ xIsNext, squares, onPlay }) {
-  function handleClick(i: number) {
+  const handleClick = createCallback((i: number) => {
     if (calculateWinner(squares) || squares[i]) {
       return;
     }
@@ -28,7 +28,7 @@ function Board({ xIsNext, squares, onPlay }) {
       nextSquares[i] = "O";
     }
     onPlay(nextSquares);
-  }
+  }, [squares, xIsNext, onPlay]);
 
   const winner = calculateWinner(squares);
   let status;
@@ -74,15 +74,15 @@ export function Game() {
   const xIsNext = getCurrentMove() % 2 === 0;
   const currentSquares = getHistory()[getCurrentMove()];
 
-  function handlePlay(nextSquares: number[]) {
+  const handlePlay = createCallback((nextSquares: number[]) => {
     const nextHistory = [
       ...getHistory().slice(0, getCurrentMove() + 1),
       nextSquares,
     ];
     setHistory(nextHistory);
     setCurrentMove(nextHistory.length - 1);
-  }
-
+  }, [getHistory(), getCurrentMove()]);
+  
   function jumpTo(nextMove) {
     setCurrentMove(nextMove);
   }

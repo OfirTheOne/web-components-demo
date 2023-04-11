@@ -8,6 +8,7 @@ export enum HookType {
     createRef,
     createCallback,
     useEffect,
+    useContext,
     useMemo,
 }
 
