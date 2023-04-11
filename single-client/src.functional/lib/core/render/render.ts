@@ -34,7 +34,7 @@ const internalRender: InternalRender = (
 
 const virtualRender = (
   parent: HTMLElement,
-  tag: string | Function,
+  tag: VirtualElement['tag'],
   props: Props = {},
   children: Array<string | VirtualElement>,
   key: string
@@ -99,4 +99,4 @@ function virtualRenderChildren(
   } else {
     return [];
   }
-};
+}

@@ -14,6 +14,7 @@ export enum HookType {
 
 export interface HookSlot {
     type: HookType
+    /* eslint-disable  @typescript-eslint/no-explicit-any */
     value?: any;
     initialized: boolean;
 }
@@ -24,11 +25,13 @@ export interface MemoHookSlot {
     type: HookType
     value?: any;
     initialized: boolean;
+    /* eslint-disable  @typescript-eslint/no-explicit-any */
     dependencies: any[];
 }
 
 
 export interface EffectHookSlot extends MemoHookSlot {
+    /* eslint-disable  @typescript-eslint/no-explicit-any */
     value: () => (void | (() => any));
     dependencies: any[]
     onUnmount: () => any;

@@ -3,12 +3,13 @@ import { InternalRender } from "../types";
 import { RenderSignal } from "../render-signal/render-signal";
 import { IComponentContainer } from "../../models/i-component-container";
 import { EffectHookSlot, HookType } from "../../models/i-render-context";
+import { VirtualElement } from "../../models/virtual-element";
 
 export class ComponentContainer implements IComponentContainer {
 
   protected container: HTMLElement | HTMLElement[];
   constructor(
-    protected fnComponent: Function,
+    protected fnComponent: ((props: Record<string, unknown>, children: any[]) => VirtualElement),
     protected props: Record<string, any>,
     protected children: any[],
     protected key: string,

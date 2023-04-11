@@ -2,7 +2,7 @@ import { ITaskAgent } from "../../models/i-task-agent";
 
 export class TaskAgent implements ITaskAgent {
     protected readonly registeredTaskTimers = new Set<NodeJS.Timeout>();
-    constructor(private task: () => void = () => { }) { }
+    constructor(private task?: () => void) { }
 
     public registerTask() {
         const timer = setTimeout(() => {
@@ -11,7 +11,7 @@ export class TaskAgent implements ITaskAgent {
                 clearTimeout(registeredTimer)
             );
             this.registeredTaskTimers.clear();
-            this.task();
+            this.task?.();
         }, 0);
         this.registeredTaskTimers.add(timer);
     }

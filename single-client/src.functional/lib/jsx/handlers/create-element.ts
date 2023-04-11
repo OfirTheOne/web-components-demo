@@ -4,7 +4,7 @@ import { VirtualElement } from "../../models/virtual-element";
 
 
 export const createElement = (
-    tag: string | Function, 
+    tag: VirtualElement['tag'], 
     props: Props, 
     ...children: Array<VirtualElement|string>
 ): VirtualElement => {

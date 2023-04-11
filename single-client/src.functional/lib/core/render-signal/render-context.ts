@@ -17,7 +17,7 @@ export class RenderContext implements IRenderContext {
   renderTaskAgent: ITaskAgent;
   stateChangesQueue: ActionQueue;
 
-  private _hookCounter: number = 0;
+  private _hookCounter = 0;
   get hookCounter() {
     return this._hookCounter;
   }

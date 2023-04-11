@@ -13,7 +13,7 @@ export class RenderUtils {
   public static handleComponentElement(
     internalRender: InternalRender,
     parent: HTMLElement,
-    tag: Function,
+    tag: ((...args: unknown[]) => VirtualElement),
     props: Props,
     children: Array<string | VirtualElement>,
     key: string
@@ -52,9 +52,9 @@ export class RenderUtils {
     if (props) {
       const nonEmptyProps = props;
       const styleProp = <Record<string, unknown>>nonEmptyProps["style"];
-      const refProp = <Function>nonEmptyProps["ref"];
+      const refProp = <((e: HTMLElement)=>void)>nonEmptyProps["ref"];
       const propsEntries = Object.entries(nonEmptyProps).filter(
-        ([propKey, _val]) => !(["style", "ref"].includes(propKey))
+        ([propKey]) => !(["style", "ref"].includes(propKey))
       );
       const mutatedPropsEntries = RenderUtils.handleAttributeMutation(propsEntries);
       if (styleProp && typeof styleProp == "object") {

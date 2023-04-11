@@ -2,7 +2,7 @@ import { Props } from "./props";
 
 
 export interface VirtualElement {
-    tag: string | Function, 
+    tag: string | ((...args: unknown[]) => VirtualElement), 
     props: Props, 
     children: Array<VirtualElement | string>
 }

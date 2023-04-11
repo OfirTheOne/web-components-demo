@@ -2,7 +2,7 @@ export function isAllLowerCase(str: string) {
   return str === str.toLowerCase();
 }
 
-export function isArrayShallowEqual<T = any>(a: T[], b: T[]): boolean {
+export function isArrayShallowEqual<T = unknown>(a: T[], b: T[]): boolean {
   if (a === b) {
     return true;
   }

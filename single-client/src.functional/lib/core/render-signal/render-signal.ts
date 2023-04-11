@@ -6,6 +6,8 @@ import { renderContextMemoryMap } from "./../global-storage";
 class RenderSignalContext {
     private _currentContext: RenderContext | null = null;
 
+    /* eslint-disable  @typescript-eslint/no-empty-function */
+
     protected constructor () {}
     get currentContext() {
         return this._currentContext;
@@ -38,9 +40,6 @@ class RenderSignalContext {
 
 
 export class RenderSignal extends RenderSignalContext {
-    protected constructor() {
-        super();
-    }
     private static _instance: RenderSignalContext;
 
     static get instance() {
