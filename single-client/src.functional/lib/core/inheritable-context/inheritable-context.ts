@@ -1,6 +1,6 @@
 
 export interface ProviderFn<T = any> {
-    (props: { value: T }, children: any[]): any;
+    (props: { value?: T }, children: any[]): any;
   }
 
 export class InheritableContext<T = any> {
@@ -11,16 +11,24 @@ export class InheritableContext<T = any> {
     }
     protected _key: string;
     set key(value: string) {
-      this.key = value;
+      this._key = value;
     }
+    get key() {
+      return this._key;
+    }
+
     protected _value: T;
-    set value(value: T) {
-      this.value = value;
+    set value(val: T) {
+      this._value = val;
+    }
+    get value() {
+      return this._value || this.defaultValue;
     }
   }
   
 
   export interface Context<T = any> {
-    Provider: ProviderFn<T>
+    Provider: ProviderFn<T>,
+    contextSymbol: symbol
   }
   

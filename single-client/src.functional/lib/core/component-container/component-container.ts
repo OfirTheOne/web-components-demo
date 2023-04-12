@@ -33,7 +33,7 @@ export class ComponentContainer implements IComponentContainer {
 
   render() {
     RenderSignal.instance.signalContext(this.key, this);
-    const virtualElement = this.fnComponent(this.props, this.children);
+    const virtualElement = this.fnComponent(this.props || {}, this.children);
     const isUnmounted = virtualElement == null;
     if (isUnmounted) {
       RenderSignal.instance.accessCurrentContext().hookSlotList.forEach(
