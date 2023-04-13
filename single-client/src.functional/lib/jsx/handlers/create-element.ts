@@ -1,4 +1,4 @@
-import { FRAGMENT_FACTORY_NAME } from 'src.functional/lib/constants';
+import { FRAGMENT_FACTORY_NAME } from '../../constants';
 import { Props } from '../../models/props';
 import { VirtualElement, VirtualElementType } from '../../models/virtual-element';
 

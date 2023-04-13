@@ -46,7 +46,7 @@ export class RenderUtils {
       if (styleProp && typeof styleProp == 'object') {
         element.setAttribute('style', RenderUtils.convertStyleObjectToInlineStyle(styleProp));
       }
-      if (refProp && typeof refProp == 'function') {
+      if (refProp && typeof refProp === 'function') {
         refProp(element);
       }
       RenderUtils.appendDomProps(element, mutatedPropsEntries);

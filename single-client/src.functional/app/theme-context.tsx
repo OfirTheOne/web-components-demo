@@ -13,7 +13,7 @@ export const ThemeProvider = (props, children) => {
 
   return (
     <Provider value={{ theme: getTheme(), setTheme }}>
-      <>{children}</>
+      {children}
     </Provider>
   );
 };
