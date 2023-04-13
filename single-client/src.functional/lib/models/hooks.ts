@@ -9,11 +9,7 @@ export interface OnDisconnected {
     disconnectedCallback(): void;
 }
 export interface OnAttributeChanged {
-    attributeChangedCallback(
-        name: string,
-        oldValue: string,
-        newValue: string
-    ): void;
+    attributeChangedCallback(name: string, oldValue: string, newValue: string): void;
 }
 export interface OnAdopted {
     adoptedCallback(): void;

@@ -3,9 +3,7 @@ import { DomCompatibleElement } from '../../models/dom-element';
 export class DOMUtils {
     static removeSelf(elm?: HTMLElement | HTMLElement[]) {
         if (elm) {
-            Array.isArray(elm)
-                ? elm.forEach((node) => node.remove())
-                : elm.remove();
+            Array.isArray(elm) ? elm.forEach((node) => node.remove()) : elm.remove();
         }
     }
 
@@ -13,14 +11,9 @@ export class DOMUtils {
         return elm.attachShadow({ mode: 'open' });
     }
 
-    static appendToParent(
-        parent: ShadowRoot | HTMLElement,
-        elem?: HTMLElement | HTMLElement[]
-    ): void {
+    static appendToParent(parent: ShadowRoot | HTMLElement, elem?: HTMLElement | HTMLElement[]): void {
         if (parent && elem) {
-            Array.isArray(elem)
-                ? elem.forEach((node) => parent.appendChild(node))
-                : parent.appendChild(elem);
+            Array.isArray(elem) ? elem.forEach((node) => parent.appendChild(node)) : parent.appendChild(elem);
         }
     }
 
@@ -49,18 +42,11 @@ export class DOMUtils {
         }
     }
 
-    static insertNodeAfter(
-        child: DomCompatibleElement,
-        referenceNode: DomCompatibleElement
-    ) {
+    static insertNodeAfter(child: DomCompatibleElement, referenceNode: DomCompatibleElement) {
         referenceNode.parentNode.insertBefore(child, referenceNode.nextSibling);
     }
 
     static isOnlyChild(child: DomCompatibleElement): boolean {
-        return (
-            child.isConnected &&
-            child.parentNode &&
-            child.parentNode.children.length == 1
-        );
+        return child.isConnected && child.parentNode && child.parentNode.children.length == 1;
     }
 }

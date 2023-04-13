@@ -4,17 +4,11 @@ import { isArrayShallowEqual } from '../utils/common-utils';
 
 export function useEffect(callback: () => void, dependencies: any[]) {
     RenderSignal.instance.currentContext.declareHook(HookType.useEffect);
-    const hookPositionInContext =
-        RenderSignal.instance.currentContext.hookCounter - 1;
+    const hookPositionInContext = RenderSignal.instance.currentContext.hookCounter - 1;
     const currentContext = RenderSignal.instance.currentContext;
-    const hookSlot = currentContext.getHookSlot<EffectHookSlot>(
-        hookPositionInContext
-    );
+    const hookSlot = currentContext.getHookSlot<EffectHookSlot>(hookPositionInContext);
     const isFirstRender = !hookSlot.initialized;
-    if (
-        isFirstRender ||
-        isDependenciesChanged(hookSlot.dependencies, dependencies)
-    ) {
+    if (isFirstRender || isDependenciesChanged(hookSlot.dependencies, dependencies)) {
         if (isFirstRender) {
             hookSlot.initialized = true;
         }

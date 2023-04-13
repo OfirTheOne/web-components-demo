@@ -12,14 +12,8 @@ export class InheritableContextRegistry extends InheritableContext {
 
     registerContext(ctxSymbol: symbol, context: InheritableContext) {
         if (inheritableContextMemoryMap.has(ctxSymbol)) {
-            if (
-                inheritableContextMemoryMap
-                    .get(ctxSymbol)
-                    .find((c) => c.key === context.key)
-            ) {
-                throw new Error(
-                    `InheritedContextRepo: Context with key ${context.key} already exists.`
-                );
+            if (inheritableContextMemoryMap.get(ctxSymbol).find((c) => c.key === context.key)) {
+                throw new Error(`InheritedContextRepo: Context with key ${context.key} already exists.`);
             }
         } else {
             inheritableContextMemoryMap.set(ctxSymbol, []);
@@ -29,19 +23,12 @@ export class InheritableContextRegistry extends InheritableContext {
 
     getContext(ctxSymbol: symbol, key: string): InheritableContext | null {
         if (inheritableContextMemoryMap.has(ctxSymbol)) {
-            return (
-                inheritableContextMemoryMap
-                    .get(ctxSymbol)
-                    .find((c) => c.key === key) || null
-            );
+            return inheritableContextMemoryMap.get(ctxSymbol).find((c) => c.key === key) || null;
         }
         return null;
     }
 
-    getClosestContext(
-        ctxSymbol: symbol,
-        key: string
-    ): InheritableContext | null {
+    getClosestContext(ctxSymbol: symbol, key: string): InheritableContext | null {
         if (inheritableContextMemoryMap.has(ctxSymbol)) {
             const contexts = inheritableContextMemoryMap.get(ctxSymbol);
             const closestContext = contexts
@@ -54,6 +41,4 @@ export class InheritableContextRegistry extends InheritableContext {
     }
 }
 
-export const InheritableContextManager = toSingleton(
-    InheritableContextRegistry
-);
+export const InheritableContextManager = toSingleton(InheritableContextRegistry);

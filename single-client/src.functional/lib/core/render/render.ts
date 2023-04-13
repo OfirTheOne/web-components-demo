@@ -1,37 +1,19 @@
 import { ComponentKeyBuilder as ComponentKey } from './../component-key-builder';
-import {
-    VirtualElement,
-    DomCompatibleElement,
-    VirtualElementType,
-} from '../../models';
+import { VirtualElement, DomCompatibleElement, VirtualElementType } from '../../models';
 import { RenderUtils, isElementType } from './../utils/render-utils';
 import { VirtualRender } from '../types';
 import { virtualRenderChildren } from './virtual-render-children';
 
 export function render(elem: JSX.Element | VirtualElement, id: string) {
     const vElem = elem as VirtualElement;
-    const element = virtualRender(
-        null,
-        vElem,
-        ComponentKey.build().root().toString()
-    );
+    const element = virtualRender(null, vElem, ComponentKey.build().root().toString());
     Array.isArray(element)
-        ? element.forEach((node) =>
-              document.getElementById(id).appendChild(node)
-          )
+        ? element.forEach((node) => document.getElementById(id).appendChild(node))
         : document.getElementById(id).appendChild(element);
 }
 
-const internalRender: VirtualRender = (
-    vElem,
-    parent,
-    elemKey
-): DomCompatibleElement | DomCompatibleElement[] => {
-    return virtualRender(
-        vElem,
-        parent,
-        elemKey || ComponentKey.build().root().toString()
-    );
+const internalRender: VirtualRender = (vElem, parent, elemKey): DomCompatibleElement | DomCompatibleElement[] => {
+    return virtualRender(vElem, parent, elemKey || ComponentKey.build().root().toString());
 };
 
 const virtualRender = (
@@ -67,9 +49,7 @@ const virtualRender = (
             children,
             ComponentKey.build(key).tag(tag).toString()
         );
-        renderedChildren.forEach((child) =>
-            RenderUtils.appendDomChildren(nativeElement, child)
-        );
+        renderedChildren.forEach((child) => RenderUtils.appendDomChildren(nativeElement, child));
         element = nativeElement;
     }
     return element;

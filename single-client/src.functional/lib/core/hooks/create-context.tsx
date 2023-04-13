@@ -1,29 +1,20 @@
 import { WC } from '../../jsx';
 
 import { HookType } from '../../models/i-render-context';
-import {
-    InheritableContext,
-    ProviderFn,
-    Context,
-} from '../inheritable-context/inheritable-context';
+import { InheritableContext, ProviderFn, Context } from '../inheritable-context/inheritable-context';
 import { InheritableContextManager } from '../inheritable-context/inheritable-context-repo';
 import { RenderSignal } from '../render-signal';
 
 export function createContext<T>(defaultValue: T): Context<T> {
     const contextSymbol = Symbol('Context');
     const Provider: ProviderFn = (props = {}, children) => {
-        const currentRenderedKey =
-            RenderSignal.instance.accessCurrentContext()?.key;
+        const currentRenderedKey = RenderSignal.instance.accessCurrentContext()?.key;
         const context =
             (InheritableContextManager.instance.getContext(
                 contextSymbol,
                 currentRenderedKey
-            ) as InheritableContext<T>) ||
-            new InheritableContext(contextSymbol, defaultValue);
-        InheritableContextManager.instance.registerContext(
-            contextSymbol,
-            context
-        );
+            ) as InheritableContext<T>) || new InheritableContext(contextSymbol, defaultValue);
+        InheritableContextManager.instance.registerContext(contextSymbol, context);
         if ('value' in props) {
             context.value = props.value;
         }

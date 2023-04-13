@@ -24,9 +24,7 @@ const getScssLazyModuleRule = (isDevelopment = true) => ({
     exclude: /node_modules/,
     use: [
         {
-            loader: isDevelopment
-                ? 'style-loader'
-                : MiniCssExtractPlugin.loader,
+            loader: isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
             options: {
                 injectType: 'lazyStyleTag',
                 // https://webpack.js.org/loaders/style-loader/#custom-elements-shadow-dom

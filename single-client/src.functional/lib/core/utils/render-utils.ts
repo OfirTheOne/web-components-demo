@@ -17,26 +17,13 @@ export class RenderUtils {
         children: Array<string | VirtualElement>,
         key: string
     ): HTMLElement | HTMLElement[] {
-        const existingComponentContainer = renderContextMemoryMap.get(key)
-            ?.componentContainerRef as ComponentContainer;
+        const existingComponentContainer = renderContextMemoryMap.get(key)?.componentContainerRef as ComponentContainer;
         if (!existingComponentContainer) {
-            Logger.logAction(
-                'componentInit',
-                `element ${tag.name}, key ${key}.`
-            );
+            Logger.logAction('componentInit', `element ${tag.name}, key ${key}.`);
         }
         const componentContainer =
             existingComponentContainer ||
-            new ComponentContainer(
-                tag,
-                props,
-                children,
-                key,
-                parent,
-                undefined,
-                {},
-                virtualRender
-            );
+            new ComponentContainer(tag, props, children, key, parent, undefined, {}, virtualRender);
 
         componentContainer.setProps(props).setChildren(children);
 
@@ -58,13 +45,9 @@ export class RenderUtils {
             const propsEntries = Object.entries(nonEmptyProps).filter(
                 ([propKey]) => !['style', 'ref'].includes(propKey)
             );
-            const mutatedPropsEntries =
-                RenderUtils.handleAttributeMutation(propsEntries);
+            const mutatedPropsEntries = RenderUtils.handleAttributeMutation(propsEntries);
             if (styleProp && typeof styleProp == 'object') {
-                element.setAttribute(
-                    'style',
-                    RenderUtils.convertStyleObjectToInlineStyle(styleProp)
-                );
+                element.setAttribute('style', RenderUtils.convertStyleObjectToInlineStyle(styleProp));
             }
             if (refProp && typeof refProp == 'function') {
                 refProp(element);
@@ -74,15 +57,10 @@ export class RenderUtils {
         return element;
     }
 
-    public static appendDomProps(
-        element: HTMLElement,
-        propsEntries: Array<[string, any]>
-    ) {
+    public static appendDomProps(element: HTMLElement, propsEntries: Array<[string, any]>) {
         propsEntries.forEach(([name, value]) => {
             if (isCapitalEventName(name)) {
-                const eventName = name
-                    .toLowerCase()
-                    .substring(2) as keyof HTMLElementEventMap;
+                const eventName = name.toLowerCase().substring(2) as keyof HTMLElementEventMap;
                 element.addEventListener(eventName, value);
             } else {
                 element.setAttribute(name, value.toString());
@@ -95,11 +73,7 @@ export class RenderUtils {
             const children = Array.isArray(child) ? child : [child];
             children.forEach((nestedChild) => {
                 if (nestedChild) {
-                    parent.appendChild(
-                        typeof nestedChild !== 'string'
-                            ? nestedChild
-                            : this.renderText(nestedChild)
-                    );
+                    parent.appendChild(typeof nestedChild !== 'string' ? nestedChild : this.renderText(nestedChild));
                 }
             });
         }
@@ -109,39 +83,28 @@ export class RenderUtils {
         return document.createTextNode(child || '');
     }
 
-    public static convertStyleObjectToInlineStyle(
-        styleObject: Record<string, unknown>
-    ): string {
-        const validStyleEntries = Object.entries(styleObject).map(
-            ([name, value]) => {
-                const validStyleAttr = name.startsWith('--')
-                    ? name
-                    : isAllLowerCase(name)
-                    ? name
-                    : name.replace(/(?:^\w|[A-Z]|\b-\w)/g, (match, i) =>
-                          i == 0
-                              ? match.toLocaleLowerCase()
-                              : match[0] == '-'
-                              ? match.toLocaleLowerCase()
-                              : '-' + match.toLocaleLowerCase()
-                      );
-                return [validStyleAttr, value];
-            }
-        );
-        return validStyleEntries
-            .map(([key, value]) => `${key}: ${value}`)
-            .join(';');
+    public static convertStyleObjectToInlineStyle(styleObject: Record<string, unknown>): string {
+        const validStyleEntries = Object.entries(styleObject).map(([name, value]) => {
+            const validStyleAttr = name.startsWith('--')
+                ? name
+                : isAllLowerCase(name)
+                ? name
+                : name.replace(/(?:^\w|[A-Z]|\b-\w)/g, (match, i) =>
+                      i == 0
+                          ? match.toLocaleLowerCase()
+                          : match[0] == '-'
+                          ? match.toLocaleLowerCase()
+                          : '-' + match.toLocaleLowerCase()
+                  );
+            return [validStyleAttr, value];
+        });
+        return validStyleEntries.map(([key, value]) => `${key}: ${value}`).join(';');
     }
 
     public static handleAttributeMutation(propsEntries: [string, any][]) {
-        const classnameIndex = propsEntries.findIndex(
-            ([key, value]) => key.toLocaleLowerCase() === 'classname'
-        );
+        const classnameIndex = propsEntries.findIndex(([key, value]) => key.toLocaleLowerCase() === 'classname');
         if (classnameIndex > -1) {
-            propsEntries[classnameIndex] = [
-                'class',
-                propsEntries[classnameIndex][1],
-            ];
+            propsEntries[classnameIndex] = ['class', propsEntries[classnameIndex][1]];
         }
         return propsEntries;
     }

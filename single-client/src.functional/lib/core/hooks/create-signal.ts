@@ -3,8 +3,7 @@ import { RenderSignal } from '../render-signal/render-signal';
 
 export function createSignal<T = any>(initValue: T) {
     RenderSignal.instance.currentContext.declareHook(HookType.createSignal);
-    const hookPositionInContext =
-        RenderSignal.instance.currentContext.hookCounter - 1;
+    const hookPositionInContext = RenderSignal.instance.currentContext.hookCounter - 1;
     const currentContext = RenderSignal.instance.currentContext;
     const hookSlot = currentContext.getHookSlot(hookPositionInContext);
     if (!hookSlot.initialized) {

@@ -15,11 +15,7 @@ export function virtualRenderChildren(
                 if (child === undefined || child === null) {
                     return child as null;
                 } else if (typeof child !== 'string') {
-                    return virtualRender(
-                        parent,
-                        child,
-                        ComponentKey.build(key).idx(i).toString()
-                    );
+                    return virtualRender(parent, child, ComponentKey.build(key).idx(i).toString());
                 } else {
                     return RenderUtils.renderText(child);
                 }

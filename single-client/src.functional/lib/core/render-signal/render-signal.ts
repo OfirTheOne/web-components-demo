@@ -16,10 +16,7 @@ class RenderSignalContext {
         return this._currentContext;
     }
 
-    public signalContext(
-        componentKey: string,
-        componentContainerRef: IComponentContainer
-    ) {
+    public signalContext(componentKey: string, componentContainerRef: IComponentContainer) {
         let context: RenderContext;
         if (renderContextMemoryMap.has(componentKey)) {
             context = renderContextMemoryMap.get(componentKey) as RenderContext;

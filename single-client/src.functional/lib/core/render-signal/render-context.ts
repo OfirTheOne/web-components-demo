@@ -1,9 +1,5 @@
 import { IComponentContainer } from '../../models/i-component-container';
-import {
-    IRenderContext,
-    HookSlot,
-    HookType,
-} from '../../models/i-render-context';
+import { IRenderContext, HookSlot, HookType } from '../../models/i-render-context';
 import { ITaskAgent } from '../../models/i-task-agent';
 import { ActionQueue } from '../task-agent/action-queue';
 import { TaskAgent } from '../task-agent/task-agent';
@@ -39,9 +35,7 @@ export class RenderContext implements IRenderContext {
         this.hookSlotList = [];
     }
 
-    public getHookSlot<HS extends HookSlot = HookSlot>(
-        hookIndex: number
-    ): HS | null {
+    public getHookSlot<HS extends HookSlot = HookSlot>(hookIndex: number): HS | null {
         return (this.hookSlotList[hookIndex] || null) as HS;
     }
 

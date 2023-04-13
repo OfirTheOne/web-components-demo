@@ -7,9 +7,7 @@ export class TaskAgent implements ITaskAgent {
     public registerTask() {
         const timer = setTimeout(() => {
             this.registeredTaskTimers.delete(timer);
-            this.registeredTaskTimers.forEach((registeredTimer) =>
-                clearTimeout(registeredTimer)
-            );
+            this.registeredTaskTimers.forEach((registeredTimer) => clearTimeout(registeredTimer));
             this.registeredTaskTimers.clear();
             this.task?.();
         }, 0);
