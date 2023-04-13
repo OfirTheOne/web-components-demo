@@ -1,4 +1,1 @@
-
-
-
-import "./app/bootstrap";
+import './app/bootstrap';

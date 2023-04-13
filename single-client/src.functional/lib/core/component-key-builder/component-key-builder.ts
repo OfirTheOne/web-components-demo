@@ -1,8 +1,5 @@
-
-
-import { StringBuilder } from "../../common/string-builder";
-import { ComponentKeyToken } from "./component-key-token";
-
+import { StringBuilder } from '../../common/string-builder';
+import { ComponentKeyToken } from './component-key-token';
 
 export class ComponentKeyBuilder extends StringBuilder {
     static build(value?: string | string[] | StringBuilder) {

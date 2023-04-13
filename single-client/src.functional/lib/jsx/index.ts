@@ -1,8 +1,1 @@
-
-export  {
-    createElement,
-    createFragment,
-    WC
-} from './handlers';
-
-
+export { createElement, createFragment, WC } from './handlers';

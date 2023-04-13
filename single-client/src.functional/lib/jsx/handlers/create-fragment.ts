@@ -1,6 +1,6 @@
-
-
-
-export const createFragment = (_props: unknown, ...children: Array<HTMLElement|string>) => {
+export const createFragment = (
+    _props: unknown,
+    ...children: Array<HTMLElement | string>
+) => {
     return children;
 };

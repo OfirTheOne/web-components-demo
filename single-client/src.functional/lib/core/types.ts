@@ -1,5 +1,5 @@
-import { DomCompatibleElement } from "../models/dom-element";
-import { VirtualElement } from "../models/virtual-element";
+import { DomCompatibleElement } from '../models/dom-element';
+import { VirtualElement } from '../models/virtual-element';
 
 // export interface PreserveElementState<E extends HTMLElement = HTMLElement> {
 //     state: Record<any, any>;
@@ -7,12 +7,10 @@ import { VirtualElement } from "../models/virtual-element";
 //     componentInstance: any
 // }
 
-// export type PreserveElementStateMap = Map<string, PreserveElementState>;  
+// export type PreserveElementStateMap = Map<string, PreserveElementState>;
 
-export interface InternalRender {
-    (
-        vElem: VirtualElement, 
-        parent: HTMLElement,
-        elemKey?: string,
-    ): DomCompatibleElement | DomCompatibleElement[];
+export interface VirtualRender {
+    (parent: HTMLElement, vElem: VirtualElement, elemKey?: string):
+        | DomCompatibleElement
+        | DomCompatibleElement[];
 }

@@ -1,5 +1,3 @@
-
-
 export const Globals = {
-    logLevel: 'dev'
-}
+    logLevel: 'dev',
+};
