@@ -1,7 +1,7 @@
 export interface RenderTaskSubject {
-    render(): void;
+  render(): void;
 }
 
 export interface ITaskAgent {
-    registerTask(): void;
+  registerTask(): void;
 }

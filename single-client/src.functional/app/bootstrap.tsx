@@ -4,5 +4,5 @@ import { render } from '../lib/core';
 import { App } from './app';
 
 window.onload = () => {
-    render(<App />, 'root');
+  render(<App />, 'root');
 };

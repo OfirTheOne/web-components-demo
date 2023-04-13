@@ -1,3 +1,3 @@
 export interface PresentableMeta {
-    presentableName: string;
+  presentableName: string;
 }

@@ -5,6 +5,6 @@ export const createElement = createElementHandler;
 export const createFragment = createFragmentHandler;
 
 export const WC = {
-    createElement: createElementHandler,
-    createFragment: createFragmentHandler,
+  createElement: createElementHandler,
+  createFragment: createFragmentHandler,
 };

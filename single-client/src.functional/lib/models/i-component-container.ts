@@ -1,3 +1,3 @@
 export interface IComponentContainer {
-    render(): void;
+  render(): void;
 }

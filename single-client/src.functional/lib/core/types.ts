@@ -10,5 +10,5 @@ import { VirtualElement } from '../models/virtual-element';
 // export type PreserveElementStateMap = Map<string, PreserveElementState>;
 
 export interface VirtualRender {
-    (parent: HTMLElement, vElem: VirtualElement, elemKey?: string): DomCompatibleElement | DomCompatibleElement[];
+  (parent: HTMLElement, vElem: VirtualElement, elemKey?: string): DomCompatibleElement | DomCompatibleElement[];
 }
