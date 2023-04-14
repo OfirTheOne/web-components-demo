@@ -8,7 +8,7 @@ export enum HookType {
   createCallback,
   useEffect,
   useContext,
-  useMemo,
+  createMemo,
 }
 
 export interface HookSlot {

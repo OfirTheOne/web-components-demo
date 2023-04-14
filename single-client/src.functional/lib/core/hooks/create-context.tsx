@@ -10,7 +10,7 @@ export function createContext<T>(defaultValue: T): Context<T> {
   const Provider: ProviderFn = (props = {}, children) => {
     const currentRenderedKey = RenderSignal.instance.accessCurrentContext()?.key;
 
-    let context = (InheritableContextManager.instance.getContext(contextSymbol, currentRenderedKey) as InheritableContext<T>);
+    let context = InheritableContextManager.instance.getContext(contextSymbol, currentRenderedKey);
     if(!context) {
       context = new InheritableContext(contextSymbol, defaultValue);
       InheritableContextManager.instance.registerContext(contextSymbol, context);

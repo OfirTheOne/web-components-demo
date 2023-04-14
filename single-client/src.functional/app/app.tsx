@@ -8,7 +8,7 @@ export function App() {
     <div>
       <ThemeProvider>
         <Title />
-          <ThemeSwitchButton />
+        <ThemeSwitchButton /> 
         <Game />
       </ThemeProvider>
     </div>
