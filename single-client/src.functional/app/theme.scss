@@ -1,0 +1,13 @@
+
+
+body {
+    .light {
+        --background-color: rgb(204, 204, 204);
+        --color: rgb(37, 37, 37);
+    }
+
+    .dark {
+        --background-color: rgb(37, 37, 37);
+        --color: rgb(204, 204, 204);
+    }
+}

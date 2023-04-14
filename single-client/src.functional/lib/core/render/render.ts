@@ -50,28 +50,3 @@ const virtualRender = (
   return element;
 };
 
-// function virtualRenderChildren(
-//   parent: HTMLElement,
-//   children: (string | VirtualElement)[],
-//   key: string
-// ): DomCompatibleElement[] {
-//   if (children.length > 0) {
-//     return children
-//       .map((child, i) => {
-//         if (child === undefined || child === null) {
-//           return child as null;
-//         } else if (typeof child !== "string") {
-//           return virtualRender(
-//             parent,
-//             child,
-//             ComponentKey.build(key).idx(i).toString()
-//           );
-//         } else {
-//           return RenderUtils.renderText(child);
-//         }
-//       })
-//       .flat();
-//   } else {
-//     return [];
-//   }
-// }

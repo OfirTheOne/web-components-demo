@@ -1,5 +1,6 @@
 import { WC } from '../lib/jsx';
 import { createContext, createSignal, useContext } from '../lib/core';
+import './theme.scss';
 
 const ThemeContext = createContext({
   theme: 'light',
@@ -13,7 +14,9 @@ export const ThemeProvider = (props, children) => {
 
   return (
     <Provider value={{ theme: getTheme(), setTheme }}>
-      {children}
+      <div className={getTheme()}>
+        {children}
+      </div>
     </Provider>
   );
 };
