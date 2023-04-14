@@ -1,5 +1,5 @@
 import { WC } from '../lib/jsx';
-import { createContext, createSignal, useContext } from '../lib/core';
+import { createContext, createRef, useContext } from '../lib/core';
 import './theme.scss';
 
 const ThemeContext = createContext({
@@ -8,8 +8,8 @@ const ThemeContext = createContext({
   setTheme: (_theme: string) => {},
 });
 
-export const ThemeProvider = (props, children) => {
-  const [getTheme, setTheme] = createSignal('light');
+export const ThemeProvider = (_props, children) => {
+  const [getTheme, setTheme] = createRef('light');
   const Provider = ThemeContext.Provider;
 
   return (

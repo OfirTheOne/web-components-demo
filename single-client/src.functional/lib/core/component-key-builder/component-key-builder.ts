@@ -1,11 +1,12 @@
+import { OneOrMany } from '../../types/utils';
 import { StringBuilder } from '../../common/string-builder';
 import { ComponentKeyToken } from './component-key-token';
 
 export class ComponentKeyBuilder extends StringBuilder {
-  static build(value?: string | string[] | StringBuilder) {
+  static build(value?: OneOrMany<string> | StringBuilder) {
     return new ComponentKeyBuilder(value);
   }
-  constructor(value: string | string[] | StringBuilder = []) {
+  constructor(value: OneOrMany<string> | StringBuilder = []) {
     super(value);
   }
   root() {

@@ -18,5 +18,5 @@ export function isArrayShallowEqual<T = unknown>(a: T[], b: T[]): boolean {
 }
 
 export function isSymbolShallowEquals(s1: symbol, s2: symbol) {
-  return s1.description === s2.description;
+  return s1 === s2 || s1.description === s2.description;
 }

@@ -1,7 +1,8 @@
+import { OneOrMany } from 'src.functional/lib/types/utils';
 import { DomCompatibleElement } from '../../models/dom-element';
 
 export class DOMUtils {
-  static removeSelf(elm?: HTMLElement | HTMLElement[]) {
+  static removeSelf(elm?: OneOrMany<HTMLElement>) {
     if (elm) {
       Array.isArray(elm) ? elm.forEach((node) => node.remove()) : elm.remove();
     }
@@ -11,7 +12,7 @@ export class DOMUtils {
     return elm.attachShadow({ mode: 'open' });
   }
 
-  static appendToParent(parent: ShadowRoot | HTMLElement, elem?: HTMLElement | HTMLElement[]): void {
+  static appendToParent(parent: ShadowRoot | HTMLElement, elem?: OneOrMany<HTMLElement>): void {
     if (parent && elem) {
       Array.isArray(elem) ? elem.forEach((node) => parent.appendChild(node)) : parent.appendChild(elem);
     }
@@ -19,7 +20,7 @@ export class DOMUtils {
 
   static insertChildAfterNode(
     parent: ShadowRoot | HTMLElement,
-    child: DomCompatibleElement | DomCompatibleElement[],
+    child: OneOrMany<DomCompatibleElement>,
     node?: HTMLElement | null
   ): void {
     const children = Array.isArray(child) ? child : [child];

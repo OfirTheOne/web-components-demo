@@ -4,9 +4,10 @@ import { RenderSignal } from '../render-signal/render-signal';
 import { IComponentContainer } from '../../models/i-component-container';
 import { EffectHookSlot, HookType } from '../../models/i-render-context';
 import { VirtualElement } from '../../models/virtual-element';
+import { OneOrMany } from '../../types/utils';
 
 export class ComponentContainer implements IComponentContainer {
-  protected container: HTMLElement | HTMLElement[];
+  protected container: OneOrMany<HTMLElement>;
   constructor(
     protected fnComponent: (props: Record<string, unknown>, children: any[]) => VirtualElement,
     protected props: Record<string, any>,
@@ -64,5 +65,10 @@ export class ComponentContainer implements IComponentContainer {
       }
     }
     return domElement;
+  }
+
+
+  onUnmount() {
+    RenderSignal.instance.deleteStoredContext(this.key);
   }
 }

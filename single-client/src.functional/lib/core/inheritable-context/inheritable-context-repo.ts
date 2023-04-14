@@ -3,7 +3,7 @@ import { toSingleton } from '../utils/to-singleton';
 import { InheritableContext } from './inheritable-context';
 
 export class InheritableContextRegistry extends InheritableContext {
-  getContextValue(ctxSymbol: symbol, key: string): any {
+  getContextValue<V = any>(ctxSymbol: symbol, key: string): V {
     if (inheritableContextMemoryMap.has(ctxSymbol)) {
       return this.getClosestContext(ctxSymbol, key)?.value;
     }

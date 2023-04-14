@@ -49,4 +49,3 @@ const virtualRender = (
   }
   return element;
 };
-

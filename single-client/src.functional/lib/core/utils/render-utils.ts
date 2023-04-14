@@ -7,6 +7,7 @@ import { ComponentContainer } from '../component-container/component-container';
 import { isAllLowerCase, isSymbolShallowEquals } from './common-utils';
 import { RenderSignal } from '../render-signal/render-signal';
 import { renderContextMemoryMap } from '../global-storage';
+import { OneOrMany } from '../../types/utils';
 
 export class RenderUtils {
   public static handleComponentElement(
@@ -16,21 +17,21 @@ export class RenderUtils {
     props: Props,
     children: Array<string | VirtualElement>,
     key: string
-  ): HTMLElement | HTMLElement[] {
+  ): OneOrMany<HTMLElement> {
     const existingComponentContainer = renderContextMemoryMap.get(key)?.componentContainerRef as ComponentContainer;
     if (!existingComponentContainer) {
       Logger.logAction('componentInit', `element ${tag.name}, key ${key}.`);
     }
-    const componentContainer =
-      existingComponentContainer || new ComponentContainer(tag, props, children, key, parent, undefined, {}, virtualRender);
-
-    componentContainer.setProps(props).setChildren(children);
-
+    const componentContainer = (
+      existingComponentContainer || new ComponentContainer(tag, props, children, key, parent, undefined, {}, virtualRender)
+    )
+      .setProps(props)
+      .setChildren(children);
     Logger.logAction('render', `element ${tag.name}, key ${key}.`);
     const rendered = componentContainer.render() as HTMLElement[];
     if (rendered == null) {
       Logger.logAction('unmounted', `element ${tag.name}, key ${key}.`);
-      RenderSignal.instance.deleteStoredContext(key);
+      componentContainer.onUnmount();
     }
     return rendered;
   }
@@ -95,37 +96,14 @@ export class RenderUtils {
   }
 
   public static handleAttributeMutation(propsEntries: [string, any][]) {
-    const classnameIndex = propsEntries.findIndex(([key, value]) => key.toLocaleLowerCase() === 'classname');
+    const classnameIndex = propsEntries.findIndex(([key]) => key.toLocaleLowerCase() === 'classname');
     if (classnameIndex > -1) {
       propsEntries[classnameIndex] = ['class', propsEntries[classnameIndex][1]];
     }
     return propsEntries;
   }
-
-  // public static renderStyle(
-  //   presentable: IPresentable,
-  //   presentableName: string,
-  //   props: Record<string, any>
-  // ): HTMLStyleElement | undefined {
-  //   let styleElement: HTMLStyleElement | undefined;
-  //   if (presentable.buildStyle && typeof presentable.buildStyle == "function") {
-  //     const componentStyle = presentable.buildStyle(props);
-  //     if (typeof componentStyle === "string") {
-  //       styleElement = document.createElement("style");
-  //       styleElement.textContent = componentStyle;
-  //     } else if (typeof componentStyle?.use === "function") {
-  //       if (!globalStyleMap.has(presentableName)) {
-  //         componentStyle.use({
-  //           registerStyle: (s) => globalStyleMap.set(presentableName, s),
-  //         });
-  //       }
-  //       styleElement = globalStyleMap.get(presentableName);
-  //     }
-  //   }
-  //   return styleElement;
-  // }
 }
 
 export function isElementType(type: symbol, elementType: VirtualElementType) {
-  return isSymbolShallowEquals(type, Symbol(elementType));
+  return isSymbolShallowEquals(type, Symbol.for(elementType));
 }

@@ -24,7 +24,7 @@ export const createElement = (
   }
 
   return {
-    $$type: Symbol(elementType),
+    $$type: Symbol.for(elementType),
     tag,
     props,
     children: nonEmptyChildren,
