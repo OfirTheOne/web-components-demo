@@ -1,17 +1,23 @@
 import { WC } from '../lib/jsx';
-import { ThemeProvider, useTheme } from './theme-context';
-import { Game } from './game';
-import { ThemeSwitchButton } from './theme-switch';
+import { ThemeProvider, useTheme } from './providers';
+import { Game, ThemeSwitchButton } from './components';
 
 export function App() {
   return (
     <div>
-      <ThemeProvider>
-        <Title />
-        <ThemeSwitchButton /> 
-        <Game />
-      </ThemeProvider>
+      <Title />
+      <ThemeSwitchButton /> 
+      <Game />
     </div>
+  );
+}
+
+
+export function RootApp() {
+  return (
+      <ThemeProvider>
+        <App/>
+      </ThemeProvider>
   );
 }
 

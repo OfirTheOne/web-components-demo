@@ -1,8 +1,8 @@
 
 
-import { WC } from '../lib/jsx';
-import { createCallback } from '../lib/core';
-import { useTheme } from './theme-context';
+import { WC } from '../../lib/jsx';
+import { createCallback } from '../../lib/core';
+import { useTheme } from '../providers/theme/theme-context';
 
 export function ThemeSwitchButton() {
     const { theme, setTheme } = useTheme();

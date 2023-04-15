@@ -1,5 +1,5 @@
-import { WC } from '../lib/jsx';
-import { createContext, createRef, useContext } from '../lib/core';
+import { WC } from '../../../lib/jsx';
+import { createContext, createRef, useContext } from '../../../lib/core';
 import './theme.scss';
 
 const ThemeContext = createContext({
@@ -14,9 +14,7 @@ export const ThemeProvider = (_props, children) => {
 
   return (
     <Provider value={{ theme: getTheme(), setTheme }}>
-      <div className={getTheme()}>
         {children}
-      </div>
     </Provider>
   );
 };
