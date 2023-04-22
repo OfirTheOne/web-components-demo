@@ -1,8 +1,8 @@
 import { WC } from '../lib/jsx';
 import { render } from '../lib/core';
 
-import { App } from './app';
+import { RootApp } from './root-app';
 
 window.onload = () => {
-  render(<App />, 'root');
+  render(<RootApp />, 'root');
 };

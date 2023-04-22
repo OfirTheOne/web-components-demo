@@ -3,7 +3,7 @@ import { IComponentContainer } from './i-component-container';
 import { ITaskAgent } from './i-task-agent';
 
 export enum HookType {
-  createSignal,
+  createState,
   createRef,
   createCallback,
   useEffect,

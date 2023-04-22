@@ -1,5 +1,5 @@
 import { WC } from '../../../lib/jsx';
-import { createCallback, createSignal, useEffect } from '../../../lib/core';
+import { createCallback, createState, memo, useEffect } from '../../../lib/core';
 import './tic-tac-toe.scss';
 
 function Square({ value, onSquareClick }: { value: string; onSquareClick: () => void }) {
@@ -63,9 +63,9 @@ function Board({ xIsNext, squares, onPlay }) {
   );
 }
 
-export function Game() {
-  const [getHistory, setHistory] = createSignal<Readonly<Array<number>[]>>([Array(9).fill(null)]);
-  const [getCurrentMove, setCurrentMove] = createSignal(0);
+function Game() {
+  const [getHistory, setHistory] = createState<Readonly<Array<number>[]>>([Array(9).fill(null)]);
+  const [getCurrentMove, setCurrentMove] = createState(0);
   const xIsNext = getCurrentMove() % 2 === 0;
   const currentSquares = getHistory()[getCurrentMove()];
 
@@ -127,3 +127,9 @@ function calculateWinner(squares) {
   }
   return null;
 }
+
+const MemoGame = memo(Game);
+
+export { 
+  MemoGame as Game
+};

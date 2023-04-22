@@ -1,19 +1,52 @@
 import { VirtualRender } from '../types';
+import { Logger } from '../../common/logger';
+import { ComponentContainer } from '../component-container/component-container';
+import { renderContextMemoryMap } from '../global-storage';
+import { isAllLowerCase, isSymbolShallowEquals } from './common-utils';
 import { isCapitalEventName } from './is-capital-event-name';
 import { Props, VirtualElement, VirtualElementType } from '../../models';
 import { DomElement } from '../../models/dom-element';
-import { Logger } from '../../common/logger';
-import { ComponentContainer } from '../component-container/component-container';
-import { isAllLowerCase, isSymbolShallowEquals } from './common-utils';
-import { RenderSignal } from '../render-signal/render-signal';
-import { renderContextMemoryMap } from '../global-storage';
+import { EqualFn } from '../../models/equal-fn';
 import { OneOrMany } from '../../types/utils';
+import { FnComponent } from '../../models/fn-component';
 
 export class RenderUtils {
+  public static handleMemoComponentElement(
+    virtualRender: VirtualRender,
+    parent: HTMLElement,
+    tag: FnComponent,
+    props: Props,
+    children: Array<string | VirtualElement>,
+    key: string
+  ) {
+    const existingComponentContainer = renderContextMemoryMap.get(key)?.componentContainerRef as ComponentContainer;
+    const isMounted = existingComponentContainer && existingComponentContainer.wasRenderedBefore; 
+    let shouldRenderMemo = false;
+    if(isMounted) {
+      const areEqual = tag['_areEqual_'] as EqualFn;
+      if(!areEqual || typeof areEqual !== 'function' ) {
+        throw new Error('Memo function must have an _areEqual_ function');
+      }
+      const arePropsEqual = areEqual(existingComponentContainer.props, props);
+      // const areChildrenEqual = areEqual(existingComponentContainer.children, children);
+      if(arePropsEqual) {
+        shouldRenderMemo = true;
+      } 
+    }
+    if(shouldRenderMemo) {
+      Logger.logAction('memoRender', `element ${tag.name}, key ${key}.`);
+      existingComponentContainer.setParent(parent);
+      existingComponentContainer.connectOnMount(existingComponentContainer.container)
+      return existingComponentContainer.container;
+    } else {
+      
+      return RenderUtils.handleComponentElement(virtualRender, parent, tag, props, children, key);
+    }
+  }
   public static handleComponentElement(
     virtualRender: VirtualRender,
     parent: HTMLElement,
-    tag: (...args: unknown[]) => VirtualElement,
+    tag: FnComponent,
     props: Props,
     children: Array<string | VirtualElement>,
     key: string
@@ -28,7 +61,7 @@ export class RenderUtils {
       .setProps(props)
       .setChildren(children);
     Logger.logAction('render', `element ${tag.name}, key ${key}.`);
-    const rendered = componentContainer.render() as HTMLElement[];
+    const rendered = componentContainer.render();
     if (rendered == null) {
       Logger.logAction('unmounted', `element ${tag.name}, key ${key}.`);
       componentContainer.onUnmount();

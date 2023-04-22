@@ -2,6 +2,7 @@ import { Globals } from '../globals';
 
 export const SysAction = {
   render: 'render',
+  memoRender: 'memo-render',
   internalRender: 'internal-render',
   containerInit: 'container-init',
   componentInit: 'component-init',

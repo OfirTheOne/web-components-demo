@@ -1,5 +1,5 @@
 import { WC } from '../lib/jsx';
-import { ThemeProvider, useTheme } from './providers';
+import { useTheme } from './providers';
 import { Game, ThemeSwitchButton } from './components';
 
 export function App() {
@@ -12,14 +12,6 @@ export function App() {
   );
 }
 
-
-export function RootApp() {
-  return (
-      <ThemeProvider>
-        <App/>
-      </ThemeProvider>
-  );
-}
 
 export function Title() {
   const themeCtx = useTheme();

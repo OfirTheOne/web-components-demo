@@ -3,37 +3,56 @@ import { VirtualRender } from '../types';
 import { RenderSignal } from '../render-signal/render-signal';
 import { IComponentContainer } from '../../models/i-component-container';
 import { EffectHookSlot, HookType } from '../../models/i-render-context';
-import { VirtualElement } from '../../models/virtual-element';
 import { OneOrMany } from '../../types/utils';
+import { Props } from '../../models/props';
+import { FnComponent } from '../../models/fn-component';
 
 export class ComponentContainer implements IComponentContainer {
-  protected container: OneOrMany<HTMLElement>;
+  protected _container: OneOrMany<HTMLElement>;
   constructor(
-    protected fnComponent: (props: Record<string, unknown>, children: any[]) => VirtualElement,
-    protected props: Record<string, any>,
-    protected children: any[],
+    protected fnComponent: FnComponent,
+    protected _props: Props,
+    protected _children: any[],
     protected key: string,
-    protected parent: any,
+    protected _parent: HTMLElement | null,
     protected style: any,
     protected options: Record<string, any>,
     protected internalRender: VirtualRender
   ) {}
 
-  setProps(props: Record<string, any>) {
-    this.props = props;
+
+  setParent(parent: HTMLElement | null) {
+    this._parent = parent;
     return this;
-  }
-  setChildren(children: any[]) {
-    this.children = children;
-    return this;
-  }
-  public get wasRenderedBefore() {
-    return this.container !== undefined;
   }
 
-  render() {
+
+  setProps(props: Props) {
+    this._props = props;
+    return this;
+  }
+
+  setChildren(children: any[]) {
+    this._children = children;
+    return this;
+  }
+  get children() {
+    return this._children;
+  }
+  get props() {
+    return this._props;
+  }
+  get container() {
+    return this._container;
+  }
+  public get wasRenderedBefore() {
+    return this._container !== undefined;
+  }
+
+
+  render(): OneOrMany<HTMLElement> | null {
     RenderSignal.instance.signalContext(this.key, this);
-    const virtualElement = this.fnComponent(this.props || {}, this.children);
+    const virtualElement = this.fnComponent(this._props || {}, this._children);
     const isUnmounted = virtualElement == null;
     if (isUnmounted) {
       RenderSignal.instance.accessCurrentContext().hookSlotList.forEach((hookSlot) => {
@@ -49,23 +68,31 @@ export class ComponentContainer implements IComponentContainer {
       RenderSignal.instance.accessCurrentContext().effectTaskAgent.registerTask();
     }
     RenderSignal.instance.removeContext();
-    const domElement = this.internalRender(this.parent, virtualElement, this.key);
-    if (this.parent) {
-      if (!this.wasRenderedBefore) {
-        DOMUtils.appendToParent(this.parent, <HTMLElement>domElement);
-        this.container = <HTMLElement>domElement;
+    const domElement = <HTMLElement>(this.internalRender(this._parent, virtualElement, this.key));
+    if (this._parent) {
+      if (this.wasRenderedBefore) {
+        this.connectOnSelfRerender(domElement);
       } else {
-        const firstContainerNode = Array.isArray(this.container) ? this.container[0] : this.container;
-        const renderStartPointNode = (
-          DOMUtils.isOnlyChild(firstContainerNode) ? null : firstContainerNode.previousSibling
-        ) as HTMLElement | null;
-        DOMUtils.removeSelf(this.container);
-        DOMUtils.insertChildAfterNode(this.parent, domElement, renderStartPointNode);
-        this.container = <HTMLElement>domElement;
+        this.connectOnMount(domElement);
       }
     }
+    this._container = domElement;
     return domElement;
   }
+
+  public connectOnMount(domElement: OneOrMany<HTMLElement>) {
+    DOMUtils.appendToParent(this._parent, domElement);
+  }
+
+  public connectOnSelfRerender(domElement: OneOrMany<HTMLElement>) {
+    const firstContainerNode = Array.isArray(this._container) ? this._container[0] : this._container;
+    const renderStartPointNode = (
+      DOMUtils.isOnlyChild(firstContainerNode) ? null : firstContainerNode.previousSibling
+    ) as HTMLElement | null;
+    DOMUtils.removeSelf(this._container);
+    DOMUtils.insertChildAfterNode(this._parent, domElement, renderStartPointNode);
+  }
+
 
 
   onUnmount() {
