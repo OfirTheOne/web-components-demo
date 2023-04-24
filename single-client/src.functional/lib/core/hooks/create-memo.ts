@@ -2,7 +2,8 @@ import { HookType, MemoHookSlot } from '../../models/i-render-context';
 import { RenderSignal } from '../render-signal/render-signal';
 import { isArrayShallowEqual } from '../utils/common-utils';
 
-export function createMemo<F extends (...args: unknown[]) => unknown>(factory: F, dependencies: any[]) {
+
+export function createMemo<F extends (...args: any[]) => any>(factory: F, dependencies: any[]): ReturnType<F> {
   RenderSignal.instance.currentContext.declareHook(HookType.createMemo);
   const hookPositionInContext = RenderSignal.instance.currentContext.hookCounter - 1;
   const currentContext = RenderSignal.instance.currentContext;

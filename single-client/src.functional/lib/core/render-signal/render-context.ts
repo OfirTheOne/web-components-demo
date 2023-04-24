@@ -18,6 +18,13 @@ export class RenderContext implements IRenderContext {
     return this._hookCounter;
   }
 
+  promisesStorage: WeakMap<(Promise<unknown>), { 
+    id?: Readonly<string>,
+    promiseFactory?: () => Promise<unknown>,
+    state: 'pending' | 'fulfilled' | 'rejected',
+    value: unknown 
+  }> = new WeakMap();
+  
   constructor(componentContainerRef: IComponentContainer, key: string) {
     this.componentContainerRef = componentContainerRef;
     this.key = key;

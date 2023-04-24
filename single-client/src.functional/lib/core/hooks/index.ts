@@ -5,3 +5,4 @@ import { createCallback } from './create-callback';
 import { createContext, useContext } from './create-context';
 import { createMemo } from './create-memo';
 export { createCallback, createState, useEffect, createRef, createContext, useContext, createMemo };
+export { useAsync } from './use';
