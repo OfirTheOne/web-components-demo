@@ -3,6 +3,7 @@ import { Props } from './props';
 export enum VirtualElementType {
   Function = 'Function',
   MemoFunction = 'MemoFunction',
+  SignaledFunction = 'SignaledFunction',
   Fragment = 'Fragment',
   Basic = 'Basic',
   ModuleReference = 'ModuleReference',
