@@ -25,10 +25,7 @@ const virtualRender = (
   const { tag, props, children, $$type } = vElem;
   if (typeof tag === 'function') {
     if (isElementType($$type, VirtualElementType.Fragment)) {
-      element = virtualRenderChildren(
-        virtualRender, parent, children, 
-        ComponentKey.build(key).fragment().toString()
-      ).flat();
+      element = virtualRenderChildren(virtualRender, parent, children, ComponentKey.build(key).fragment().toString()).flat();
     } else if (isElementType($$type, VirtualElementType.MemoFunction)) {
       const tagName = tag['__name__'];
       element = RenderUtils.handleMemoComponentElement(
@@ -39,7 +36,6 @@ const virtualRender = (
         children,
         ComponentKey.build(key).tag(`${tag.name}:${tagName}`).toString()
       );
-      
     } else if (isElementType($$type, VirtualElementType.Function)) {
       element = RenderUtils.handleComponentElement(
         internalRender,
