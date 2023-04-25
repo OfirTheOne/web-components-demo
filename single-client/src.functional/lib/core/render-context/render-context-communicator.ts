@@ -1,8 +1,8 @@
 import { IComponentContainer } from 'src.functional/lib/models/i-component-container';
 import { RenderContext } from './render-context';
-import { renderContextMemoryMap } from './../global-storage';
+import { renderContextMemoryMap } from '../global-storage';
 
-class RenderSignalContext {
+class RenderContextCommunicatorInstance {
   private _currentContext: RenderContext | null = null;
 
   /* eslint-disable  @typescript-eslint/no-empty-function */
@@ -36,13 +36,13 @@ class RenderSignalContext {
   }
 }
 
-export class RenderSignal extends RenderSignalContext {
-  private static _instance: RenderSignalContext;
+export class RenderContextCommunicator extends RenderContextCommunicatorInstance {
+  private static _instance: RenderContextCommunicatorInstance;
 
   static get instance() {
-    if (!RenderSignal._instance) {
-      RenderSignal._instance = new RenderSignalContext();
+    if (!RenderContextCommunicator._instance) {
+      RenderContextCommunicator._instance = new RenderContextCommunicatorInstance();
     }
-    return RenderSignal._instance;
+    return RenderContextCommunicator._instance;
   }
 }

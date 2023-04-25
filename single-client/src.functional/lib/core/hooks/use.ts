@@ -1,6 +1,6 @@
 
-import { RenderContext } from '../render-signal/render-context';
-import { RenderSignal } from '../render-signal/render-signal';
+import { RenderContext } from '../render-context/render-context';
+import { RenderContextCommunicator } from '../render-context/render-context-communicator';
 
 
 
@@ -11,7 +11,7 @@ function buildUsePromiseHook<V>(
   onfulfilled: ((value: Awaited<V>, currentContext: RenderContext) => void | PromiseLike<void>), 
   onrejected: ((reason: any, currentContext: RenderContext) => void | PromiseLike<never>)
   ): Readonly<[V, null]> | Readonly<[null, Error]> {
-  const currentContext = RenderSignal.instance.currentContext;
+  const currentContext = RenderContextCommunicator.instance.currentContext;
   const asyncEntry = currentContext.promisesStorage.get(promise);
   if (asyncEntry) {
     if (asyncEntry.state == 'fulfilled') {

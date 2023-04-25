@@ -1,11 +1,11 @@
 import { HookType, EffectHookSlot } from '../../models/i-render-context';
-import { RenderSignal } from '../render-signal/render-signal';
+import { RenderContextCommunicator } from '../render-context/render-context-communicator';
 import { isArrayShallowEqual } from '../utils/common-utils';
 
 export function useEffect(callback: () => void, dependencies: any[]) {
-  RenderSignal.instance.currentContext.declareHook(HookType.useEffect);
-  const hookPositionInContext = RenderSignal.instance.currentContext.hookCounter - 1;
-  const currentContext = RenderSignal.instance.currentContext;
+  RenderContextCommunicator.instance.currentContext.declareHook(HookType.useEffect);
+  const hookPositionInContext = RenderContextCommunicator.instance.currentContext.hookCounter - 1;
+  const currentContext = RenderContextCommunicator.instance.currentContext;
   const hookSlot = currentContext.getHookSlot<EffectHookSlot>(hookPositionInContext);
   const isFirstRender = !hookSlot.initialized;
   if (isFirstRender || isDependenciesChanged(hookSlot.dependencies, dependencies)) {

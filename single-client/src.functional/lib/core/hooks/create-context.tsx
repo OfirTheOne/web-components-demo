@@ -3,12 +3,12 @@ import { WC } from '../../jsx';
 import { HookType } from '../../models/i-render-context';
 import { InheritableContext, ProviderFn, Context } from '../inheritable-context/inheritable-context';
 import { InheritableContextManager } from '../inheritable-context/inheritable-context-repo';
-import { RenderSignal } from '../render-signal';
+import { RenderContextCommunicator } from '../render-context';
 
 export function createContext<T>(defaultValue: T): Context<T> {
   const contextSymbol = Symbol('Context');
   const Provider: ProviderFn = (props = {}, children) => {
-    const currentRenderedKey = RenderSignal.instance.accessCurrentContext()?.key;
+    const currentRenderedKey = RenderContextCommunicator.instance.accessCurrentContext()?.key;
 
     let context = InheritableContextManager.instance.getContext(contextSymbol, currentRenderedKey);
     if(!context) {
@@ -27,8 +27,8 @@ export function createContext<T>(defaultValue: T): Context<T> {
 }
 
 export function useContext<T = any>(context: Context<T>): T {
-  RenderSignal.instance.currentContext.declareHook(HookType.useContext);
-  const currentRenderedKey = RenderSignal.instance.accessCurrentContext().key;
+  RenderContextCommunicator.instance.currentContext.declareHook(HookType.useContext);
+  const currentRenderedKey = RenderContextCommunicator.instance.accessCurrentContext().key;
 
   const closestContext = InheritableContextManager.instance.getClosestContext(context.contextSymbol, currentRenderedKey);
 

@@ -1,12 +1,12 @@
 import { HookType, MemoHookSlot } from '../../models/i-render-context';
-import { RenderSignal } from '../render-signal/render-signal';
+import { RenderContextCommunicator } from '../render-context/render-context-communicator';
 import { isArrayShallowEqual } from '../utils/common-utils';
 
 
 export function createMemo<F extends (...args: any[]) => any>(factory: F, dependencies: any[]): ReturnType<F> {
-  RenderSignal.instance.currentContext.declareHook(HookType.createMemo);
-  const hookPositionInContext = RenderSignal.instance.currentContext.hookCounter - 1;
-  const currentContext = RenderSignal.instance.currentContext;
+  RenderContextCommunicator.instance.currentContext.declareHook(HookType.createMemo);
+  const hookPositionInContext = RenderContextCommunicator.instance.currentContext.hookCounter - 1;
+  const currentContext = RenderContextCommunicator.instance.currentContext;
   const hookSlot = currentContext.getHookSlot<MemoHookSlot>(hookPositionInContext);
   const isFirstRender = !hookSlot.initialized;
   if (isFirstRender || isDependenciesChanged(hookSlot.dependencies, dependencies)) {

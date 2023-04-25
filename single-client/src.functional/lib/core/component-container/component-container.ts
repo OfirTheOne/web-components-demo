@@ -1,6 +1,6 @@
 import { DOMUtils } from '../utils/dom-utils';
 import { VirtualRender } from '../types';
-import { RenderSignal } from '../render-signal/render-signal';
+import { RenderContextCommunicator } from '../render-context/render-context-communicator';
 import { IComponentContainer } from '../../models/i-component-container';
 import { EffectHookSlot, HookType } from '../../models/i-render-context';
 import { OneOrMany } from '../../types/utils';
@@ -47,23 +47,23 @@ export class ComponentContainer implements IComponentContainer {
   }
 
   render(): OneOrMany<HTMLElement> | null {
-    RenderSignal.instance.signalContext(this.key, this);
+    RenderContextCommunicator.instance.signalContext(this.key, this);
     const virtualElement = this.fnComponent(this._props || {}, this._children);
     const isUnmounted = virtualElement == null;
     if (isUnmounted) {
-      RenderSignal.instance.accessCurrentContext().hookSlotList.forEach((hookSlot) => {
+      RenderContextCommunicator.instance.accessCurrentContext().hookSlotList.forEach((hookSlot) => {
         if (hookSlot.type === HookType.useEffect && (<EffectHookSlot>hookSlot).onUnmount) {
           (<EffectHookSlot>hookSlot).onUnmount();
         }
       });
-      RenderSignal.instance.removeContext();
+      RenderContextCommunicator.instance.removeContext();
       return undefined;
     }
 
-    if (RenderSignal.instance.accessCurrentContext().effectQueue.length > 0) {
-      RenderSignal.instance.accessCurrentContext().effectTaskAgent.registerTask();
+    if (RenderContextCommunicator.instance.accessCurrentContext().effectQueue.length > 0) {
+      RenderContextCommunicator.instance.accessCurrentContext().effectTaskAgent.registerTask();
     }
-    RenderSignal.instance.removeContext();
+    RenderContextCommunicator.instance.removeContext();
     const domElement = <HTMLElement>this.internalRender(this._parent, virtualElement, this.key);
     if (this._parent) {
       if (this.wasRenderedBefore) {
@@ -76,7 +76,7 @@ export class ComponentContainer implements IComponentContainer {
     return domElement;
   }
   onUnmount() {
-    RenderSignal.instance.deleteStoredContext(this.key);
+    RenderContextCommunicator.instance.deleteStoredContext(this.key);
   }
 
   public connectOnMount(domElement: OneOrMany<HTMLElement>) {

@@ -1,10 +1,10 @@
 import { HookType } from '../../models/i-render-context';
-import { RenderSignal } from '../render-signal/render-signal';
+import { RenderContextCommunicator } from '../render-context/render-context-communicator';
 
 export function createState<T = any>(initValue: T) {
-  RenderSignal.instance.currentContext.declareHook(HookType.createState);
-  const hookPositionInContext = RenderSignal.instance.currentContext.hookCounter - 1;
-  const currentContext = RenderSignal.instance.currentContext;
+  RenderContextCommunicator.instance.currentContext.declareHook(HookType.createState);
+  const hookPositionInContext = RenderContextCommunicator.instance.currentContext.hookCounter - 1;
+  const currentContext = RenderContextCommunicator.instance.currentContext;
   const hookSlot = currentContext.getHookSlot(hookPositionInContext);
   if (!hookSlot.initialized) {
     hookSlot.value = initValue;
