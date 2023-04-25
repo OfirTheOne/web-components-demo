@@ -15,7 +15,7 @@ class RenderContextCommunicatorInstance {
     return this._currentContext;
   }
 
-  public signalContext(componentKey: string, componentContainerRef: IComponentContainer) {
+  public setContext(componentKey: string, componentContainerRef: IComponentContainer) {
     let context: RenderContext;
     if (renderContextMemoryMap.has(componentKey)) {
       context = renderContextMemoryMap.get(componentKey) as RenderContext;

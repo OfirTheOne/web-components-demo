@@ -47,7 +47,7 @@ export class ComponentContainer implements IComponentContainer {
   }
 
   render(): OneOrMany<HTMLElement> | null {
-    RenderContextCommunicator.instance.signalContext(this.key, this);
+    RenderContextCommunicator.instance.setContext(this.key, this);
     const virtualElement = this.fnComponent(this._props || {}, this._children);
     const isUnmounted = virtualElement == null;
     if (isUnmounted) {
