@@ -1,8 +1,8 @@
 import { WC } from '../../jsx';
 
 import { HookType } from '../../models/i-render-context';
-import { InheritableContext, ProviderFn, Context } from '../inheritable-context/inheritable-context';
-import { InheritableContextManager } from '../inheritable-context/inheritable-context-repo';
+import { ProviderContextInstance, ProviderFn, Context } from '../inheritable-context/inheritable-context';
+import { ProviderContextRegistry } from '../inheritable-context/inheritable-context-repo';
 import { RenderContextCommunicator } from '../render-context';
 
 export function createContext<T>(defaultValue: T): Context<T> {
@@ -10,10 +10,10 @@ export function createContext<T>(defaultValue: T): Context<T> {
   const Provider: ProviderFn = (props = {}, children) => {
     const currentRenderedKey = RenderContextCommunicator.instance.accessCurrentContext()?.key;
 
-    let context = InheritableContextManager.instance.getContext(contextSymbol, currentRenderedKey);
+    let context = ProviderContextRegistry.instance.getContext(contextSymbol, currentRenderedKey);
     if(!context) {
-      context = new InheritableContext(contextSymbol, defaultValue);
-      InheritableContextManager.instance.registerContext(contextSymbol, context);
+      context = new ProviderContextInstance(contextSymbol, defaultValue);
+      ProviderContextRegistry.instance.registerContext(contextSymbol, context);
     }
 
     if ('value' in props) {
@@ -30,7 +30,7 @@ export function useContext<T = any>(context: Context<T>): T {
   RenderContextCommunicator.instance.currentContext.declareHook(HookType.useContext);
   const currentRenderedKey = RenderContextCommunicator.instance.accessCurrentContext().key;
 
-  const closestContext = InheritableContextManager.instance.getClosestContext(context.contextSymbol, currentRenderedKey);
+  const closestContext = ProviderContextRegistry.instance.getClosestContext(context.contextSymbol, currentRenderedKey);
 
   if (!closestContext) {
     throw new Error(`Component is not in context scope.`);

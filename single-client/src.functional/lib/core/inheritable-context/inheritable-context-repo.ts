@@ -1,36 +1,36 @@
-import { inheritableContextMemoryMap } from '../global-storage';
+import { providerContextMemoryMap } from '../global-storage';
 import { toSingleton } from '../utils/to-singleton';
-import { InheritableContext } from './inheritable-context';
+import { ProviderContextInstance } from './inheritable-context';
 
-export class InheritableContextRegistry extends InheritableContext {
+export class ProviderContextRegistryInstance extends ProviderContextInstance {
   getContextValue<V = any>(ctxSymbol: symbol, key: string): V {
-    if (inheritableContextMemoryMap.has(ctxSymbol)) {
+    if (providerContextMemoryMap.has(ctxSymbol)) {
       return this.getClosestContext(ctxSymbol, key)?.value;
     }
     return null;
   }
 
-  registerContext(ctxSymbol: symbol, context: InheritableContext) {
-    if (inheritableContextMemoryMap.has(ctxSymbol)) {
-      if (inheritableContextMemoryMap.get(ctxSymbol).find((c) => c.key === context.key)) {
+  registerContext(ctxSymbol: symbol, context: ProviderContextInstance) {
+    if (providerContextMemoryMap.has(ctxSymbol)) {
+      if (providerContextMemoryMap.get(ctxSymbol).find((c) => c.key === context.key)) {
         throw new Error(`InheritedContextRepo: Context with key ${context.key} already exists.`);
       }
     } else {
-      inheritableContextMemoryMap.set(ctxSymbol, []);
+      providerContextMemoryMap.set(ctxSymbol, []);
     }
-    inheritableContextMemoryMap.get(ctxSymbol).push(context);
+    providerContextMemoryMap.get(ctxSymbol).push(context);
   }
 
-  getContext(ctxSymbol: symbol, key: string): InheritableContext | null {
-    if (inheritableContextMemoryMap.has(ctxSymbol)) {
-      return inheritableContextMemoryMap.get(ctxSymbol).find((c) => c.key === key) || null;
+  getContext(ctxSymbol: symbol, key: string): ProviderContextInstance | null {
+    if (providerContextMemoryMap.has(ctxSymbol)) {
+      return providerContextMemoryMap.get(ctxSymbol).find((c) => c.key === key) || null;
     }
     return null;
   }
 
-  getClosestContext(ctxSymbol: symbol, key: string): InheritableContext | null {
-    if (inheritableContextMemoryMap.has(ctxSymbol)) {
-      const contexts = inheritableContextMemoryMap.get(ctxSymbol);
+  getClosestContext(ctxSymbol: symbol, key: string): ProviderContextInstance | null {
+    if (providerContextMemoryMap.has(ctxSymbol)) {
+      const contexts = providerContextMemoryMap.get(ctxSymbol);
       const closestContext = contexts
         .filter((c) => c.key.length < key.length)
         .sort((a, b) => b.key.length - a.key.length)
@@ -41,4 +41,4 @@ export class InheritableContextRegistry extends InheritableContext {
   }
 }
 
-export const InheritableContextManager = toSingleton(InheritableContextRegistry);
+export const ProviderContextRegistry = toSingleton(ProviderContextRegistryInstance);

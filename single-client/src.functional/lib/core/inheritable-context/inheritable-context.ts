@@ -2,7 +2,7 @@ export interface ProviderFn<T = any> {
   (props: { value?: T }, children: any[]): any;
 }
 
-export class InheritableContext<T = any> {
+export class ProviderContextInstance<T = any> {
   constructor(protected contextSymbol: symbol, public defaultValue?: T) {}
   protected _provider: ProviderFn;
   set provider(value: ProviderFn) {
