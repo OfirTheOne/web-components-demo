@@ -2,10 +2,12 @@ import { WC } from '../lib/jsx';
 import { useTheme } from './providers';
 import { Game, ThemeSwitchButton } from './components';
 import { createMemo, useAsync } from '../lib/core';
+import { SideMenu } from './components/side-menu/side-menu';
 
 export function App() {
   return (
     <div>
+      <SideMenu />
       <Title />
       <ThemeSwitchButton /> 
       <Game />
