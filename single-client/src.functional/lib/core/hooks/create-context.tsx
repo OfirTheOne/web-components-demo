@@ -1,8 +1,8 @@
 import { WC } from '../../jsx';
 
 import { HookType } from '../../models/i-render-context';
-import { ProviderContextInstance, ProviderFn, Context } from '../inheritable-context/inheritable-context';
-import { ProviderContextRegistry } from '../inheritable-context/inheritable-context-repo';
+import { ProviderContextInstance, ProviderFn, Context } from '../provider-context/provider-context';
+import { ProviderContextRegistry } from '../provider-context/provider-context-repo';
 import { RenderContextCommunicator } from '../render-context';
 
 export function createContext<T>(defaultValue: T): Context<T> {
