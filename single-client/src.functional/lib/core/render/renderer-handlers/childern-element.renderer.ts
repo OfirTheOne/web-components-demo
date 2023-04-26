@@ -1,9 +1,9 @@
-import { ComponentKeyBuilder as ComponentKey } from './../component-key-builder';
-import { VirtualElement, DomCompatibleElement } from '../../models';
-import { RenderUtils } from './../utils/render-utils';
-import { VirtualRender } from '../types';
+import { ComponentKeyBuilder as ComponentKey } from './../../component-key-builder';
+import { VirtualElement, DomCompatibleElement } from '../../../models';
+import { RenderUtils } from './../../utils/render-utils';
+import { VirtualRender } from '../../types';
 
-export function virtualRenderChildren(
+export function childrenElementRenderer(
   virtualRender: VirtualRender,
   parent: HTMLElement,
   children: (string | VirtualElement)[],

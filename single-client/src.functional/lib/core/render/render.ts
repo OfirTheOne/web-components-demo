@@ -2,7 +2,10 @@ import { ComponentKeyBuilder as ComponentKey } from './../component-key-builder'
 import { VirtualElement, DomCompatibleElement, VirtualElementType } from '../../models';
 import { RenderUtils, isElementType } from './../utils/render-utils';
 import { VirtualRender } from '../types';
-import { virtualRenderChildren } from './virtual-render-children';
+import { memoComponentRenderer } from './renderer-handlers/memo-component.renderer';
+import { primitiveElementRenderer } from './renderer-handlers/primitive-element.renderer';
+import { childrenElementRenderer } from './renderer-handlers/childern-element.renderer';
+import { fnComponentRenderer } from './renderer-handlers/fn-component.renderer';
 
 export function render(elem: JSX.Element | VirtualElement, id: string) {
   const vElem = elem as VirtualElement;
@@ -25,10 +28,15 @@ const virtualRender = (
   const { tag, props, children, $$type } = vElem;
   if (typeof tag === 'function') {
     if (isElementType($$type, VirtualElementType.Fragment)) {
-      element = virtualRenderChildren(virtualRender, parent, children, ComponentKey.build(key).fragment().toString()).flat();
+      element = childrenElementRenderer(
+        internalRender, 
+        parent, 
+        children, 
+        ComponentKey.build(key).fragment().toString()
+      ); //.flat();
     } else if (isElementType($$type, VirtualElementType.MemoFunction)) {
       const tagName = tag['__name__'];
-      element = RenderUtils.handleMemoComponentElement(
+      element = memoComponentRenderer(
         internalRender,
         parent,
         tag,
@@ -37,7 +45,7 @@ const virtualRender = (
         ComponentKey.build(key).tag(`${tag.name}:${tagName}`).toString()
       );
     } else if (isElementType($$type, VirtualElementType.Function)) {
-      element = RenderUtils.handleComponentElement(
+      element = fnComponentRenderer(
         internalRender,
         parent,
         tag,
@@ -47,9 +55,9 @@ const virtualRender = (
       );
     }
   } else if (isElementType($$type, VirtualElementType.Basic)) {
-    const nativeElement = RenderUtils.handleNativeTagElement(tag, props);
-    const renderedChildren = virtualRenderChildren(
-      virtualRender,
+    const nativeElement = primitiveElementRenderer(tag, props);
+    const renderedChildren = childrenElementRenderer(
+      internalRender,
       nativeElement,
       children,
       ComponentKey.build(key).tag(tag).toString()
