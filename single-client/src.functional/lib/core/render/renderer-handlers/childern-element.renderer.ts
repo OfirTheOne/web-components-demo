@@ -12,7 +12,7 @@ export function childrenElementRenderer(
 ): DomCompatibleElement[] {
   if (children.length > 0) {
 
-    children
+    return children
         .map((child) => {
             if (isSignal(child)) {
                 child.connected = true;
