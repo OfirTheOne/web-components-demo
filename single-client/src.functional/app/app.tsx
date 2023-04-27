@@ -3,6 +3,8 @@ import { useTheme } from './providers';
 import { Game, ThemeSwitchButton } from './components';
 import { createMemo, useAsync } from '../lib/core';
 import { SideMenu } from './components/side-menu/side-menu';
+import { signal } from '../lib/core/signal/signal-component/signal-component';
+import { createSignal } from '../lib/core/signal/create-signal/create-signal';
 
 export function App() {
   return (
@@ -10,10 +12,12 @@ export function App() {
       <SideMenu />
       <Title />
       <ThemeSwitchButton /> 
+      <Counter initialCount={0} />
       <Game />
     </div>
   );
 }
+
 
 
 export function Title() {
@@ -25,3 +29,12 @@ export function Title() {
 
 
 const wait = (ms: number) => new Promise((res) => setTimeout(() => res(undefined), ms));
+
+
+const Counter = signal(
+  function Counter(props: { initialCount: number }) {
+    const [count, setCount] = createSignal(props.initialCount);
+    const inc = () => setCount(count() + 1);
+    return <button onClick={inc}>{count()}</button>;
+  }
+)
