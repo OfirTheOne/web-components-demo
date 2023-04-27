@@ -16,6 +16,9 @@ export function memo<T>(
     fn: (...args: any[]) => T, 
     areEqual: EqualFn<T> = defaultAreEqual
 ): (...args: any[]) => T {
+    if(fn.name.length === 0) {
+        throw new Error('Memo component must have a name');
+    }
     const memoComp = function MemoComponent(...args: any[]) {
         return fn(...args);
     };
