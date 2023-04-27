@@ -1,6 +1,4 @@
-
-
-
+import { IComponentContainer } from "../../../models/i-component-container";
 
 export enum SignalType {
     // Null,
@@ -32,7 +30,6 @@ const generateId = () => {
 }
 export class SignalRenderContext {
 
-
     createSignalId() {
         return `signal-${this.signalStorage.size}--${generateId()}`;
     }
@@ -42,7 +39,10 @@ export class SignalRenderContext {
     isValueAreSignalKey(value: unknown) {
         return typeof value === 'string' && this.signalStorage.has(value);
     }
-    constructor(protected componentContainerRef: any, protected _componentKey: string) {}
+    constructor(
+        public componentContainerRef: IComponentContainer, 
+        protected _componentKey: string
+    ) {}
 
     get componentKey() {
         return this._componentKey;
@@ -51,3 +51,5 @@ export class SignalRenderContext {
 
 
 }
+
+

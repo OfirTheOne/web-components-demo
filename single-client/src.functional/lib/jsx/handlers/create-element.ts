@@ -16,6 +16,8 @@ export const createElement = (
       elementType = VirtualElementType.Fragment;
     } else if(tag['$$type'] && tag['$$type'] === Symbol.for(VirtualElementType.MemoFunction)) {
       elementType = VirtualElementType.MemoFunction;
+    } else if(tag['$$type'] && tag['$$type'] === Symbol.for(VirtualElementType.SignaledFunction)) {
+      elementType = VirtualElementType.SignaledFunction;
     } else {
       elementType = VirtualElementType.Function;
     }

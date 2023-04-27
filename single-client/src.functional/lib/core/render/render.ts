@@ -28,7 +28,7 @@ const virtualRender: VirtualRender = (parent, vElem, key) => {
       element = childrenElementRenderer(internalRender, parent, children, ComponentKey.build(key).fragment().toString());
     } else if (isElementType($$type, VirtualElementType.SignaledFunction)) {
       const tagName = tag['__name__'];
-      element = fnComponentRenderer(
+      element = signalComponentRenderer(
         signalRender,
         parent,
         tag,

@@ -25,7 +25,7 @@ export function childrenElementRenderer(
       .map((child, i) => {
         if (child === undefined || child === null) {
           return child as null;
-        }  else if (typeof child !== 'string') {
+        }  else if (isVirtualElement(child)) {
           return virtualRender(parent, child, ComponentKey.build(key).idx(i).toString());
         } else {
           return RenderUtils.renderText(child);
@@ -35,4 +35,13 @@ export function childrenElementRenderer(
   } else {
     return [];
   }
+}
+
+
+function isVirtualElement(child: any): child is VirtualElement {
+  return child !== null 
+    && typeof child === 'object' 
+    && child.hasOwnProperty('tag') 
+    && child.hasOwnProperty('props') 
+    && child.hasOwnProperty('children');
 }

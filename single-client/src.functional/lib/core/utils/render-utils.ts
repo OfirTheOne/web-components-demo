@@ -39,8 +39,9 @@ export class RenderUtils {
     }
   }
 
-  public static renderText(child?: string) {
-    return document.createTextNode(child || '');
+  public static renderText(child?: string | number | boolean) {
+    const nodeContent = (child === null || child === undefined )? '' : `${child}`;
+    return document.createTextNode(nodeContent);
   }
 
   public static convertStyleObjectToInlineStyle(styleObject: Record<string, unknown>): string {

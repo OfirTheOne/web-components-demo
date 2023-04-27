@@ -69,7 +69,7 @@ export class SignalComponentContainer implements IComponentContainer {
     return domElement;
   }
   onUnmount() {
-    SignaledContextCommunicator.instance.deleteStoredContext(this.key);
+    SignalRenderContextCommunicator.instance.deleteStoredContext(this.key);
   }
 
   public connectOnMount(domElement: OneOrMany<HTMLElement>) {

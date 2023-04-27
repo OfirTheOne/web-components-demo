@@ -1,12 +1,11 @@
 import { VirtualRender } from '../../types';
 import { Logger } from '../../../common/logger';
 import { ComponentContainer } from '../../component-container/component-container';
-import { renderContextMemoryMap, signaledContextMemoryMap } from '../../global-storage';
 import { Props, VirtualElement } from '../../../models';
 import { OneOrMany } from '../../../types/utils';
 import { FnComponent } from '../../../models/fn-component';
 import { SignalComponentContainer } from '../../signal/component-container/signal-component-container';
-import { noop } from '../../../common/noop';
+import { SignalRenderContextCommunicator } from '../../signal/render-context/signal-render-context-communicator';
 
 
 
@@ -18,9 +17,8 @@ export function signalComponentRenderer(
     children: Array<string | VirtualElement>,
     key: string
   ): OneOrMany<HTMLElement> {
-    const existingComponentContainer = signaledContextMemoryMap.get(key)?.componentContainerRef as ComponentContainer;
+    const existingComponentContainer = SignalRenderContextCommunicator.instance.accessContext(key)?.componentContainerRef as ComponentContainer;
     const isMounted = existingComponentContainer && existingComponentContainer.wasRenderedBefore; 
-
 
     if(isMounted) {
       Logger.logAction('memoRender', `element ${tag.name}, key ${key}.`);
