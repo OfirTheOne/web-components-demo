@@ -1,44 +1,73 @@
 import { IComponentContainer } from "../../../models/i-component-container";
-
-export enum SignalType {
-    // Null,
-    Content,
-    // Attribute,
-    Property,
-    Event,
-    Style
-
-}
-export interface Signal {
-    type: SignalType | null;
-    propKey: string | null;
-    componentKey: string;
-    value: unknown;
-    id: string;
-    containerElement: HTMLElement | null;
-    connected: boolean;
-}
+import { signalIdsMemorySet } from "../../global-storage";
+import { Signal, SignalSubscription } from "../models";
+import { renderSignalValue } from "../render-signal-value/render-signal-value";
 
 export function isSignal(s: unknown): s is Signal {
     return typeof s === 'object' 
         && s !== null 
-        && ['id', 'componentKey', 'value', 'connected', 'containerElement'].every(key => key in s);
+        && 'id' in s 
+        && 'value' in s 
+        && 'emitter' in s;
 }
 
-const generateId = () => {
-    return 'randomUUID' in crypto ? crypto.randomUUID() : `${Math.random()}-${Date.now()}`;
+export function isValueAreSignalKey(value: unknown) {
+    return typeof value === 'string' && signalIdsMemorySet.has(value);
 }
+
 export class SignalRenderContext {
 
-    createSignalId() {
-        return `signal-${this.signalStorage.size}--${generateId()}`;
+    // createSignalId() {
+    //     return `signal-${signalIdsMemorySet.size}--${generateId()}`;
+    // }
+    // signalStorage = new Map<string, Signal>;
+
+
+    signalSubscription: Map<string, 
+    {
+        listener: () => void,
+        subscription: SignalSubscription
+    }[]> = new Map();
+
+
+    signalsInUsed: Map<string, Signal> = new Map();
+
+    
+
+    subscribeSignal(signal: Signal, subscription: SignalSubscription) {
+        signal.emitter.on('change', (value) => {
+            renderSignalValue(value, subscription);
+        });
+
+        this.signalsInUsed.set(signal.id, signal);
     }
 
-    signalStorage = new Map<string, Signal>;
 
-    isValueAreSignalKey(value: unknown) {
-        return typeof value === 'string' && this.signalStorage.has(value);
+    removeSignalSubscription(subscription: SignalSubscription) {
+        if(this.signalSubscription.has(subscription.id)) {
+            const subscriptions = this.signalSubscription.get(subscription.id);
+            if(subscriptions) {
+                const index = subscriptions.findIndex(s => s.subscription == subscription);
+                if(index > -1) {
+                    const signal = this.signalsInUsed.get(subscription.id);
+                    signal?.emitter.removeListener('change', subscriptions[index].listener);
+                    subscriptions.splice(index, 1);
+                }
+            }
+        }
     }
+
+    // updateSignalSubscription(signalId: string) {
+    //     if(this.signalSubscription.has(signalId)) {
+    //         const subscriptions = this.signalSubscription.get(signalId);
+    //         if(subscriptions) {
+    //             subscriptions.forEach(subscription => {
+    //                 renderSignalValue(subscription);
+    //             });
+    //         }
+    //     }
+    // }
+
     constructor(
         public componentContainerRef: IComponentContainer, 
         protected _componentKey: string

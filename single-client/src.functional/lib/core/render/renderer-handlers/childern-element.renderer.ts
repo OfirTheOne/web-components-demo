@@ -3,6 +3,9 @@ import { VirtualElement, DomCompatibleElement } from '../../../models';
 import { RenderUtils } from './../../utils/render-utils';
 import { VirtualRender } from '../../types';
 import { isSignal } from '../../signal/render-context/signal-render-context';
+import { SignalRenderContextCommunicator } from '../../signal/render-context/signal-render-context-communicator';
+
+
 
 export function childrenElementRenderer(
   virtualRender: VirtualRender,
@@ -11,12 +14,18 @@ export function childrenElementRenderer(
   key: string
 ): DomCompatibleElement[] {
   if (children.length > 0) {
-
-    return children
-        .map((child) => {
-            if (isSignal(child)) {
-                child.connected = true;
-                child.containerElement = parent;
+      return children
+      .map((child) => {
+          if (isSignal(child)) {
+                const currentContext = SignalRenderContextCommunicator.instance.currentContext;
+                currentContext.subscribeSignal(child, {
+                    componentKey: key,
+                    containerElement: parent,
+                    connected: true,
+                    type: null,
+                    propKey: null,
+                    id: child.id,
+                });
                 return child.value as (string | VirtualElement);
             } else {
                 return child;
@@ -41,7 +50,7 @@ export function childrenElementRenderer(
 function isVirtualElement(child: any): child is VirtualElement {
   return child !== null 
     && typeof child === 'object' 
-    && child.hasOwnProperty('tag') 
-    && child.hasOwnProperty('props') 
-    && child.hasOwnProperty('children');
+    && 'tag' in child 
+    && 'props' in child 
+    && 'children' in child;
 }

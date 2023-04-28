@@ -1,19 +1,19 @@
-import { Signal } from "../render-context/signal-render-context";
+import { SignalSubscription } from "../models";
 
 
-export function renderSignalValue (signal: Signal) {
+export function renderSignalValue (signalValue: unknown, signal: SignalSubscription) {
 
     if( signal.containerElement === null || signal.containerElement === undefined || !signal.connected) {
         return;
     }
-    if (signal.value !== null && signal.value !== undefined) {
-        if (typeof signal.value === 'string') {
-            signal.containerElement.innerHTML = signal.value;
-        } else if (signal.value instanceof HTMLElement) {
+    if (signalValue !== null && signalValue !== undefined) {
+        if (typeof signalValue === 'string') {
+            signal.containerElement.innerHTML = signalValue;
+        } else if (signalValue instanceof HTMLElement) {
             signal.containerElement.innerHTML = '';
-            signal.containerElement.appendChild(signal.value);
+            signal.containerElement.appendChild(signalValue);
         } else {
-            signal.containerElement.innerHTML = signal.value.toString();
+            signal.containerElement.innerHTML = signalValue.toString();
         }
     } else {
         signal.containerElement.innerHTML = '';

@@ -1,14 +1,16 @@
-import { IComponentContainer } from 'src.functional/lib/models/i-component-container';
+import { IComponentContainer } from '../../../models/i-component-container';
 import { SignalRenderContext } from './signal-render-context';
 import { signaledContextMemoryMap } from '../../global-storage';
 
 class SignalRenderContextCommunicatorInstance {
   private _currentContext: SignalRenderContext | null = null;
 
+  calledContextStack: SignalRenderContext[] = [];
   /* eslint-disable  @typescript-eslint/no-empty-function */
   protected constructor() {}
   get currentContext() {
-    return this._currentContext;
+
+    return this.calledContextStack.at(-1);
   }
 
   public accessContext(componentKey: string): SignalRenderContext | null {
@@ -27,11 +29,13 @@ class SignalRenderContextCommunicatorInstance {
       context = new SignalRenderContext(componentContainerRef, componentKey);
       signaledContextMemoryMap.set(componentKey, context);
     }
+    this.calledContextStack.push(context);
     this._currentContext = context;
   }
 
   public removeContext() {
     // this._currentContext.cleanup();
+    this.calledContextStack.pop();
     this._currentContext = null;
   }
 

@@ -2,7 +2,7 @@ import { isAllLowerCase, isSymbolShallowEquals } from './common-utils';
 import { isCapitalEventName } from './is-capital-event-name';
 import { VirtualElementType } from '../../models';
 import { DomElement } from '../../models/dom-element';
-import { Signal, isSignal } from '../signal/render-context/signal-render-context';
+// import { Signal } from '../signal/models';
 
 export class RenderUtils {
 
@@ -16,17 +16,7 @@ export class RenderUtils {
       }
     });
   }
-  public static appendSignalDomProps(element: HTMLElement, propsEntries: Array<[string, any]>) {
-    propsEntries.forEach(([name, value]) => {      
-      if (isCapitalEventName(name)) {
-        const eventName = name.toLowerCase().substring(2) as keyof HTMLElementEventMap;
-        element.addEventListener(eventName, value);
-      } else {
-        element.setAttribute(name, value.toString());
-      }
-    });
-
-  }
+  
 
   public static appendDomChildren(parent: HTMLElement, child: DomElement) {
     if (child) {

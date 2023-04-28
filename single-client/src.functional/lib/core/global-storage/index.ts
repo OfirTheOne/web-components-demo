@@ -7,3 +7,4 @@ export const globalStyleMap = new Map<string, HTMLStyleElement>();
 export const renderContextMemoryMap = new Map<string, IRenderContext>();
 export const providerContextMemoryMap = new Map<string | symbol, ProviderContextInstance[]>();
 export const signaledContextMemoryMap = new Map<string, Record<string, any>>();
+export const signalIdsMemorySet = new Set<string>();

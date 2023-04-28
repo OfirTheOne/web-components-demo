@@ -49,7 +49,6 @@ export class SignalComponentContainer implements IComponentContainer {
     
     SignalRenderContextCommunicator.instance.setContext(this.key, this);
     const virtualElement = this.fnComponent(this._props || {}, this._children);
-    SignalRenderContextCommunicator.instance.removeContext();
     const isUnmounted = virtualElement == null;
     if (isUnmounted) {
      
@@ -58,6 +57,8 @@ export class SignalComponentContainer implements IComponentContainer {
     }
 
     const domElement = <HTMLElement>this.internalRender(this._parent, virtualElement, this.key);
+    SignalRenderContextCommunicator.instance.removeContext();
+
     if (this._parent) {
       if (this.wasRenderedBefore) {
         this.connectOnSelfRerender(domElement);
