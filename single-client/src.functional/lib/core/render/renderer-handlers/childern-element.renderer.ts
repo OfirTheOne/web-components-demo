@@ -2,7 +2,7 @@ import { ComponentKeyBuilder as ComponentKey } from './../../component-key-build
 import { VirtualElement, DomCompatibleElement } from '../../../models';
 import { RenderUtils } from './../../utils/render-utils';
 import { VirtualRender } from '../../types';
-import { isSignal } from '../../signal/render-context/signal-render-context';
+import { isSignal, isDerivedSignal } from '../../signal/render-context/signal-render-context';
 import { SignalRenderContextCommunicator } from '../../signal/render-context/signal-render-context-communicator';
 
 
@@ -16,7 +16,9 @@ export function childrenElementRenderer(
   if (children.length > 0) {
       return children
       .map((child) => {
-          if (isSignal(child)) {
+        // TODO: NEED TO FIX THIS 
+        // THE TEXT NODE REPLACING THE WHOLE PARENT CONTENT
+          if (isSignal(child) || isDerivedSignal(child)) {
                 const currentContext = SignalRenderContextCommunicator.instance.currentContext;
                 currentContext.subscribeSignal(child, {
                     componentKey: key,

@@ -1,7 +1,19 @@
 import { IComponentContainer } from "../../../models/i-component-container";
 import { signalIdsMemorySet } from "../../global-storage";
-import { Signal, SignalSubscription } from "../models";
+import { DerivedSignal, Signal, SignalSubscription } from "../models";
 import { renderSignalValue } from "../render-signal-value/render-signal-value";
+
+
+export function isDerivedSignal(s: unknown): s is DerivedSignal {
+    return typeof s === 'object'
+        && s !== null
+        && 'id' in s
+        && 'value' in s
+        && 'source' in s
+        && 'transformers' in s;
+}
+
+
 
 export function isSignal(s: unknown): s is Signal {
     return typeof s === 'object' 
@@ -34,12 +46,17 @@ export class SignalRenderContext {
 
     
 
-    subscribeSignal(signal: Signal, subscription: SignalSubscription) {
-        signal.emitter.on('change', (value) => {
-            renderSignalValue(value, subscription);
-        });
+    subscribeSignal(signal: Signal | DerivedSignal, subscription: SignalSubscription) {
+        const sourceSignal = isDerivedSignal(signal) ? signal.source : signal;
 
-        this.signalsInUsed.set(signal.id, signal);
+        sourceSignal.emitter.on('change', (value) => {
+            let usedValue = value;
+            if(isDerivedSignal(signal)) {
+                usedValue = signal.computeValue();
+            }
+            renderSignalValue(usedValue, subscription);
+        });
+        this.signalsInUsed.set(sourceSignal.id, sourceSignal);
     }
 
 

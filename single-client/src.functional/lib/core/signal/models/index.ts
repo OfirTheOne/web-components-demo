@@ -27,3 +27,14 @@ export interface Signal<T=unknown> {
     emitter: EventEmitter
     id: string;
 }
+
+
+export interface DerivedSignal<S =unknown, N=unknown> {
+    source: Signal<S>;
+    get value(): N;
+    // get emitter(): EventEmitter
+    get id(): string;
+    transformers: Array<(value: unknown) => unknown>;  
+    computeValue(): N;    
+
+}

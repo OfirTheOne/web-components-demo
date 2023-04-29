@@ -49,7 +49,7 @@ export function signalPrimitiveElementRenderer(tag: string, props: Props) {
     if (styleProp && typeof styleProp == 'object') {
       element.setAttribute('style', RenderUtils.convertStyleObjectToInlineStyle(styleProp));
     }
-    RenderUtils.appendSignalDomProps(element, mutatedPropsEntries);
+    RenderUtils.appendDomProps(element, mutatedPropsEntries);
   }
   return element;
 }

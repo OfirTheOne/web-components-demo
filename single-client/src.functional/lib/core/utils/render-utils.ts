@@ -16,7 +16,6 @@ export class RenderUtils {
       }
     });
   }
-  
 
   public static appendDomChildren(parent: HTMLElement, child: DomElement) {
     if (child) {

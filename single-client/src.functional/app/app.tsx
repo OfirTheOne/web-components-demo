@@ -4,13 +4,13 @@ import { Game, ThemeSwitchButton } from './components';
 import { createMemo, useAsync } from '../lib/core';
 import { SideMenu } from './components/side-menu/side-menu';
 import { signal } from '../lib/core/signal/signal-component/signal-component';
-import { createSignal } from '../lib/core/signal/create-signal/create-signal';
+import { createSignal, derivedSignal } from '../lib/core/signal/create-signal/create-signal';
 import { Signal } from 'src.functional/lib/core/signal/models';
 
 export function App() {
   return (
     <div>
-      <SideMenu />
+      {/* <SideMenu /> */}
       <Title />
       <ThemeSwitchButton /> 
       <Counter initialCount={0} />
@@ -36,16 +36,19 @@ const Counter = signal(
   function Counter(props: { initialCount: number }) {
     const [count, setCount] = createSignal(props.initialCount);
     const inc = () => setCount(count.value + 1);
-    return <>
-    <button onClick={inc}>{count}</button>
+    return <div>
       <Label label={count} />
-    </>
+      <div>
+        <button onClick={inc}>click here : {count}</button>
+      </div>
+    </div>
   }
 )
 
 
 const Label = signal(
   function Label(props: {label: Signal<number>}) {
-    return <label>{props.label}</label>;
+    const derivedLabel = derivedSignal(props.label, (label) =>  `label ${label}`.toUpperCase());
+    return <label>{derivedLabel}</label>;
   }
 )
