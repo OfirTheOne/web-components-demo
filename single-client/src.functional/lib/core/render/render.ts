@@ -4,7 +4,7 @@ import { RenderUtils, isElementType } from './../utils/render-utils';
 import { VirtualRender } from '../types';
 import { memoComponentRenderer } from './renderer-handlers/memo-component.renderer';
 import { primitiveElementRenderer } from './renderer-handlers/primitive-element.renderer';
-import { childrenElementRenderer } from './renderer-handlers/childern-element.renderer';
+import { childrenElementRenderer } from './renderer-handlers/children-element.renderer';
 import { fnComponentRenderer } from './renderer-handlers/fn-component.renderer';
 import { signalComponentRenderer } from './renderer-handlers/signal-component.renderer';
 

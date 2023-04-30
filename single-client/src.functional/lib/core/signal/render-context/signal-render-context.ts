@@ -28,13 +28,6 @@ export function isValueAreSignalKey(value: unknown) {
 }
 
 export class SignalRenderContext {
-
-    // createSignalId() {
-    //     return `signal-${signalIdsMemorySet.size}--${generateId()}`;
-    // }
-    // signalStorage = new Map<string, Signal>;
-
-
     signalSubscription: Map<string, 
     {
         listener: () => void,
@@ -73,17 +66,6 @@ export class SignalRenderContext {
             }
         }
     }
-
-    // updateSignalSubscription(signalId: string) {
-    //     if(this.signalSubscription.has(signalId)) {
-    //         const subscriptions = this.signalSubscription.get(signalId);
-    //         if(subscriptions) {
-    //             subscriptions.forEach(subscription => {
-    //                 renderSignalValue(subscription);
-    //             });
-    //         }
-    //     }
-    // }
 
     constructor(
         public componentContainerRef: IComponentContainer, 

@@ -1,13 +1,13 @@
-import { SignalSubscription } from "../models";
+import { SignalSubscription } from '../models';
 
-
-export function renderSignalValue (signalValue: unknown, signal: SignalSubscription) {
-
-    if( signal.containerElement === null || signal.containerElement === undefined || !signal.connected) {
+export function renderSignalValue(signalValue: unknown, signal: SignalSubscription) {
+    if (signal.containerElement === null || signal.containerElement === undefined || !signal.connected) {
         return;
     }
     if (signalValue !== null && signalValue !== undefined) {
-        if (typeof signalValue === 'string') {
+        if (signal.containerElement instanceof Text) {
+            signal.containerElement.textContent = signalValue.toString();
+        } else if (typeof signalValue === 'string') {
             signal.containerElement.innerHTML = signalValue;
         } else if (signalValue instanceof HTMLElement) {
             signal.containerElement.innerHTML = '';
@@ -16,6 +16,10 @@ export function renderSignalValue (signalValue: unknown, signal: SignalSubscript
             signal.containerElement.innerHTML = signalValue.toString();
         }
     } else {
-        signal.containerElement.innerHTML = '';
+        if (signal.containerElement instanceof Text) {
+            signal.containerElement.textContent = '';
+        } else {
+            signal.containerElement.innerHTML = '';
+        }
     }
 }
