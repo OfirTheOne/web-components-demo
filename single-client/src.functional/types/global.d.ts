@@ -5,12 +5,13 @@
 
 declare global {
   export namespace JSX {
-    // export type Element = Presentable
     // export type ElementClass = Presentable
     export interface IntrinsicElements {
       [key: string]: any;
       // ...
     }
+    export type Element = IntrinsicElements
+
   }
 
   declare module '*.lazy.css' {
