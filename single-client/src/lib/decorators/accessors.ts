@@ -2,7 +2,7 @@ import "reflect-metadata";
 import { DEFINE_COMPONENT_ARGS } from "../constants";
 import { DefineComponentOptions } from "../models/define-component-options";
 
-export function setDefineComponentArg(name: string, options: DefineComponentOptions = {}, target: Object) {
+export function setDefineComponentArg(name: string, options: DefineComponentOptions = {}, target: object) {
     Reflect.defineMetadata(
         DEFINE_COMPONENT_ARGS, 
         { name, options }, 
@@ -10,7 +10,7 @@ export function setDefineComponentArg(name: string, options: DefineComponentOpti
     );
 }   
 
-export function getDefineComponentArg(target: Object): {
+export function getDefineComponentArg(target: object): {
     name: string, 
     options: DefineComponentOptions 
  } | undefined {
