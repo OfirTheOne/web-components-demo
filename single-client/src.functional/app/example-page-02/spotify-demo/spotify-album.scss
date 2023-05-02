@@ -1,0 +1,40 @@
+@import './../styles.scss';
+
+.spotify-album-container {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #1c1c1c;
+    color: #181818;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+  
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    }
+  
+    .spotify-album-image {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+    }
+  
+    .spotify-album-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-top: 10px;
+      margin-bottom: 5px;
+    }
+  
+    .spotify-album-artist {
+      font-size: 14px;
+      color: #b3b3b3;
+      margin-bottom: 10px;
+    }
+  }
+  

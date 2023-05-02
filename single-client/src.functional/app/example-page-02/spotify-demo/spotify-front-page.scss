@@ -1,0 +1,71 @@
+@import './../styles.scss';
+
+.spotify-front-page {
+    background-color: $primary-color;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    color: #ffffff;
+  
+    h1 {
+      font-size: 36px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+  
+    .spotify-albums {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-gap: 20px;
+      justify-items: center;
+      width: 100%;
+      margin-top: 20px;
+    }
+    .side-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 250px;
+      background-color: #040404;
+      color: #b3b3b3;
+      padding: 30px 20px;
+      z-index: 10;
+  
+      ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+      }
+  
+      li {
+        display: flex;
+        align-items: center;
+        font-size: 18px;
+        margin-bottom: 20px;
+        cursor: pointer;
+        transition: color 0.2s ease;
+  
+        i {
+          margin-right: 10px;
+          font-size: 20px;
+        }
+  
+        &:hover {
+          color: #ffffff;
+        }
+      }
+  
+      .active {
+        color: #ffffff;
+        font-weight: bold;
+      }
+    }
+  }
+  
+
+ 
+  
+
+  

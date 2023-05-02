@@ -1,0 +1,96 @@
+
+
+@import './../styles.scss';
+
+.media-player-bar {
+    border-top: 1px solid #4e4e4e;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background-color: #181818;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+  
+    .player-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 1200px;
+  
+      .play-button,
+      .skip-button,
+      .volume-button {
+        background-color: transparent;
+        border: none;
+        color: #ffffff;
+        font-size: 24px;
+        margin: 0 10px;
+        cursor: pointer;
+  
+        &:hover {
+          color: #1db954;
+        }
+      }
+  
+      .progress-bar-container {
+        flex-grow: 1;
+        height: 8px;
+        background-color: #282828;
+        margin: 0 10px;
+        position: relative;
+  
+        .progress-bar {
+          height: 100%;
+          background-color: #1db954;
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 30%;
+        }
+      }
+  
+      .time-labels {
+        font-size: 14px;
+        color: #b3b3b3;
+        margin: 0 10px;
+  
+        .current-time {
+          margin-right: 10px;
+        }
+      }
+  
+      .volume-button {
+        position: relative;
+        margin-left: auto;
+  
+        &:hover .volume-slider {
+          display: block;
+        }
+  
+        .volume-slider {
+          position: absolute;
+          bottom: calc(100% + 10px);
+          left: -75px;
+          background-color: #282828;
+          width: 150px;
+          height: 8px;
+          display: none;
+          z-index: 10;
+  
+          .volume-level {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background-color: #1db954;
+          }
+        }
+      }
+    }
+  }
+  

@@ -6,15 +6,18 @@ import { SideMenu } from './components/side-menu/side-menu';
 import { signal } from '../lib/core/signal/signal-component/signal-component';
 import { createSignal, derivedSignal } from '../lib/core/signal/create-signal/create-signal';
 import { Signal } from 'src.functional/lib/core/signal/models';
+import { ExamplePage02 } from './example-page-02';
+import './app.scss';
 
 export function App() {
   return (
     <div>
       {/* <SideMenu /> */}
-      <Title />
+      <ExamplePage02 />
+      {/* <Title />
       <ThemeSwitchButton /> 
       <Counter initialCount={0} />
-      <Game />
+      <Game /> */}
     </div>
   );
 }
@@ -48,7 +51,7 @@ const Counter = signal(
 
 const Label = signal(
   function Label(props: {label: Signal<number>}) {
-    const derivedLabel = derivedSignal(props.label, (label) =>  `label ${label}`.toUpperCase());
+    const derivedLabel = derivedSignal(props.label, (label) => `label ${label}`.toUpperCase());
     return <label>{derivedLabel}</label>;
   }
 )
