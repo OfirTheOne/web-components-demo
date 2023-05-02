@@ -8,7 +8,7 @@ module.exports = {
   entry: './src.functional/index.ts',
   mode: 'development',
   devServer: {
-    static: path.join(__dirname, 'dist'),
+    static: [path.join(__dirname, 'dist'), path.join(__dirname, 'public') ] ,
     compress: true,
     port: 4000,
   },
