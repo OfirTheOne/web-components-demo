@@ -1,45 +1,48 @@
 import EventEmitter from 'events';
-import { SignalRenderContextCommunicator } from '../render-context/signal-render-context-communicator';
+// import { SignalRenderContextCommunicator } from '../render-context/signal-render-context-communicator';
 import { signalIdsMemorySet } from '../../global-storage';
 import { DerivedSignal, Signal } from '../models';
 import { generateId } from '../../../common/generate-id';
 import { reduceTransform } from '../../../common/reduce-transform';
 import { memoisedFunction } from '../../../common/memoised-function';
 
-export function createSignal<T = any>(initValue: T): Readonly<[Signal<T>, (newValue: T) => void]> {
-  const currentContext = SignalRenderContextCommunicator.instance.currentContext;
-  if (!currentContext) {
-    throw new Error('createSignal must be called inside a signal component');
-  }
 
-  const signal: Signal<T> = {
+
+export function signal<T = any>(initValue: T): Readonly<Signal<T>> {
+  const sourceSignal: Signal<T> = {
     get value() {
-      return signal._value;
+      return sourceSignal._value;
     },
     set value(newValue: T) {
-      signal._value = newValue;
-      signal.emitter.emit('change', newValue);
+      sourceSignal._value = newValue;
+      sourceSignal.emitter.emit('change', newValue);
     },
     _value: initValue,
     id: generateId(),
     emitter: new EventEmitter(),
-  };
-  const setSignal = (value: T) => {
-    signal.value = value;
-  };
-  signalIdsMemorySet.add(signal.id);
+  } as const;
+  signalIdsMemorySet.add(sourceSignal.id);
 
-  return [signal, setSignal] as const;
+  return sourceSignal;
 }
 
-export function derivedSignal<S = any, N = any>(
-  sourceSignal: Signal<S> | DerivedSignal<unknown, S>,
-  transform: (value: S) => N
-): DerivedSignal<S, N> {
-  const currentContext = SignalRenderContextCommunicator.instance.currentContext;
-  if (!currentContext) {
-    throw new Error('createSignal must be called inside a signal component');
-  }
+export function createSignal<T = any>(initValue: T): Readonly<[Signal<T>, (newValue: T) => void]> {
+  const sourceSignal: Signal<T> = signal(initValue);
+  const setSignal = (value: T) => {
+    sourceSignal.value = value;
+  };
+
+  return [sourceSignal, setSignal] as const;
+}
+
+export function derivedSignal<S = any, N = any>(sourceSignal: Signal<S>, transform: (value: S) => N): DerivedSignal<N>;
+export function derivedSignal<S = any, N = any>(sourceSignal: DerivedSignal<N>, transform: (value: S) => N): DerivedSignal<N>;
+export function derivedSignal<S = any, N = any>(sourceSignal: Signal<S> | DerivedSignal<N>, transform: (value: S) => N
+): DerivedSignal<N> {
+  // const currentContext = SignalRenderContextCommunicator.instance.currentContext;
+  // if (!currentContext) {
+  //   throw new Error('createSignal must be called inside a signal component');
+  // }
   let source: Signal<S>;
   let transformers: DerivedSignal['transformers'];
   if ('transformers' in sourceSignal) {
@@ -54,7 +57,7 @@ export function derivedSignal<S = any, N = any>(
     return reduceTransform<N>(currentSourceValue, transformers);
   });
 
-  const signal: DerivedSignal<S, N> = {
+  const signal: DerivedSignal<N> = {
     source: source as Signal<S>,
     transformers,
     get value() {

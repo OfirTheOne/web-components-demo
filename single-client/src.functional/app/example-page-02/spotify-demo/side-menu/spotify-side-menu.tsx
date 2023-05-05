@@ -1,6 +1,6 @@
-import { WC } from '../../../lib/jsx';
-import { FC } from 'src.functional/lib/models/functional-component';
-import './spotify-front-page.scss';
+import { WC } from '../../../../lib/jsx';
+import { FC } from '../../../../lib/models/functional-component';
+import './spotify-side-menu.scss';
 
 
 const sections = [

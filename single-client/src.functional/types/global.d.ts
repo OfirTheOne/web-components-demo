@@ -7,7 +7,16 @@ declare global {
   export namespace JSX {
     // export type ElementClass = Presentable
     export interface IntrinsicElements {
-      [key: string]: any;
+      [key: string]: {
+        className?: string;
+        classname?: string;
+        style?: {
+          [key: string]: string;
+        };
+        ref?: any;
+        key?: string;
+        [key: string]: any;
+      };
       // ...
     }
     export type Element = IntrinsicElements

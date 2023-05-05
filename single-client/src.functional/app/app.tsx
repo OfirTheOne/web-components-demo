@@ -3,7 +3,7 @@ import { useTheme } from './providers';
 import { Game, ThemeSwitchButton } from './components';
 import { createMemo, useAsync } from '../lib/core';
 import { SideMenu } from './components/side-menu/side-menu';
-import { signal } from '../lib/core/signal/signal-component/signal-component';
+import { signalComponent } from '../lib/core/signal/signal-component/signal-component';
 import { createSignal, derivedSignal } from '../lib/core/signal/create-signal/create-signal';
 import { Signal } from 'src.functional/lib/core/signal/models';
 import { ExamplePage02 } from './example-page-02';
@@ -35,7 +35,7 @@ export function Title() {
 const wait = (ms: number) => new Promise((res) => setTimeout(() => res(undefined), ms));
 
 
-const Counter = signal(
+const Counter = signalComponent(
   function Counter(props: { initialCount: number }) {
     const [count, setCount] = createSignal(props.initialCount);
     const inc = () => setCount(count.value + 1);
@@ -49,7 +49,7 @@ const Counter = signal(
 )
 
 
-const Label = signal(
+const Label = signalComponent(
   function Label(props: {label: Signal<number>}) {
     const derivedLabel = derivedSignal(props.label, (label) => `label ${label}`.toUpperCase());
     return <label>{derivedLabel}</label>;

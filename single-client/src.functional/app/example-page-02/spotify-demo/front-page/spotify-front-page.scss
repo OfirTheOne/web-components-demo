@@ -1,6 +1,7 @@
-@import './../styles.scss';
+@import './../../styles.scss';
 
 .spotify-front-page {
+    height: 100vh;
     background-color: $primary-color;
     display: flex;
     flex-direction: column;

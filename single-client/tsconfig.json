@@ -27,5 +27,5 @@
     "plugins": [{ "name": "typescript-plugin-css-modules" }]
   },
   "include": ["src/**/*", "src/types/*", "src.functional/**/*", "src.functional/types/*"],
-  "exclude": ["node_modules", "test", "dist", "**/*spec.ts", "public"]
+  "exclude": ["src.old", "node_modules", "test", "dist", "**/*spec.ts", "public"]
 }

@@ -27,8 +27,8 @@ export interface Signal<T=unknown> {
 }
 
 
-export interface DerivedSignal<S =unknown, N=unknown> {
-    source: Signal<S>;
+export interface DerivedSignal<N=unknown> {
+    source: Signal<unknown>;
     get value(): N;
     // get emitter(): EventEmitter
     get id(): string;
