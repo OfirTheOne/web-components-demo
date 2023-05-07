@@ -30,7 +30,8 @@ export function signalComponentRenderer(
         const componentContainer = (
             existingComponentContainer || (
             isDynamicTemplate(tag) ? 
-            DynamicTemplateComponentContainerFactory.create(tag['$$dynamic-template'], tag, props, children, key, parent, undefined, {}, virtualRender) :
+            DynamicTemplateComponentContainerFactory.create(
+                tag['$$dynamic-template'], tag, props, children, key, parent, undefined, {}, virtualRender) :
               new SignalComponentContainer(tag, props, children, key, parent, undefined, {}, virtualRender)
             )
         )

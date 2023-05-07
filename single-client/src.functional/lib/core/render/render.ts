@@ -77,7 +77,10 @@ const signalRender: VirtualRender = (parent, vElem, key) => {
   if (typeof tag === 'function') {
     if (isElementOfType($$type, VirtualElementType.Fragment)) {
       element = childrenElementRenderer(signalRender, parent, children, ComponentKey.build(key).fragment().toString());
-    } else if (isElementOfType($$type, VirtualElementType.SignaledFunction)) {
+    } else if (
+      isElementOfType($$type, VirtualElementType.SignaledFunction) ||
+      isElementOfType($$type, VirtualElementType.Function)
+    ) {
       const tagName = tag['__name__'];
       element = signalComponentRenderer(
         signalRender,

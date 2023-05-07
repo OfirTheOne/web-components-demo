@@ -3,11 +3,13 @@ import { FC } from '../../../../lib/models/functional-component';
 import { SpotifyAlbum, SpotifyAlbumProps } from './../album/spotify-album';
 import { SpotifySideMenu } from './../side-menu/spotify-side-menu';
 import MediaPlayerBar from './../media-player-bar/media-player-bar';
-import { currentTrackData, currentTrackState } from '../../signals';
+import { currentTrackData } from '../../signals';
+import { Signal, Slot } from '../../../../lib/core/signal-core';
 import './spotify-front-page.scss';
 
+
 export interface SpotifyFrontPageProps {
-    albums: SpotifyAlbumProps[];
+    albums: Signal<SpotifyAlbumProps[]>;
 }
 
 
@@ -19,20 +21,22 @@ export const SpotifyFrontPage: FC<SpotifyFrontPageProps> = ({ albums }) => (
             <SpotifySideMenu />
             <h1>New Releases</h1>
             <div className='spotify-albums'>
-                {albums.map((album) => (
-                    <SpotifyAlbum
-                        //   key={album.title}
-                        image={album.image}
-                        title={album.title}
-                        artist={album.artist}
-                    />
-                ))}
+                <Slot track={[albums]} >
+                    {(albumsList: SpotifyAlbumProps[]) => {
+                    return <>{           
+                         (albumsList.map((album) => (
+                            <SpotifyAlbum { ...album} />
+                        )))
+                     }
+                    </>
+                    }}
+                </Slot>
             </div>
             <MediaPlayerBar 
-                trackPlayed={currentTrackState.played}
+                trackPlayed={currentTrackData.played}
                 trackLength={currentTrackData.length}
-                trackElapsedTime={currentTrackState.elapsedTime}
-                trackArtistName={currentTrackData.artist}
+                trackElapsedTime={currentTrackData.elapsedTime}
+                trackAlbumName={currentTrackData.albumName}
                 trackName={currentTrackData.name}
             />
         </div>

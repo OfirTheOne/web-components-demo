@@ -7,6 +7,7 @@ import { signalComponent } from '../../lib/core/signal-core/signal-component/sig
 import { createSignal, derivedSignal } from '../../lib/core/signal-core/create-signal/create-signal';
 import { Signal } from '../../lib/core/signal-core/models';
 import { SpotifyFrontPage } from './spotify-demo/front-page/spotify-front-page';
+import { albumsSignal } from './signals';
 
 
 const albums = [
@@ -42,11 +43,12 @@ const albums = [
   },
 ];
 
+
 export function ExamplePage02() {
   return (
     <div>
       {/* <SideMenu /> */}
-      <SpotifyFrontPage albums={albums} />
+      <SpotifyFrontPage albums={albumsSignal} />
       {/* <ThemeSwitchButton /> 
       <Counter initialCount={0} />
       <Game /> */}

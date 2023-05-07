@@ -6,7 +6,7 @@ import { togglePlayTrack } from '../../signals';
 
 interface MediaPlayerBarProps {
     trackName: DerivedSignal<string>;
-    trackArtistName: DerivedSignal<string>;
+    trackAlbumName: DerivedSignal<string>;
     trackLength: DerivedSignal<string>;
     trackPlayed: DerivedSignal<boolean>;
     trackElapsedTime: DerivedSignal<string>;
@@ -19,7 +19,7 @@ const MediaPlayerBar: FC<MediaPlayerBarProps> = signalComponent(function MediaPl
                 <img src='https://i.scdn.co/image/ab67616d0000b273e3b4b5b6b5b6b5b6b5b6b5b6' alt='album cover' />
                 <div className='track-info-text'>
                     <span className='track-name'>{props.trackName}</span>
-                    <span className='track-artist-name'>{props.trackArtistName}</span>
+                    <span className='track-album-name'>{props.trackAlbumName}</span>
                 </div>
             </div>
 
