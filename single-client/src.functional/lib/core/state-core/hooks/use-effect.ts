@@ -1,12 +1,12 @@
-import { HookType, MemoHookSlot } from '../../models/i-render-context';
+import { HookType, EffectHookSlot } from '../../../models/i-render-context';
 import { RenderContextCommunicator } from '../render-context/render-context-communicator';
-import { isArrayShallowEqual } from '../utils/common-utils';
+import { isArrayShallowEqual } from '../../utils/common-utils';
 
-export function createCallback<F extends (...args: unknown[]) => unknown>(callback: F, dependencies: any[]) {
-  RenderContextCommunicator.instance.currentContext.declareHook(HookType.createCallback);
+export function useEffect(callback: () => void, dependencies: any[]) {
+  RenderContextCommunicator.instance.currentContext.declareHook(HookType.useEffect);
   const hookPositionInContext = RenderContextCommunicator.instance.currentContext.hookCounter - 1;
   const currentContext = RenderContextCommunicator.instance.currentContext;
-  const hookSlot = currentContext.getHookSlot<MemoHookSlot>(hookPositionInContext);
+  const hookSlot = currentContext.getHookSlot<EffectHookSlot>(hookPositionInContext);
   const isFirstRender = !hookSlot.initialized;
   if (isFirstRender || isDependenciesChanged(hookSlot.dependencies, dependencies)) {
     if (isFirstRender) {
@@ -14,8 +14,13 @@ export function createCallback<F extends (...args: unknown[]) => unknown>(callba
     }
     hookSlot.value = callback;
     hookSlot.dependencies = dependencies;
+    currentContext.effectQueue.push(() => {
+      const maybeOnUnmount = hookSlot.value();
+      if (maybeOnUnmount && typeof maybeOnUnmount === 'function') {
+        hookSlot.onUnmount = maybeOnUnmount;
+      }
+    });
   }
-  return hookSlot.value;
 }
 
 function isDependenciesChanged(oldDependencies: any[], newDependencies: any[]) {

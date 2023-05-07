@@ -1,5 +1,5 @@
-import { EqualFn } from "../../models/equal-fn";
-import { VirtualElementType } from "../../models/virtual-element";
+import { EqualFn } from "../../../models/equal-fn";
+import { VirtualElementType } from "../../../models/virtual-element";
 
 
 const defaultAreEqual = (prev: any, next: any) => {

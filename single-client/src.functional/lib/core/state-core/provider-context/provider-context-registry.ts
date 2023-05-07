@@ -1,5 +1,5 @@
-import { providerContextMemoryMap } from '../global-storage';
-import { toSingleton } from '../utils/to-singleton';
+import { providerContextMemoryMap } from '../../global-storage';
+import { toSingleton } from '../../utils/to-singleton';
 import { ProviderContextInstance } from './provider-context';
 
 export class ProviderContextRegistryInstance extends ProviderContextInstance {

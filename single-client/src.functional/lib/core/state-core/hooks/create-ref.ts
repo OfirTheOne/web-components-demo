@@ -1,8 +1,8 @@
-import { HookType } from '../../models/i-render-context';
+import { HookType } from '../../../models/i-render-context';
 import { RenderContextCommunicator } from '../render-context/render-context-communicator';
 
-export function createState<T = any>(initValue: T) {
-  RenderContextCommunicator.instance.currentContext.declareHook(HookType.createState);
+export function createRef<T = any>(initValue: T = null) {
+  RenderContextCommunicator.instance.currentContext.declareHook(HookType.createRef);
   const hookPositionInContext = RenderContextCommunicator.instance.currentContext.hookCounter - 1;
   const currentContext = RenderContextCommunicator.instance.currentContext;
   const hookSlot = currentContext.getHookSlot(hookPositionInContext);
@@ -10,12 +10,11 @@ export function createState<T = any>(initValue: T) {
     hookSlot.value = initValue;
     hookSlot.initialized = true;
   }
-  const getSignal = (): T => {
+  const getRef = (): T => {
     return hookSlot.value;
   };
-  const setSignal = (value: T) => {
-    currentContext.stateChangesQueue.push(() => (hookSlot.value = value));
-    currentContext.renderTaskAgent.registerTask();
+  const setRef = (value: T) => {
+    hookSlot.value = value;
   };
-  return [getSignal, setSignal] as const;
+  return [getRef, setRef] as const;
 }

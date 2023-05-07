@@ -1,6 +1,6 @@
-import { WC } from '../../jsx';
+import { WC } from '../../../jsx';
 
-import { HookType } from '../../models/i-render-context';
+import { HookType } from '../../../models/i-render-context';
 import { ProviderContextInstance, ProviderFn, Context } from '../provider-context/provider-context';
 import { ProviderContextRegistry } from '../provider-context/provider-context-registry';
 import { RenderContextCommunicator } from '../render-context';

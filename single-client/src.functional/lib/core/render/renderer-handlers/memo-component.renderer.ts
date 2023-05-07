@@ -1,4 +1,4 @@
-import { ComponentContainer } from "../../component-container/component-container";
+import { ComponentContainer } from "../../state-core/component-container/component-container";
 import { renderContextMemoryMap } from "../../global-storage";
 import { VirtualRender } from "../../types";
 import { VirtualElement } from "../../../models/virtual-element";

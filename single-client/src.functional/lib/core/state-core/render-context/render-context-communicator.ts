@@ -1,6 +1,6 @@
-import { IComponentContainer } from 'src.functional/lib/models/i-component-container';
+import { IComponentContainer } from '../../../models/i-component-container';
 import { RenderContext } from './render-context';
-import { renderContextMemoryMap } from '../global-storage';
+import { renderContextMemoryMap } from '../../global-storage';
 
 class RenderContextCommunicatorInstance {
   private _currentContext: RenderContext | null = null;

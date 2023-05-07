@@ -1,10 +1,9 @@
-import { HookType, MemoHookSlot } from '../../models/i-render-context';
+import { HookType, MemoHookSlot } from '../../../models/i-render-context';
 import { RenderContextCommunicator } from '../render-context/render-context-communicator';
-import { isArrayShallowEqual } from '../utils/common-utils';
+import { isArrayShallowEqual } from '../../utils/common-utils';
 
-
-export function createMemo<F extends (...args: any[]) => any>(factory: F, dependencies: any[]): ReturnType<F> {
-  RenderContextCommunicator.instance.currentContext.declareHook(HookType.createMemo);
+export function createCallback<F extends (...args: unknown[]) => unknown>(callback: F, dependencies: any[]) {
+  RenderContextCommunicator.instance.currentContext.declareHook(HookType.createCallback);
   const hookPositionInContext = RenderContextCommunicator.instance.currentContext.hookCounter - 1;
   const currentContext = RenderContextCommunicator.instance.currentContext;
   const hookSlot = currentContext.getHookSlot<MemoHookSlot>(hookPositionInContext);
@@ -13,12 +12,12 @@ export function createMemo<F extends (...args: any[]) => any>(factory: F, depend
     if (isFirstRender) {
       hookSlot.initialized = true;
     }
-    hookSlot.value = factory();
+    hookSlot.value = callback;
     hookSlot.dependencies = dependencies;
   }
   return hookSlot.value;
 }
 
-function isDependenciesChanged(oldDependencies: unknown[], newDependencies: unknown[]) {
+function isDependenciesChanged(oldDependencies: any[], newDependencies: any[]) {
   return !isArrayShallowEqual(oldDependencies, newDependencies);
 }

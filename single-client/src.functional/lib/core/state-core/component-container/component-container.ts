@@ -1,11 +1,11 @@
-import { DOMUtils } from '../utils/dom-utils';
-import { VirtualRender } from '../types';
+import { DOMUtils } from '../../utils/dom-utils';
+import { VirtualRender } from '../../types';
 import { RenderContextCommunicator } from '../render-context/render-context-communicator';
-import { IComponentContainer } from '../../models/i-component-container';
-import { EffectHookSlot, HookType } from '../../models/i-render-context';
-import { OneOrMany } from '../../types/utils';
-import { Props } from '../../models/props';
-import { VirtualFnComponent } from '../../models/virtual-fn-component';
+import { IComponentContainer } from '../../../models/i-component-container';
+import { EffectHookSlot, HookType } from '../../../models/i-render-context';
+import { OneOrMany } from '../../../types/utils';
+import { Props } from '../../../models/props';
+import { VirtualFnComponent } from '../../../models/virtual-fn-component';
 
 export class ComponentContainer implements IComponentContainer {
   protected _container: OneOrMany<HTMLElement>;

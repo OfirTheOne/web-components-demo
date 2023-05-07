@@ -1,12 +1,13 @@
 import { ComponentKeyBuilder as ComponentKey } from './../component-key-builder';
-import { VirtualElement, DomCompatibleElement, VirtualElementType } from '../../models';
-import { RenderUtils, isElementType } from './../utils/render-utils';
-import { VirtualRender } from '../types';
 import { memoComponentRenderer } from './renderer-handlers/memo-component.renderer';
 import { primitiveElementRenderer } from './renderer-handlers/primitive-element.renderer';
 import { childrenElementRenderer } from './renderer-handlers/children-element.renderer';
 import { fnComponentRenderer } from './renderer-handlers/fn-component.renderer';
 import { signalComponentRenderer } from './renderer-handlers/signal-component.renderer';
+import { RenderUtils } from './../utils/render-utils';
+import { isElementOfType } from '../utils/validators/is-element-of-type';
+import { VirtualElement, DomCompatibleElement, VirtualElementType } from '../../models';
+import { VirtualRender } from '../types';
 
 export function render(elem: JSX.Element | VirtualElement, id: string) {
   const vElem = elem as VirtualElement;
@@ -24,9 +25,9 @@ const virtualRender: VirtualRender = (parent, vElem, key) => {
   let element: DomCompatibleElement | DomCompatibleElement[];
   const { tag, props, children, $$type } = vElem;
   if (typeof tag === 'function') {
-    if (isElementType($$type, VirtualElementType.Fragment)) {
+    if (isElementOfType($$type, VirtualElementType.Fragment)) {
       element = childrenElementRenderer(internalRender, parent, children, ComponentKey.build(key).fragment().toString());
-    } else if (isElementType($$type, VirtualElementType.SignaledFunction)) {
+    } else if (isElementOfType($$type, VirtualElementType.SignaledFunction)) {
       const tagName = tag['__name__'];
       element = signalComponentRenderer(
         signalRender,
@@ -36,7 +37,7 @@ const virtualRender: VirtualRender = (parent, vElem, key) => {
         children,
         ComponentKey.build(key).tag(`${tag.name}:${tagName}`).toString()
       );
-    } else if (isElementType($$type, VirtualElementType.MemoFunction)) {
+    } else if (isElementOfType($$type, VirtualElementType.MemoFunction)) {
       const tagName = tag['__name__'];
       element = memoComponentRenderer(
         internalRender,
@@ -46,7 +47,7 @@ const virtualRender: VirtualRender = (parent, vElem, key) => {
         children,
         ComponentKey.build(key).tag(`${tag.name}:${tagName}`).toString()
       );
-    } else if (isElementType($$type, VirtualElementType.Function)) {
+    } else if (isElementOfType($$type, VirtualElementType.Function)) {
       element = fnComponentRenderer(
         internalRender,
         parent,
@@ -56,7 +57,7 @@ const virtualRender: VirtualRender = (parent, vElem, key) => {
         ComponentKey.build(key).tag(tag.name).toString()
       );
     }
-  } else if (isElementType($$type, VirtualElementType.Basic)) {
+  } else if (isElementOfType($$type, VirtualElementType.Basic)) {
     const nativeElement = primitiveElementRenderer(tag, props);
     const renderedChildren = childrenElementRenderer(
       internalRender,
@@ -74,9 +75,9 @@ const signalRender: VirtualRender = (parent, vElem, key) => {
   let element: DomCompatibleElement | DomCompatibleElement[];
   const { tag, props, children, $$type } = vElem;
   if (typeof tag === 'function') {
-    if (isElementType($$type, VirtualElementType.Fragment)) {
+    if (isElementOfType($$type, VirtualElementType.Fragment)) {
       element = childrenElementRenderer(signalRender, parent, children, ComponentKey.build(key).fragment().toString());
-    } else if (isElementType($$type, VirtualElementType.SignaledFunction)) {
+    } else if (isElementOfType($$type, VirtualElementType.SignaledFunction)) {
       const tagName = tag['__name__'];
       element = signalComponentRenderer(
         signalRender,
@@ -87,7 +88,7 @@ const signalRender: VirtualRender = (parent, vElem, key) => {
         ComponentKey.build(key).tag(`${tag.name}:${tagName}`).toString()
       );
     }
-  } else if (isElementType($$type, VirtualElementType.Basic)) {
+  } else if (isElementOfType($$type, VirtualElementType.Basic)) {
     const nativeElement = primitiveElementRenderer(tag, props);
     const renderedChildren = childrenElementRenderer(
       signalRender,

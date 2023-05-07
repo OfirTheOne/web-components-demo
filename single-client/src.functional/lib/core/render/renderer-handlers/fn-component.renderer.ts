@@ -1,6 +1,6 @@
 import { VirtualRender } from '../../types';
 import { Logger } from '../../../common/logger';
-import { ComponentContainer } from '../../component-container/component-container';
+import { ComponentContainer } from '../../state-core/component-container/component-container';
 import { renderContextMemoryMap } from '../../global-storage';
 import { Props, VirtualElement } from '../../../models';
 import { OneOrMany } from '../../../types/utils';

@@ -1,6 +1,6 @@
-import { IComponentContainer } from '../../models/i-component-container';
-import { IRenderContext, HookSlot, HookType } from '../../models/i-render-context';
-import { ITaskAgent } from '../../models/i-task-agent';
+import { IComponentContainer } from '../../../models/i-component-container';
+import { IRenderContext, HookSlot, HookType } from '../../../models/i-render-context';
+import { ITaskAgent } from '../../../models/i-task-agent';
 import { ActionQueue } from './task-agent/action-queue';
 import { TaskAgent } from './task-agent/task-agent';
 
