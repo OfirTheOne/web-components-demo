@@ -4,14 +4,14 @@ import { ComponentContainer } from '../../component-container/component-containe
 import { renderContextMemoryMap } from '../../global-storage';
 import { Props, VirtualElement } from '../../../models';
 import { OneOrMany } from '../../../types/utils';
-import { FnComponent } from '../../../models/fn-component';
+import { VirtualFnComponent } from '../../../models/virtual-fn-component';
 
 
 
 export function fnComponentRenderer(
     virtualRender: VirtualRender,
     parent: HTMLElement,
-    tag: FnComponent,
+    tag: VirtualFnComponent,
     props: Props,
     children: Array<string | VirtualElement>,
     key: string

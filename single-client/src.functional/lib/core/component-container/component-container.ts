@@ -5,12 +5,12 @@ import { IComponentContainer } from '../../models/i-component-container';
 import { EffectHookSlot, HookType } from '../../models/i-render-context';
 import { OneOrMany } from '../../types/utils';
 import { Props } from '../../models/props';
-import { FnComponent } from '../../models/fn-component';
+import { VirtualFnComponent } from '../../models/virtual-fn-component';
 
 export class ComponentContainer implements IComponentContainer {
   protected _container: OneOrMany<HTMLElement>;
   constructor(
-    protected fnComponent: FnComponent,
+    protected fnComponent: VirtualFnComponent,
     protected _props: Props,
     protected _children: any[],
     protected key: string,

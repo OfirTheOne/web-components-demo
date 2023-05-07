@@ -1,6 +1,6 @@
 import { WC } from '../../../../lib/jsx';
 import { FC } from '../../../../lib/models/functional-component';
-import { DerivedSignal, Show, signalComponent } from '../../../../lib/core/signal';
+import { DerivedSignal, Show, signalComponent } from '../../../../lib/core/signal-core';
 import './media-player-bar.scss';
 import { togglePlayTrack } from '../../signals';
 

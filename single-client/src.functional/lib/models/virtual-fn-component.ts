@@ -1,6 +1,6 @@
 import { Props } from "./props";
 import { VirtualElement } from "./virtual-element";
 
-export interface FnComponent{
+export interface VirtualFnComponent{
     (props: Props, children: any[]): VirtualElement
 }

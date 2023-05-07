@@ -1,5 +1,5 @@
 import { FC } from "../../../models/functional-component";
-import { FnComponent } from "../../../models/fn-component";
+import { VirtualFnComponent } from "../../../models/virtual-fn-component";
 
 import { VirtualElementType } from "../../../models/virtual-element";
 // import { isDynamicTemplate } from "../../utils/validators/is-dynamic-template";
@@ -14,7 +14,7 @@ export function signalComponent<T extends FC>(
         return fn(p, children);
     };
     signalCom['$$dynamic-template'] = fn['$$dynamic-template'];
-    // if(isDynamicTemplate(fn as unknown as FnComponent)) {
+    // if(isDynamicTemplate(fn as unknown as VirtualFnComponent)) {
     // }
     signalCom['$$type'] =  Symbol.for(VirtualElementType.SignaledFunction);
     signalCom['__name__'] = fn.name;

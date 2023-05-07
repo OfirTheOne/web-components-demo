@@ -3,7 +3,7 @@ import { renderContextMemoryMap } from "../../global-storage";
 import { VirtualRender } from "../../types";
 import { VirtualElement } from "../../../models/virtual-element";
 import { EqualFn } from "../../../models/equal-fn";
-import { FnComponent } from "../../../models/fn-component";
+import { VirtualFnComponent } from "../../../models/virtual-fn-component";
 import { Props } from "../../../models/props";
 import { Logger } from "../../../common/logger";
 import { fnComponentRenderer } from "./fn-component.renderer";
@@ -11,7 +11,7 @@ import { fnComponentRenderer } from "./fn-component.renderer";
 export function memoComponentRenderer(
     virtualRender: VirtualRender,
     parent: HTMLElement,
-    tag: FnComponent,
+    tag: VirtualFnComponent,
     props: Props,
     children: Array<string | VirtualElement>,
     key: string

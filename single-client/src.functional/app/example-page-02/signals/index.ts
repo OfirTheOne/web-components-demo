@@ -1,4 +1,4 @@
-import { signal, derivedSignal } from "../../../lib/core/signal/create-signal/create-signal";
+import { signal, derivedSignal } from "../../../lib/core/signal-core/create-signal/create-signal";
 
 
 const currentTrackDataSignal = signal({

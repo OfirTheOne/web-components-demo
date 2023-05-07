@@ -3,7 +3,7 @@ import { VirtualRender } from '../../types';
 import { IComponentContainer } from '../../../models/i-component-container';
 import { OneOrMany } from '../../../types/utils';
 import { Props } from '../../../models/props';
-import { FnComponent } from '../../../models/fn-component';
+import { VirtualFnComponent } from '../../../models/virtual-fn-component';
 import { SignalRenderContextCommunicator } from '../render-context/signal-render-context-communicator';
 import { ShowPropsWithTrack, ShowPropsWithoutTrack } from '../dynamic-template/show/show.dynamic';
 import { VirtualElement } from '../../../models/virtual-element';
@@ -14,7 +14,7 @@ export abstract class BaseDynamicTemplateComponentContainer implements IComponen
   protected _container: OneOrMany<HTMLElement>;
 
   constructor(
-    protected fnComponent: FnComponent,
+    protected fnComponent: VirtualFnComponent,
     protected _props: Props,
     protected _children: any[],
     protected key: string,
@@ -148,7 +148,6 @@ export class ShowDynamicTemplateComponentContainer extends BaseDynamicTemplateCo
 }
 
 
-
 const DYNAMIC_TEMPLATE_HANDLER_MAP= {
   [Symbol.for(DynamicTemplate.Show)]: ShowDynamicTemplateComponentContainer,
 } as const;
@@ -156,7 +155,7 @@ const DYNAMIC_TEMPLATE_HANDLER_MAP= {
 export class DynamicTemplateComponentContainerFactory {
   static create(
     dynamicTemplateSymbol: symbol,
-    fnComponent: FnComponent,
+    fnComponent: VirtualFnComponent,
     props: Props,
     children: any[],
     key: string,

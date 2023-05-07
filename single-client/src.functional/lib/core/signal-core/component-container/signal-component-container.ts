@@ -3,13 +3,13 @@ import { VirtualRender } from '../../types';
 import { IComponentContainer } from '../../../models/i-component-container';
 import { OneOrMany } from '../../../types/utils';
 import { Props } from '../../../models/props';
-import { FnComponent } from '../../../models/fn-component';
+import { VirtualFnComponent } from '../../../models/virtual-fn-component';
 import { SignalRenderContextCommunicator } from '../render-context/signal-render-context-communicator';
 
 export class SignalComponentContainer implements IComponentContainer {
   protected _container: OneOrMany<HTMLElement>;
   constructor(
-    protected fnComponent: FnComponent,
+    protected fnComponent: VirtualFnComponent,
     protected _props: Props,
     protected _children: any[],
     protected key: string,

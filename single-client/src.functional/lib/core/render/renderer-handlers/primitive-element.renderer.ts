@@ -1,7 +1,7 @@
 import { Props } from '../../../models/props';
-import { Signal, SignalType } from '../../signal/models';
-import { isSignal } from '../../signal/render-context/signal-render-context';
-import { SignalRenderContextCommunicator } from '../../signal/render-context/signal-render-context-communicator';
+import { Signal, SignalType } from '../../signal-core/models';
+import { isSignal } from '../../signal-core/render-context/signal-render-context';
+import { SignalRenderContextCommunicator } from '../../signal-core/render-context/signal-render-context-communicator';
 import { RenderUtils } from '../../utils/render-utils';
 
 export function primitiveElementRenderer(tag: string, props: Props) {

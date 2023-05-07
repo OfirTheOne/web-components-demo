@@ -3,9 +3,9 @@ import { useTheme } from './../providers';
 import { Game, ThemeSwitchButton } from './../components';
 import { createMemo, useAsync } from '../../lib/core';
 import { SideMenu } from './../components/side-menu/side-menu';
-import { signalComponent } from '../../lib/core/signal/signal-component/signal-component';
-import { createSignal, derivedSignal } from '../../lib/core/signal/create-signal/create-signal';
-import { Signal } from '../../lib/core/signal/models';
+import { signalComponent } from '../../lib/core/signal-core/signal-component/signal-component';
+import { createSignal, derivedSignal } from '../../lib/core/signal-core/create-signal/create-signal';
+import { Signal } from '../../lib/core/signal-core/models';
 import { SpotifyFrontPage } from './spotify-demo/front-page/spotify-front-page';
 
 
