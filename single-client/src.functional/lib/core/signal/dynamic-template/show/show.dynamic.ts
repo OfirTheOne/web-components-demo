@@ -1,17 +1,29 @@
 import { FC } from "../../../../models/functional-component";
+import { DynamicTemplate, Trackable } from "../../models";
 import { signalComponent } from "../../signal-component/signal-component";
 
-
-
-interface ShowProps {
-    when: boolean;
+export type ShowPropsWithoutTrack =  {
+    when: Trackable;
+    fallback?: JSX.Element;
+} 
+export type ShowPropsWithTrack =  {
+    when: (trackedValues: any[]) => boolean;
+    fallback?: JSX.Element;
+    track: Trackable[]
 }
 
-export const Show = signalComponent(
-    function Show(props: ShowProps, children) {
-    const { when } = props;
-    if(when) {
-        return children;
-    }
-    return null;
-}) as FC<ShowProps>;
+
+
+function ShowComponent(props: ShowPropsWithTrack, children: JSX.Element): JSX.Element;
+function ShowComponent(props: ShowPropsWithoutTrack, children: JSX.Element): JSX.Element;
+function ShowComponent(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _props: ShowPropsWithTrack | ShowPropsWithoutTrack, 
+    children: JSX.Element
+): JSX.Element {
+    return children;
+}
+ShowComponent['$$dynamic-template'] = Symbol.for(DynamicTemplate.Show);
+
+export const Show: FC<ShowPropsWithTrack | ShowPropsWithoutTrack> 
+    = signalComponent(ShowComponent)

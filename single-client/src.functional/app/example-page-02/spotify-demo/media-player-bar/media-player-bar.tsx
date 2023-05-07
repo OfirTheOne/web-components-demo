@@ -1,8 +1,8 @@
 import { WC } from '../../../../lib/jsx';
 import { FC } from '../../../../lib/models/functional-component';
-import { signalComponent } from '../../../../lib/core/signal/signal-component/signal-component';
-import { DerivedSignal } from 'src.functional/lib/core/signal/models';
+import { DerivedSignal, Show, signalComponent } from '../../../../lib/core/signal';
 import './media-player-bar.scss';
+import { togglePlayTrack } from '../../signals';
 
 interface MediaPlayerBarProps {
     trackName: DerivedSignal<string>;
@@ -24,9 +24,20 @@ const MediaPlayerBar: FC<MediaPlayerBarProps> = signalComponent(function MediaPl
             </div>
 
             <div className='player-controls'>
-                <button className='play-button'>
-                    <i className='fa fa-play'></i>
+                <button className='play-button' onClick={
+                    () => {
+                        togglePlayTrack();
+                        console.log('play button clicked');
+                    }
+                }>
+                    <Show
+                        when={props.trackPlayed}
+                        fallback={<i className='fa fa-pause'></i>}
+                    >
+                        <i className='fa fa-play'></i>
+                    </Show>
                 </button>
+
                 <button className='skip-button'>
                     <i className='fa fa-fast-forward'></i>
                 </button>

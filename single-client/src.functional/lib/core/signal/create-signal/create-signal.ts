@@ -17,6 +17,10 @@ export function signal<T = any>(initValue: T): Readonly<Signal<T>> {
       sourceSignal._value = newValue;
       sourceSignal.emitter.emit('change', newValue);
     },
+    setValue(setter: ((curValue: T) => T)) {
+      const newValue = setter(sourceSignal.value);
+      sourceSignal.value =  newValue;
+    },
     _value: initValue,
     id: generateId(),
     emitter: new EventEmitter(),

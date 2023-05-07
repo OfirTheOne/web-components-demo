@@ -24,6 +24,7 @@ export interface Signal<T=unknown> {
     _value: T,
     emitter: EventEmitter
     id: string;
+    setValue(setter: ((curValue: T) => T)): void;
 }
 
 
@@ -35,4 +36,15 @@ export interface DerivedSignal<N=unknown> {
     transformers: Array<(value: unknown) => unknown>;  
     computeValue(): N;    
 
+}
+
+export type Trackable<N=unknown> = Signal<N> | DerivedSignal<N>;
+
+export enum DynamicTemplate {
+    Show = 'show',
+    If = 'if',
+    For = 'for',
+    Switch = 'switch',
+    Case = 'case',
+    Slot = 'slot',
 }

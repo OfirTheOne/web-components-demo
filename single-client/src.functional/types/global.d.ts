@@ -14,12 +14,19 @@ declare global {
           [key: string]: string;
         };
         ref?: any;
-        key?: string;
+        key?: string | number;
         [key: string]: any;
       };
       // ...
     }
-    export type Element = IntrinsicElements
+    export type Element 
+      = IntrinsicElements 
+      | string 
+      | number 
+      | boolean 
+      | null 
+      | undefined
+      | (() => (Element | Element[]));
 
   }
 
