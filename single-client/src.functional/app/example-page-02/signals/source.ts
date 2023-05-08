@@ -1,5 +1,6 @@
 import { signal, derivedSignal } from "../../../lib/core/signal-core/create-signal/create-signal";
 import { Album, AlbumTrack } from "../model";
+import { splitToChunks } from "../utils";
 import { mockAlbums } from "./mock-data";
 
 
@@ -15,8 +16,9 @@ export const currentTrackStateSignal = signal({
     elapsedSeconds: 0
 });
 
+const albumChunks: Album[][] = mockAlbums;
 
-export const albumsSignal = signal<Album[]>([...mockAlbums]);
+export const albumsListsSignal = signal<Album[][]>([...albumChunks]);
 
 export const currentTrackData = {
     source: currentTrackStateSignal,

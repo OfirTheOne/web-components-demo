@@ -6,29 +6,30 @@ import MediaPlayerBar from './../media-player-bar/media-player-bar';
 import { currentTrackData } from '../../signals';
 import { Signal, Slot } from '../../../../lib/core/signal-core';
 import './spotify-front-page.scss';
+import { Album } from '../../model';
+import { SpotifyAlbumList } from '../album-list/album-list';
 
 
 export interface SpotifyFrontPageProps {
-    albums: Signal<SpotifyAlbumProps[]>;
+    albumsLists: Signal<Album[][]>;
 }
 
 
 
 
-export const SpotifyFrontPage: FC<SpotifyFrontPageProps> = ({ albums }) => (
+export const SpotifyFrontPage: FC<SpotifyFrontPageProps> = ({ albumsLists }) => (
     <>
         <div className='spotify-front-page'>
             <SpotifySideMenu />
             <h1>New Releases</h1>
             <div className='spotify-albums'>
-                <Slot track={[albums]} >
-                    {(albumsList: SpotifyAlbumProps[]) => {
-                    return <>{           
-                         (albumsList.map((album) => (
-                            <SpotifyAlbum { ...album} />
-                        )))
-                     }
-                    </>
+                <Slot track={[albumsLists]} >
+                    {(lists: Album[][]) => {
+                    return (<>{    
+                        lists.map(list => {
+                            return <SpotifyAlbumList albums={list} />;
+                        })
+                    }</>)
                     }}
                 </Slot>
             </div>

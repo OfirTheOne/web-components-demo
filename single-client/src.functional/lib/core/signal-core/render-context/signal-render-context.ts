@@ -21,12 +21,8 @@ export class SignalRenderContext {
 
     subscribeSignal(signal: Signal | DerivedSignal, subscription: SignalSubscription) {
         const sourceSignal = isDerivedSignal(signal) ? signal.source : signal;
-
         sourceSignal.emitter.on('change', (value) => {
-            let usedValue = value;
-            if(isDerivedSignal(signal)) {
-                usedValue = signal.computeValue();
-            }
+            const usedValue = isDerivedSignal(signal) ? signal.computeValue() : value;
             renderSignalValue(usedValue, subscription);
         });
         this.signalsInUsed.set(sourceSignal.id, sourceSignal);

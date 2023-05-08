@@ -17,10 +17,12 @@ export function render(elem: JSX.Element | VirtualElement, id: string) {
     : document.getElementById(id).appendChild(element);
 }
 
+// @TODO handle vElem null 
 const internalRender: VirtualRender = (vElem, parent, elemKey) => {
   return virtualRender(vElem, parent, elemKey || ComponentKey.build().root().toString());
 };
 
+// @TODO handle vElem null
 const virtualRender: VirtualRender = (parent, vElem, key) => {
   let element: DomCompatibleElement | DomCompatibleElement[];
   const { tag, props, children, $$type } = vElem;
@@ -71,6 +73,7 @@ const virtualRender: VirtualRender = (parent, vElem, key) => {
   return element;
 };
 
+// @TODO handle vElem null
 const signalRender: VirtualRender = (parent, vElem, key) => {
   let element: DomCompatibleElement | DomCompatibleElement[];
   const { tag, props, children, $$type } = vElem;
