@@ -34,10 +34,7 @@ export class SignalRenderContext {
         subscription: SignalSubscription
     }[]> = new Map();
 
-
     signalsInUsed: Map<string, Signal> = new Map();
-
-    
 
     subscribeSignal(signal: Signal | DerivedSignal, subscription: SignalSubscription) {
         const sourceSignal = isDerivedSignal(signal) ? signal.source : signal;
@@ -51,7 +48,6 @@ export class SignalRenderContext {
         });
         this.signalsInUsed.set(sourceSignal.id, sourceSignal);
     }
-
 
     removeSignalSubscription(subscription: SignalSubscription) {
         if(this.signalSubscription.has(subscription.id)) {
@@ -75,9 +71,6 @@ export class SignalRenderContext {
     get componentKey() {
         return this._componentKey;
     }
-
-
-
 }
 
 

@@ -6,8 +6,10 @@ import { Props } from '../../../models/props';
 import { VirtualFnComponent } from '../../../models/virtual-fn-component';
 import { SignalRenderContextCommunicator } from '../render-context/signal-render-context-communicator';
 
-export class SignalComponentContainer implements IComponentContainer {
+
+export abstract class BaseDynamicTemplateComponentContainer implements IComponentContainer {
   protected _container: OneOrMany<HTMLElement>;
+
   constructor(
     protected fnComponent: VirtualFnComponent,
     protected _props: Props,
@@ -45,28 +47,9 @@ export class SignalComponentContainer implements IComponentContainer {
     return this._container !== undefined;
   }
 
-  render(): OneOrMany<HTMLElement> | null {
-    
-    SignalRenderContextCommunicator.instance.setContext(this.key, this);
-    const virtualElement = this.fnComponent(this._props || {}, this._children);
-    const isUnmounted = virtualElement == null;
-    if (isUnmounted) {
-      return undefined;
-    }
+  abstract render(): OneOrMany<HTMLElement> | null;
+  
 
-    const domElement = <HTMLElement>this.internalRender(this._parent, virtualElement, this.key);
-    SignalRenderContextCommunicator.instance.removeContext();
-
-    if (this._parent) {
-      if (this.wasRenderedBefore) {
-        this.connectOnSelfRerender(domElement);
-      } else {
-        this.connectOnMount(domElement);
-      }
-    }
-    this._container = domElement;
-    return domElement;
-  }
   onUnmount() {
     SignalRenderContextCommunicator.instance.deleteStoredContext(this.key);
   }

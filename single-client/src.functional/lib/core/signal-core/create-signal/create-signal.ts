@@ -6,8 +6,6 @@ import { generateId } from '../../../common/generate-id';
 import { reduceTransform } from '../../../common/reduce-transform';
 import { memoisedFunction } from '../../../common/memoised-function';
 
-
-
 export function signal<T = any>(initValue: T): Readonly<Signal<T>> {
   const sourceSignal: Signal<T> = {
     get value() {
@@ -43,10 +41,6 @@ export function derivedSignal<S = any, N = any>(sourceSignal: Signal<S>, transfo
 export function derivedSignal<S = any, N = any>(sourceSignal: DerivedSignal<N>, transform: (value: S) => N): DerivedSignal<N>;
 export function derivedSignal<S = any, N = any>(sourceSignal: Signal<S> | DerivedSignal<N>, transform: (value: S) => N
 ): DerivedSignal<N> {
-  // const currentContext = SignalRenderContextCommunicator.instance.currentContext;
-  // if (!currentContext) {
-  //   throw new Error('createSignal must be called inside a signal component');
-  // }
   let source: Signal<S>;
   let transformers: DerivedSignal['transformers'];
   if ('transformers' in sourceSignal) {
