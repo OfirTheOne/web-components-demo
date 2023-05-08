@@ -1,27 +1,10 @@
 import { IComponentContainer } from "../../../models/i-component-container";
 import { signalIdsMemorySet } from "../../global-storage";
+import { isDerivedSignal } from "../../utils/validators";
 import { DerivedSignal, Signal, SignalSubscription } from "../models";
 import { renderSignalValue } from "../render-signal-value/render-signal-value";
 
 
-export function isDerivedSignal(s: unknown): s is DerivedSignal {
-    return typeof s === 'object'
-        && s !== null
-        && 'id' in s
-        && 'value' in s
-        && 'source' in s
-        && 'transformers' in s;
-}
-
-
-
-export function isSignal(s: unknown): s is Signal {
-    return typeof s === 'object' 
-        && s !== null 
-        && 'id' in s 
-        && 'value' in s 
-        && 'emitter' in s;
-}
 
 export function isValueAreSignalKey(value: unknown) {
     return typeof value === 'string' && signalIdsMemorySet.has(value);
