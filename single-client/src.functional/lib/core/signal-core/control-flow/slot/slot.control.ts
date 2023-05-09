@@ -1,5 +1,5 @@
 import { FC } from "../../../../models/functional-component";
-import { DynamicTemplate, Trackable } from "../../models";
+import { ControlFlow, Trackable } from "../../models";
 import { signalComponent } from "../../signal-component/signal-component";
 
 
@@ -18,7 +18,7 @@ function SlotComponent(
 ): JSX.Element {
     return children;
 }
-SlotComponent['$$dynamic-template'] = Symbol.for(DynamicTemplate.Slot);
+SlotComponent['$$dynamic-template'] = Symbol.for(ControlFlow.Slot);
 
 export const Slot: FC<SlotProps> 
     = signalComponent(SlotComponent)

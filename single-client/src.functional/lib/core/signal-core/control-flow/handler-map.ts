@@ -1,9 +1,9 @@
-import { DynamicTemplate } from "../models";
-import { ShowDynamicTemplateComponentContainer } from "./show/show.container";
-import { SlotDynamicTemplateComponentContainer } from "./slot/slot.container";
+import { ControlFlow } from "../models";
+import { ShowControlFlowComponentContainer } from "./show/show.container";
+import { SlotControlFlowComponentContainer } from "./slot/slot.container";
 
 
-export const DYNAMIC_TEMPLATE_HANDLER_MAP= {
-  [Symbol.for(DynamicTemplate.Show)]: ShowDynamicTemplateComponentContainer,
-  [Symbol.for(DynamicTemplate.Slot)]: SlotDynamicTemplateComponentContainer,
+export const CONTROL_FLOW_HANDLER_MAP= {
+  [Symbol.for(ControlFlow.Show)]: ShowControlFlowComponentContainer,
+  [Symbol.for(ControlFlow.Slot)]: SlotControlFlowComponentContainer,
 } as const;

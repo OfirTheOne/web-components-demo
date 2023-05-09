@@ -6,8 +6,8 @@ import { OneOrMany } from '../../../types/utils';
 import { VirtualFnComponent } from '../../../models/virtual-fn-component';
 import { SignalComponentContainer } from '../../signal-core/component-container/signal-component-container';
 import { SignalRenderContextCommunicator } from '../../signal-core/render-context/signal-render-context-communicator';
-import { DynamicTemplateComponentContainerFactory } from '../../signal-core/component-container/dynamic-template-component-container';
-import { isDynamicTemplate } from '../../utils/validators/is-dynamic-template';
+import { ControlFlowComponentContainerFactory } from '../../signal-core/component-container/dynamic-template-component-container';
+import { isControlFlow } from '../../utils/validators/is-dynamic-template';
 
 export function signalComponentRenderer(
     virtualRender: VirtualRender,
@@ -29,8 +29,8 @@ export function signalComponentRenderer(
     } else {
         const componentContainer = (
             existingComponentContainer || (
-            isDynamicTemplate(tag) ? 
-            DynamicTemplateComponentContainerFactory.create(
+            isControlFlow(tag) ? 
+            ControlFlowComponentContainerFactory.create(
                 tag['$$dynamic-template'], tag, props, children, key, parent, undefined, {}, virtualRender) :
               new SignalComponentContainer(tag, props, children, key, parent, undefined, {}, virtualRender)
             )

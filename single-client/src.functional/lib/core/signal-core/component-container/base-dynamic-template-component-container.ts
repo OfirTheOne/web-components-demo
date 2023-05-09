@@ -7,7 +7,7 @@ import { VirtualFnComponent } from '../../../models/virtual-fn-component';
 import { SignalRenderContextCommunicator } from '../render-context/signal-render-context-communicator';
 
 
-export abstract class BaseDynamicTemplateComponentContainer implements IComponentContainer {
+export abstract class BaseControlFlowComponentContainer implements IComponentContainer {
   protected _container: OneOrMany<HTMLElement>;
 
   constructor(

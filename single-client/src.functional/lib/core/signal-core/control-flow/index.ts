@@ -1,2 +1,2 @@
-export { Show } from './show/show.dynamic';
-export { Slot } from './slot/slot.dynamic';
+export { Show } from './show/show.control';
+export { Slot } from './slot/slot.control';

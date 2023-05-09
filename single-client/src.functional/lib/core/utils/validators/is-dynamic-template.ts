@@ -1,11 +1,11 @@
 import { VirtualFnComponent } from '../../../models/virtual-fn-component';
-import { DynamicTemplate } from '../../signal-core/models';
+import { ControlFlow } from '../../signal-core/models';
 
-export function isDynamicTemplate(tag: VirtualFnComponent): boolean {
+export function isControlFlow(tag: VirtualFnComponent): boolean {
     return (
         typeof tag === 'function' 
         && tag['$$dynamic-template'] 
-        && Object.values(DynamicTemplate)
+        && Object.values(ControlFlow)
             .map((dynamicTemplateKey) => Symbol.for(dynamicTemplateKey))
             .includes(tag['$$dynamic-template'])
     );

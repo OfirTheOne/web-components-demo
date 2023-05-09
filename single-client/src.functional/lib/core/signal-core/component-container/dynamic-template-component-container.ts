@@ -2,16 +2,16 @@ import { VirtualRender } from '../../types';
 import { OneOrMany } from '../../../types/utils';
 import { Props } from '../../../models/props';
 import { VirtualFnComponent } from '../../../models/virtual-fn-component';
-import { BaseDynamicTemplateComponentContainer } from './base-dynamic-template-component-container';
-import { DYNAMIC_TEMPLATE_HANDLER_MAP } from '../control-flow/handler-map';
+import { BaseControlFlowComponentContainer } from './base-dynamic-template-component-container';
+import { CONTROL_FLOW_HANDLER_MAP } from '../control-flow/handler-map';
 
-export class NoneDynamicTemplateComponentContainer extends BaseDynamicTemplateComponentContainer {
+export class NoneControlFlowComponentContainer extends BaseControlFlowComponentContainer {
   render(): OneOrMany<HTMLElement> | null {
     throw new Error('Method not implemented.');
   }
 }
 
-export class DynamicTemplateComponentContainerFactory {
+export class ControlFlowComponentContainerFactory {
   static create(
     dynamicTemplateSymbol: symbol,
     fnComponent: VirtualFnComponent,
@@ -23,11 +23,11 @@ export class DynamicTemplateComponentContainerFactory {
     options: Record<string, any>,
     internalRender: VirtualRender
   ) {
-   const DynamicTemplateComponentContainer 
-    = DYNAMIC_TEMPLATE_HANDLER_MAP[dynamicTemplateSymbol] 
-    || NoneDynamicTemplateComponentContainer;
+   const ControlFlowComponentContainer 
+    = CONTROL_FLOW_HANDLER_MAP[dynamicTemplateSymbol] 
+    || NoneControlFlowComponentContainer;
     
-  return new DynamicTemplateComponentContainer(
+  return new ControlFlowComponentContainer(
     fnComponent, 
     props, 
     children, 

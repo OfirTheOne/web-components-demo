@@ -1,13 +1,13 @@
 
 import { OneOrMany } from '../../../../types/utils';
 import { SignalRenderContextCommunicator } from '../../render-context/signal-render-context-communicator';
-import { ShowPropsWithTrack, ShowPropsWithoutTrack } from './show.dynamic';
+import { ShowPropsWithTrack, ShowPropsWithoutTrack } from './show.control';
 import { VirtualElement } from '../../../../models/virtual-element';
 import { Trackable } from '../../models';
-import { BaseDynamicTemplateComponentContainer } from '../../component-container/base-dynamic-template-component-container';
+import { BaseControlFlowComponentContainer } from '../../component-container/base-dynamic-template-component-container';
 
 
-export class ShowDynamicTemplateComponentContainer extends BaseDynamicTemplateComponentContainer {
+export class ShowControlFlowComponentContainer extends BaseControlFlowComponentContainer {
   
     render(): OneOrMany<HTMLElement> | null {
       const domElement = this.resolveRenderedOutput();

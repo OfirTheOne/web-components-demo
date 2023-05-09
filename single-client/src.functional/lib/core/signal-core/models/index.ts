@@ -42,7 +42,7 @@ export interface DerivedSignal<N=unknown> {
 
 export type Trackable<N=unknown> = Signal<N> | DerivedSignal<N>;
 
-export enum DynamicTemplate {
+export enum ControlFlow {
     Show = 'show',
     If = 'if',
     For = 'for',

@@ -1,12 +1,12 @@
 
 import { OneOrMany } from '../../../../types/utils';
 import { SignalRenderContextCommunicator } from '../../render-context/signal-render-context-communicator';
-import { SlotProps } from './slot.dynamic';
+import { SlotProps } from './slot.control';
 import { VirtualElement } from '../../../../models/virtual-element';
 import { ComponentKeyBuilder } from '../../../component-key-builder';
-import { BaseDynamicTemplateComponentContainer } from '../../component-container/base-dynamic-template-component-container';
+import { BaseControlFlowComponentContainer } from '../../component-container/base-dynamic-template-component-container';
 
-export class SlotDynamicTemplateComponentContainer extends BaseDynamicTemplateComponentContainer {
+export class SlotControlFlowComponentContainer extends BaseControlFlowComponentContainer {
   
     render(): OneOrMany<HTMLElement> | null {
       const domElement = this.resolveRenderedOutput();

@@ -1,5 +1,5 @@
 import { FC } from "../../../../models/functional-component";
-import { DynamicTemplate, Trackable } from "../../models";
+import { ControlFlow, Trackable } from "../../models";
 import { signalComponent } from "../../signal-component/signal-component";
 
 export type ShowPropsWithoutTrack =  {
@@ -23,7 +23,7 @@ function ShowComponent(
 ): JSX.Element {
     return children;
 }
-ShowComponent['$$dynamic-template'] = Symbol.for(DynamicTemplate.Show);
+ShowComponent['$$dynamic-template'] = Symbol.for(ControlFlow.Show);
 
 export const Show: FC<ShowPropsWithTrack | ShowPropsWithoutTrack> 
     = signalComponent(ShowComponent)
