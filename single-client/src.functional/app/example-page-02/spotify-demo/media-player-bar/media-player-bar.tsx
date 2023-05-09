@@ -16,7 +16,6 @@ const MediaPlayerBar: FC<MediaPlayerBarProps> = signalComponent(function MediaPl
     return (
         <div className='media-player-bar'>
             <div className='track-info'>
-                <img src='https://i.scdn.co/image/ab67616d0000b273e3b4b5b6b5b6b5b6b5b6b5b6' alt='album cover' />
                 <div className='track-info-text'>
                     <span className='track-name'>{props.trackName}</span>
                     <span className='track-album-name'>{props.trackAlbumName}</span>

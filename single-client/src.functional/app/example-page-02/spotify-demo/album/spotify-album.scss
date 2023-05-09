@@ -5,12 +5,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #1c1c1c;
-    color: #181818;
+    background-color: $fifth-color;
+    color: $text-primary-color;
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease-in-out;
+    max-width: 150px  ;
     cursor: pointer;
   
     &:hover {

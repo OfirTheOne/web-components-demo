@@ -1,0 +1,48 @@
+.spotify-footer {
+    width: 100%;
+    background-color: #121212;
+    border-top: solid 1px #b3b3b3;
+
+    color: #b3b3b3;
+    font-size: 14px;
+    padding: 30px 0;
+    text-align: center;
+    align-self: end;
+
+    .spotify-footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
+  
+      .spotify-footer-left {
+        display: flex;
+        align-items: center;
+  
+        .spotify-footer-logo {
+          width: 120px;
+          margin-right: 15px;
+        }
+  
+        .spotify-footer-text {
+          margin: 0;
+        }
+      }
+  
+      .spotify-footer-right {
+        display: flex;
+  
+        a {
+          color: #b3b3b3;
+          margin-right: 15px;
+          text-decoration: none;
+  
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+  

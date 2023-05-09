@@ -1,72 +1,84 @@
 @import './../../styles.scss';
 
+$side-menu-width: 250px;
+
 .spotify-front-page {
-    height: 100vh;
+    --side-menu-width: 250px;
+
+    width: 100vw;
     background-color: $primary-color;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 30px;
+    // padding: 30px;
+    padding-bottom: 0;
     color: #ffffff;
-  
-    h1 {
-      font-size: 36px;
-      font-weight: 600;
-      margin-bottom: 20px;
-    }
-  
-    .spotify-albums {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      grid-gap: 20px;
-      justify-items: center;
-      width: 100%;
-      margin-top: 20px;
+    margin-bottom: 80px;
+
+    .page-content-container {
+        display: flex;
+        display: flex;
+        flex-direction: row-reverse;
+        .page-content {
+            margin: 12px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            // align-items: center;
+            width: calc(100vw - var(--side-menu-width) - 60px);
+            h1 {
+                font-size: 36px;
+                font-weight: 600;
+                margin-bottom: 20px;
+            }
+
+            .spotify-albums-section {
+                display: flex;
+                flex-direction: column;
+                // display: grid;
+                // grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                // grid-gap: 20px;
+                // justify-items: center;
+                // width: 100%;
+                margin: 20px;
+            }
+        }
     }
     .side-menu {
-      position: fixed;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      width: 250px;
-      background-color: #040404;
-      color: #b3b3b3;
-      padding: 30px 20px;
-      z-index: 10;
-  
-      ul {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-      }
-  
-      li {
-        display: flex;
-        align-items: center;
-        font-size: 18px;
-        margin-bottom: 20px;
-        cursor: pointer;
-        transition: color 0.2s ease;
-  
-        i {
-          margin-right: 10px;
-          font-size: 20px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: var(--side-menu-width, 250px);
+        background-color: #040404;
+        color: #b3b3b3;
+        padding: 30px 20px;
+        z-index: 10;
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
         }
-  
-        &:hover {
-          color: #ffffff;
+
+        li {
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: color 0.2s ease;
+
+            i {
+                margin-right: 10px;
+                font-size: 20px;
+            }
+
+            &:hover {
+                color: #ffffff;
+            }
         }
-      }
-  
-      .active {
-        color: #ffffff;
-        font-weight: bold;
-      }
+
+        .active {
+            color: #ffffff;
+            font-weight: bold;
+        }
     }
-  }
-  
-
- 
-  
-
-  
+}

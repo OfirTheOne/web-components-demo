@@ -1,6 +1,7 @@
 @import './../../styles.scss';
 
 .side-menu {
+  
   position: fixed;
   top: 0;
   left: 0;
@@ -12,6 +13,18 @@
   z-index: 10;
 
 
+  .resizer-bar {
+    width: 10px;
+    cursor: ew-resize;
+    background-color: #ccc;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: -5px;
+    z-index: 1;
+  }
+
+  
   div.icon-item-list :not(:nth-child(n+2)) {
     margin-top: 10px !important;
     ul {

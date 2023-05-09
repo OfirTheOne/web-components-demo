@@ -1,3 +1,4 @@
+import { signal } from '../../../../lib/core/signal-core';
 import { WC } from '../../../../lib/jsx';
 import { FC } from '../../../../lib/models/functional-component';
 import './spotify-side-menu.scss';
@@ -45,6 +46,28 @@ const sections = [
         ]
     },
 ];
+
+
+const resizeOffset = signal<number | null>(null);
+const sideMenuWidth  = signal('250px');
+
+const handleResizeStart = (event) => {
+    resizeOffset.setValue(() => (event.clientX as number));
+};
+
+const handleResizeEnd = () => {
+    resizeOffset.setValue(() => null);
+};
+
+const handleResizeMove = (event) => {
+    if (resizeOffset.value !== null) {
+        const delta = event.clientX - resizeOffset.value;
+        const newWidth = Math.max(200, document.body.clientWidth - delta);
+        sideMenuWidth.setValue(() => `${newWidth}px`);
+    } else {
+        sideMenuWidth.setValue(() =>  '250px');
+    }
+};
 
 export const SpotifySideMenu: FC = () => {
   return (

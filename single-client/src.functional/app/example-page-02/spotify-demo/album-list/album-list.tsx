@@ -6,23 +6,28 @@ import { SpotifyAlbum } from '../album/spotify-album';
 import './album-list.scss'
 export type SpotifyAlbumListProps = {
     albums: Album[];
+    listTitle?: string;
 };
 
-export const SpotifyAlbumList: FC<SpotifyAlbumListProps> = ({ albums }) => (
-    <div className='spotify-album-list'>
-        {albums.map((album) => (
-            <SpotifyAlbum
-                {...album}
-                onClick={() => {
-                    setCurrentTrack({
-                        name: album.songs[0].name,
-                        length: album.songs[0].length,
-                        albumName: album.title,
-                    });
-                }}
-            />
-        ))}
+export const SpotifyAlbumList: FC<SpotifyAlbumListProps> = ({ albums, listTitle = 'listTitle' }) => (
+    <div className='album-list-container'> 
+        <h2>{listTitle}</h2>
+        <div className='spotify-album-list'>
+            {albums.map((album) => (
+                <SpotifyAlbum
+                    {...album}
+                    onClick={() => {
+                        setCurrentTrack({
+                            name: album.songs[0].name,
+                            length: album.songs[0].length,
+                            albumName: album.title,
+                        });
+                    }}
+                />
+            ))}
+        </div>
     </div>
+
 );
 //   <div key={album.title} className="spotify-album-list-item">
 //     <img src={album.image} alt={album.title} className="spotify-album-list-item-image" />
