@@ -50,7 +50,9 @@ export class SignalComponentContainer implements IComponentContainer {
     SignalRenderContextCommunicator.instance.setContext(this.key, this);
     const virtualElement = this.fnComponent(this._props || {}, this._children);
     const isUnmounted = virtualElement == null;
+
     if (isUnmounted) {
+      this.onUnmount()
       return undefined;
     }
 
@@ -68,6 +70,7 @@ export class SignalComponentContainer implements IComponentContainer {
     return domElement;
   }
   onUnmount() {
+    SignalRenderContextCommunicator.instance.accessContext(this.key)?.onUnmount();
     SignalRenderContextCommunicator.instance.deleteStoredContext(this.key);
   }
 

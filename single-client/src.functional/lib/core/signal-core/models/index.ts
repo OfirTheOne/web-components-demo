@@ -1,7 +1,9 @@
 import EventEmitter from "events";
 
-export enum SignalType {
+export enum SignalSubscriptionType {
     // Null,
+    ControlFlow,
+    Effect,
     Content,
     Property,
     Event,
@@ -9,7 +11,7 @@ export enum SignalType {
 
 }
 export interface SignalSubscription {
-    type: SignalType | null;
+    type: SignalSubscriptionType | null;
     propKey: string | null;
     componentKey: string;
     id: string;

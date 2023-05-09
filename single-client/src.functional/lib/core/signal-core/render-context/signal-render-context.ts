@@ -50,6 +50,17 @@ export class SignalRenderContext {
     get componentKey() {
         return this._componentKey;
     }
+
+    onUnmount() {
+        this.signalSubscription.forEach((subscriptions) => {
+            subscriptions.forEach((sub) => {
+                const signal = this.signalsInUsed.get(sub.subscription.id);
+                signal?.emitter.removeListener('change', sub.listener);
+            });
+        });
+        this.signalSubscription.clear();
+        this.signalsInUsed.clear();
+    }
 }
 
 

@@ -1,5 +1,5 @@
 import { Props } from '../../../models/props';
-import { Signal, SignalType } from '../../signal-core/models';
+import { Signal, SignalSubscriptionType } from '../../signal-core/models';
 import { SignalRenderContextCommunicator } from '../../signal-core/render-context/signal-render-context-communicator';
 import { RenderUtils } from '../../utils/render-utils';
 import { isSignal } from '../../utils/validators';
@@ -37,7 +37,7 @@ export function signalPrimitiveElementRenderer(tag: string, props: Props) {
           componentKey: currentContext.componentKey,
           containerElement: element,
           connected: true,
-          type: SignalType.Style,
+          type: SignalSubscriptionType.Style,
           propKey: name,
           id: signal.id,
         });
