@@ -1,10 +1,10 @@
 
 import { OneOrMany } from '../../../../types/utils';
 import { SignalRenderContextCommunicator } from '../../render-context/signal-render-context-communicator';
-import { ShowPropsWithTrack, ShowPropsWithoutTrack } from '../../dynamic-template/show/show.dynamic';
+import { ShowPropsWithTrack, ShowPropsWithoutTrack } from './show.dynamic';
 import { VirtualElement } from '../../../../models/virtual-element';
 import { Trackable } from '../../models';
-import { BaseDynamicTemplateComponentContainer } from './../../component-container/base-dynamic-template-component-container';
+import { BaseDynamicTemplateComponentContainer } from '../../component-container/base-dynamic-template-component-container';
 
 
 export class ShowDynamicTemplateComponentContainer extends BaseDynamicTemplateComponentContainer {

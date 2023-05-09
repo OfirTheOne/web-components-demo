@@ -1,10 +1,10 @@
 
 import { OneOrMany } from '../../../../types/utils';
 import { SignalRenderContextCommunicator } from '../../render-context/signal-render-context-communicator';
-import { SlotProps } from '../../dynamic-template/slot/slot.dynamic';
+import { SlotProps } from './slot.dynamic';
 import { VirtualElement } from '../../../../models/virtual-element';
 import { ComponentKeyBuilder } from '../../../component-key-builder';
-import { BaseDynamicTemplateComponentContainer } from './../../component-container/base-dynamic-template-component-container';
+import { BaseDynamicTemplateComponentContainer } from '../../component-container/base-dynamic-template-component-container';
 
 export class SlotDynamicTemplateComponentContainer extends BaseDynamicTemplateComponentContainer {
   

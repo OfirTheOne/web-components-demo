@@ -3,7 +3,7 @@ import { OneOrMany } from '../../../types/utils';
 import { Props } from '../../../models/props';
 import { VirtualFnComponent } from '../../../models/virtual-fn-component';
 import { BaseDynamicTemplateComponentContainer } from './base-dynamic-template-component-container';
-import { DYNAMIC_TEMPLATE_HANDLER_MAP } from '../dynamic-template/handler-map';
+import { DYNAMIC_TEMPLATE_HANDLER_MAP } from '../control-flow/handler-map';
 
 export class NoneDynamicTemplateComponentContainer extends BaseDynamicTemplateComponentContainer {
   render(): OneOrMany<HTMLElement> | null {
