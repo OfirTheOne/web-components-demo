@@ -1,7 +1,7 @@
 import { signal } from '../../../../lib/core/signal-core';
 import { WC } from '../../../../lib/jsx';
 import { FC } from '../../../../lib/models/functional-component';
-import './spotify-side-menu.scss';
+import './side-menu.scss';
 
 
 const sections = [

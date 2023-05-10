@@ -1,6 +1,6 @@
 import { WC } from '../../../../lib/jsx';
 import { FC } from '../../../../lib/models/functional-component';
-import { SpotifySideMenu } from './../side-menu/spotify-side-menu';
+import { SpotifySideMenu } from '../side-menu/side-menu';
 import MediaPlayerBar from './../media-player-bar/media-player-bar';
 import { currentTrackData } from '../../signals';
 import { Signal, Slot } from '../../../../lib/core/signal-core';

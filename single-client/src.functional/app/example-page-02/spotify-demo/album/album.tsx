@@ -1,7 +1,7 @@
 import { WC } from '../../../../lib/jsx';
 import { FC } from '../../../../lib/models/functional-component';
 import { IAlbum } from '../../model';
-import './spotify-album.scss';
+import './album.scss';
 
 export interface AlbumProps extends IAlbum {
   onClick: () => void
