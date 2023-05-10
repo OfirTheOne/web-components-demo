@@ -13,9 +13,6 @@ export interface SpotifyFrontPageProps {
     albumsLists: Signal<IAlbum[][]>;
 }
 
-
-
-
 export const SpotifyFrontPage: FC<SpotifyFrontPageProps> = ({ albumsLists }) => (
         <div className='spotify-front-page'>
             <SpotifySideMenu />
