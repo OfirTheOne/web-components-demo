@@ -31,7 +31,7 @@ export function signalComponentRenderer(
             existingComponentContainer || (
             isControlFlow(tag) ? 
             ControlFlowComponentContainerFactory.create(
-                tag['$$dynamic-template'], tag, props, children, key, parent, undefined, {}, virtualRender) :
+                tag['$$control-flow'], tag, props, children, key, parent, undefined, {}, virtualRender) :
               new SignalComponentContainer(tag, props, children, key, parent, undefined, {}, virtualRender)
             )
         )
@@ -47,12 +47,3 @@ export function signalComponentRenderer(
     }
 }
 
-/*
-<Show
-  when={loggedIn()}
-  fallback={<button onClick={toggle}>Log in</button>}
->
-  <button onClick={toggle}>Log out</button>
-</Show>
-
-*/

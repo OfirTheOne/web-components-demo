@@ -23,7 +23,7 @@ function ShowComponent(
 ): JSX.Element {
     return children;
 }
-ShowComponent['$$dynamic-template'] = Symbol.for(ControlFlow.Show);
+ShowComponent['$$control-flow'] = Symbol.for(ControlFlow.Show);
 
 export const Show: FC<ShowPropsWithTrack | ShowPropsWithoutTrack> 
     = signalComponent(ShowComponent)

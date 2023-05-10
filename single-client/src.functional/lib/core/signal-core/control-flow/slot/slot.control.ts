@@ -18,7 +18,7 @@ function SlotComponent(
 ): JSX.Element {
     return children;
 }
-SlotComponent['$$dynamic-template'] = Symbol.for(ControlFlow.Slot);
+SlotComponent['$$control-flow'] = Symbol.for(ControlFlow.Slot);
 
 export const Slot: FC<SlotProps> 
     = signalComponent(SlotComponent)

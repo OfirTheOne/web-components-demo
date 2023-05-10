@@ -1,6 +1,5 @@
 import { WC } from '../../../../lib/jsx';
 import { FC } from '../../../../lib/models/functional-component';
-import { SpotifyAlbum, SpotifyAlbumProps } from './../album/spotify-album';
 import { SpotifySideMenu } from './../side-menu/spotify-side-menu';
 import MediaPlayerBar from './../media-player-bar/media-player-bar';
 import { currentTrackData } from '../../signals';
@@ -9,7 +8,6 @@ import './spotify-front-page.scss';
 import { Album } from '../../model';
 import { SpotifyAlbumList } from '../album-list/album-list';
 import Footer from '../footer/footer';
-
 
 export interface SpotifyFrontPageProps {
     albumsLists: Signal<Album[][]>;

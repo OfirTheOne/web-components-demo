@@ -13,7 +13,7 @@ export function signalComponent<T extends FC>(
     const signalCom = function SignalComponent(p: object, children: JSX.Element) {
         return fn(p, children);
     };
-    signalCom['$$dynamic-template'] = fn['$$dynamic-template'];
+    signalCom['$$control-flow'] = fn['$$control-flow'];
     // if(isControlFlow(fn as unknown as VirtualFnComponent)) {
     // }
     signalCom['$$type'] =  Symbol.for(VirtualElementType.SignaledFunction);

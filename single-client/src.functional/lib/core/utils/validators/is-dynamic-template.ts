@@ -4,9 +4,9 @@ import { ControlFlow } from '../../signal-core/models';
 export function isControlFlow(tag: VirtualFnComponent): boolean {
     return (
         typeof tag === 'function' 
-        && tag['$$dynamic-template'] 
+        && tag['$$control-flow'] 
         && Object.values(ControlFlow)
             .map((dynamicTemplateKey) => Symbol.for(dynamicTemplateKey))
-            .includes(tag['$$dynamic-template'])
+            .includes(tag['$$control-flow'])
     );
 }
