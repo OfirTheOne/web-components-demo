@@ -1,4 +1,4 @@
-import { Album, AlbumTrack } from '../model';
+import { IAlbumTrack } from '../model';
 import { currentTrackStateSignal } from './source';
 
 export const togglePlayTrack = () => {
@@ -8,7 +8,7 @@ export const togglePlayTrack = () => {
     }));
 }
 
-export const setCurrentTrack = (track: (AlbumTrack & {albumName: string}) | null) => {
+export const setCurrentTrack = (track: (IAlbumTrack & {albumName: string}) | null) => {
   currentTrackStateSignal.setValue((current) => ({
       ...current,
       selectedTrack: track,

@@ -1,20 +1,21 @@
 import { WC } from '../../../../lib/jsx';
 import { FC } from '../../../../lib/models/functional-component';
-import { Album } from '../../model';
+import { IAlbum } from '../../model';
 import { setCurrentTrack } from '../../signals/action';
-import { SpotifyAlbum } from '../album/spotify-album';
-import './album-list.scss'
-export type SpotifyAlbumListProps = {
-    albums: Album[];
-    listTitle?: string;
-};
+import { Album } from '../album/spotify-album';
+import './album-list.scss';
 
-export const SpotifyAlbumList: FC<SpotifyAlbumListProps> = ({ albums, listTitle = 'listTitle' }) => (
+export interface AlbumListProps {
+    albums: IAlbum[];
+    listTitle?: string;
+}
+
+export const AlbumList: FC<AlbumListProps> = ({ albums, listTitle = 'listTitle' }) => (
     <div className='album-list-container'> 
         <h2>{listTitle}</h2>
-        <div className='spotify-album-list'>
+        <div className='album-list'>
             {albums.map((album) => (
-                <SpotifyAlbum
+                <Album
                     {...album}
                     onClick={() => {
                         setCurrentTrack({
@@ -27,7 +28,6 @@ export const SpotifyAlbumList: FC<SpotifyAlbumListProps> = ({ albums, listTitle 
             ))}
         </div>
     </div>
-
 );
 //   <div key={album.title} className="spotify-album-list-item">
 //     <img src={album.image} alt={album.title} className="spotify-album-list-item-image" />

@@ -1,14 +1,14 @@
 
 
-export interface Album {
+export interface IAlbum {
     image: string;
     title: string;
     artist: string;
-    songs: AlbumTrack[];
+    songs: IAlbumTrack[];
 } 
 
 
-export interface AlbumTrack {
+export interface IAlbumTrack {
     name: string;
     length: number;
 } 

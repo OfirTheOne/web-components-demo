@@ -5,12 +5,12 @@ import MediaPlayerBar from './../media-player-bar/media-player-bar';
 import { currentTrackData } from '../../signals';
 import { Signal, Slot } from '../../../../lib/core/signal-core';
 import './spotify-front-page.scss';
-import { Album } from '../../model';
-import { SpotifyAlbumList } from '../album-list/album-list';
+import { IAlbum } from '../../model';
+import { AlbumList } from '../album-list/album-list';
 import Footer from '../footer/footer';
 
 export interface SpotifyFrontPageProps {
-    albumsLists: Signal<Album[][]>;
+    albumsLists: Signal<IAlbum[][]>;
 }
 
 
@@ -24,9 +24,9 @@ export const SpotifyFrontPage: FC<SpotifyFrontPageProps> = ({ albumsLists }) => 
                     <h1>New Releases</h1>
                     <div className='spotify-albums-section'>
                         <Slot track={[albumsLists]} >
-                            {(lists: Album[][]) => 
+                            {(lists: IAlbum[][]) => 
                                 (<>{ lists.map(list => 
-                                    <SpotifyAlbumList albums={list} />) 
+                                    <AlbumList albums={list} />) 
                                 }</>)
                             }
                         </Slot>

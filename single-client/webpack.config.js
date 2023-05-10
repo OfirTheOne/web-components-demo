@@ -11,6 +11,7 @@ module.exports = {
     static: [path.join(__dirname, 'dist'), path.join(__dirname, 'public') ] ,
     compress: true,
     port: 4000,
+    historyApiFallback: true 
   },
   output: {
     publicPath: 'auto',
