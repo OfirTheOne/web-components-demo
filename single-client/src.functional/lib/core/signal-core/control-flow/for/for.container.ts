@@ -36,7 +36,10 @@ export class ForControlFlowComponentContainer extends BaseControlFlowComponentCo
         const forProps = this.props as ForProps;
         const trackable = forProps.each;
         const indexKey = forProps.indexKey;
-        
+        const shouldUseIndex = forProps.index || (
+            (indexKey === undefined || indexKey === null) && 
+            (typeof indexKey !== 'string' || typeof indexKey !== 'number')
+        );
         // const defaultVirtualView = this._children as unknown as VirtualElement[];
         const virtualItemViewFactory =  (
             Array.isArray(this._children) ? 
@@ -47,11 +50,8 @@ export class ForControlFlowComponentContainer extends BaseControlFlowComponentCo
 
        const domElement: HTMLElement[] = trackable.value.map((item, index) => {
             const memoIndex: string | number = (
-                indexKey !== undefined 
-                && indexKey !== null 
-                && (typeof indexKey === 'string' 
-                || typeof indexKey === 'number')
-            ) ? indexKey : index;
+                shouldUseIndex ? index : indexKey[indexKey]
+            );
             if(this.itemsElementMemoMap.has(memoIndex)) {
                 const memoizedElement = this.itemsElementMemoMap.get(memoIndex);
                 return memoizedElement;
