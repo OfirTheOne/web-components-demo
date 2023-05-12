@@ -5,7 +5,7 @@ import { signalComponent } from "../../signal-component/signal-component";
 export interface ForProps<A extends Array<unknown> = Array<unknown>> {
     each: Trackable<A>;
     indexKey?: string;
-    index?: boolean;
+    index?: boolean | string | ((item: unknown, index: number) => unknown);
 } 
 
 function ForComponent(

@@ -8,3 +8,11 @@ export const renderContextMemoryMap = new Map<string, IRenderContext>();
 export const providerContextMemoryMap = new Map<string | symbol, ProviderContextInstance[]>();
 export const signaledContextMemoryMap = new Map<string, Record<string, any>>();
 export const signalIdsMemorySet = new Set<string>();
+
+
+if(window && process.env.NODE_ENV !== 'production') {
+    window['renderContextMemoryMap'] = renderContextMemoryMap;
+    window['providerContextMemoryMap'] = providerContextMemoryMap;
+    window['signaledContextMemoryMap'] = signaledContextMemoryMap;
+    window['signalIdsMemorySet'] = signalIdsMemorySet;
+}

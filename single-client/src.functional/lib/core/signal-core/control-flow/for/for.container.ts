@@ -4,22 +4,18 @@ import { ForProps } from './for.control';
 import { VirtualElement } from '../../../../models/virtual-element';
 import { Trackable } from '../../models';
 import { BaseControlFlowComponentContainer } from '../../component-container/base-dynamic-template-component-container';
+import { ComponentKeyBuilder } from '../../../component-key-builder';
 
 export class ForControlFlowComponentContainer extends BaseControlFlowComponentContainer {
-    
-    
-    listeners: Array<((value?: unknown) => void)> = [];
+    listeners: Array<(value?: unknown) => void> = [];
     fallbackElementMemo: OneOrMany<HTMLElement> = null;
     defaultElementMemo: OneOrMany<HTMLElement> = null;
-    itemsElementMemoMap: Map<string | number, HTMLElement> = new Map();
-
+    itemsElementMemoMap: Map<unknown, HTMLElement> = new Map();
 
     render(): OneOrMany<HTMLElement> | null {
         const domElement = this.resolveRenderedOutput();
         const forProps = this.props as ForProps;
-
         const trackable: Trackable = forProps.each;
-
         const emitter = 'emitter' in trackable ? trackable.emitter : trackable.source.emitter;
         const listener = () => {
             this._container = this.resolveRenderedOutput();
@@ -36,33 +32,33 @@ export class ForControlFlowComponentContainer extends BaseControlFlowComponentCo
         const forProps = this.props as ForProps;
         const trackable = forProps.each;
         const indexKey = forProps.indexKey;
-        const shouldUseIndex = forProps.index || (
-            (indexKey === undefined || indexKey === null) && 
-            (typeof indexKey !== 'string' || typeof indexKey !== 'number')
-        );
-        // const defaultVirtualView = this._children as unknown as VirtualElement[];
-        const virtualItemViewFactory =  (
-            Array.isArray(this._children) ? 
-                this._children[0] : 
-                this._children
-        ) as unknown as ((...args: unknown[]) => VirtualElement);
+        const indexResolver: (item: unknown, index: number) => unknown = forProps.index
+            ? typeof forProps.index === 'function'
+                ? forProps.index
+                : (_item, index: number) => index
+            : typeof indexKey === 'string'
+            ? (item) => item[indexKey]
+            : (_item, index: number) => index;
 
+        const virtualItemViewFactory = (Array.isArray(this._children) ? this._children[0] : this._children) as unknown as (
+            ...args: unknown[]
+        ) => VirtualElement;
 
-       const domElement: HTMLElement[] = trackable.value.map((item, index) => {
-            const memoIndex: string | number = (
-                shouldUseIndex ? index : indexKey[indexKey]
-            );
-            if(this.itemsElementMemoMap.has(memoIndex)) {
+        const domElement: HTMLElement[] = trackable.value.map((item, index) => {
+            const memoIndex = indexResolver(item, index);
+            if (this.itemsElementMemoMap.has(memoIndex)) {
                 const memoizedElement = this.itemsElementMemoMap.get(memoIndex);
                 return memoizedElement;
-            }   
+            }
 
             const virtualItemView = virtualItemViewFactory(item, index);
-            const itemDomElement = <HTMLElement>this.internalRender(this._parent, virtualItemView, this.key);
+            const itemDomElement = <HTMLElement>(
+                this.internalRender(this._parent, virtualItemView, ComponentKeyBuilder.build(this.key).idx(index).toString())
+            );
             this.itemsElementMemoMap.set(memoIndex, itemDomElement);
             return itemDomElement;
         });
-    
+
         SignalRenderContextCommunicator.instance.removeContext();
         if (this._parent) {
             if (this.wasRenderedBefore) {
@@ -74,4 +70,3 @@ export class ForControlFlowComponentContainer extends BaseControlFlowComponentCo
         return domElement;
     }
 }
-

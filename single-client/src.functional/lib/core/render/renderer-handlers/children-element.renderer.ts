@@ -15,6 +15,7 @@ export function childrenElementRenderer(
         return children
             .map((child) => {
                 if (isSignal(child) || isDerivedSignal(child)) {
+                    const signal = isSignal(child) ? child : child.source; 
                     const currentContext = SignalRenderContextCommunicator.instance.currentContext;
                     if (isRenderTextPrimitive(child.value)) {
                         const textNode = RenderUtils.renderText(child.value);
@@ -22,6 +23,7 @@ export function childrenElementRenderer(
                             componentKey: key,
                             containerElement: textNode,
                             connected: true,
+                            signalId: signal.id,
                             type: null,
                             propKey: null,
                             id: child.id,
@@ -32,6 +34,7 @@ export function childrenElementRenderer(
                             componentKey: key,
                             containerElement: parent,
                             connected: true,
+                            signalId: signal.id,
                             type: null,
                             propKey: null,
                             id: child.id,

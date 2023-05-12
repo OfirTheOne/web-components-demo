@@ -4,6 +4,7 @@ import { ShowPropsWithTrack, ShowPropsWithoutTrack } from './show.control';
 import { VirtualElement } from '../../../../models/virtual-element';
 import { Trackable } from '../../models';
 import { BaseControlFlowComponentContainer } from '../../component-container/base-dynamic-template-component-container';
+import { ComponentKeyBuilder } from '../../../component-key-builder';
 
 export class ShowControlFlowComponentContainer extends BaseControlFlowComponentContainer {
     fallbackElementMemo: OneOrMany<HTMLElement> = null;
@@ -67,7 +68,10 @@ export class ShowControlFlowComponentContainer extends BaseControlFlowComponentC
             } else {
                 domElement = <HTMLElement>(
                     (Array.isArray(fallbackVirtualView)
-                        ? fallbackVirtualView.map((v) => this.internalRender(this._parent, v, this.key))
+                        ? fallbackVirtualView.map((v, i) => this.internalRender(
+                          this._parent, v, 
+                          ComponentKeyBuilder.build(this.key).idx(i).toString()
+                        ))
                         : this.internalRender(this._parent, fallbackVirtualView, this.key))
                 );
                 this.fallbackElementMemo = domElement;
@@ -94,7 +98,7 @@ export class ShowControlFlowComponentContainer extends BaseControlFlowComponentC
                     this.connectOnMount(domElement);
                 }
             }
-            return domElement;
-        }
+          }
+          return domElement;
     }
 }

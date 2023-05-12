@@ -1,6 +1,6 @@
-import { SignalSubscription } from '../models';
+import { SignalSubscriptionDetails } from '../models';
 
-export function renderSignalValue(signalValue: unknown, signal: SignalSubscription) {
+export function renderSignalValue(signalValue: unknown, signal: SignalSubscriptionDetails) {
     if (signal.containerElement === null || signal.containerElement === undefined || !signal.connected) {
         return;
     }

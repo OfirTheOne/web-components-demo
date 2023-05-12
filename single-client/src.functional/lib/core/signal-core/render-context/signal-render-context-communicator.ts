@@ -9,7 +9,6 @@ class SignalRenderContextCommunicatorInstance {
   /* eslint-disable  @typescript-eslint/no-empty-function */
   protected constructor() {}
   get currentContext() {
-
     return this.calledContextStack.at(-1);
   }
 

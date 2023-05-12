@@ -10,10 +10,11 @@ export enum SignalSubscriptionType {
     Style
 
 }
-export interface SignalSubscription {
+export interface SignalSubscriptionDetails {
     type: SignalSubscriptionType | null;
     propKey: string | null;
     componentKey: string;
+    signalId: string;   
     id: string;
     containerElement: HTMLElement | Text| null;
     connected: boolean;

@@ -36,6 +36,7 @@ export function signalPrimitiveElementRenderer(tag: string, props: Props) {
         currentContext.subscribeSignal(signal, {
           componentKey: currentContext.componentKey,
           containerElement: element,
+          signalId: signal.id,
           connected: true,
           type: SignalSubscriptionType.Style,
           propKey: name,
