@@ -6,7 +6,7 @@ import { generateId } from '../../../common/generate-id';
 import { reduceTransform } from '../../../common/reduce-transform';
 import { memoisedFunction } from '../../../common/memoised-function';
 
-export function signal<T = any>(initValue: T): Readonly<Signal<T>> {
+export function signal<T = any>(initValue: T): Signal<T> {
   const sourceSignal: Signal<T> = {
     get value() {
       return sourceSignal._value;

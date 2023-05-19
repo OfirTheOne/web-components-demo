@@ -1,7 +1,7 @@
-import { WC } from '../../../../lib/jsx';
-import { FC } from '../../../../lib/models/functional-component';
-import { IAlbum } from '../../model';
-import { setCurrentTrack } from '../../signals/action';
+import { WC } from '../../../../../lib/jsx';
+import { FC } from '../../../../../lib/models/functional-component';
+import { IAlbum } from '../../../model';
+import { setCurrentTrack } from '../../../signals/action';
 import { Album } from '../album/album';
 import './album-list.scss';
 

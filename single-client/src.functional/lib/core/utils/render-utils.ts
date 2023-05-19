@@ -54,6 +54,9 @@ export class RenderUtils {
     }
     return propsEntries;
   }
+
+
+  
 }
 
 export function isElementType(type: symbol, elementType: VirtualElementType) {

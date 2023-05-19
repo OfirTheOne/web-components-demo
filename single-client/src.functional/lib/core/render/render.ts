@@ -77,6 +77,13 @@ const virtualRender: VirtualRender = (parent, vElem, key) => {
 const signalRender: VirtualRender = (parent, vElem, key) => {
   let element: DomCompatibleElement | DomCompatibleElement[];
   const { tag, props, children, $$type } = vElem;
+  if(!vElem) {
+    return null
+  }
+  if(typeof vElem === 'function') {
+    // @TODO handle this case
+    return null; 
+  }
   if (typeof tag === 'function') {
     if (isElementOfType($$type, VirtualElementType.Fragment)) {
       element = childrenElementRenderer(signalRender, parent, children, ComponentKey.build(key).fragment().toString());
@@ -84,14 +91,14 @@ const signalRender: VirtualRender = (parent, vElem, key) => {
       isElementOfType($$type, VirtualElementType.SignaledFunction) ||
       isElementOfType($$type, VirtualElementType.Function)
     ) {
-      const tagName = tag['__name__'];
+      const tagName = tag['__name__'] ? `${tag.name}:${tag['__name__']}` : tag.name;
       element = signalComponentRenderer(
         signalRender,
         parent,
         tag,
         props,
         children,
-        ComponentKey.build(key).tag(`${tag.name}:${tagName}`).toString()
+        ComponentKey.build(key).tag(tagName).toString()
       );
     }
   } else if (isElementOfType($$type, VirtualElementType.Basic)) {

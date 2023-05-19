@@ -45,9 +45,10 @@ export type Trackable<N=unknown> = Signal<N> | DerivedSignal<N>;
 
 export enum ControlFlow {
     Show = 'show',
-    If = 'if',
     For = 'for',
     Switch = 'switch',
     Case = 'case',
     Slot = 'slot',
+    Router = 'router',
+    Route = 'route',
 }

@@ -1,0 +1,36 @@
+@import './../../../styles.scss';
+
+$side-menu-width: 250px;
+
+.page-content-container {
+
+    --side-menu-width: 250px;
+
+    display: flex;
+    display: flex;
+    flex-direction: row-reverse;
+    .page-content {
+        margin: 12px;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        // align-items: center;
+        width: calc(100vw - var(--side-menu-width) - 60px);
+        h1 {
+            font-size: 36px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .spotify-albums-section {
+            display: flex;
+            flex-direction: column;
+            // display: grid;
+            // grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            // grid-gap: 20px;
+            // justify-items: center;
+            // width: 100%;
+            margin: 20px;
+        }
+    }
+}

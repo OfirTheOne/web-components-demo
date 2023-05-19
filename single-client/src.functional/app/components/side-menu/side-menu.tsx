@@ -2,6 +2,7 @@ import { WC } from '../../../lib/jsx';
 import { createCallback, createState, memo, useEffect } from '../../../lib/core';
 import './side-menu.scss';
 
+
 const SideMenu = () => {
     const [isOpen, setIsOpen] = createState(false);
     const [isExpanded, setIsExpanded] = createState(false);
@@ -62,7 +63,7 @@ const SideMenu = () => {
             <nav onMouseEnter={expandMenu} onMouseLeave={shrinkMenu}>
                 <ul>
                     <li>
-                        <a href='#'>Link 1</a>
+                        <a href='#' >Link 1</a>
                     </li>
                     <li>
                         <a href='#'>Link 2</a>

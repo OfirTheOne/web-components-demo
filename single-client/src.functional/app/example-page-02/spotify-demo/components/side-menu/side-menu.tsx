@@ -1,6 +1,7 @@
-import { signal } from '../../../../lib/core/signal-core';
-import { WC } from '../../../../lib/jsx';
-import { FC } from '../../../../lib/models/functional-component';
+import { WC } from '../../../../../lib/jsx';
+import { FC } from '../../../../../lib/models/functional-component';
+import { history } from '../../../../../lib/core/router';
+import { Link, signal } from '../../../../../lib/core/signal-core';
 import './side-menu.scss';
 
 
@@ -11,16 +12,19 @@ const sections = [
             {
                 icon: 'fas fa-home',
                 text: 'Home',
+                path: '/home',
                 active: true
             },
             {
                 icon: 'fas fa-search',
                 text: 'Search',
+                path: '/search',
                 active: false
             },
             {
                 icon: 'fas fa-book',
                 text: 'Your Library',
+                path: '/library',
                 active: false
             },
         ]
@@ -31,16 +35,19 @@ const sections = [
             {
                 icon: 'fas fa-home',
                 text: 'Create Playlist',
+                path: '/',
                 active: true
             },
             {
                 icon: 'fas fa-search',
                 text: 'Liked Songs',
+                path: '/songs',
                 active: false
             },
             {
                 icon: 'fas fa-book',
                 text: 'Your Episodes',
+                path: '/',
                 active: false
             },
         ]
@@ -78,10 +85,14 @@ export const SpotifySideMenu: FC = () => {
                 <ul>
                     {
                         section.list.map((item) => (
-                            <li className={item.active ? 'active' : ''}>
+                            <Link 
+                                path={item.path}
+                                tag={'li'}
+                                className={item.active ? 'active' : ''}
+                            >
                                 <i className={item.icon}></i>
                                 {item.text}
-                            </li>
+                            </Link>
                         ))
                     }
                 </ul>

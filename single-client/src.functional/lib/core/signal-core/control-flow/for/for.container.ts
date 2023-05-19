@@ -5,12 +5,29 @@ import { VirtualElement } from '../../../../models/virtual-element';
 import { Trackable } from '../../models';
 import { BaseControlFlowComponentContainer } from '../../component-container/base-dynamic-template-component-container';
 import { ComponentKeyBuilder } from '../../../component-key-builder';
+import { defineComponent } from '../../../utils/define-component';
+
+
+const TAG_NAME = 'for-control'
+defineComponent(
+    TAG_NAME,
+    class extends HTMLElement {});
+
+const createPlaceholder = (key: string) => {
+   const ph = document.createElement(TAG_NAME);
+   ph.setAttribute('role', 'ph');
+   ph.setAttribute('for', key);
+   ph.style.display = 'none';
+   ph.style.visibility = 'hidden';
+    return ph;
+}
 
 export class ForControlFlowComponentContainer extends BaseControlFlowComponentContainer {
     listeners: Array<(value?: unknown) => void> = [];
     fallbackElementMemo: OneOrMany<HTMLElement> = null;
     defaultElementMemo: OneOrMany<HTMLElement> = null;
     itemsElementMemoMap: Map<unknown, HTMLElement> = new Map();
+    readonly placeholder = createPlaceholder(this.key);
 
     render(): OneOrMany<HTMLElement> | null {
         const domElement = this.resolveRenderedOutput();

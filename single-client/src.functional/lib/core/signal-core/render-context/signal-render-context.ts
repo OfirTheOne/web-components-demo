@@ -16,8 +16,6 @@ interface SignalSubscription {
 }
 
 export class SignalRenderContext {
-
-
     mutationObserver: MutationObserver;
 
     elementSubscriptions: Map<HTMLElement | Node, SignalSubscription[]> = new Map();

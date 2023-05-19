@@ -1,6 +1,6 @@
-import { WC } from '../../../../lib/jsx';
-import { FC } from '../../../../lib/models/functional-component';
-import { IAlbum } from '../../model';
+import { WC } from '../../../../../lib/jsx';
+import { FC } from '../../../../../lib/models/functional-component';
+import { IAlbum } from '../../../model';
 import './album.scss';
 
 export interface AlbumProps extends IAlbum {

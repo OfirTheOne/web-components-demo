@@ -1,4 +1,4 @@
-import { Props } from "./props";
+// import { Props } from "./props";
 
 
 export interface FunctionalComponent<P extends object = object> {

@@ -4,11 +4,32 @@ import { CaseProps, SwitchProps } from './switch.control';
 import { VirtualElement } from '../../../../models/virtual-element';
 import { ControlFlow, Trackable } from '../../models';
 import { BaseControlFlowComponentContainer } from '../../component-container/base-dynamic-template-component-container';
+import { defineComponent } from '../../../utils/define-component';
+
+
+const TAG_NAME = 'switch-control'
+defineComponent(
+    TAG_NAME,
+    class extends HTMLElement {});
+
+const createPlaceholder = (key: string) => {
+   const ph = document.createElement(TAG_NAME);
+   ph.setAttribute('role', 'ph');
+   ph.setAttribute('for', key);
+   ph.style.display = 'none';
+   ph.style.visibility = 'hidden';
+   return ph;
+}
+
 
 export class SwitchControlFlowComponentContainer extends BaseControlFlowComponentContainer {
     listeners: Array<(value?: unknown) => void> = [];
+    
     caseElementMemoMap: Map<number, OneOrMany<HTMLElement>> = new Map();
     fallbackElementMemo: OneOrMany<HTMLElement> = null;
+    readonly placeholder = createPlaceholder(this.key);
+
+    currentConditionState: number | null = null;
 
     render(): OneOrMany<HTMLElement> | null {
         const domElement = this.resolveRenderedOutput();
@@ -41,6 +62,11 @@ export class SwitchControlFlowComponentContainer extends BaseControlFlowComponen
             return false;
         });
 
+        if(this.currentConditionState !== null && this.currentConditionState === virtualCaseIndex) {
+            return this._container; 
+        } 
+
+        this.currentConditionState = virtualCaseIndex;
         let domElement: OneOrMany<HTMLElement> = null;
         if (virtualCaseIndex === -1) {
             if (this.fallbackElementMemo) {
@@ -59,6 +85,10 @@ export class SwitchControlFlowComponentContainer extends BaseControlFlowComponen
                 domElement = <HTMLElement>this.internalRender(this._parent, virtualCase, this.key);
                 this.caseElementMemoMap.set(virtualCaseIndex, domElement);
             }
+        }
+
+        if (!domElement || (Array.isArray(domElement) && domElement.length == 0)) {
+            domElement = this.placeholder;
         }
         SignalRenderContextCommunicator.instance.removeContext();
         if (this._parent) {

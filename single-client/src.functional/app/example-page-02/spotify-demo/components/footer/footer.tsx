@@ -1,5 +1,5 @@
-import { WC } from '../../../../lib/jsx';
-import { FC } from '../../../../lib/models/functional-component';
+import { WC } from '../../../../../lib/jsx';
+import { FC } from '../../../../../lib/models/functional-component';
 import './footer.scss';
 
 const Footer: FC = () => {

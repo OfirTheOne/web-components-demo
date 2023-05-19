@@ -5,10 +5,28 @@ import { VirtualElement } from '../../../../models/virtual-element';
 import { Trackable } from '../../models';
 import { BaseControlFlowComponentContainer } from '../../component-container/base-dynamic-template-component-container';
 import { ComponentKeyBuilder } from '../../../component-key-builder';
+import { defineComponent } from '../../../utils/define-component';
+
+const TAG_NAME = 'show-control'
+defineComponent(
+    TAG_NAME,
+    class extends HTMLElement {},
+);
+
+const createPlaceholder = (key: string) => {
+    const ph = document.createElement(TAG_NAME);
+    ph.setAttribute('role', 'ph');
+    ph.setAttribute('for', key);
+    ph.style.display = 'none';
+    return ph;
+}
+
 
 export class ShowControlFlowComponentContainer extends BaseControlFlowComponentContainer {
     fallbackElementMemo: OneOrMany<HTMLElement> = null;
     defaultElementMemo: OneOrMany<HTMLElement> = null;
+    readonly placeholder = createPlaceholder(this.key);
+    currentConditionState: boolean | null = null;
 
     render(): OneOrMany<HTMLElement> | null {
         const domElement = this.resolveRenderedOutput();
@@ -38,10 +56,7 @@ export class ShowControlFlowComponentContainer extends BaseControlFlowComponentC
     resolveRenderedOutput(): OneOrMany<HTMLElement> | null {
         SignalRenderContextCommunicator.instance.setContext(this.key, this);
 
-        // const virtualElement = this.fnComponent(this._props || {}, this._children);
-        // const isUnmounted = virtualElement == null;
         const showProps = this.props as ShowPropsWithoutTrack | ShowPropsWithTrack;
-
         const defaultVirtualView = this._children as unknown as VirtualElement[];
         const fallbackVirtualView = (showProps.fallback || null) as unknown as VirtualElement;
         let whenResult: boolean;
@@ -54,51 +69,48 @@ export class ShowControlFlowComponentContainer extends BaseControlFlowComponentC
             const showWithTrackProps = this.props as ShowPropsWithTrack;
             const { when, track } = showWithTrackProps;
             const values = track.map((signal) => signal.value);
-            whenResult = when(values);
+            whenResult = !!when(values);
         }
 
+        if (this.currentConditionState !== null && this.currentConditionState === whenResult) {
+            return this._container;
+        }
+        this.currentConditionState = whenResult;
         let domElement: OneOrMany<HTMLElement> = null;
-
-        if (!whenResult) {
-            if (!fallbackVirtualView) {
-                return null;
-            }
-            if (this.fallbackElementMemo) {
-                domElement = this.fallbackElementMemo;
-            } else {
-                domElement = <HTMLElement>(
-                    (Array.isArray(fallbackVirtualView)
-                        ? fallbackVirtualView.map((v, i) => this.internalRender(
-                          this._parent, v, 
-                          ComponentKeyBuilder.build(this.key).idx(i).toString()
-                        ))
-                        : this.internalRender(this._parent, fallbackVirtualView, this.key))
-                );
+        const renderTarget = whenResult ? defaultVirtualView : fallbackVirtualView;
+        if (!renderTarget) {
+            domElement = this.placeholder;
+        } else if (!whenResult && this.fallbackElementMemo) {
+            domElement = this.fallbackElementMemo;
+        } else if (whenResult && this.defaultElementMemo) {
+            domElement = this.defaultElementMemo;
+        } else {
+            domElement = <HTMLElement>(
+                (Array.isArray(renderTarget)
+                    ? renderTarget.map((v, i) => this.internalRender(
+                        this._parent, v,
+                        ComponentKeyBuilder.build(this.key).idx(i).toString()
+                    ))
+                    : this.internalRender(this._parent, renderTarget, this.key))
+            );
+            if (whenResult) {
+                this.defaultElementMemo = domElement;
+            } else if (!whenResult) {
                 this.fallbackElementMemo = domElement;
             }
-        } else {
-            if (!defaultVirtualView) {
-                return null;
-            }
-            if (this.defaultElementMemo) {
-                domElement = this.defaultElementMemo;
+        }
+ 
+        if (!domElement || (Array.isArray(domElement) && domElement.length == 0)) {
+            domElement = this.placeholder;
+        }
+        SignalRenderContextCommunicator.instance.removeContext();
+        if (this._parent) {
+            if (this.wasRenderedBefore) {
+                this.connectOnSelfRerender(domElement);
             } else {
-                domElement = <HTMLElement>(
-                    (Array.isArray(defaultVirtualView)
-                        ? defaultVirtualView.map((v) => this.internalRender(this._parent, v, this.key))
-                        : this.internalRender(this._parent, defaultVirtualView, this.key))
-                );
-                this.defaultElementMemo = domElement;
+                this.connectOnMount(domElement);
             }
-            SignalRenderContextCommunicator.instance.removeContext();
-            if (this._parent) {
-                if (this.wasRenderedBefore) {
-                    this.connectOnSelfRerender(domElement);
-                } else {
-                    this.connectOnMount(domElement);
-                }
-            }
-          }
-          return domElement;
+        }
+        return domElement;
     }
 }
