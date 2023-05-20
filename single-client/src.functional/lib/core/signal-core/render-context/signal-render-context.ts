@@ -1,4 +1,4 @@
-import { removeDuplicationWithOrder } from "../../../common/remove-duplication-with-order";
+import { removeDuplicationWithOrder } from "../../../common";
 import { IComponentContainer } from "../../../models/i-component-container";
 import { signalIdsMemorySet } from "../../global-storage";
 import { isDerivedSignal } from "../../utils/validators";
@@ -32,20 +32,6 @@ export class SignalRenderContext {
         sourceSignal.emitter.on('change', listener);        
         this.signalsInUsed.set(sourceSignal.id, sourceSignal);
     }
-
-    // removeSignalSubscription(subscription: SignalSubscriptionDetails) {
-    //     if(this.elementSubscriptions.has(subscription.containerElement)) {
-    //         const subscriptions = this.elementSubscriptions.get(subscription.containerElement);
-    //         if(subscriptions) {
-    //             const index = subscriptions.findIndex(s => s.subscription == subscription);
-    //             if(index > -1) {
-    //                 const signal = this.signalsInUsed.get(subscription.id);
-    //                 signal?.emitter.removeListener('change', subscriptions[index].listener);
-    //                 subscriptions.splice(index, 1);
-    //             }
-    //         }
-    //     }
-    // }
 
     removeAllElementSubscription(element: Node) {
         if(this.elementSubscriptions.has(element)) {

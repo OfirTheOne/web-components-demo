@@ -50,4 +50,15 @@ export class DOMUtils {
   static isOnlyChild(child: DomCompatibleElement): boolean {
     return child.isConnected && child.parentNode && child.parentNode.children.length == 1;
   }
+
+  static replace(parent: HTMLElement, oldElement: OneOrMany<HTMLElement>, newElement: OneOrMany<HTMLElement>): void {
+    const firstContainerNode = Array.isArray(oldElement) ? oldElement[0] : oldElement;
+    const renderStartPointNode = (
+      DOMUtils.isOnlyChild(firstContainerNode) ? null : firstContainerNode.previousSibling
+    ) as HTMLElement | null;
+    DOMUtils.removeSelf(oldElement);
+    DOMUtils.insertChildAfterNode(parent, newElement, renderStartPointNode);
+  }
+
+
 }

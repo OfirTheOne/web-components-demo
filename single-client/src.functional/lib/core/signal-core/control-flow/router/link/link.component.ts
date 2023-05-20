@@ -2,7 +2,7 @@ import { WC } from "../../../../../jsx";
 import { FC } from "../../../../../models/functional-component";
 import { VirtualElement } from "../../../../../models";
 import { signalComponent } from "../../../signal-component/signal-component";
-import { history } from "../../../../../core/router";
+import { history } from "../../../../../common/router";
 // import { ControlFlow } from "../../models";
  
 

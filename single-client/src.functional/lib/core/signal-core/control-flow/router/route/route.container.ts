@@ -1,13 +1,11 @@
-import { OneOrMany } from '../../../../../types/utils';
 import { SignalRenderContextCommunicator } from '../../../render-context/signal-render-context-communicator';
 import { RouteProps } from './route.control';
 import { BaseControlFlowComponentContainer } from '../../../component-container/base-dynamic-template-component-container';
 import { ComponentKeyBuilder } from '../../../../component-key-builder';
-
-
 import { defineComponent } from '../../../../utils/define-component';
+import { Route, router } from '../../../../../common/router';
 import { VirtualElement, FC } from '../../../../../models';
-import { Route, router } from '../../../../../core/router';
+import { OneOrMany } from '../../../../../types/utils';
 
 const TAG_NAME = 'route-control'
 defineComponent(

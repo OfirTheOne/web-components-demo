@@ -5,64 +5,35 @@ import { OneOrMany } from '../../../types/utils';
 import { Props } from '../../../models/props';
 import { VirtualFnComponent } from '../../../models/virtual-fn-component';
 import { SignalRenderContextCommunicator } from '../render-context/signal-render-context-communicator';
+import { BaseComponentContainer } from '../../base-component-container';
 
 
-export abstract class BaseControlFlowComponentContainer implements IComponentContainer {
+export abstract class BaseControlFlowComponentContainer extends BaseComponentContainer {
   protected _container: OneOrMany<HTMLElement>;
 
   constructor(
-    protected fnComponent: VirtualFnComponent,
-    protected _props: Props,
-    protected _children: any[],
-    protected key: string,
-    protected _parent: HTMLElement | null,
-    protected style: any,
-    protected options: Record<string, any>,
-    protected internalRender: VirtualRender
-  ) {}
-
-  setParent(parent: HTMLElement | null) {
-    this._parent = parent;
-    return this;
+    fnComponent: VirtualFnComponent,
+    props: Props,
+    children: any[],
+    key: string,
+    parent: HTMLElement | null,
+    style: any,
+    options: Record<string, any>,
+    internalRender: VirtualRender
+  ) {
+    super(
+      fnComponent,
+      props,
+      children,
+      key,
+      parent,
+      style,
+      options,
+      internalRender
+    )
   }
-  setProps(props: Props) {
-    this._props = props;
-    return this;
-  }
-  setChildren(children: any[]) {
-    this._children = children;
-    return this;
-  }
-
-  public get children() {
-    return this._children;
-  }
-  public get props() {
-    return this._props;
-  }
-  public get container() {
-    return this._container;
-  }
-  public get wasRenderedBefore() {
-    return this._container !== undefined;
-  }
-
-  abstract render(): OneOrMany<HTMLElement> | null;
-  
 
   onUnmount() {
     SignalRenderContextCommunicator.instance.deleteStoredContext(this.key);
-  }
-
-  public connectOnMount(domElement: OneOrMany<HTMLElement>) {
-    DOMUtils.appendToParent(this._parent, domElement);
-  }
-  public connectOnSelfRerender(domElement: OneOrMany<HTMLElement>) {
-    const firstContainerNode = Array.isArray(this._container) ? this._container[0] : this._container;
-    const renderStartPointNode = (
-      DOMUtils.isOnlyChild(firstContainerNode) ? null : firstContainerNode.previousSibling
-    ) as HTMLElement | null;
-    DOMUtils.removeSelf(this._container);
-    DOMUtils.insertChildAfterNode(this._parent, domElement, renderStartPointNode);
   }
 }

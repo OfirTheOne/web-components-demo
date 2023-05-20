@@ -1,6 +1,6 @@
 import { WC } from '../../../../../lib/jsx';
 import { FC } from '../../../../../lib/models/functional-component';
-import { history } from '../../../../../lib/core/router';
+import { history } from '../../../../../lib/common/router';
 import { Link, signal } from '../../../../../lib/core/signal-core';
 import './side-menu.scss';
 

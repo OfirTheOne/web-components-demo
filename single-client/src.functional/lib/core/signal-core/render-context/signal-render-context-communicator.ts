@@ -3,8 +3,6 @@ import { SignalRenderContext } from './signal-render-context';
 import { signaledContextMemoryMap } from '../../global-storage';
 
 class SignalRenderContextCommunicatorInstance {
-  private _currentContext: SignalRenderContext | null = null;
-
   calledContextStack: SignalRenderContext[] = [];
   /* eslint-disable  @typescript-eslint/no-empty-function */
   protected constructor() {}
@@ -29,13 +27,13 @@ class SignalRenderContextCommunicatorInstance {
       signaledContextMemoryMap.set(componentKey, context);
     }
     this.calledContextStack.push(context);
-    this._currentContext = context;
+
   }
 
   public removeContext() {
-    // this._currentContext.cleanup();
+
     this.calledContextStack.pop();
-    this._currentContext = null;
+
   }
 
   public deleteStoredContext(componentKey: string) {

@@ -5,7 +5,6 @@ import { childrenElementRenderer } from './renderer-handlers/children-element.re
 import { fnComponentRenderer } from './renderer-handlers/fn-component.renderer';
 import { signalComponentRenderer } from './renderer-handlers/signal-component.renderer';
 import { RenderUtils } from './../utils/render-utils';
-import { isElementOfType } from '../utils/validators/is-element-of-type';
 import { VirtualElement, DomCompatibleElement, VirtualElementType } from '../../models';
 import { VirtualRender } from '../types';
 
@@ -17,19 +16,29 @@ export function render(elem: JSX.Element | VirtualElement, id: string) {
     : document.getElementById(id).appendChild(element);
 }
 
-// @TODO handle vElem null 
 const internalRender: VirtualRender = (vElem, parent, elemKey) => {
   return virtualRender(vElem, parent, elemKey || ComponentKey.build().root().toString());
 };
 
-// @TODO handle vElem null
 const virtualRender: VirtualRender = (parent, vElem, key) => {
   let element: DomCompatibleElement | DomCompatibleElement[];
+  if (!vElem) {
+    return null
+  }
   const { tag, props, children, $$type } = vElem;
-  if (typeof tag === 'function') {
-    if (isElementOfType($$type, VirtualElementType.Fragment)) {
+
+  switch ($$type) {
+    case Symbol.for(VirtualElementType.Fragment): {
+      if (typeof tag !== 'function') {
+        throw new Error('Render parser error');
+      }
       element = childrenElementRenderer(internalRender, parent, children, ComponentKey.build(key).fragment().toString());
-    } else if (isElementOfType($$type, VirtualElementType.SignaledFunction)) {
+    }
+      break;
+    case Symbol.for(VirtualElementType.SignaledFunction): {
+      if (typeof tag !== 'function') {
+        throw new Error('Render parser error');
+      }
       const tagName = tag['__name__'];
       element = signalComponentRenderer(
         signalRender,
@@ -39,7 +48,12 @@ const virtualRender: VirtualRender = (parent, vElem, key) => {
         children,
         ComponentKey.build(key).tag(`${tag.name}:${tagName}`).toString()
       );
-    } else if (isElementOfType($$type, VirtualElementType.MemoFunction)) {
+    }
+      break;
+    case Symbol.for(VirtualElementType.MemoFunction): {
+      if (typeof tag !== 'function') {
+        throw new Error('Render parser error');
+      }
       const tagName = tag['__name__'];
       element = memoComponentRenderer(
         internalRender,
@@ -49,7 +63,12 @@ const virtualRender: VirtualRender = (parent, vElem, key) => {
         children,
         ComponentKey.build(key).tag(`${tag.name}:${tagName}`).toString()
       );
-    } else if (isElementOfType($$type, VirtualElementType.Function)) {
+    }
+      break;
+    case Symbol.for(VirtualElementType.Function): {
+      if (typeof tag !== 'function') {
+        throw new Error('Render parser error');
+      }
       element = fnComponentRenderer(
         internalRender,
         parent,
@@ -59,38 +78,50 @@ const virtualRender: VirtualRender = (parent, vElem, key) => {
         ComponentKey.build(key).tag(tag.name).toString()
       );
     }
-  } else if (isElementOfType($$type, VirtualElementType.Basic)) {
-    const nativeElement = primitiveElementRenderer(tag, props);
-    const renderedChildren = childrenElementRenderer(
-      internalRender,
-      nativeElement,
-      children,
-      ComponentKey.build(key).tag(tag).toString()
-    );
-    renderedChildren.forEach((child) => RenderUtils.appendDomChildren(nativeElement, child));
-    element = nativeElement;
+      break;
+    case Symbol.for(VirtualElementType.Basic): {
+      if (typeof tag === 'function') {
+        throw new Error('Render parser error');
+      }
+      const nativeElement = primitiveElementRenderer(tag, props);
+      const renderedChildren = childrenElementRenderer(
+        internalRender,
+        nativeElement,
+        children,
+        ComponentKey.build(key).tag(tag).toString()
+      );
+      renderedChildren.forEach((child) => RenderUtils.appendDomChildren(nativeElement, child));
+      element = nativeElement;
+    }
+      break;
+    default:
+      throw new Error('Render parser error');
   }
   return element;
 };
 
-// @TODO handle vElem null
 const signalRender: VirtualRender = (parent, vElem, key) => {
   let element: DomCompatibleElement | DomCompatibleElement[];
-  const { tag, props, children, $$type } = vElem;
-  if(!vElem) {
+  if (!vElem) {
     return null
   }
-  if(typeof vElem === 'function') {
+  if (typeof vElem === 'function') {
     // @TODO handle this case
-    return null; 
+    return null;
   }
-  if (typeof tag === 'function') {
-    if (isElementOfType($$type, VirtualElementType.Fragment)) {
+
+  const { tag, props, children, $$type } = vElem;
+
+  switch ($$type) {
+    case Symbol.for(VirtualElementType.Fragment): {
       element = childrenElementRenderer(signalRender, parent, children, ComponentKey.build(key).fragment().toString());
-    } else if (
-      isElementOfType($$type, VirtualElementType.SignaledFunction) ||
-      isElementOfType($$type, VirtualElementType.Function)
-    ) {
+    }
+      break;
+    case Symbol.for(VirtualElementType.SignaledFunction):
+    case Symbol.for(VirtualElementType.Function): {
+      if (typeof tag !== 'function') {
+        throw new Error('Render parser error');
+      }
       const tagName = tag['__name__'] ? `${tag.name}:${tag['__name__']}` : tag.name;
       element = signalComponentRenderer(
         signalRender,
@@ -101,16 +132,25 @@ const signalRender: VirtualRender = (parent, vElem, key) => {
         ComponentKey.build(key).tag(tagName).toString()
       );
     }
-  } else if (isElementOfType($$type, VirtualElementType.Basic)) {
-    const nativeElement = primitiveElementRenderer(tag, props);
-    const renderedChildren = childrenElementRenderer(
-      signalRender,
-      nativeElement,
-      children,
-      ComponentKey.build(key).tag(tag).toString()
-    );
-    renderedChildren.forEach((child) => RenderUtils.appendDomChildren(nativeElement, child));
-    element = nativeElement;
+      break;
+    case Symbol.for(VirtualElementType.Basic): {
+      if (typeof tag === 'function') {
+        throw new Error('Render parser error');
+      }
+      const nativeElement = primitiveElementRenderer(tag, props);
+      const renderedChildren = childrenElementRenderer(
+        signalRender,
+        nativeElement,
+        children,
+        ComponentKey.build(key).tag(tag).toString()
+      );
+      renderedChildren.forEach((child) => RenderUtils.appendDomChildren(nativeElement, child));
+      element = nativeElement;
+    }
+      break;
+
+    default:
+      throw new Error('Render parser error');
   }
   return element;
 };

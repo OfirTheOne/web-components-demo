@@ -2,9 +2,7 @@ import EventEmitter from 'events';
 // import { SignalRenderContextCommunicator } from '../render-context/signal-render-context-communicator';
 import { signalIdsMemorySet } from '../../global-storage';
 import { DerivedSignal, Signal } from '../models';
-import { generateId } from '../../../common/generate-id';
-import { reduceTransform } from '../../../common/reduce-transform';
-import { memoisedFunction } from '../../../common/memoised-function';
+import { reduceTransform, generateId, memoisedFunction } from '../../../common';
 
 export function signal<T = any>(initValue: T): Signal<T> {
   const sourceSignal: Signal<T> = {
