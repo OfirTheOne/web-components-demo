@@ -21,7 +21,6 @@ const MediaPlayerBar: FC<MediaPlayerBarProps> = signalComponent(function MediaPl
                     <span className='track-album-name'>{props.trackAlbumName}</span>
                 </div>
             </div>
-
             <div className='player-controls'>
                 <button className='play-button' onClick={
                     () => {
@@ -31,16 +30,11 @@ const MediaPlayerBar: FC<MediaPlayerBarProps> = signalComponent(function MediaPl
                 }>
                     <Show
                         when={props.trackPlayed}
-                        // fallback= {<i className='fa fa-pause'></i>}
+                        fallback= {<i className='fa fa-pause'></i>}
                     >
                         <i className='fa fa-play'></i>
                     </Show>
-                    <Show
-                        when={props.trackPlayed}
-                        fallback= {<i className='fa fa-pause'></i>}
-                    >
-                        {/* <i className='fa fa-play'></i> */}
-                    </Show>
+                    
                 </button>
 
                 <button className='skip-button'>

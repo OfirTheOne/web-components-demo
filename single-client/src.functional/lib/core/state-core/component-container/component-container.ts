@@ -1,8 +1,7 @@
-import { VirtualRender } from '../../types';
 import { RenderContextCommunicator } from '../render-context/render-context-communicator';
 import { EffectHookSlot, HookType } from '../../../models/i-render-context';
 import { OneOrMany } from '../../../types/utils';
-import { Props } from '../../../models/props';
+import { Props, VirtualRender } from '../../../models';
 import { VirtualFnComponent } from '../../../models/virtual-fn-component';
 import { BaseComponentContainer } from '../../base-component-container';
 

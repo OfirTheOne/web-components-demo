@@ -3,7 +3,7 @@ import { Props } from "../../models";
 import { IComponentContainer } from "../../models/i-component-container";
 import { VirtualFnComponent } from "../../models/virtual-fn-component";
 import { OneOrMany } from "../../types/utils";
-import { VirtualRender } from "../types";
+import { VirtualRender } from "../../models/virtual-render";
 import { DOMUtils } from "../utils/dom-utils";
 
 

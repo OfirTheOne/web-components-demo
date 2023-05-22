@@ -1,5 +1,5 @@
-import { DomCompatibleElement } from '../models/dom-element';
-import { VirtualElement } from '../models/virtual-element';
+import { DomCompatibleElement } from './dom-element';
+import { VirtualElement } from './virtual-element';
 import { OneOrMany } from '../types/utils';
 
 export interface VirtualRender {

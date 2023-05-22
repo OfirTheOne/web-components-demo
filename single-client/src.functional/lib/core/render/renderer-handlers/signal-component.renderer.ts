@@ -1,7 +1,6 @@
-import { VirtualRender } from '../../types';
 import { Logger } from '../../../common/logger';
 import { ComponentContainer } from '../../state-core/component-container/component-container';
-import { Props, VirtualElement } from '../../../models';
+import { Props, VirtualElement, VirtualRender } from '../../../models';
 import { OneOrMany } from '../../../types/utils';
 import { VirtualFnComponent } from '../../../models/virtual-fn-component';
 import { SignalComponentContainer } from '../../signal-core/component-container/signal-component-container';

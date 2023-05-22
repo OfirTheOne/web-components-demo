@@ -1,7 +1,7 @@
 import { removeDuplicationWithOrder } from "../../../common";
 import { IComponentContainer } from "../../../models/i-component-container";
 import { signalIdsMemorySet } from "../../global-storage";
-import { isDerivedSignal } from "../../utils/validators";
+import { isDecoratedSignal } from "../../utils/validators";
 import { DerivedSignal, Signal, SignalSubscriptionDetails, Trackable } from "../models";
 import { renderSignalValue } from "../render-signal-value/render-signal-value";
 
@@ -24,9 +24,9 @@ export class SignalRenderContext {
     signalsInUsed: Map<string, Signal> = new Map();
 
     subscribeSignal(signal: Signal | DerivedSignal, subscription: SignalSubscriptionDetails) {
-        const sourceSignal = isDerivedSignal(signal) ? signal.source : signal;
+        const sourceSignal = isDecoratedSignal(signal) ? signal.source : signal;
         const listener = (value: unknown) => {
-            const usedValue = isDerivedSignal(signal) ? signal.computeValue() : value;
+            const usedValue = isDecoratedSignal(signal) ? signal.computeValue() : value;
             renderSignalValue(usedValue, subscription);
         };
         sourceSignal.emitter.on('change', listener);        

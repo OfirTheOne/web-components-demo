@@ -1,6 +1,5 @@
-import { VirtualRender } from '../../types';
 import { OneOrMany } from '../../../types/utils';
-import { Props } from '../../../models/props';
+import { Props, VirtualRender } from '../../../models';
 import { VirtualFnComponent } from '../../../models/virtual-fn-component';
 import { BaseControlFlowComponentContainer } from './base-dynamic-template-component-container';
 import { CONTROL_FLOW_HANDLER_MAP } from '../control-flow/handler-map';

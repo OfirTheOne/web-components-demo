@@ -2,6 +2,13 @@ import { FRAGMENT_FACTORY_NAME } from '../../constants';
 import { Props } from '../../models/props';
 import { VirtualElement, VirtualElementType } from '../../models/virtual-element';
 
+
+// <Button text={'click'}> <span></span> </Button>
+
+// createElemen(Button, { text: 'click' }, createElement('span', {}, [])
+
+
+
 export const createElement = (
   tag: VirtualElement['tag'],
   props: Props,

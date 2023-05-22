@@ -5,8 +5,7 @@ import { childrenElementRenderer } from './renderer-handlers/children-element.re
 import { fnComponentRenderer } from './renderer-handlers/fn-component.renderer';
 import { signalComponentRenderer } from './renderer-handlers/signal-component.renderer';
 import { RenderUtils } from './../utils/render-utils';
-import { VirtualElement, DomCompatibleElement, VirtualElementType } from '../../models';
-import { VirtualRender } from '../types';
+import { VirtualElement, DomCompatibleElement, VirtualElementType, VirtualRender } from '../../models';
 
 export function render(elem: JSX.Element | VirtualElement, id: string) {
   const vElem = elem as VirtualElement;

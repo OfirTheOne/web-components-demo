@@ -1,6 +1,5 @@
 import { ComponentKeyBuilder as ComponentKey } from '../../component-key-builder';
-import { VirtualElement, DomCompatibleElement } from '../../../models';
-import { VirtualRender } from '../../types';
+import { VirtualElement, DomCompatibleElement, VirtualRender } from '../../../models';
 import { SignalRenderContextCommunicator } from '../../signal-core/render-context/signal-render-context-communicator';
 import { RenderUtils } from '../../utils/render-utils';
 import { isRenderTextPrimitive , isSignal, isDerivedSignal} from '../../utils/validators';

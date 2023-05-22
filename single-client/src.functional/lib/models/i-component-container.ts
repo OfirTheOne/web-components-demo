@@ -1,4 +1,4 @@
-import { VirtualRender } from "../core/types";
+import { VirtualRender } from "./virtual-render";
 import { Props } from "./props";
 import { VirtualFnComponent } from "./virtual-fn-component";
 
@@ -12,7 +12,4 @@ export interface IComponentContainer {
   internalRender: VirtualRender,
   render(): void;
   onUnmount(): void;
-  
-  // options: Record<string, any>,
-  // style: any,
 }

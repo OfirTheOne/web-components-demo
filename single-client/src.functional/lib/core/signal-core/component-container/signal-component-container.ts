@@ -1,6 +1,5 @@
-import { VirtualRender } from '../../types';
 import { OneOrMany } from '../../../types/utils';
-import { Props } from '../../../models/props';
+import { Props, VirtualRender } from '../../../models';
 import { VirtualFnComponent } from '../../../models/virtual-fn-component';
 import { SignalRenderContextCommunicator } from '../render-context/signal-render-context-communicator';
 import { BaseComponentContainer } from '../../base-component-container';

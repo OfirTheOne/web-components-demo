@@ -1,12 +1,10 @@
-import { DerivedSignal } from "../../signal-core/models";
+import { DecoratedSignal } from "../../signal-core/models";
 
-
-export function isDerivedSignal(s: unknown): s is DerivedSignal {
+export function isDecoratedSignal(s: unknown): s is DecoratedSignal {
     return typeof s === 'object'
         && s !== null
         && 'id' in s
         && 'value' in s
         && 'source' in s
-        && 'transformers' in s
         && 'computeValue' in s;
 }

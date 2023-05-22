@@ -1,10 +1,8 @@
 import { ComponentContainer } from "../../state-core/component-container/component-container";
 import { renderContextMemoryMap } from "../../global-storage";
-import { VirtualRender } from "../../types";
-import { VirtualElement } from "../../../models/virtual-element";
+import { VirtualElement, VirtualRender, Props } from "../../../models";
 import { EqualFn } from "../../../models/equal-fn";
 import { VirtualFnComponent } from "../../../models/virtual-fn-component";
-import { Props } from "../../../models/props";
 import { Logger } from "../../../common/logger";
 import { fnComponentRenderer } from "./fn-component.renderer";
 
