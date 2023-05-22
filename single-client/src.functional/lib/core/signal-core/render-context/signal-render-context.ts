@@ -1,4 +1,4 @@
-import { removeDuplicationWithOrder } from "../../../common";
+import { noop, removeDuplicationWithOrder } from "../../../common";
 import { IComponentContainer } from "../../../models/i-component-container";
 import { signalIdsMemorySet } from "../../global-storage";
 import { isDecoratedSignal } from "../../utils/validators";
@@ -17,11 +17,13 @@ interface SignalSubscription {
 
 export class SignalRenderContext {
     mutationObserver: MutationObserver;
-
     elementSubscriptions: Map<HTMLElement | Node, SignalSubscription[]> = new Map();
     effectSubscription: Map<HTMLElement | Node, SignalSubscription[]> = new Map();
-
     signalsInUsed: Map<string, Signal> = new Map();
+
+    registeredHooks = {
+        onMount: noop
+    }
 
     subscribeSignal(signal: Signal | DerivedSignal, subscription: SignalSubscriptionDetails) {
         const sourceSignal = isDecoratedSignal(signal) ? signal.source : signal;
@@ -79,6 +81,14 @@ export class SignalRenderContext {
         return this._componentKey;
     }
 
+    onMount(): void {
+        try {
+            this.registeredHooks.onMount();
+        } catch (error) {
+            // handle this
+            console.log(error);
+        }
+    }
     onUnmount() {
         this.mutationObserver?.disconnect();
         this.elementSubscriptions.forEach((subscriptions) => {

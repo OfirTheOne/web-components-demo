@@ -1,5 +1,5 @@
 import { IAlbumTrack } from '../model';
-import { albumsListsSignal, currentTrackStateSignal } from './source';
+import { currentTrackStateSignal } from './source';
 
 export const togglePlayTrack = () => {
     currentTrackStateSignal.setValue((current) => ({
@@ -16,10 +16,5 @@ export const setCurrentTrack = (track: (IAlbumTrack & {albumName: string}) | nul
 }
 
 
-export const duplicateAlbums = () => {
-    albumsListsSignal.setValue(curr => {
-        return curr.concat([...curr]);
-    })
-  }
   
 

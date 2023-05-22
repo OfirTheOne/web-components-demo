@@ -43,9 +43,9 @@ export interface DerivedSignal<N=unknown> extends DecoratedSignal<N> {
     transformers: Array<(value: unknown) => unknown>;  
 }
 
-type AsyncFetcher<T, Args extends any[]> = (...args: Args | undefined) => Promise<T>;
-type SyncRun<Args extends any[]> = (...args: Args) => void;
-type ResourceStatus = 'pending' | 'success' | 'error';
+export type AsyncFetcher<T, Args extends any[]> = (...args: Args | undefined) => Promise<T>;
+export type SyncRun<Args extends any[]> = (...args: Args) => void;
+export type ResourceStatus = 'pending' | 'success' | 'error';
 
 export interface ResourceSignal<
     T = any, 

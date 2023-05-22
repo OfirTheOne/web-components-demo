@@ -1,13 +1,7 @@
-import { signal, derivedSignal } from "../../../lib/core/signal-core/create-signal";
-import { IAlbum, IAlbumTrack } from "../model";
-import { mockAlbums } from "./mock-data";
+import { signal, derivedSignal, resourceSignal } from "../../../lib/core/signal-core/create-signal";
+import { getAlbums } from "../db";
+import { IAlbumTrack } from "../model";
 
-
-// const currentTrackDataSignal = signal({
-//     name: '',
-//     albumName: 'Nirvanaaa',
-//     length: (60 * 4 + 20),
-// });
 
 export const currentTrackStateSignal = signal({
     selectedTrack: null as (IAlbumTrack & { albumName: string }) | null,
@@ -15,9 +9,9 @@ export const currentTrackStateSignal = signal({
     elapsedSeconds: 0
 });
 
-const albumChunks: IAlbum[][] = mockAlbums;
+export const albumsListsSignal = resourceSignal(getAlbums)
 
-export const albumsListsSignal = signal<IAlbum[][]>([...albumChunks]);
+// export const albumsListsSignal = signal<IAlbum[][]>([...albumChunks]);
 
 
 

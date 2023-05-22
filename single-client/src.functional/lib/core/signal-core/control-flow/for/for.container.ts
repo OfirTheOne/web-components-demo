@@ -61,20 +61,26 @@ export class ForControlFlowComponentContainer extends BaseControlFlowComponentCo
             ...args: unknown[]
         ) => VirtualElement;
 
-        const domElement: HTMLElement[] = trackable.value.map((item, index) => {
-            const memoIndex = indexResolver(item, index);
-            if (this.itemsElementMemoMap.has(memoIndex)) {
-                const memoizedElement = this.itemsElementMemoMap.get(memoIndex);
-                return memoizedElement;
-            }
 
-            const virtualItemView = virtualItemViewFactory(item, index);
-            const itemDomElement = <HTMLElement>(
-                this.internalRender(this._parent, virtualItemView, ComponentKeyBuilder.build(this.key).idx(index).toString())
-            );
-            this.itemsElementMemoMap.set(memoIndex, itemDomElement);
-            return itemDomElement;
-        });
+        let domElement: OneOrMany<HTMLElement>;
+        if(trackable.value === undefined || trackable.value === null || trackable.value.length === 0) {
+            domElement = this.placeholder;
+        } else {
+            domElement = trackable.value.map((item, index) => {
+                const memoIndex = indexResolver(item, index);
+                if (this.itemsElementMemoMap.has(memoIndex)) {
+                    const memoizedElement = this.itemsElementMemoMap.get(memoIndex);
+                    return memoizedElement;
+                }
+    
+                const virtualItemView = virtualItemViewFactory(item, index);
+                const itemDomElement = <HTMLElement>(
+                    this.internalRender(this._parent, virtualItemView, ComponentKeyBuilder.build(this.key).idx(index).toString())
+                );
+                this.itemsElementMemoMap.set(memoIndex, itemDomElement);
+                return itemDomElement;
+            });
+        } 
 
         SignalRenderContextCommunicator.instance.removeContext();
         if (this._parent) {

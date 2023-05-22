@@ -46,10 +46,14 @@ export class SignalComponentContainer extends BaseComponentContainer {
       }
     }
     this._container = domElement;
+    this.onMount()
     return domElement;
   }
   onUnmount() {
     SignalRenderContextCommunicator.instance.accessContext(this.key)?.onUnmount();
     SignalRenderContextCommunicator.instance.deleteStoredContext(this.key);
+  }
+  onMount() {
+    SignalRenderContextCommunicator.instance.accessContext(this.key)?.onMount();
   }
 }
