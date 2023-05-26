@@ -1,6 +1,6 @@
 import { HookType, MemoHookSlot } from '../../../models/i-render-context';
 import { RenderContextCommunicator } from '../render-context/render-context-communicator';
-import { isArrayShallowEqual } from '../../utils/common-utils';
+import { isArrayShallowEqual } from '../../utils/validators';
 
 
 export function createMemo<F extends (...args: any[]) => any>(factory: F, dependencies: any[]): ReturnType<F> {

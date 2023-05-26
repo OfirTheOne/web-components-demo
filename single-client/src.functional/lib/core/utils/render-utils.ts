@@ -1,5 +1,5 @@
-import { isAllLowerCase, isSymbolShallowEquals } from './common-utils';
-import { isCapitalEventName } from './is-capital-event-name';
+import { isAllLowerCase, isSymbolShallowEquals } from './validators';
+import { isCapitalEventName } from './validators/is-capital-event-name';
 import { VirtualElementType } from '../../models';
 import { DomElement } from '../../models/dom-element';
 // import { Signal } from '../signal/models';

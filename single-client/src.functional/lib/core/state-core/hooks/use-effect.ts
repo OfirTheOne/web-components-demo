@@ -1,6 +1,6 @@
 import { HookType, EffectHookSlot } from '../../../models/i-render-context';
 import { RenderContextCommunicator } from '../render-context/render-context-communicator';
-import { isArrayShallowEqual } from '../../utils/common-utils';
+import { isArrayShallowEqual } from '../../utils/validators';
 
 export function useEffect(callback: () => void, dependencies: any[]) {
   RenderContextCommunicator.instance.currentContext.declareHook(HookType.useEffect);
