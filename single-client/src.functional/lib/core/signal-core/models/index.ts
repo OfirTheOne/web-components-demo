@@ -1,4 +1,3 @@
-import EventEmitter from "events";
 
 export enum SignalSubscriptionType {
     // Null,
@@ -22,43 +21,29 @@ export interface SignalSubscriptionDetails {
 
 
 
-export interface Signal<T=unknown> {
-    set value(newValue: T);
-    get value(): T;
-    _value: T,
-    emitter: EventEmitter
+export interface ISignal<T=unknown> {
     id: string;
+    value: T;
     setValue(setter: ((curValue: T) => T)): void;
+    subscribe(listener: (value: T) => void): void;
+    unsubscribe(listener: (value: T) => void): void;
+    notify(): void;
 }
 
-export interface DecoratedSignal<N=unknown> {
-    source: Signal<unknown>;
-    get value(): N;
-    get id(): string;
-    computeValue(): N;    
+export interface IDecoratedSignal<N=unknown> {
+    id: string;
+    value: N;
+    readonly source: ISignal<unknown>;
+    computeValue(): N;
 }
 
-
-export interface DerivedSignal<N=unknown> extends DecoratedSignal<N> {
-    transformers: Array<(value: unknown) => unknown>;  
-}
 
 export type AsyncFetcher<T, Args extends any[]> = (...args: Args | undefined) => Promise<T>;
 export type SyncRun<Args extends any[]> = (...args: Args) => void;
 export type ResourceStatus = 'pending' | 'success' | 'error';
 
-export interface ResourceSignal<
-    T = any, 
-    Args extends any[] = any[], 
-    F extends AsyncFetcher<T, Args> = AsyncFetcher<T, Args>,
-> extends DecoratedSignal<T> {
-    readonly fetcherRef: F;
-    error: Error | null;
-    status: ResourceStatus;
-    run: SyncRun<Args>;
-}
 
-export type Trackable<N=unknown> = Signal<N> | DecoratedSignal<N>;
+export type Trackable<N=unknown> = ISignal<N> | IDecoratedSignal<N>;
 
 export enum ControlFlow {
     Show = 'show',
@@ -68,4 +53,5 @@ export enum ControlFlow {
     Slot = 'slot',
     Router = 'router',
     Route = 'route',
+    Routes = 'routes',
 }

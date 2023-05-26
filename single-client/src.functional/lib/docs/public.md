@@ -11,7 +11,7 @@
 
 ### signal / createSignal 
 
-### derivedSignal / createDerivedSignal 
+### derivedSignal / createDerivedSig    nal 
 
 ### resourceSignal / createResourceSignal 
 

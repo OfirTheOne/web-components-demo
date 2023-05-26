@@ -16,16 +16,16 @@ export const Layout = signalComponent(function Layout() {
 
   return (
     <div className='layout'>
-        <SpotifySideMenu />
-        <Routes />
-        <MediaPlayerBar 
-            trackPlayed={currentTrackData.played}
-            trackLength={currentTrackData.length}
-            trackElapsedTime={currentTrackData.elapsedTime}
-            trackAlbumName={currentTrackData.albumName}
-            trackName={currentTrackData.name}
-        />
-</div>
+      <SpotifySideMenu />
+      <Routes />
+      <MediaPlayerBar
+        trackPlayed={currentTrackData.played}
+        trackLength={currentTrackData.length}
+        trackElapsedTime={currentTrackData.elapsedTime}
+        trackAlbumName={currentTrackData.albumName}
+        trackName={currentTrackData.name}
+      />
+    </div>
   );
 })
 

@@ -1,5 +1,5 @@
 import { Props } from '../../../models/props';
-import { Signal, SignalSubscriptionType } from '../../signal-core/models';
+import { ISignal, SignalSubscriptionType } from '../../signal-core/models';
 import { SignalRenderContextCommunicator } from '../../signal-core/render-context/signal-render-context-communicator';
 import { RenderUtils } from '../../utils/render-utils';
 import { isSignal } from '../../utils/validators';
@@ -32,7 +32,7 @@ export function signalPrimitiveElementRenderer(tag: string, props: Props) {
     Object.entries(styleProp).map(([name, value]) => {
       if (isSignal(value)) {
         const currentContext = SignalRenderContextCommunicator.instance.currentContext;
-        const signal: Signal = value;
+        const signal: ISignal = value;
         currentContext.subscribeSignal(signal, {
           componentKey: currentContext.componentKey,
           containerElement: element,

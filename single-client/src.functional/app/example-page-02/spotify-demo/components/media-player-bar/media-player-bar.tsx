@@ -1,15 +1,15 @@
 import { WC } from '../../../../../lib/jsx';
 import { FC } from '../../../../../lib/models/functional-component';
-import { DerivedSignal, Show, signalComponent } from '../../../../../lib/core/signal-core';
+import { IDecoratedSignal, Show, signalComponent } from '../../../../../lib/core/signal-core';
 import { togglePlayTrack } from '../../../signals';
 import './media-player-bar.scss';
 
 interface MediaPlayerBarProps {
-    trackName: DerivedSignal<string>;
-    trackAlbumName: DerivedSignal<string>;
-    trackLength: DerivedSignal<string>;
-    trackPlayed: DerivedSignal<boolean>;
-    trackElapsedTime: DerivedSignal<string>;
+    trackName: IDecoratedSignal<string>;
+    trackAlbumName: IDecoratedSignal<string>;
+    trackLength: IDecoratedSignal<string>;
+    trackPlayed: IDecoratedSignal<boolean>;
+    trackElapsedTime: IDecoratedSignal<string>;
 }
 
 const MediaPlayerBar: FC<MediaPlayerBarProps> = signalComponent(function MediaPlayerBar(props) {

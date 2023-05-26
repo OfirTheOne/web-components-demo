@@ -1,4 +1,4 @@
-import { signal, derivedSignal, resourceSignal } from "../../../lib/core/signal-core/create-signal";
+import { signal, derivedSignal, resourceSignal } from "../../../lib/core/signal-core/signal";
 import { getAlbums } from "../db";
 import { IAlbumTrack } from "../model";
 
@@ -10,10 +10,6 @@ export const currentTrackStateSignal = signal({
 });
 
 export const albumsListsSignal = resourceSignal(getAlbums)
-
-// export const albumsListsSignal = signal<IAlbum[][]>([...albumChunks]);
-
-
 
 export const currentTrackData = {
     source: currentTrackStateSignal,

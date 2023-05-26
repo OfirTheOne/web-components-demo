@@ -2,7 +2,7 @@ import { noop, removeDuplicationWithOrder } from "../../../common";
 import { IComponentContainer } from "../../../models/i-component-container";
 import { signalIdsMemorySet } from "../../global-storage";
 import { isDecoratedSignal } from "../../utils/validators";
-import { DerivedSignal, Signal, SignalSubscriptionDetails, Trackable } from "../models";
+import { IDecoratedSignal, ISignal, SignalSubscriptionDetails, Trackable } from "../models";
 import { renderSignalValue } from "../render-signal-value/render-signal-value";
 
 export function isValueAreSignalKey(value: unknown) {
@@ -19,19 +19,19 @@ export class SignalRenderContext {
     mutationObserver: MutationObserver;
     elementSubscriptions: Map<HTMLElement | Node, SignalSubscription[]> = new Map();
     effectSubscription: Map<HTMLElement | Node, SignalSubscription[]> = new Map();
-    signalsInUsed: Map<string, Signal> = new Map();
+    signalsInUsed: Map<string, ISignal> = new Map();
 
     registeredHooks = {
         onMount: noop
     }
 
-    subscribeSignal(signal: Signal | DerivedSignal, subscription: SignalSubscriptionDetails) {
+    subscribeSignal(signal: ISignal | IDecoratedSignal, subscription: SignalSubscriptionDetails) {
         const sourceSignal = isDecoratedSignal(signal) ? signal.source : signal;
         const listener = (value: unknown) => {
             const usedValue = isDecoratedSignal(signal) ? signal.computeValue() : value;
             renderSignalValue(usedValue, subscription);
         };
-        sourceSignal.emitter.on('change', listener);        
+        sourceSignal.subscribe(listener);        
         this.signalsInUsed.set(sourceSignal.id, sourceSignal);
     }
 
@@ -41,7 +41,7 @@ export class SignalRenderContext {
             if(subscriptions) {
                 subscriptions.forEach((sub) => {
                     const signal = this.signalsInUsed.get(sub.subscription.id);
-                    signal?.emitter.removeListener('change', sub.listener);
+                    signal?.unsubscribe(sub.listener);
                 });
 
             }
@@ -49,10 +49,9 @@ export class SignalRenderContext {
     }
 
     registerEffect(effect: () => void, deps: Trackable[]) {
-        const signals: Signal[] = removeDuplicationWithOrder(deps.map(dep => 'source' in dep ? dep.source : dep));
+        const signals: ISignal[] = removeDuplicationWithOrder(deps.map(dep => 'source' in dep ? dep.source : dep));
         signals.forEach(signal => {
-            const emitter = signal.emitter;
-            emitter.on('change', () => {
+            signal.subscribe(() => {
                 effect();
             });
         });
@@ -94,7 +93,7 @@ export class SignalRenderContext {
         this.elementSubscriptions.forEach((subscriptions) => {
             subscriptions.forEach((sub) => {
                 const signal = this.signalsInUsed.get(sub.subscription.id);
-                signal?.emitter.removeListener('change', sub.listener);
+                signal?.unsubscribe(sub.listener);
             });
         });
         this.elementSubscriptions.clear();

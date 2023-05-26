@@ -1,6 +1,5 @@
 import { IAlbum } from "../model";
 
-
 export const getAlbums = async (): Promise<IAlbum[][]> => ([
     [
         {

@@ -36,12 +36,12 @@ export class SwitchControlFlowComponentContainer extends BaseControlFlowComponen
         const switchProps = this.props as unknown as SwitchProps;
         const trackables: Trackable[] = switchProps.track;
         trackables.forEach((trackable) => {
-            const emitter = 'emitter' in trackable ? trackable.emitter : trackable.source.emitter;
+            const source = 'source' in trackable ? trackable.source : trackable;
             const listener = () => {
                 this._container = this.resolveRenderedOutput();
             };
             this.listeners.push(listener);
-            emitter.on('change', listener);
+            source.subscribe(listener);
         });
         this._container = domElement;
         return domElement;

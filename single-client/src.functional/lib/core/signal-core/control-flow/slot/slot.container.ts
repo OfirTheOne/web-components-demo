@@ -14,8 +14,8 @@ export class SlotControlFlowComponentContainer extends BaseControlFlowComponentC
       const { track: trackables } = slotProps;
   
       trackables.forEach((trackable) => {
-        const emitter = 'emitter' in trackable ? trackable.emitter : trackable.source.emitter
-        emitter.on('change', () => {
+        const source = 'source' in trackable ? trackable.source : trackable;
+        source.subscribe(() => {
           this._container = this.resolveRenderedOutput();    
         })
       });

@@ -1,6 +1,6 @@
-import { DecoratedSignal } from "../../signal-core/models";
+import { IDecoratedSignal } from "../../signal-core/models";
 
-export function isDecoratedSignal(s: unknown): s is DecoratedSignal {
+export function isDecoratedSignal(s: unknown): s is IDecoratedSignal {
     return typeof s === 'object'
         && s !== null
         && 'id' in s

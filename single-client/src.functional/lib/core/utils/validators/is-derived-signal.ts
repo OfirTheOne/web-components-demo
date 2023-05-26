@@ -1,4 +1,4 @@
-import { DerivedSignal } from "../../signal-core/models";
+import { DerivedSignal } from "../../signal-core/signal";
 
 
 export function isDerivedSignal(s: unknown): s is DerivedSignal {
@@ -7,6 +7,6 @@ export function isDerivedSignal(s: unknown): s is DerivedSignal {
         && 'id' in s
         && 'value' in s
         && 'source' in s
-        && 'transformers' in s
+        && 'transform' in s
         && 'computeValue' in s;
 }

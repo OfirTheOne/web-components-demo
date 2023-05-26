@@ -43,9 +43,10 @@ export class ShowControlFlowComponentContainer extends BaseControlFlowComponentC
             trackables = track;
         }
 
+        
         trackables.forEach((trackable) => {
-            const emitter = 'emitter' in trackable ? trackable.emitter : trackable.source.emitter;
-            emitter.on('change', () => {
+            const source = 'source' in trackable ? trackable.source : trackable;
+            source.subscribe(() => {
                 this._container = this.resolveRenderedOutput();
             });
         });
