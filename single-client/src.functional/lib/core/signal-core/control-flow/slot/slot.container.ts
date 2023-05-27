@@ -34,10 +34,7 @@ export class SlotControlFlowComponentContainer extends BaseControlFlowComponentC
   
       const { track: trackables } = slotProps;
       const virtualOutput: OneOrMany<VirtualElement> = virtualViewFactory(...trackables.map(t => t.value));
-      
-      const domElement = <HTMLElement> (Array.isArray(virtualOutput) ? 
-        virtualOutput.map(v => this.internalRender(this._parent, v, this.key)) : 
-        this.internalRender(this._parent, virtualOutput, this.key));
+      const domElement = this.coreRender(virtualOutput);
       SignalRenderContextCommunicator.instance.removeContext();
       if (this._parent) {
         if (this.wasRenderedBefore) {
@@ -49,14 +46,14 @@ export class SlotControlFlowComponentContainer extends BaseControlFlowComponentC
       return domElement;
     }
   
-    coreRender(parent: HTMLElement, virtualOutput: OneOrMany<VirtualElement>, key: string): HTMLElement {
-      const domElement = <HTMLElement> (Array.isArray(virtualOutput) ? 
-        virtualOutput.map((v, i)=> this.internalRender(
-          parent, v, 
-          ComponentKeyBuilder.build(key).idx(i).toString()
-        )) : 
-        this.internalRender(parent, virtualOutput, key));
-      return domElement;
-    }
+    // coreRender(parent: HTMLElement, virtualOutput: OneOrMany<VirtualElement>, key: string): HTMLElement {
+    //   const domElement = <HTMLElement> (Array.isArray(virtualOutput) ? 
+    //     virtualOutput.map((v, i)=> this.internalRender(
+    //       parent, v, 
+    //       ComponentKeyBuilder.build(key).idx(i).toString()
+    //     )) : 
+    //     this.internalRender(parent, virtualOutput, key));
+    //   return domElement;
+    // }
   }
   

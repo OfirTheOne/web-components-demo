@@ -5,6 +5,7 @@ import { VirtualElement } from '../../../../models/virtual-element';
 import { ControlFlow, Trackable } from '../../models';
 import { BaseControlFlowComponentContainer } from '../../component-container/base-dynamic-template-component-container';
 import { defineComponent } from '../../../utils/define-component';
+import { ComponentKeyBuilder } from '../../../component-key-builder';
 
 
 const TAG_NAME = 'switch-control'
@@ -73,7 +74,7 @@ export class SwitchControlFlowComponentContainer extends BaseControlFlowComponen
                 domElement = this.fallbackElementMemo;
             } else if (switchProps.fallback) {
                 domElement = <HTMLElement>(
-                    this.internalRender(this._parent, switchProps.fallback as unknown as VirtualElement, this.key)
+                    this.coreRender(switchProps.fallback as unknown as VirtualElement)
                 );
                 this.fallbackElementMemo = domElement;
             }
@@ -82,7 +83,9 @@ export class SwitchControlFlowComponentContainer extends BaseControlFlowComponen
                 domElement = this.caseElementMemoMap.get(virtualCaseIndex);
             } else {
                 const virtualCase = virtualCaseChildren[virtualCaseIndex];
-                domElement = <HTMLElement>this.internalRender(this._parent, virtualCase, this.key);
+                domElement = <HTMLElement>this.internalRender(this._parent, virtualCase, 
+                    ComponentKeyBuilder.build(this.key).idx(virtualCaseIndex).toString()
+                );
                 this.caseElementMemoMap.set(virtualCaseIndex, domElement);
             }
         }
@@ -101,20 +104,3 @@ export class SwitchControlFlowComponentContainer extends BaseControlFlowComponen
         return domElement;
     }
 }
-
-/*
-
-<Switch 
-    fallback={<p>{x} is between 5 and 10</p>}
-    track={[x]}
->
-  <Case when={xValue => xValue > 10}>
-    <p>{x} is greater than 10</p>
-  </Case>
-  <Case when={xValue => 5 > xValue}>
-    <p>{x} is less than 5</p>
-  </Case>
-</Switch>
-
-
-  */

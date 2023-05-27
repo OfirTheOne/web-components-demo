@@ -45,7 +45,6 @@ export class ForControlFlowComponentContainer extends BaseControlFlowComponentCo
 
     resolveRenderedOutput(): OneOrMany<HTMLElement> | null {
         SignalRenderContextCommunicator.instance.setContext(this.key, this);
-
         const forProps = this.props as ForProps;
         const trackable = forProps.each;
         const indexKey = forProps.indexKey;
@@ -69,13 +68,14 @@ export class ForControlFlowComponentContainer extends BaseControlFlowComponentCo
             domElement = trackable.value.map((item, index) => {
                 const memoIndex = indexResolver(item, index);
                 if (this.itemsElementMemoMap.has(memoIndex)) {
-                    const memoizedElement = this.itemsElementMemoMap.get(memoIndex);
-                    return memoizedElement;
+                    return this.itemsElementMemoMap.get(memoIndex);
                 }
     
                 const virtualItemView = virtualItemViewFactory(item, index);
                 const itemDomElement = <HTMLElement>(
-                    this.internalRender(this._parent, virtualItemView, ComponentKeyBuilder.build(this.key).idx(index).toString())
+                    this.internalRender(this._parent, 
+                        virtualItemView,
+                        ComponentKeyBuilder.build(this.key).idx(index).toString())
                 );
                 this.itemsElementMemoMap.set(memoIndex, itemDomElement);
                 return itemDomElement;

@@ -1,10 +1,11 @@
 
-import { Props } from "../../models";
+import { Props, VirtualElement } from "../../models";
 import { IComponentContainer } from "../../models/i-component-container";
 import { VirtualFnComponent } from "../../models/virtual-fn-component";
 import { OneOrMany } from "../../types/utils";
 import { VirtualRender } from "../../models/virtual-render";
 import { DOMUtils } from "../utils/dom-utils";
+import { ComponentKeyBuilder } from "../component-key-builder";
 
 
 export abstract class BaseComponentContainer implements IComponentContainer {
@@ -65,5 +66,15 @@ export abstract class BaseComponentContainer implements IComponentContainer {
     }
     public connectOnSelfRerender(domElement: OneOrMany<HTMLElement>) {
         DOMUtils.replace(this._parent, this._container, domElement);
+    }
+
+    protected coreRender(vElem: OneOrMany<VirtualElement>): OneOrMany<HTMLElement> {
+        return Array.isArray(vElem) ? 
+            vElem.map((el, i) => <HTMLElement>this.internalRender(
+                this._parent, 
+                el, 
+                ComponentKeyBuilder.build(this._key).idx(i).toString()
+            )) : 
+            <HTMLElement>this.internalRender(this._parent, vElem, this.key);
     }
 }

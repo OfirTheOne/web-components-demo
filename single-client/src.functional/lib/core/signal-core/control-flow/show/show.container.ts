@@ -86,14 +86,7 @@ export class ShowControlFlowComponentContainer extends BaseControlFlowComponentC
         } else if (whenResult && this.defaultElementMemo) {
             domElement = this.defaultElementMemo;
         } else {
-            domElement = <HTMLElement>(
-                (Array.isArray(renderTarget)
-                    ? renderTarget.map((v, i) => this.internalRender(
-                        this._parent, v,
-                        ComponentKeyBuilder.build(this.key).idx(i).toString()
-                    ))
-                    : this.internalRender(this._parent, renderTarget, this.key))
-            );
+            domElement = this.coreRender(renderTarget);
             if (whenResult) {
                 this.defaultElementMemo = domElement;
             } else if (!whenResult) {

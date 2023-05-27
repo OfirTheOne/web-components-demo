@@ -11,7 +11,7 @@ const article = {
     image: "https://picsum.photos/120/120",
   };
 
-export function ExamplePage01() {
+export function ExamplePage() {
   return (
     <div>
       <ArticleCard {...article} />

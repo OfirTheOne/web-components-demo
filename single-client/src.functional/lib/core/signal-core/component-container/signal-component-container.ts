@@ -1,5 +1,5 @@
 import { OneOrMany } from '../../../types/utils';
-import { Props, VirtualRender } from '../../../models';
+import { Props, VirtualElement, VirtualRender } from '../../../models';
 import { VirtualFnComponent } from '../../../models/virtual-fn-component';
 import { SignalRenderContextCommunicator } from '../render-context/signal-render-context-communicator';
 import { BaseComponentContainer } from '../../base-component-container';
@@ -31,13 +31,13 @@ export class SignalComponentContainer extends BaseComponentContainer {
 
   render(): OneOrMany<HTMLElement> | null {
     SignalRenderContextCommunicator.instance.setContext(this.key, this);
-    const virtualElement = this.fnComponent(this._props || {}, this._children);
+    const virtualElement: OneOrMany<VirtualElement> = this.fnComponent(this._props || {}, this._children);
     const isUnmounted = virtualElement == null;
     if (isUnmounted) {
       this.onUnmount()
       return undefined;
     }
-    const domElement = <HTMLElement>this.internalRender(this._parent, virtualElement, this.key);
+    const domElement = <HTMLElement>this.coreRender(virtualElement);
     SignalRenderContextCommunicator.instance.removeContext();
     if (this._parent) {
       if (this.wasRenderedBefore) {
