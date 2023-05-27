@@ -4,7 +4,7 @@ import { SpotifySideMenu } from '../components/side-menu/side-menu';
 import MediaPlayerBar from '../components/media-player-bar/media-player-bar';
 import { albumsListsSignal, currentTrackData } from '../../signals';
 import { signalComponent } from '../../../../lib/core/signal-core';
-import { onMount } from '../../../../lib/core/signal-core/hooks/on-mount';
+import { onMount } from '../../../../lib/core/signal-core/hooks';
 import './layout.scss';
 
 

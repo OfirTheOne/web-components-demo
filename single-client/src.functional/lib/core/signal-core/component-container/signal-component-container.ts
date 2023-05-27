@@ -3,6 +3,7 @@ import { Props, VirtualRender } from '../../../models';
 import { VirtualFnComponent } from '../../../models/virtual-fn-component';
 import { SignalRenderContextCommunicator } from '../render-context/signal-render-context-communicator';
 import { BaseComponentContainer } from '../../base-component-container';
+import { ComponentKeyBuilder } from '../../component-key-builder';
 
 export class SignalComponentContainer extends BaseComponentContainer {
   protected _container: OneOrMany<HTMLElement>;
@@ -47,6 +48,15 @@ export class SignalComponentContainer extends BaseComponentContainer {
     }
     this._container = domElement;
     this.onMount()
+    if(domElement) {
+      if(Array.isArray(domElement)) {
+        domElement.forEach((e, i )=> e.setAttribute('key', 
+          ComponentKeyBuilder.build(this._key).idx(i).toString()
+        ));
+      } else {
+        domElement.setAttribute('key', this._key);
+      }
+    }
     return domElement;
   }
   onUnmount() {

@@ -22,7 +22,8 @@ export class SignalRenderContext {
     signalsInUsed: Map<string, ISignal> = new Map();
 
     registeredHooks = {
-        onMount: noop
+        onMount: noop,
+        onUnmount: noop
     }
 
     subscribeSignal(signal: ISignal | IDecoratedSignal, subscription: SignalSubscriptionDetails) {
@@ -66,14 +67,18 @@ export class SignalRenderContext {
             mutations.forEach((mutation) => {
                 mutation.removedNodes.forEach((node) => {
                     if (node instanceof HTMLElement || node instanceof Text) {
+                        // this.componentContainerRef.
                         // const subscriptionId = node.getAttribute('data-subscription-id');
-                        this.removeAllElementSubscription(node);
+                        // this.removeAllElementSubscription(node);
                         // if (subscriptionId) {
                         // }
                     }
                 });
             }, { childList: true });
         });
+        if(this.componentContainerRef.parent) {
+            this.mutationObserver.observe(this.componentContainerRef.parent, { childList: true })
+        }
     }
 
     get componentKey() {
@@ -89,6 +94,7 @@ export class SignalRenderContext {
         }
     }
     onUnmount() {
+        this.registeredHooks.onUnmount()
         this.mutationObserver?.disconnect();
         this.elementSubscriptions.forEach((subscriptions) => {
             subscriptions.forEach((sub) => {

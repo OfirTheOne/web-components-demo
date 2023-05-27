@@ -6,7 +6,7 @@ import { SideMenu } from './components/side-menu/side-menu';
 import { signalComponent } from '../lib/core/signal-core/signal-component/signal-component';
 import { createSignal, derivedSignal } from '../lib/core/signal-core/signal';
 import { ISignal } from 'src.functional/lib/core/signal-core/models';
-import { ExamplePage02 } from './example-page-02';
+import { ExamplePage02 } from './example-app-02';
 import './app.scss';
 
 export function App() {
