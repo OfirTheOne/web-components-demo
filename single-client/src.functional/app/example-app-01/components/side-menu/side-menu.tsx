@@ -1,5 +1,5 @@
-import { WC } from '../../../lib/jsx';
-import { createCallback, createState, memo, useEffect } from '../../../lib/core';
+import { WC } from '../../../../lib/jsx';
+import { createCallback, createState, memo, useEffect } from '../../../../lib/core';
 import './side-menu.scss';
 
 

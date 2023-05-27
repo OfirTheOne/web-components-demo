@@ -1,5 +1,5 @@
 import { WC } from '../../lib/jsx';
-import { ArticleCard } from '../components/article-card/article-card';
+import { ArticleCard } from './components/article-card/article-card';
 
 
 const article = {
@@ -14,11 +14,7 @@ const article = {
 export function ExamplePage01() {
   return (
     <div>
-      {/* <SideMenu /> */}
       <ArticleCard {...article} />
-      {/* <ThemeSwitchButton /> 
-      <Counter initialCount={0} />
-      <Game /> */}
     </div>
   );
 }

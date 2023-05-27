@@ -1,6 +1,6 @@
-import { WC } from '../../../lib/jsx';
+import { WC } from '../../../../lib/jsx';
 
-import { FC } from '../../../lib/models/functional-component';
+import { FC } from '../../../../lib/models/functional-component';
 
 import './article-card.scss';
 
