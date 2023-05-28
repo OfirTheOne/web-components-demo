@@ -10,6 +10,18 @@ class SignalRenderContextCommunicatorInstance {
     return this.calledContextStack.at(-1);
   }
 
+
+  public getAllChildContexts(componentKey: string): SignalRenderContext[] {
+    if(!signaledContextMemoryMap.has(componentKey)) {
+      return [];
+    }
+    const sortedEntries = Array
+      .from(signaledContextMemoryMap.entries())
+      .sort((ea, eb) => ea[0].localeCompare(eb[0]));
+    const keyIndex = sortedEntries.findIndex(([key]) => componentKey === key);
+    return sortedEntries.slice(keyIndex).map(([, ctx]) => ctx);
+  }
+
   public accessContext(componentKey: string): SignalRenderContext | null {
     if (signaledContextMemoryMap.has(componentKey)) {
       return signaledContextMemoryMap.get(componentKey) as SignalRenderContext;
@@ -31,9 +43,7 @@ class SignalRenderContextCommunicatorInstance {
   }
 
   public removeContext() {
-
     this.calledContextStack.pop();
-
   }
 
   public deleteStoredContext(componentKey: string) {

@@ -23,6 +23,9 @@ const createPlaceholder = (key: string) => {
 
 
 export class ShowControlFlowComponentContainer extends BaseControlFlowComponentContainer {
+    onDispose(): void {
+        console.log('onDispose');
+    }
     fallbackElementMemo: OneOrMany<HTMLElement> = null;
     defaultElementMemo: OneOrMany<HTMLElement> = null;
     readonly placeholder = createPlaceholder(this.key);

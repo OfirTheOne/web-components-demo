@@ -23,6 +23,9 @@ const createPlaceholder = (key: string) => {
 }
 
 export class ForControlFlowComponentContainer extends BaseControlFlowComponentContainer {
+    onDispose(): void {
+        console.log('onDispose');
+    }
     listeners: Array<(value?: unknown) => void> = [];
     fallbackElementMemo: OneOrMany<HTMLElement> = null;
     defaultElementMemo: OneOrMany<HTMLElement> = null;

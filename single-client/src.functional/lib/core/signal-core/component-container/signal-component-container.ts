@@ -59,6 +59,10 @@ export class SignalComponentContainer extends BaseComponentContainer {
     }
     return domElement;
   }
+
+  onDispose(): void {
+    
+  }
   onUnmount() {
     SignalRenderContextCommunicator.instance.accessContext(this.key)?.onUnmount();
     SignalRenderContextCommunicator.instance.deleteStoredContext(this.key);

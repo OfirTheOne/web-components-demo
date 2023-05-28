@@ -9,7 +9,16 @@ const Box: FC = signalComponent(function Box(props, children) {
   return <div style={{ background: "white", height: "200px"}}>
     { children }
   </div>
-})
+});
+
+const Card: FC = signalComponent(function Card(props, children) {
+  return <div style={{ background: "blue", color: "white", height: "150", width: "150px"}}>
+    { children }
+  </div>
+});
+
+
+
 
 const Button: FC<{text: string, onClick: () => void }> = signalComponent(function Button({ text, onClick }) {
   return <button onClick={onClick}>
@@ -30,7 +39,10 @@ export const ExamplePage = signalComponent(function ExamplePage() {
           <Box>Box number 0</Box>
         </Case>
         <Case when={([i]) => i === 1 }>
-          <Box>Box number 1</Box>
+          <Box> 
+            <Card> Box number 1 </Card> 
+            <Card> Something 1 </Card>
+          </Box>
         </Case>
         <Case when={([i]) => i === 2 }>
           <Box>Box number 2</Box>

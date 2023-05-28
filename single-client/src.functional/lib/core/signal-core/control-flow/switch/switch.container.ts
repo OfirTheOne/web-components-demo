@@ -28,9 +28,8 @@ export class SwitchControlFlowComponentContainer extends BaseControlFlowComponen
     
     caseElementMemoMap: Map<number, OneOrMany<HTMLElement>> = new Map();
     fallbackElementMemo: OneOrMany<HTMLElement> = null;
-    readonly placeholder = createPlaceholder(this.key);
-
     currentConditionState: number | null = null;
+    readonly placeholder = createPlaceholder(this.key);
 
     render(): OneOrMany<HTMLElement> | null {
         const domElement = this.resolveRenderedOutput();
@@ -102,5 +101,9 @@ export class SwitchControlFlowComponentContainer extends BaseControlFlowComponen
             }
         }
         return domElement;
+    }
+
+    onDispose(): void {
+        
     }
 }

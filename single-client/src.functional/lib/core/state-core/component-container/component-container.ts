@@ -6,6 +6,9 @@ import { VirtualFnComponent } from '../../../models/virtual-fn-component';
 import { BaseComponentContainer } from '../../base-component-container';
 
 export class ComponentContainer extends BaseComponentContainer {
+  onDispose(): void {
+    console.log('onDispose');
+  }
   protected _container: OneOrMany<HTMLElement>;
   constructor(
     fnComponent: VirtualFnComponent,

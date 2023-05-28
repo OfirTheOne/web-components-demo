@@ -23,6 +23,9 @@ const createPlaceholder = (key: string) => {
 }
 
 export class RouteControlFlowComponentContainer extends BaseControlFlowComponentContainer {
+    onDispose(): void {
+        console.log('onDispose');
+    }
     domElementMemo: OneOrMany<HTMLElement> = null;
     renderRunBefore = false;
     route: Route | null;

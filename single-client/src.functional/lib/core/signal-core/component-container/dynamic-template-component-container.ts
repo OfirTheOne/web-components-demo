@@ -5,6 +5,9 @@ import { BaseControlFlowComponentContainer } from './base-dynamic-template-compo
 import { CONTROL_FLOW_HANDLER_MAP } from '../control-flow/handler-map';
 
 export class NoneControlFlowComponentContainer extends BaseControlFlowComponentContainer {
+  onDispose(): void {
+    throw new Error('Method not implemented.');
+  }
   render(): OneOrMany<HTMLElement> | null {
     throw new Error('Method not implemented.');
   }

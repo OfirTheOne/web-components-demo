@@ -7,6 +7,9 @@ import { ComponentKeyBuilder } from '../../../component-key-builder';
 import { BaseControlFlowComponentContainer } from '../../component-container/base-dynamic-template-component-container';
 
 export class SlotControlFlowComponentContainer extends BaseControlFlowComponentContainer {
+    onDispose(): void {
+      console.log('onDispose');
+    }
   
     render(): OneOrMany<HTMLElement> | null {
       const domElement = this.resolveRenderedOutput();
