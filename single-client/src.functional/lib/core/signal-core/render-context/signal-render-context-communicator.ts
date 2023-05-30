@@ -10,7 +10,6 @@ class SignalRenderContextCommunicatorInstance {
     return this.calledContextStack.at(-1);
   }
 
-
   public getAllChildContexts(componentKey: string): SignalRenderContext[] {
     if(!signaledContextMemoryMap.has(componentKey)) {
       return [];
@@ -39,7 +38,6 @@ class SignalRenderContextCommunicatorInstance {
       signaledContextMemoryMap.set(componentKey, context);
     }
     this.calledContextStack.push(context);
-
   }
 
   public removeContext() {

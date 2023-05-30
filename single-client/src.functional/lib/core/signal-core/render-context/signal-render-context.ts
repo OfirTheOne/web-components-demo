@@ -74,7 +74,7 @@ export class SignalRenderContext {
                         // }
                     }
                 });
-            }, { childList: true });
+            }, { childList: true,  });
         });
         if(this.componentContainerRef.parent) {
             this.mutationObserver.observe(this.componentContainerRef.parent, { childList: true })

@@ -2,7 +2,6 @@ import { isAllLowerCase, isSymbolShallowEquals } from './validators';
 import { isCapitalEventName } from './validators/is-capital-event-name';
 import { VirtualElementType } from '../../models';
 import { DomElement } from '../../models/dom-element';
-// import { Signal } from '../signal/models';
 
 export class RenderUtils {
 
@@ -54,9 +53,6 @@ export class RenderUtils {
     }
     return propsEntries;
   }
-
-
-  
 }
 
 export function isElementType(type: symbol, elementType: VirtualElementType) {

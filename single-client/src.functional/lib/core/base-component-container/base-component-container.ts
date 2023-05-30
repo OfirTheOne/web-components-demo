@@ -69,13 +69,14 @@ export abstract class BaseComponentContainer implements IComponentContainer {
         DOMUtils.replace(this._parent, this._container, domElement);
     }
 
-    protected coreRender(vElem: OneOrMany<VirtualElement>): OneOrMany<HTMLElement> {
+    protected coreRender(vElem: OneOrMany<VirtualElement>, overrideKey?: string): OneOrMany<HTMLElement> {
+        const usedKey = overrideKey || this._key;
         return Array.isArray(vElem) ? 
             vElem.map((el, i) => <HTMLElement>this.internalRender(
                 this._parent, 
                 el, 
-                ComponentKeyBuilder.build(this._key).idx(i).toString()
+                ComponentKeyBuilder.build(usedKey).idx(i).toString()
             )) : 
-            <HTMLElement>this.internalRender(this._parent, vElem, this.key);
+            <HTMLElement>this.internalRender(this._parent, vElem, usedKey);
     }
 }

@@ -82,7 +82,7 @@ export class SwitchControlFlowComponentContainer extends BaseControlFlowComponen
                 domElement = this.caseElementMemoMap.get(virtualCaseIndex);
             } else {
                 const virtualCase = virtualCaseChildren[virtualCaseIndex];
-                domElement = <HTMLElement>this.internalRender(this._parent, virtualCase, 
+                domElement = this.coreRender(virtualCase, 
                     ComponentKeyBuilder.build(this.key).idx(virtualCaseIndex).toString()
                 );
                 this.caseElementMemoMap.set(virtualCaseIndex, domElement);
@@ -104,6 +104,6 @@ export class SwitchControlFlowComponentContainer extends BaseControlFlowComponen
     }
 
     onDispose(): void {
-        
+        console.log('')
     }
 }

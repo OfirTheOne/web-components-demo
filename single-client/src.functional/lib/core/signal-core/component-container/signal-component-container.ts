@@ -61,7 +61,7 @@ export class SignalComponentContainer extends BaseComponentContainer {
   }
 
   onDispose(): void {
-    
+    console.log('onDispose');
   }
   onUnmount() {
     SignalRenderContextCommunicator.instance.accessContext(this.key)?.onUnmount();

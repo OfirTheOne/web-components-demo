@@ -75,11 +75,9 @@ export class ForControlFlowComponentContainer extends BaseControlFlowComponentCo
                 }
     
                 const virtualItemView = virtualItemViewFactory(item, index);
-                const itemDomElement = <HTMLElement>(
-                    this.internalRender(this._parent, 
-                        virtualItemView,
-                        ComponentKeyBuilder.build(this.key).idx(index).toString())
-                );
+                const itemDomElement = <HTMLElement>this.coreRender( 
+                    virtualItemView,
+                    ComponentKeyBuilder.build(this.key).idx(index).toString());
                 this.itemsElementMemoMap.set(memoIndex, itemDomElement);
                 return itemDomElement;
             });
