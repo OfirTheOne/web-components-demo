@@ -21,9 +21,38 @@ export class SignalRenderContext {
     effectSubscription: Map<HTMLElement | Node, SignalSubscription[]> = new Map();
     signalsInUsed: Map<string, ISignal> = new Map();
 
+    renderedPartition: number | string | null;
+
+    controlledPartitionsSubs: Map< 
+            string | number | null, // name or index of partition
+            {
+                active: boolean,
+                listeners: Map< 
+                    string, // signal id
+                    ((value: unknown) => void)[] // array of listeners
+                >
+            }
+    > = new Map();
+    
+
     registeredHooks = {
         onMount: noop,
         onUnmount: noop
+    }
+
+    
+    addSubscription(partition: string | number | null, sid: string, listener: (value: unknown) => void) {
+        if(!this.controlledPartitionsSubs.has(partition)) {
+            this.controlledPartitionsSubs.set(partition, { active: true, listeners: new Map() });
+        }
+        const partitionEntry = this.controlledPartitionsSubs.get(partition);
+        if(partitionEntry) {
+            if(!partitionEntry.listeners.has(sid)) {
+                partitionEntry.listeners.set(sid, []);
+            }   
+        }
+        const listeners = partitionEntry.listeners.get(sid);
+        listeners?.push(listener);
     }
 
     subscribeSignal(signal: ISignal | IDecoratedSignal, subscription: SignalSubscriptionDetails) {
@@ -32,21 +61,10 @@ export class SignalRenderContext {
             const usedValue = isDecoratedSignal(signal) ? signal.computeValue() : value;
             renderSignalValue(usedValue, subscription);
         };
-        sourceSignal.subscribe(listener);        
+        sourceSignal.subscribe(listener);     
+
         this.signalsInUsed.set(sourceSignal.id, sourceSignal);
-    }
-
-    removeAllElementSubscription(element: Node) {
-        if(this.elementSubscriptions.has(element)) {
-            const subscriptions = this.elementSubscriptions.get(element);
-            if(subscriptions) {
-                subscriptions.forEach((sub) => {
-                    const signal = this.signalsInUsed.get(sub.subscription.id);
-                    signal?.unsubscribe(sub.listener);
-                });
-
-            }
-        }
+        this.addSubscription(this.renderedPartition, sourceSignal.id, listener)           
     }
 
     registerEffect(effect: () => void, deps: Trackable[]) {
@@ -69,7 +87,6 @@ export class SignalRenderContext {
                     if (node instanceof HTMLElement || node instanceof Text) {
                         // this.componentContainerRef.
                         // const subscriptionId = node.getAttribute('data-subscription-id');
-                        // this.removeAllElementSubscription(node);
                         // if (subscriptionId) {
                         // }
                     }
@@ -106,5 +123,6 @@ export class SignalRenderContext {
         this.signalsInUsed.clear();
     }
 }
+
 
 

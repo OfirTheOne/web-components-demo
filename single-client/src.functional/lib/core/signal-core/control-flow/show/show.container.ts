@@ -4,7 +4,6 @@ import { ShowPropsWithTrack, ShowPropsWithoutTrack } from './show.control';
 import { VirtualElement } from '../../../../models/virtual-element';
 import { Trackable } from '../../models';
 import { BaseControlFlowComponentContainer } from '../../component-container/base-dynamic-template-component-container';
-import { ComponentKeyBuilder } from '../../../component-key-builder';
 import { defineComponent } from '../../../utils/define-component';
 
 const TAG_NAME = 'show-control'
@@ -23,9 +22,7 @@ const createPlaceholder = (key: string) => {
 
 
 export class ShowControlFlowComponentContainer extends BaseControlFlowComponentContainer {
-    onDispose(): void {
-        console.log('onDispose');
-    }
+
     fallbackElementMemo: OneOrMany<HTMLElement> = null;
     defaultElementMemo: OneOrMany<HTMLElement> = null;
     readonly placeholder = createPlaceholder(this.key);
@@ -34,6 +31,8 @@ export class ShowControlFlowComponentContainer extends BaseControlFlowComponentC
     render(): OneOrMany<HTMLElement> | null {
         const domElement = this.resolveRenderedOutput();
 
+        const currentContext = SignalRenderContextCommunicator.instance.accessContext(this.key);
+        
         const showProps = this.props as ShowPropsWithoutTrack | ShowPropsWithTrack;
         let trackables: Trackable[];
         if (typeof showProps.when !== 'function') {
@@ -110,4 +109,11 @@ export class ShowControlFlowComponentContainer extends BaseControlFlowComponentC
         }
         return domElement;
     }
+
+
+    onDispose(): void {
+        console.log('onDispose');
+    }
+
+    // removeAllSignalListeners() {}
 }
