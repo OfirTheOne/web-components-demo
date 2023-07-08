@@ -1,19 +1,8 @@
+import { CreateStateFactory, Store, SetState, GetState } from "./types";
 
-interface Store<S> {
-    getState(): S;
-    setState(state: S): void;
-    subscribe(listener: (state: S) => void): () => void;
-}
 
-type SetState<S> = (state: Partial<S> | ((curr: S) => Partial<S>)) => void;
-type GetState<S> = () => S
-
-interface CreateStateFactory<S> {
-    (set: SetState<S>, get: GetState<S>): S
-}
-
-export const createStore = <S>(factory: CreateStateFactory<S>): Store<S> => {
-    let state: S;
+export const createStore = <S extends object>(factory: CreateStateFactory<S>): Store<S> => {
+    let state: S | undefined = undefined;
     let listeners: Array<(state: S) => void> = [];
     const setState: SetState<S> = (newState) => {
         state = {
@@ -27,17 +16,24 @@ export const createStore = <S>(factory: CreateStateFactory<S>): Store<S> => {
     const getState: GetState<S> = () => {
         return state;
     };
+    const reset = (): void => {
+        state = undefined;
+        const initialState = factory(setState, getState);
+        setState(initialState);
+    };
     const subscribe = (listener: (state: S) => void) => {
         listeners.push(listener);
         return () => {
             listeners = listeners.filter((l) => l !== listener);
         };
     };
+
     const initialState = factory(setState, getState);
     setState(initialState);
     return {
+        reset,
         getState,
         setState,
         subscribe
     };
-}
+};
