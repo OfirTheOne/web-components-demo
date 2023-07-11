@@ -2,7 +2,7 @@ import { WC } from '../../../../../lib/jsx';
 import { FC } from '../../../../../lib/models/functional-component';
 import './footer.scss';
 
-const Footer: FC = () => {
+export const Footer: FC = () => {
   return (
     <footer className="footer">
       <div className="footer-content">
@@ -22,4 +22,3 @@ const Footer: FC = () => {
   );
 };
 
-export default Footer;
