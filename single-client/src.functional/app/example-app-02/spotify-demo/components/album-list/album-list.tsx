@@ -2,7 +2,6 @@ import { WC } from '../../../../../lib/jsx';
 import { FC } from '../../../../../lib/models/functional-component';
 import { IAlbum } from '../../../model';
 import { signalStore } from '../../../store';
-// import { setCurrentTrack } from '../../../signals/action';
 import { Album } from '../album/album';
 import './album-list.scss';
 
@@ -12,7 +11,7 @@ export interface AlbumListProps {
 }
 
 export const AlbumList: FC<AlbumListProps> = ({ albums, listTitle = 'listTitle' }) => {
-    const { setCurrentTrack } = signalStore.getStore().getState();
+    const { setCurrentTrack } = signalStore.getState();
 
     return (
         <div className='album-list-container'>

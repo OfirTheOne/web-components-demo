@@ -1,14 +1,19 @@
-import { CreateStateFactory } from './types';
+import { CreateStateFactory, Store } from './types';
 import { createStore } from './create-store';
 import { signal } from '../signal/create-signal';
-import { derivedSignal } from '../signal';
+import { DerivedSignal, derivedSignal } from '../signal';
 
-export function createSignalStore<S extends object>(factory: CreateStateFactory<S>) {
+
+export interface SignalStore<S extends object> extends Store<S> {
+    select: <T>(selector: (value: S) => T) => DerivedSignal<T>
+}
+
+export function createSignalStore<S extends object>(factory: CreateStateFactory<S>): SignalStore<S> {
     const store = createStore<S>(factory);
     const stateSignal = signal(store.getState());
     store.subscribe((state) => stateSignal.setValue(() => state));
     return {
-        getStore: () => store,
+        ...store,
         select: <T>(selector:(value: S) => T) => derivedSignal<S,T>(stateSignal, selector),
-    }
+    };
 }

@@ -10,7 +10,7 @@ const secondsToMinutes = (seconds: number) => {
     return `${minutes}:${remainingSeconds}`;
 }
 export const MediaPlayerBar: FC = signalComponent(function MediaPlayerBar() {
-    const { togglePlayTrack } = signalStore.getStore().getState();
+    const { togglePlayTrack } = signalStore.getState();
     const trackName = signalStore.select((state) => state.selectedTrack?.name || null);
     const trackAlbumName = signalStore.select((state) => state.selectedTrack?.albumName || null);
     const trackLength = signalStore.select((state) => state.selectedTrack?.length ?

@@ -10,7 +10,7 @@ import './layout.scss';
 
 export const Layout = signalComponent(function Layout() {
 
-  const { fetchAlbums } = signalStore.getStore().getState();
+  const { fetchAlbums } = signalStore.getState();
   onMount(() => {
     fetchAlbums();
   });

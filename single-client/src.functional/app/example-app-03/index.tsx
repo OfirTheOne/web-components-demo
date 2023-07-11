@@ -18,8 +18,6 @@ const Card: FC = signalComponent(function Card(props, children) {
 });
 
 
-
-
 const Button: FC<{text: string, onClick: () => void }> = signalComponent(function Button({ text, onClick }) {
   return <button onClick={onClick}>
     { text }
@@ -29,7 +27,7 @@ const Button: FC<{text: string, onClick: () => void }> = signalComponent(functio
 
 const boxId = signal(0)
 
-export const ExamplePage = signalComponent(function ExamplePage() {
+export const SwitchExamplePage = signalComponent(function SwitchExamplePage() {
   return (
     <div>
       <Button text={"Click here"} onClick={() => boxId.setValue((curId) => (curId+1)%3)}/>
