@@ -1,16 +1,8 @@
 import { WC } from '../../../../../lib/jsx';
 import { FC } from '../../../../../lib/models/functional-component';
-import { IDecoratedSignal, Show, signalComponent } from '../../../../../lib/core/signal-core';
+import { Show, signalComponent } from '../../../../../lib/core/signal-core';
 import { signalStore } from '../../../store';
 import './media-player-bar.scss';
-
-// interface MediaPlayerBarProps {
-//     trackName: IDecoratedSignal<string>;
-//     trackAlbumName: IDecoratedSignal<string>;
-//     trackLength: IDecoratedSignal<string>;
-//     trackPlayed: IDecoratedSignal<boolean>;
-//     trackElapsedTime: IDecoratedSignal<string>;
-// }
 
 const secondsToMinutes = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
@@ -19,12 +11,11 @@ const secondsToMinutes = (seconds: number) => {
 }
 export const MediaPlayerBar: FC = signalComponent(function MediaPlayerBar() {
     const { togglePlayTrack } = signalStore.getStore().getState();
-    const trackName = signalStore.select((state) => state.selectedTrack?.name || null)
-    const trackAlbumName = signalStore.select((state) => state.selectedTrack?.albumName || null)
-    const trackLength =     signalStore.select((state) => state.selectedTrack?.length ?
-        secondsToMinutes(state.selectedTrack.length) : null)
-    const trackPlayed =     signalStore.select((state) => state.played)
-    // const trackElapsedTime =    signalStore.select((state) => secondsToMinutes(state.elapsedSeconds))
+    const trackName = signalStore.select((state) => state.selectedTrack?.name || null);
+    const trackAlbumName = signalStore.select((state) => state.selectedTrack?.albumName || null);
+    const trackLength = signalStore.select((state) => state.selectedTrack?.length ?
+        secondsToMinutes(state.selectedTrack.length) : null);
+    const trackPlayed = signalStore.select((state) => state.played);
 
     return (
         <div className='media-player-bar'>
@@ -43,11 +34,11 @@ export const MediaPlayerBar: FC = signalComponent(function MediaPlayerBar() {
                 }>
                     <Show
                         when={trackPlayed}
-                        fallback= {<i className='fa fa-pause'></i>}
+                        fallback={<i className='fa fa-pause'></i>}
                     >
                         <i className='fa fa-play'></i>
                     </Show>
-                    
+
                 </button>
 
                 <button className='skip-button'>
