@@ -34,9 +34,9 @@ export const MediaPlayerBar: FC = signalComponent(function MediaPlayerBar() {
                 }>
                     <Show
                         when={trackPlayed}
-                        fallback={<i className='fa fa-pause'></i>}
+                        fallback={<i className='fa fa-play'></i>}
                     >
-                        <i className='fa fa-play'></i>
+                        <i className='fa fa-pause'></i>
                     </Show>
 
                 </button>

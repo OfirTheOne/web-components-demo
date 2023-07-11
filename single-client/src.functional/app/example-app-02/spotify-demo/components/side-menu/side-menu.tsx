@@ -32,24 +32,24 @@ const sections = [
     {
         type: 'icon-item-list',
         list : [
-            {
-                icon: 'fas fa-home',
-                text: 'Create Playlist',
-                path: '/',
-                active: true
-            },
+            // {
+            //     icon: 'fas fa-home',
+            //     text: 'Create Playlist',
+            //     path: '/',
+            //     active: false
+            // },
             {
                 icon: 'fas fa-search',
                 text: 'Liked Songs',
                 path: '/songs',
                 active: false
             },
-            {
-                icon: 'fas fa-book',
-                text: 'Your Episodes',
-                path: '/',
-                active: false
-            },
+            // {
+            //     icon: 'fas fa-book',
+            //     text: 'Your Episodes',
+            //     path: '/',
+            //     active: false
+            // },
         ]
     },
 ];
