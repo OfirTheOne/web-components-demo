@@ -10,12 +10,12 @@ export function createState<T = any>(initValue: T) {
     hookSlot.value = initValue;
     hookSlot.initialized = true;
   }
-  const getSignal = (): T => {
+  const select = (): T => {
     return hookSlot.value;
   };
   const setSignal = (value: T) => {
     currentContext.stateChangesQueue.push(() => (hookSlot.value = value));
     currentContext.renderTaskAgent.registerTask();
   };
-  return [getSignal, setSignal] as const;
+  return [select, setSignal] as const;
 }

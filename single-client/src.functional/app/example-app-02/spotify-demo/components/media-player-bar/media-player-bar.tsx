@@ -19,12 +19,12 @@ const secondsToMinutes = (seconds: number) => {
 }
 export const MediaPlayerBar: FC = signalComponent(function MediaPlayerBar() {
     const { togglePlayTrack } = signalStore.getStore().getState();
-    const trackName = signalStore.getSignal((state) => state.selectedTrack?.name || null)
-    const trackAlbumName = signalStore.getSignal((state) => state.selectedTrack?.albumName || null)
-    const trackLength =     signalStore.getSignal((state) => state.selectedTrack?.length ?
+    const trackName = signalStore.select((state) => state.selectedTrack?.name || null)
+    const trackAlbumName = signalStore.select((state) => state.selectedTrack?.albumName || null)
+    const trackLength =     signalStore.select((state) => state.selectedTrack?.length ?
         secondsToMinutes(state.selectedTrack.length) : null)
-    const trackPlayed =     signalStore.getSignal((state) => state.played)
-    // const trackElapsedTime =    signalStore.getSignal((state) => secondsToMinutes(state.elapsedSeconds))
+    const trackPlayed =     signalStore.select((state) => state.played)
+    // const trackElapsedTime =    signalStore.select((state) => secondsToMinutes(state.elapsedSeconds))
 
     return (
         <div className='media-player-bar'>

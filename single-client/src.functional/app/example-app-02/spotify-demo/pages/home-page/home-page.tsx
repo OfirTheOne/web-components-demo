@@ -10,7 +10,7 @@ import './home-page.scss';
 
 export const HomePage: FC = () => {
 
-    const albumsList = signalStore.getSignal((state) => state.albumList )
+    const albumsList = signalStore.select((state) => state.albumList);
     onUnmount(() => {
         console.log("HomePage onUnmount");
     });
