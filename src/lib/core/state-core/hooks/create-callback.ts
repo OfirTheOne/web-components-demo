@@ -2,7 +2,7 @@ import { HookType, MemoHookSlot } from '../../../models/i-render-context';
 import { RenderContextCommunicator } from '../render-context/render-context-communicator';
 import { isArrayShallowEqual } from '../../utils/validators';
 
-export function createCallback<F extends (...args: unknown[]) => unknown>(callback: F, dependencies: any[]) {
+export function createCallback<F extends (...args: any[]) => any>(callback: F, dependencies: any[]) {
   RenderContextCommunicator.instance.currentContext.declareHook(HookType.createCallback);
   const hookPositionInContext = RenderContextCommunicator.instance.currentContext.hookCounter - 1;
   const currentContext = RenderContextCommunicator.instance.currentContext;
