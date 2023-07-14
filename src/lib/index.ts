@@ -1,2 +1,2 @@
-export { WC } from './jsx';
+export { Sig } from './jsx';
 export * from './models';

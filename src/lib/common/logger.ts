@@ -13,7 +13,7 @@ export const SysAction = {
 export class Logger {
   static logAction(action: keyof typeof SysAction, message: string) {
     if (Globals.logLevel) {
-      this.log(`WC [${this.getTs()}] | Action [${SysAction[action]}] -- ${message}`);
+      this.log(`Sig [${this.getTs()}] | Action [${SysAction[action]}] -- ${message}`);
     }
   }
   static log(...args: any[]) {

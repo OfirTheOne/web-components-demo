@@ -1,4 +1,4 @@
-import { ShowExamplePage as ExamplePage } from './example-app-03';
+import { ExamplePage } from './example-app-02';
 import './app.scss';
 
 export function App() {

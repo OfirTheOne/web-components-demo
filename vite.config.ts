@@ -8,8 +8,8 @@ export default defineConfig({
     },
     css: { modules: { localsConvention: 'camelCase' } },
     esbuild: {
-        jsxFactory: 'WC.createElement',
-        jsxFragment: 'WC.createFragment',
-        jsxInject: `import { WC } from '@lib/jsx'`,
+        jsxFactory: 'Sig.createElement',
+        jsxFragment: 'Sig.createFragment',
+        jsxInject: `import { Sig } from '@lib/jsx'`,
     },
 });
