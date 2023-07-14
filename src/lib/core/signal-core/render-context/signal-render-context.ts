@@ -1,4 +1,4 @@
-import { noop, removeDuplicationWithOrder } from "../../../common";
+import { noop, removeDuplicationWithOrder } from "../../../common/utils";
 import { IComponentContainer } from "../../../models/i-component-container";
 import { signalIdsMemorySet } from "../../global-storage";
 import { isDecoratedSignal } from "../../utils/validators";
@@ -8,7 +8,6 @@ import { renderSignalValue } from "../render-signal-value/render-signal-value";
 export function isValueAreSignalKey(value: unknown) {
     return typeof value === 'string' && signalIdsMemorySet.has(value);
 }
-
 
 interface SignalSubscription {
     listener: () => void;
@@ -40,7 +39,6 @@ export class SignalRenderContext {
         onUnmount: noop
     }
 
-    
     addSubscription(partition: string | number | null, sid: string, listener: (value: unknown) => void) {
         if(!this.controlledPartitionsSubs.has(partition)) {
             this.controlledPartitionsSubs.set(partition, { active: true, listeners: new Map() });

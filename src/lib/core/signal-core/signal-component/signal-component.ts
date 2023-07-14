@@ -1,7 +1,7 @@
 import { FC } from "../../../models/functional-component";
 import { VirtualElementType } from "../../../models/virtual-element";
 
-export function signalComponent<T extends FC>(
+export function signalComponent<T extends FC<any>>(
     fn: T, 
 ): T {
     if(fn.name.length === 0) {

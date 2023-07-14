@@ -6,7 +6,7 @@ import { BaseComponentContainer } from '../../base-component-container';
 import { ComponentKeyBuilder } from '../../component-key-builder';
 
 export class SignalComponentContainer extends BaseComponentContainer {
-  protected _container: OneOrMany<HTMLElement>;
+
   constructor(
     fnComponent: VirtualFnComponent,
     props: Props,

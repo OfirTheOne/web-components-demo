@@ -1,4 +1,4 @@
-import { reduceTransform, memoisedFunction } from '../../../common';
+import { reduceTransform, memoisedFunction } from '../../../common/utils';
 import { ISignal } from '../models';
 import { DecoratedSignal } from './decorated-signal';
 

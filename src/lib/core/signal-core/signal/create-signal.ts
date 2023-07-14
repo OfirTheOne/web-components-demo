@@ -1,7 +1,7 @@
 import EventEmitter from 'events';
 import { signalIdsMemorySet } from '../../global-storage';
 import { ISignal } from '../models';
-import { generateId } from '../../../common';
+import { generateId } from '../../../common/utils';
 
 export function signal<T = any>(initValue: T): Signal<T> {
   return new Signal(initValue);

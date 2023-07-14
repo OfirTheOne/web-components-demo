@@ -14,9 +14,9 @@ function ForComponent(
     children: JSX.Element
 ): JSX.Element {
     return children;
-}
+} 
 ForComponent['$$control-flow'] = Symbol.for(ControlFlow.For);
-export const For: FC<ForProps> = signalComponent(ForComponent)
+export const For: FC<ForProps> = signalComponent(ForComponent as FC<ForProps>)
 
 
 /*
