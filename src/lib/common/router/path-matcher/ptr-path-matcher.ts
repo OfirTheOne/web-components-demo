@@ -5,7 +5,6 @@ type PathToRegexp = typeof ptr.pathToRegexp;
 export class PTRPathMatcher extends PathMatcher {
     protected keys = [];
     protected pathRe: RegExp;
-    protected _path: string;
 
     constructor(path: string) {
         super(path);
