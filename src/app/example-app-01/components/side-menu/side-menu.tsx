@@ -1,4 +1,4 @@
-import { createCallback, createState, memo, useEffect } from '../../../../lib/core';
+import { createCallback, createState, memo, useEffect } from '@lib/core';
 import './side-menu.scss';
 
 

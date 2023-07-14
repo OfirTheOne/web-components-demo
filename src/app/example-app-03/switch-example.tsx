@@ -1,6 +1,6 @@
-import { Switch, signal, signalComponent } from '../../lib/core/signal-core';
-import { FC } from '../../lib';
-import { Case } from '../../lib/core/signal-core/control-flow/switch/switch.control';
+import { Switch, signal, signalComponent } from '@lib/core/signal-core';
+import { FC } from '@lib/index';
+import { Case } from '@lib/core/signal-core/control-flow/switch/switch.control';
 
 
 

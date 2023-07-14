@@ -1,5 +1,5 @@
-import { FC } from '../../lib';
-import { For, signal, signalComponent } from '../../lib/core/signal-core';
+import { FC } from '@lib/index';
+import { For, signal, signalComponent } from '@lib/core/signal-core';
 
 const listItems = [
     { id: 1, text: "Item 1" },{ id: 2, text: "Item 2" },{ id: 3, text: "Item 3" },{ id: 4, text: "Item 4" },{ id: 5, text: "Item 5" },{ id: 6, text: "Item 6" },

@@ -1,4 +1,4 @@
-import { CreateStateFactory } from "../../../lib/core/signal-core/store/types";
+import { CreateStateFactory } from "@lib/core/signal-core/store/types";
 import { getAlbums } from "../db";
 import { IAlbum } from "../model";
 

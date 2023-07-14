@@ -1,4 +1,4 @@
-import { createContext, createRef, createState, useContext } from '../../../lib/core';
+import { createContext, createRef, createState, useContext } from '@lib/core';
 import './theme.scss';
 
 const ThemeContext = createContext({

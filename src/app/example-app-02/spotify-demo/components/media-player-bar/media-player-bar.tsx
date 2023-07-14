@@ -1,5 +1,5 @@
-import { FC } from '../../../../../lib/models/functional-component';
-import { Show, signalComponent } from '../../../../../lib/core/signal-core';
+import { FC } from '@lib/models/functional-component';
+import { Show, signalComponent } from '@lib/core/signal-core';
 import { signalStore } from '../../../store';
 import './media-player-bar.scss';
 

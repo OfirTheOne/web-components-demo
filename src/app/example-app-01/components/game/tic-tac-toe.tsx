@@ -1,4 +1,4 @@
-import { createCallback, createState, memo, useEffect } from '../../../../lib/core';
+import { createCallback, createState, memo, useEffect } from '@lib/core';
 import './tic-tac-toe.scss';
 
 function Square({ value, onSquareClick }: { value: string; onSquareClick: () => void }) {

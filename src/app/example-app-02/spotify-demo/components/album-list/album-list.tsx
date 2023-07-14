@@ -1,4 +1,4 @@
-import { FC } from '../../../../../lib/models/functional-component';
+import { FC } from '@lib/models/functional-component';
 import { IAlbum } from '../../../model';
 import { signalStore } from '../../../store';
 import { Album } from '../album/album';

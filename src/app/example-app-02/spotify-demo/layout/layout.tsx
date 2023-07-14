@@ -1,6 +1,6 @@
 import { signalStore } from '../../store';
-import { signalComponent } from '../../../../lib/core/signal-core';
-import { onMount } from '../../../../lib/core/signal-core/hooks';
+import { signalComponent } from '@lib/core/signal-core';
+import { onMount } from '@lib/core/signal-core/hooks';
 import { Routes } from '../routes/routes';
 import { SpotifySideMenu } from '../components/side-menu/side-menu';
 import { MediaPlayerBar } from '../components/media-player-bar/media-player-bar';

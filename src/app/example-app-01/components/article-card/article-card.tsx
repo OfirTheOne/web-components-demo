@@ -1,5 +1,5 @@
 
-import { FC } from '../../../../lib/models/functional-component';
+import { FC } from '@lib/models/functional-component';
 
 import './article-card.scss';
 

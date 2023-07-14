@@ -1,4 +1,4 @@
-import { createSignalStore } from "../../../lib/core/signal-core/store/create-signal-store";
+import { createSignalStore } from "@lib/core/signal-core/store/create-signal-store";
 import { AlbumState, albumSlice } from "./album.slice";
 import { CurrentTrackState, currentTrackSlice } from "./current-track.slice";
 

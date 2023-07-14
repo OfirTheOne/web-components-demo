@@ -1,5 +1,5 @@
-import { Show, signal, signalComponent } from '../../lib/core/signal-core';
-import { FC } from '../../lib';
+import { Show, signal, signalComponent } from '@lib/core/signal-core';
+import { FC } from '@lib/index';
 
 
 const Box: FC = function Box(props, children) {

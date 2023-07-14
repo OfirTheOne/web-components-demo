@@ -1,6 +1,6 @@
 
 import { HomePage } from '../pages/home-page/home-page';
-import { Route } from '../../../../lib/core/signal-core/control-flow/router';
+import { Route } from '@lib/core/signal-core/control-flow/router';
 
 
 export function Routes() {

@@ -1,4 +1,4 @@
-import { CreateStateFactory } from "../../../lib/core/signal-core/store/types";
+import { CreateStateFactory } from "@lib/core/signal-core/store/types";
 import { IAlbumTrack } from "../model";
 
 export interface CurrentTrackState {

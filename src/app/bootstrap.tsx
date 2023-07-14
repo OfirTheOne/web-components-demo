@@ -1,4 +1,4 @@
-import { render } from '../lib/core';
+import { render } from '@lib/core';
 
 import { RootApp } from './root-app';
 

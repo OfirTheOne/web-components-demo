@@ -1,7 +1,7 @@
-import { FC } from '../../../../../lib/models/functional-component';
-import { For } from '../../../../../lib/core/signal-core';
+import { FC } from '@lib/models/functional-component';
+import { For } from '@lib/core/signal-core';
+import { onUnmount } from '@lib/core/signal-core/hooks';
 import { signalStore } from '../../../store';
-import { onUnmount } from '../../../../../lib/core/signal-core/hooks';
 import { IAlbum } from '../../../model';
 import { AlbumList } from '../../components/album-list/album-list';
 import { Footer } from '../../components/footer/footer';

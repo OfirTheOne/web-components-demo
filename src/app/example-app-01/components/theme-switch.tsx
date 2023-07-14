@@ -1,6 +1,6 @@
 
 
-import { createCallback } from '../../../lib/core';
+import { createCallback } from '@lib/core';
 import { useTheme } from '../../providers/theme/theme-context';
 
 export function ThemeSwitchButton() {
