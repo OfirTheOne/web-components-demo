@@ -1,6 +1,6 @@
 import { OneOrMany } from '../../../../types/utils';
 import { SignalRenderContextCommunicator } from '../../render-context/signal-render-context-communicator';
-import { ShowPropsWithTrack, ShowPropsWithoutTrack } from './show.control';
+import { ShowProps } from './show.control';
 import { VirtualElement } from '../../../../models/virtual-element';
 import { Trackable } from '../../models';
 import { BaseControlFlowComponentContainer } from '../../component-container/base-dynamic-template-component-container';
@@ -32,20 +32,10 @@ export class ShowControlFlowComponentContainer extends BaseControlFlowComponentC
         const domElement = this.resolveRenderedOutput();
 
         const currentContext = SignalRenderContextCommunicator.instance.accessContext(this.key);
-        
-        const showProps = this.props as ShowPropsWithoutTrack | ShowPropsWithTrack;
-        let trackables: Trackable[];
-        if (typeof showProps.when !== 'function') {
-            const showWithoutTrackProps = this.props as ShowPropsWithoutTrack;
-            const { when } = showWithoutTrackProps;
-            trackables = [when];
-        } else {
-            const showWithTrackProps = this.props as ShowPropsWithTrack;
-            const { track } = showWithTrackProps;
-            trackables = track;
-        }
+        const showProps = this.props as ShowProps;
+        const trackables: Trackable[] = Array.isArray(showProps.track) ? showProps.track : [showProps.track];
 
-        
+
         trackables.forEach((trackable) => {
             const source = 'source' in trackable ? trackable.source : trackable;
             source.subscribe(() => {
@@ -59,21 +49,14 @@ export class ShowControlFlowComponentContainer extends BaseControlFlowComponentC
     resolveRenderedOutput(): OneOrMany<HTMLElement> | null {
         SignalRenderContextCommunicator.instance.setContext(this.key, this);
 
-        const showProps = this.props as ShowPropsWithoutTrack | ShowPropsWithTrack;
+        const showProps = this.props as ShowProps;
         const defaultVirtualView = this._children as unknown as VirtualElement[];
         const fallbackVirtualView = (showProps.fallback || null) as unknown as VirtualElement;
-        let whenResult: boolean;
-
-        if (typeof showProps.when !== 'function') {
-            const showWithoutTrackProps = this.props as ShowPropsWithoutTrack;
-            const { when } = showWithoutTrackProps;
-            whenResult = !!when.value;
-        } else {
-            const showWithTrackProps = this.props as ShowPropsWithTrack;
-            const { when, track } = showWithTrackProps;
-            const values = track.map((signal) => signal.value);
-            whenResult = !!when(values);
-        }
+        const trackables: Trackable[] = Array.isArray(showProps.track) ? showProps.track : [showProps.track];
+        const defaultWhenFn = (values: unknown[]) => values.every((value) => Boolean(value));
+        const { when = defaultWhenFn } = showProps;
+        const values = trackables.map((signal) => signal.value);
+        const whenResult = Boolean(when(values));
 
         if (this.currentConditionState !== null && this.currentConditionState === whenResult) {
             return this._container;
