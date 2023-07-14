@@ -5,7 +5,7 @@ const { getRules, getPlugins } = require('./webpack-utils');
 const isDevelopment = true;
 
 module.exports = {
-  entry: './src.functional/index.ts',
+  entry: './src/index.ts',
   mode: 'development',
   devServer: {
     static: [path.join(__dirname, 'dist'), path.join(__dirname, 'public') ] ,
