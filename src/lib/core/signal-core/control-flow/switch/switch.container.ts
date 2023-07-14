@@ -6,22 +6,12 @@ import { ControlFlow, Trackable } from '../../models';
 import { BaseControlFlowComponentContainer } from '../../component-container/base-dynamic-template-component-container';
 import { defineComponent } from '../../../utils/define-component';
 import { ComponentKeyBuilder } from '../../../component-key-builder';
-
+import { createElementPlaceholder } from '../../../utils/create-element-placeholder';
 
 const TAG_NAME = 'switch-control'
 defineComponent(
     TAG_NAME,
     class extends HTMLElement {});
-
-const createPlaceholder = (key: string) => {
-   const ph = document.createElement(TAG_NAME);
-   ph.setAttribute('role', 'ph');
-   ph.setAttribute('for', key);
-   ph.style.display = 'none';
-   ph.style.visibility = 'hidden';
-   return ph;
-}
-
 
 export class SwitchControlFlowComponentContainer extends BaseControlFlowComponentContainer {
     listeners: Array<(value?: unknown) => void> = [];
@@ -29,7 +19,7 @@ export class SwitchControlFlowComponentContainer extends BaseControlFlowComponen
     caseElementMemoMap: Map<number, OneOrMany<HTMLElement>> = new Map();
     fallbackElementMemo: OneOrMany<HTMLElement> = null;
     currentConditionState: number | null = null;
-    readonly placeholder = createPlaceholder(this.key);
+    readonly placeholder = createElementPlaceholder(TAG_NAME, this.key);
 
     render(): OneOrMany<HTMLElement> | null {
         const domElement = this.resolveRenderedOutput();

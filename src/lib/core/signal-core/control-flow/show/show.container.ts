@@ -5,6 +5,7 @@ import { VirtualElement } from '../../../../models/virtual-element';
 import { Trackable } from '../../models';
 import { BaseControlFlowComponentContainer } from '../../component-container/base-dynamic-template-component-container';
 import { defineComponent } from '../../../utils/define-component';
+import { createElementPlaceholder } from '../../../utils/create-element-placeholder';
 
 const TAG_NAME = 'show-control'
 defineComponent(
@@ -12,25 +13,15 @@ defineComponent(
     class extends HTMLElement {},
 );
 
-const createPlaceholder = (key: string) => {
-    const ph = document.createElement(TAG_NAME);
-    ph.setAttribute('role', 'ph');
-    ph.setAttribute('for', key);
-    ph.style.display = 'none';
-    return ph;
-}
-
-
 export class ShowControlFlowComponentContainer extends BaseControlFlowComponentContainer {
 
     fallbackElementMemo: OneOrMany<HTMLElement> = null;
     defaultElementMemo: OneOrMany<HTMLElement> = null;
-    readonly placeholder = createPlaceholder(this.key);
+    readonly placeholder = createElementPlaceholder(TAG_NAME, this.key);
     currentConditionState: boolean | null = null;
 
     render(): OneOrMany<HTMLElement> | null {
         const domElement = this.resolveRenderedOutput();
-
         const currentContext = SignalRenderContextCommunicator.instance.accessContext(this.key);
         const showProps = this.props as ShowProps;
         const trackables: Trackable[] = Array.isArray(showProps.track) ? showProps.track : [showProps.track];

@@ -1,7 +1,5 @@
 import { Ctor } from "../../types/ctor";
 
-
-
 export function defineComponent(
     name: string, 
     ctor: Ctor<any>, 
