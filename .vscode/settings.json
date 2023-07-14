@@ -1,5 +1,3 @@
 {
-    "cSpell.words": [
-        "Renderable"
-    ]
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
