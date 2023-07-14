@@ -50,20 +50,10 @@ export class ForControlFlowComponentContainer extends BaseControlFlowComponentCo
         SignalRenderContextCommunicator.instance.setContext(this.key, this);
         const forProps = this.props as ForProps;
         const trackable = forProps.each;
-        const indexKey = forProps.indexKey;
-        const indexResolver: (item: unknown, index: number) => unknown = forProps.index
-            ? typeof forProps.index === 'function'
-                ? forProps.index
-                : (_item, index: number) => index
-            : typeof indexKey === 'string'
-            ? (item) => item[indexKey]
-            : (_item, index: number) => index;
-
+        const indexResolver = this.createItemResolver(forProps);
         const virtualItemViewFactory = (Array.isArray(this._children) ? this._children[0] : this._children) as unknown as (
             ...args: unknown[]
         ) => VirtualElement;
-
-
         let domElement: OneOrMany<HTMLElement>;
         if(trackable.value === undefined || trackable.value === null || trackable.value.length === 0) {
             domElement = this.placeholder;
@@ -92,5 +82,18 @@ export class ForControlFlowComponentContainer extends BaseControlFlowComponentCo
             }
         }
         return domElement;
+    }
+
+
+    createItemResolver(forProps: ForProps): ((item: unknown, index: number) => unknown) {
+        const { index: forPropsIndex} = forProps
+        if(forPropsIndex) {
+            if(typeof forPropsIndex === 'function') {
+                return forPropsIndex;
+            } else if(typeof forPropsIndex === 'string') {
+                return ((item) => item[forPropsIndex])
+            }
+        }
+        return ((_item, index: number) => index);
     }
 }
