@@ -1,4 +1,3 @@
-import { WC } from '../lib/jsx';
 import { ThemeProvider } from './providers';
 import { App } from './app';
 

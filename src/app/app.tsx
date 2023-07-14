@@ -1,4 +1,3 @@
-import { WC } from '../lib/jsx';
 import { ShowExamplePage as ExamplePage } from './example-app-03';
 import './app.scss';
 

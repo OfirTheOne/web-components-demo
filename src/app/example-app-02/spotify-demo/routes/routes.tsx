@@ -1,6 +1,4 @@
 
-
-import { WC } from '../../../../lib/jsx';
 import { HomePage } from '../pages/home-page/home-page';
 import { Route } from '../../../../lib/core/signal-core/control-flow/router';
 

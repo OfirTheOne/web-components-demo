@@ -1,4 +1,3 @@
-import { WC } from '../../lib/jsx';
 import { Show, signal, signalComponent } from '../../lib/core/signal-core';
 import { FC } from '../../lib';
 

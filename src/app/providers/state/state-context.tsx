@@ -1,4 +1,3 @@
-import { WC } from '../../../lib/jsx';
 import { createContext, createRef, createState, useContext } from '../../../lib/core';
 import './theme.scss';
 

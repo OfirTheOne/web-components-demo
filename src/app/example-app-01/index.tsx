@@ -1,4 +1,3 @@
-import { WC } from '../../lib/jsx';
 import { ArticleCard } from './components/article-card/article-card';
 
 

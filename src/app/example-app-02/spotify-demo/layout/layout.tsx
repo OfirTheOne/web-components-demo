@@ -1,4 +1,3 @@
-import { WC } from '../../../../lib/jsx';
 import { signalStore } from '../../store';
 import { signalComponent } from '../../../../lib/core/signal-core';
 import { onMount } from '../../../../lib/core/signal-core/hooks';

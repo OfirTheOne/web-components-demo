@@ -1,6 +1,5 @@
 
 
-import { WC } from '../../../lib/jsx';
 import { createCallback } from '../../../lib/core';
 import { useTheme } from '../../providers/theme/theme-context';
 

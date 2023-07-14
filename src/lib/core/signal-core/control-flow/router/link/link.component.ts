@@ -1,4 +1,4 @@
-import { WC } from "../../../../../jsx";
+import { createElement } from "../../../../../jsx";
 import { FC } from "../../../../../models/functional-component";
 import { VirtualElement } from "../../../../../models";
 import { signalComponent } from "../../../signal-component/signal-component";
@@ -19,7 +19,7 @@ function LinkComponent(
     _props: LinkProps, 
     children: JSX.Element
 ): JSX.Element {
-    return  WC.createElement(_props.tag || 'a', {
+    return  createElement(_props.tag || 'a', {
         className: _props.className,
         style: _props.style || {},
         onClick: (e) => {

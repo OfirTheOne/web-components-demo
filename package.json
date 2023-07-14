@@ -7,9 +7,9 @@
   "scripts": {
     "lint": "yarn eslint ./src.functional  --ext .ts,.tsx",
     "format": "yarn prettier --write .",
-    "start": "webpack-cli serve",
-    "build": "webpack",
-    "serve": "serve dist -p 4000",
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
     "clean": "rm -rf dist",
     "test": "vitest",
     "coverage": "vitest run --coverage"
@@ -18,32 +18,26 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/lodash": "^4.14.191",
-    "@types/node": "^18.11.18",
     "css-loader": "^6.7.3",
-    "http-server": "^14.1.1",
-    "lodash": "^4.17.21",
     "mini-css-extract-plugin": "^2.7.3",
-    "path-to-regexp": "^6.2.1",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.0.4"
+    "path-to-regexp": "^6.2.1"
   },
   "devDependencies": {
+    "http-server": "^14.1.1",
+    "lodash": "^4.17.21",
+    "@types/lodash": "^4.14.191",
+    "@types/node": "^18.11.18",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4",
     "@types/reflect-metadata": "^0.1.0",
     "@typescript-eslint/eslint-plugin": "^5.58.0",
     "@typescript-eslint/parser": "^5.58.0",
     "eslint": "^8.38.0",
-    "html-webpack-plugin": "^5.5.0",
-    "lerna": "^6.4.1",
     "node-sass": "^8.0.0",
     "prettier": "2.8.7",
-    "sass-loader": "^13.2.0",
+    "sass": "^1.63.6",
     "serve": "^14.2.0",
-    "style-loader": "^3.3.1",
-    "ts-loader": "^9.4.2",
-    "vitest": "^0.33.0",
-    "webpack": "^5.75.0",
-    "webpack-cli": "^5.0.1",
-    "webpack-dev-server": "^4.11.1"
+    "vite": "^4.4.4",
+    "vitest": "^0.33.0"
   }
 }
