@@ -5,24 +5,24 @@ import { Case } from '../../lib/core/signal-core/control-flow/switch/switch.cont
 
 
 
-const Box: FC = signalComponent(function Box(props, children) {
+const Box: FC = function Box(props, children) {
   return <div style={{ background: "white", height: "200px"}}>
     { children }
   </div>
-});
+}
 
-const Card: FC = signalComponent(function Card(props, children) {
+const Card: FC = function Card(props, children) {
   return <div style={{ background: "blue", color: "white", height: "150", width: "150px"}}>
     { children }
   </div>
-});
+}
 
 
-const Button: FC<{text: string, onClick: () => void }> = signalComponent(function Button({ text, onClick }) {
+const Button: FC<{text: string, onClick: () => void }> = function Button({ text, onClick }) {
   return <button onClick={onClick}>
     { text }
   </button>
-})
+}
 
 
 const boxId = signal(0)
