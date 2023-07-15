@@ -8,12 +8,10 @@ import { ComponentKeyBuilder } from '../../../component-key-builder';
 import { defineComponent } from '../../../utils/define-component';
 import { createElementPlaceholder } from '../../../utils/create-element-placeholder';
 
-
 const TAG_NAME = 'for-control'
 defineComponent(
     TAG_NAME,
     class extends HTMLElement {});
-
 
 export class ForControlFlowComponentContainer extends BaseControlFlowComponentContainer {
     onDispose(): void {

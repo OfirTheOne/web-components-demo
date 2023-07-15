@@ -9,7 +9,6 @@ export class ComponentContainer extends BaseComponentContainer {
   onDispose(): void {
     console.log('onDispose');
   }
-  protected _container: OneOrMany<HTMLElement>;
   constructor(
     fnComponent: VirtualFnComponent,
     props: Props,
