@@ -1,5 +1,6 @@
 import { FC } from '@lib/index';
 import { signal, signalComponent } from '@lib/core/signal-core';
+import './form-example.scss';
 
 type FormValues = {
   firstName: string;
