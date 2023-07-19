@@ -1,9 +1,8 @@
 import { noop, removeDuplicationWithOrder } from "../../../common/utils";
 import { IComponentContainer } from "../../../models/i-component-container";
 import { signalIdsMemorySet } from "../../global-storage";
-import { isDecoratedSignal } from "../../utils/validators";
 import { IDecoratedSignal, ISignal, SignalSubscriptionDetails, Trackable } from "../models";
-import { renderSignalValue } from "../render-signal-value/render-signal-value";
+import { renderSignalValueByType } from "../render-signal-value/render-signal-value-by-type";
 
 export function isValueAreSignalKey(value: unknown) {
     return typeof value === 'string' && signalIdsMemorySet.has(value);
@@ -18,7 +17,7 @@ export class SignalRenderContext {
     mutationObserver: MutationObserver;
     elementSubscriptions: Map<HTMLElement | Node, SignalSubscription[]> = new Map();
     effectSubscription: Map<HTMLElement | Node, SignalSubscription[]> = new Map();
-    signalsInUsed: Map<string, ISignal> = new Map();
+    signalsInUsed: Map<string, ISignal | IDecoratedSignal> = new Map();
 
     renderedPartition: number | string | null;
 
@@ -54,15 +53,17 @@ export class SignalRenderContext {
     }
 
     subscribeSignal(signal: ISignal | IDecoratedSignal, subscription: SignalSubscriptionDetails) {
-        const sourceSignal = isDecoratedSignal(signal) ? signal.source : signal;
+        const subscribableSignal = signal;
+        let lastValue = null;
         const listener = (value: unknown) => {
-            const usedValue = isDecoratedSignal(signal) ? signal.computeValue() : value;
-            renderSignalValue(usedValue, subscription);
+            if(lastValue !== value) {
+                lastValue = value;
+                renderSignalValueByType(value, subscription);
+            }
         };
-        sourceSignal.subscribe(listener);     
-
-        this.signalsInUsed.set(sourceSignal.id, sourceSignal);
-        this.addSubscription(this.renderedPartition, sourceSignal.id, listener)           
+        subscribableSignal.subscribe(listener);     
+        this.signalsInUsed.set(subscribableSignal.id, subscribableSignal);
+        this.addSubscription(this.renderedPartition, subscribableSignal.id, listener)           
     }
 
     registerEffect(effect: () => void, deps: Trackable[]) {

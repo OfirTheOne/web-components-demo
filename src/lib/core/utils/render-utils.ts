@@ -5,11 +5,11 @@ import { DomElement } from '../../models/dom-element';
 
 export class RenderUtils {
 
-  public static appendDomProps(element: HTMLElement, propsEntries: Array<[string, any]>) {
-    propsEntries.forEach(([name, value]) => {
-      if (isCapitalEventName(name)) {
+  public static appendDomProps(element: HTMLElement, propsEntries: Record<string, unknown>) {
+    Object.entries(propsEntries).forEach(([name, value]) => {
+      if (isCapitalEventName(name) && typeof value === 'function') {
         const eventName = name.toLowerCase().substring(2) as keyof HTMLElementEventMap;
-        element.addEventListener(eventName, value);
+        element.addEventListener(eventName, value as EventListener);
       } else {
         element.setAttribute(name, value.toString());
       }
@@ -33,6 +33,7 @@ export class RenderUtils {
   }
 
   public static convertStyleObjectToInlineStyle(styleObject: Record<string, unknown>): string {
+
     const validStyleEntries = Object.entries(styleObject).map(([name, value]) => {
       const validStyleAttr = name.startsWith('--')
         ? name
@@ -46,15 +47,46 @@ export class RenderUtils {
     return validStyleEntries.map(([key, value]) => `${key}: ${value}`).join(';');
   }
 
-  public static handleAttributeMutation(propsEntries: [string, any][]) {
-    const classnameIndex = propsEntries.findIndex(([key]) => key.toLocaleLowerCase() === 'classname');
-    if (classnameIndex > -1) {
-      propsEntries[classnameIndex] = ['class', propsEntries[classnameIndex][1]];
+  public static handleAttributeMutation(props: Record<string, unknown>) {
+    if ('className' in props) {
+      props['class'] =  props['className'];
+      delete props['className'];
     }
-    return propsEntries;
+    return props;
   }
 }
 
 export function isElementType(type: symbol, elementType: VirtualElementType) {
   return isSymbolShallowEquals(type, Symbol.for(elementType));
+}
+
+export class StylePropsUtils {
+
+  static convertNativeStylePropObjectString(stylePropObject: Record<string, unknown>): string {
+    return Object
+      .entries(stylePropObject)
+      .map(([key, value]) => `${key}: ${value}`).join(';');
+  }
+
+  static convertStylePropObjectToNativeStylePropObject(stylePropObject: Record<string, unknown>): Record<string, unknown> {
+    return Object
+      .entries(stylePropObject)
+      .map<[string, unknown]>(([name, value]) => 
+          [StylePropsUtils.convertStylePropNameToNativeStylePropName(name), value])
+      .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), <Record<string, unknown>>{});
+  }
+
+  static convertStylePropNameToNativeStylePropName(stylePropName: string) {
+    return stylePropName.startsWith('--')
+        ? stylePropName
+        : isAllLowerCase(stylePropName)
+        ? stylePropName 
+        : stylePropName.replace(/(?:^\w|[A-Z]|\b-\w)/g, (match, i) =>
+            i == 0 
+            ? match.toLocaleLowerCase()
+            : match[0] == '-' 
+            ? match.toLocaleLowerCase() 
+            : '-' + match.toLocaleLowerCase()
+        );
+  }
 }

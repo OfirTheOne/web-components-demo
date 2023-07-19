@@ -1,6 +1,10 @@
 import { SignalSubscriptionDetails } from '../models';
 
-export function renderSignalValue(signalValue: unknown, signal: SignalSubscriptionDetails) {
+
+export type RenderSignalContentPayload = Pick<SignalSubscriptionDetails, 'containerElement' | 'connected'>;
+
+export function renderSignalContent(signalValue: unknown, signal: RenderSignalContentPayload) {
+    console.log('renderSignalValue');
     if (signal.containerElement === null || signal.containerElement === undefined || !signal.connected) {
         return;
     }

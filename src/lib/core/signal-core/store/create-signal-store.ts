@@ -1,4 +1,4 @@
-import { createStore, CreateStateFactory, Store } from './../../../common';
+import { createStore, Store, CreateStateFactory } from './../../../common';
 import { signal } from '../signal/create-signal';
 import { DerivedSignal, derivedSignal } from '../signal';
 

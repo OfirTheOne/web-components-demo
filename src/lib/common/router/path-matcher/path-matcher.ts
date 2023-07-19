@@ -1,6 +1,4 @@
 
-
-
 export interface PathMatcherResult {
     matched: boolean;
     params: Record<string, string>;

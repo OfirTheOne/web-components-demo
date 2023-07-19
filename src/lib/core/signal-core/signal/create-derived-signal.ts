@@ -17,7 +17,7 @@ export class DerivedSignal<N = unknown> extends DecoratedSignal<N> {
 
   constructor(
       protected readonly wrappedSignal: ISignal<unknown> | DerivedSignal<unknown> | DecoratedSignal<unknown>, 
-      protected readonly transform: (value: unknown) => N
+      protected readonly transform: (value: any) => N
   ) {
       super('source' in wrappedSignal ? wrappedSignal.source : wrappedSignal);
       let transformers: DerivedSignal['transform'][];

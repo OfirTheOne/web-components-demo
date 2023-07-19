@@ -8,7 +8,6 @@ import { RouteMatchListener } from "./route-match-listener";
 export class Route extends PathMatcher {
 
     matchStrategy: PathMatcher;
-    protected _path: string;
     protected _onMatch: RouteMatchListener;
     protected _onUnMatch: RouteMatchListener;
 
