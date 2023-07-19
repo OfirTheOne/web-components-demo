@@ -26,7 +26,7 @@ const Button: FC<{text: string, onClick: () => void }> = function Button({ text,
 
 const boxId = signal(0)
 
-export const SwitchExamplePage = signalComponent(function SwitchExamplePage() {
+const SwitchExamplePage = (function SwitchExamplePage() {
   return (
     <div>
       <Button text={"Click here"} onClick={() => boxId.setValue((curId) => (curId+1)%3)}/>
@@ -50,4 +50,5 @@ export const SwitchExamplePage = signalComponent(function SwitchExamplePage() {
 });
 
 
+export default signalComponent(SwitchExamplePage);
 

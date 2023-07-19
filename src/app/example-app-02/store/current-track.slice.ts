@@ -1,4 +1,4 @@
-import { CreateStateFactory } from "@lib/core/signal-core/store/types";
+import { CreateStateFactory } from "@lib/common/store/types";
 import { IAlbumTrack } from "../model";
 
 export interface CurrentTrackState {
@@ -25,10 +25,7 @@ export const currentTrackSlice: CreateStateFactory<CurrentTrackState> = (set, ge
         },
         
         setCurrentTrack: (track: (IAlbumTrack & {albumName: string}) | null) => {
-            set((current) => ({
-                ...current,
-                selectedTrack: track,
-            }));
+            set({ selectedTrack: track, });
         }    
     };
 }

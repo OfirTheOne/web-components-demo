@@ -22,7 +22,7 @@ const Button: FC<{ text: string, onClick: () => void }> = function Button({ text
 };
 
 
-export const ShowExamplePage = signalComponent(function SwitchExamplePage() {
+const ShowExamplePage = (function SwitchExamplePage() {
     const boxIdSignal = signal(0)
     return (
         <div>
@@ -43,3 +43,4 @@ export const ShowExamplePage = signalComponent(function SwitchExamplePage() {
 
 
 
+export default signalComponent(ShowExamplePage);

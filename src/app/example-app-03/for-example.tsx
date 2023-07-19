@@ -20,7 +20,7 @@ const Button: FC<{ text: string, onClick: () => void }> = function Button({ text
     </button>
 };
 
-export const ForExamplePage = signalComponent(function SwitchExamplePage() {
+const ForExamplePage = (function SwitchExamplePage() {
     const listSignal = signal(listItems);
     return (
         <>
@@ -49,3 +49,5 @@ const shuffleList = (arr: any[]) => {
     }
     return newArr
 }
+
+export default signalComponent(ForExamplePage);
