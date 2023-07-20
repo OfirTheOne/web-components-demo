@@ -1,7 +1,6 @@
-import { Props } from '../../../models/props';
 import { ISignal, SignalSubscriptionType } from '../../signal-core/models';
 import { SignalRenderContextCommunicator } from '../../signal-core/render-context/signal-render-context-communicator';
-import { RenderUtils, StylePropsUtils } from '../../utils/render-utils';
+import { RenderUtils, StylePropsUtils, BasicPropsUtils, EventPropsUtils } from '../../utils/render-utils';
 import { isSignal } from '../../utils/validators';
 
 
@@ -11,14 +10,14 @@ interface RawPrimitiveProps {
   [key: string]: unknown;
 }
 
-export function primitiveElementRenderer(tag: string, props: Props) {
+export function primitiveElementRenderer(tag: string, props: Record<string, unknown>): HTMLElement {
   const element = document.createElement(tag);
   if (props) {
     const nonEmptyProps = props as RawPrimitiveProps;
-    const { styleProp, ref, ...propsEntries } = nonEmptyProps   
-
-    const mutatedProps = RenderUtils.handleAttributeMutation(propsEntries);
-    Object.entries(mutatedProps).forEach(([name, value]) => {
+    const { style: styleProp = {}, ref, ...propsEntries } = nonEmptyProps   
+    const basicMutatedProps = BasicPropsUtils.mutateBasicProps(propsEntries);
+    const eventMutatedProps = EventPropsUtils.mutateEventProps(basicMutatedProps);
+    Object.entries(eventMutatedProps).forEach(([name, value]) => {
       if (isSignal(value)) {
         const currentContext = SignalRenderContextCommunicator.instance.currentContext;
         const signal: ISignal = value;
@@ -31,12 +30,12 @@ export function primitiveElementRenderer(tag: string, props: Props) {
           propKey: name,
           id: signal.id,
         });
-        mutatedProps[name] = signal.value;
+        eventMutatedProps[name] = signal.value;
       }
     });
 
-    const nativeStyleObject = StylePropsUtils.convertStylePropObjectToNativeStylePropObject(propsEntries);
-    Object.entries(nativeStyleObject).map(([name, value]) => {
+    const nativeStyleProp = StylePropsUtils.convertStylePropObjectToNativeStylePropObject(styleProp);
+    Object.entries(nativeStyleProp).map(([name, value]) => {
       if (isSignal(value)) {
         const currentContext = SignalRenderContextCommunicator.instance.currentContext;
         const signal: ISignal = value;
@@ -49,69 +48,20 @@ export function primitiveElementRenderer(tag: string, props: Props) {
           propKey: name,
           id: signal.id,
         });
-        nativeStyleObject[name] = signal.value;
+        nativeStyleProp[name] = signal.value;
       }
     });
+    const finalMutatedProps = {
+      ...eventMutatedProps,
+      style: (nativeStyleProp && typeof nativeStyleProp === 'object') 
+        ? StylePropsUtils.convertNativeStylePropObjectString(nativeStyleProp) : ''
+    };
 
-    if (styleProp && typeof styleProp == 'object') {
-      element.setAttribute('style', StylePropsUtils.convertNativeStylePropObjectString(nativeStyleObject));
-    }
     if (ref && typeof ref === 'function') {
       ref(element);
     }
   
-    RenderUtils.appendDomProps(element, mutatedProps);
+    RenderUtils.appendDomProps(element, finalMutatedProps);
   }
   return element;
 }
-
-// export function signalPrimitiveElementRenderer(tag: string, props: Props) {
-//   const element = document.createElement(tag);
-//   if (props) {
-//     const nonEmptyProps = props;
-//     const styleProp = <Record<string, unknown>>nonEmptyProps['style'];
-
-//     Object.entries(styleProp).map(([name, value]) => {
-//       if (isSignal(value)) {
-//         const currentContext = SignalRenderContextCommunicator.instance.currentContext;
-//         const signal: ISignal = value;
-//         currentContext.subscribeSignal(signal, {
-//           componentKey: currentContext.componentKey,
-//           containerElement: element,
-//           signalId: signal.id,
-//           connected: true,
-//           type: SignalSubscriptionType.Style,
-//           propKey: name,
-//           id: signal.id,
-//         });
-//       }
-//     });
-
-//     const propsEntries = Object.entries(nonEmptyProps).filter(([propKey]) => !['style', 'ref'].includes(propKey));
-//     const mutatedPropsEntries = RenderUtils.handleAttributeMutation(propsEntries);
-
-//     const unwrappedPropsEntries = mutatedPropsEntries.map(([name, value]) => {
-//       if (isSignal(value)) {
-//         const currentContext = SignalRenderContextCommunicator.instance.currentContext;
-//         const signal: ISignal = value;
-//         currentContext.subscribeSignal(signal, {
-//           componentKey: currentContext.componentKey,
-//           containerElement: element,
-//           signalId: signal.id,
-//           connected: true,
-//           type: SignalSubscriptionType.Property,
-//           propKey: name,
-//           id: signal.id,
-//         });
-//         return signal.value;
-//       }
-//       return value;
-//     });
-
-//     if (styleProp && typeof styleProp == 'object') {
-//       element.setAttribute('style', RenderUtils.convertStyleObjectToInlineStyle(styleProp));
-//     }
-//     RenderUtils.appendDomProps(element, unwrappedPropsEntries);
-//   }
-//   return element;
-// }
