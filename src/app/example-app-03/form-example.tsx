@@ -1,7 +1,10 @@
 import { FC } from '@lib/index';
-import { signal, signalComponent } from '@lib/core/signal-core';
+import { Show, signal, signalComponent } from '@lib/core/signal-core';
 import './form-example.scss';
-
+type FormErrors = {
+  firstName?: string;
+  lastName?: string;
+};
 type FormValues = {
   firstName: string;
   lastName: string;
@@ -11,17 +14,40 @@ const initialFormValues: FormValues = {
   firstName: 'firstName',
   lastName: 'lastName',
 };
+const validateForm = (values: FormValues): FormErrors => {
+  const errors: FormErrors = {};
+
+  if (!values.firstName) {
+    errors.firstName = 'First name is required';
+  }
+
+  if (!values.lastName) {
+    errors.lastName = 'Last name is required';
+  }
+
+  return errors;
+};
+
 
 const Form: FC = function Form() {
   const formFirstNameValues = signal(initialFormValues.firstName);
   const formLastNameValues = signal(initialFormValues.lastName);
+  const formErrors = signal<FormErrors>({});
 
   const handleSubmit = (event: Event) => {
     event.preventDefault();
-    alert(
-      `${formFirstNameValues.value}, ${formLastNameValues.value}`,
-    );
+    const errors = validateForm({
+      firstName: formFirstNameValues.value, 
+      lastName: formLastNameValues.value
+    });
+    formErrors.setValue(() => errors);
+    if (Object.keys(errors).length === 0) {
+      alert(
+        `${formFirstNameValues.value}, ${formLastNameValues.value}`,
+      );
+    }
   };
+
 
   return (
     <form onSubmit={handleSubmit}>
@@ -35,7 +61,14 @@ const Form: FC = function Form() {
             formFirstNameValues.setValue(() => (e.target as HTMLInputElement).value)
           }
         />
+                <Show 
+          track={formErrors} 
+          when={([errors]) => !!(errors.firstName)}
+          >
+            <label className="error">{formErrors.value.firstName}</label>
+        </Show>
       </div>
+      
       <div>
         <label htmlFor="lastName">Last Name:</label>
         <input
@@ -46,6 +79,12 @@ const Form: FC = function Form() {
             formLastNameValues.setValue(() => (e.target as HTMLInputElement).value)
           }
         />
+        <Show 
+          track={formErrors} 
+          when={([errors]) => !!(errors.lastName)}
+          >
+            <label className="error">{formErrors.value.lastName}</label>
+        </Show>
       </div>
       <button type="submit">Submit</button>
     </form>
