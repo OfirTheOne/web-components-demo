@@ -1,5 +1,5 @@
 import { FC } from '@lib/index';
-import { Show, signal, signalComponent } from '@lib/core/signal-core';
+import { Show, signal, signalComponent, derivedSignal } from '@lib/core/signal-core';
 import './form-example.scss';
 type FormErrors = {
   firstName?: string;
@@ -37,7 +37,7 @@ const Form: FC = function Form() {
   const handleSubmit = (event: Event) => {
     event.preventDefault();
     const errors = validateForm({
-      firstName: formFirstNameValues.value, 
+      firstName: formFirstNameValues.value,
       lastName: formLastNameValues.value
     });
     formErrors.setValue(() => errors);
@@ -61,14 +61,14 @@ const Form: FC = function Form() {
             formFirstNameValues.setValue(() => (e.target as HTMLInputElement).value)
           }
         />
-                <Show 
-          track={formErrors} 
+        <Show
+          track={formErrors}
           when={([errors]) => !!(errors.firstName)}
-          >
-            <label className="error">{formErrors.value.firstName}</label>
+        >
+          <label className="error">{derivedSignal(formErrors, (f => f.firstName))}</label>
         </Show>
       </div>
-      
+
       <div>
         <label htmlFor="lastName">Last Name:</label>
         <input
@@ -79,11 +79,11 @@ const Form: FC = function Form() {
             formLastNameValues.setValue(() => (e.target as HTMLInputElement).value)
           }
         />
-        <Show 
-          track={formErrors} 
+        <Show
+          track={formErrors}
           when={([errors]) => !!(errors.lastName)}
-          >
-            <label className="error">{formErrors.value.lastName}</label>
+        >
+          <label className="error">{derivedSignal(formErrors, (f => f.lastName))}</label>
         </Show>
       </div>
       <button type="submit">Submit</button>
