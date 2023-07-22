@@ -20,6 +20,10 @@ export class Logger {
     console.log(...args);
   }
 
+  static error(...args: any[]) {
+    console.error(...args);
+  }
+
   static getTs() {
     return new Date().toISOString();
   }
