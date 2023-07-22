@@ -1,1 +1,1 @@
-export type Props = object; // Record<string, unknown>;
+export type Props = Record<string, unknown>;
