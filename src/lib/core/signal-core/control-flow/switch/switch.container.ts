@@ -7,6 +7,7 @@ import { BaseControlFlowComponentContainer } from '../../component-container/bas
 import { defineComponent } from '../../../utils/define-component';
 import { ComponentKeyBuilder } from '../../../component-key-builder';
 import { createElementPlaceholder } from '../../../utils/create-element-placeholder';
+import { Logger } from '@lib/common/logger';
 
 const TAG_NAME = 'switch-control'
 defineComponent(
@@ -15,6 +16,7 @@ defineComponent(
 
 export class SwitchControlFlowComponentContainer extends BaseControlFlowComponentContainer {
     listeners: Array<(value?: unknown) => void> = [];
+    readonly containersMap = new WeakMap<OneOrMany<HTMLElement>, string>();
     
     caseElementMemoMap: Map<number, OneOrMany<HTMLElement>> = new Map();
     fallbackElementMemo: OneOrMany<HTMLElement> = null;
@@ -28,7 +30,23 @@ export class SwitchControlFlowComponentContainer extends BaseControlFlowComponen
         trackables.forEach((trackable) => {
             const source = 'source' in trackable ? trackable.source : trackable;
             const listener = () => {
+                const preRenderContainerKay = this.containersMap.get(this._container);
                 this._container = this.resolveRenderedOutput();
+                const postRenderContainerKay = this.containersMap.get(this._container);
+                const isContainerChanged = postRenderContainerKay !== preRenderContainerKay;
+                if(isContainerChanged) {
+                    setTimeout(() => {
+                        SignalRenderContextCommunicator.instance.getAllChildContexts(preRenderContainerKay)
+                            .forEach((ctx) => {
+                                try {
+                                    ctx.componentContainerRef.onUnmount();
+                                } catch (error) {
+                                    Logger.error(`[ShowControlFlowComponentContainer:getAllChildContexts:onUnmount]`,error);
+                                }
+                            }   
+                        );
+                    }, 0);
+                }
             };
             this.listeners.push(listener);
             source.subscribe(listener);
@@ -45,7 +63,7 @@ export class SwitchControlFlowComponentContainer extends BaseControlFlowComponen
         const virtualChildren = this._children as unknown as VirtualElement[];
         const virtualCaseChildren = virtualChildren.filter((v) => v.tag['$$control-flow'] === Symbol.for(ControlFlow.Case));
         const virtualCaseIndex = virtualCaseChildren.findIndex((caseV) => {
-            const when = (caseV.props as CaseProps).when;
+            const when = (caseV.props as unknown as CaseProps)?.when;
             if (typeof when == 'function') {
                 return when(trackablesValueSnapshot);
             }
@@ -62,19 +80,21 @@ export class SwitchControlFlowComponentContainer extends BaseControlFlowComponen
             if (this.fallbackElementMemo) {
                 domElement = this.fallbackElementMemo;
             } else if (switchProps.fallback) {
-                domElement = <HTMLElement>(
-                    this.coreRender(switchProps.fallback as unknown as VirtualElement)
-                );
+                const usedKey = `${this.key}-fallback`;
+                domElement =
+                    this.coreRender(switchProps.fallback as unknown as VirtualElement, usedKey) as HTMLElement;
                 this.fallbackElementMemo = domElement;
+                this.containersMap.set(domElement, usedKey);
+                
             }
         } else {
             if (this.caseElementMemoMap.has(virtualCaseIndex)) {
                 domElement = this.caseElementMemoMap.get(virtualCaseIndex);
             } else {
                 const virtualCase = virtualCaseChildren[virtualCaseIndex];
-                domElement = this.coreRender(virtualCase, 
-                    ComponentKeyBuilder.build(this.key).idx(virtualCaseIndex).toString()
-                );
+                const usedKey = ComponentKeyBuilder.build(this.key).idx(virtualCaseIndex).toString();
+                domElement = this.coreRender(virtualCase, usedKey);
+                this.containersMap.set(domElement, usedKey);
                 this.caseElementMemoMap.set(virtualCaseIndex, domElement);
             }
         }

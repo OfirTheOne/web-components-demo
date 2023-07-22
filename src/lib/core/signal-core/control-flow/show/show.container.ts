@@ -1,3 +1,4 @@
+import { Logger } from '@lib/common/logger';
 import { OneOrMany } from '../../../../types/utils';
 import { SignalRenderContextCommunicator } from '../../render-context/signal-render-context-communicator';
 import { ShowProps } from './show.control';
@@ -13,24 +14,42 @@ defineComponent(
     class extends HTMLElement {},
 );
 
+
 export class ShowControlFlowComponentContainer extends BaseControlFlowComponentContainer {
 
     fallbackElementMemo: OneOrMany<HTMLElement> = null;
     defaultElementMemo: OneOrMany<HTMLElement> = null;
     readonly placeholder = createElementPlaceholder(TAG_NAME, this.key);
+    readonly containersMap = new WeakMap<OneOrMany<HTMLElement>, string>();
+
     currentConditionState: boolean | null = null;
 
     render(): OneOrMany<HTMLElement> | null {
         const domElement = this.resolveRenderedOutput();
-        const currentContext = SignalRenderContextCommunicator.instance.accessContext(this.key);
         const showProps = this.props as ShowProps;
         const trackables: Trackable[] = Array.isArray(showProps.track) ? showProps.track : [showProps.track];
-
 
         trackables.forEach((trackable) => {
             const source = 'source' in trackable ? trackable.source : trackable;
             source.subscribe(() => {
+                const preRenderContainerKay = this.containersMap.get(this._container);
                 this._container = this.resolveRenderedOutput();
+                const postRenderContainerKay = this.containersMap.get(this._container);
+                const isContainerChanged = postRenderContainerKay !== preRenderContainerKay;
+                if(isContainerChanged) {
+                    setTimeout(() => {
+                        SignalRenderContextCommunicator.instance.getAllChildContexts(preRenderContainerKay)
+                            .forEach((ctx) => {
+                                try {
+                                    ctx.componentContainerRef.onUnmount();
+                                } catch (error) {
+                                    Logger.error(`[ShowControlFlowComponentContainer:getAllChildContexts:onUnmount]`,error);
+                                }
+                            }   
+                        );
+                    }, 0);
+                }
+
             });
         });
         this._container = domElement;
@@ -62,7 +81,9 @@ export class ShowControlFlowComponentContainer extends BaseControlFlowComponentC
         } else if (whenResult && this.defaultElementMemo) {
             domElement = this.defaultElementMemo;
         } else {
-            domElement = this.coreRender(renderTarget);
+            const usedKey = whenResult ? this.key : `${this.key}-fallback`;
+            domElement = this.coreRender(renderTarget, usedKey); 
+            this.containersMap.set(domElement, usedKey);
             if (whenResult) {
                 this.defaultElementMemo = domElement;
             } else if (!whenResult) {
