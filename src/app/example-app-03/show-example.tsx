@@ -1,9 +1,38 @@
 import { Show, signal, signalComponent } from '@lib/core/signal-core';
+import { onDispose, onMount, onUnmount } from '@lib/core/signal-core/hooks';
 import { FC } from '@lib/index';
 
 
-const Box: FC = function Box(props, children) {
+const BoxFallback: FC = function BoxFallback(props, children) {
+    onUnmount(() => {
+        console.log("Unmounting BoxFallback");
+    });
+    onMount(() => {
+        console.log("Mount BoxFallback");
+    });
+    // onDispose(() => {
+    //     console.log("Disposing BoxFallback");
+    // });
+    
     return <div style={{ background: "white", height: "200px" }}>
+        {children}
+    </div>
+};
+
+
+const BoxFront: FC = function BoxFront(props, children) {
+    onUnmount(() => {
+        console.log("Unmounting BoxFront");
+    });
+
+    onMount(() => {
+        console.log("Mount BoxFront");
+    });
+
+    // onDispose(() => {
+    //     console.log("Disposing BoxFront");
+    // });
+    return <div style={{ background: "blue", height: "200px" }}>
         {children}
     </div>
 };
@@ -30,12 +59,12 @@ const ShowExamplePage = (function SwitchExamplePage() {
 
             <Show
                 track={boxIdSignal}
-                fallback={<Box>Box fallback</Box>}
+                fallback={<BoxFallback>Box fallback</BoxFallback>}
             >
-                <Box>
+                <BoxFront>
                     <Card> Box number : {boxIdSignal} </Card>
                     <Card> Another Something </Card>
-                </Box>
+                </BoxFront>
             </Show>
         </div>
     );

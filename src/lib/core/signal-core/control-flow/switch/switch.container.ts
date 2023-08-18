@@ -39,9 +39,9 @@ export class SwitchControlFlowComponentContainer extends BaseControlFlowComponen
                         SignalRenderContextCommunicator.instance.getAllChildContexts(preRenderContainerKay)
                             .forEach((ctx) => {
                                 try {
-                                    ctx.componentContainerRef.onUnmount();
+                                    ctx.onUnmount();
                                 } catch (error) {
-                                    Logger.error(`[ShowControlFlowComponentContainer:getAllChildContexts:onUnmount]`,error);
+                                    Logger.error(`[SwitchControlFlowComponentContainer:getAllChildContexts:onUnmount]`,error);
                                 }
                             }   
                         );

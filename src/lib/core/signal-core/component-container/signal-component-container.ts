@@ -34,7 +34,7 @@ export class SignalComponentContainer extends BaseComponentContainer {
     const virtualElement: OneOrMany<VirtualElement> = this.fnComponent(this._props || {}, this._children);
     const isUnmounted = virtualElement == null;
     if (isUnmounted) {
-      this.onUnmount()
+      this.onUnmount();
       return undefined;
     }
     const domElement = <HTMLElement>this.coreRender(virtualElement);
@@ -61,11 +61,11 @@ export class SignalComponentContainer extends BaseComponentContainer {
   }
 
   onDispose(): void {
-    console.log('onDispose');
+    SignalRenderContextCommunicator.instance.accessContext(this.key)?.onDispose();
+    SignalRenderContextCommunicator.instance.deleteStoredContext(this.key);
   }
   onUnmount() {
     SignalRenderContextCommunicator.instance.accessContext(this.key)?.onUnmount();
-    SignalRenderContextCommunicator.instance.deleteStoredContext(this.key);
   }
   onMount() {
     SignalRenderContextCommunicator.instance.accessContext(this.key)?.onMount();

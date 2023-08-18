@@ -11,5 +11,5 @@ export interface IComponentContainer {
   
   internalRender: VirtualRender,
   render(): void;
-  onUnmount(): void;
+  // onUnmount(): void;
 }

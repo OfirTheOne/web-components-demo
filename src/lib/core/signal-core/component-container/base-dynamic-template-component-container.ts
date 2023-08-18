@@ -28,7 +28,8 @@ export abstract class BaseControlFlowComponentContainer extends BaseComponentCon
     )
   }
 
-  onUnmount() {
-    SignalRenderContextCommunicator.instance.deleteStoredContext(this.key);
-  }
+  // onUnmount() {
+  //   alert('BaseControlFlowComponentContainer:onUnmount');
+  //   SignalRenderContextCommunicator.instance.accessContext(this.key)?.onUnmount();
+  // }
 }

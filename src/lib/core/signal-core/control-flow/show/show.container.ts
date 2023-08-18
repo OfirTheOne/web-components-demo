@@ -7,6 +7,7 @@ import { Trackable } from '../../models';
 import { BaseControlFlowComponentContainer } from '../../component-container/base-dynamic-template-component-container';
 import { defineComponent } from '../../../utils/define-component';
 import { createElementPlaceholder } from '../../../utils/create-element-placeholder';
+import { SignalRenderContext } from '../../render-context/signal-render-context';
 
 const TAG_NAME = 'show-control'
 defineComponent(
@@ -38,12 +39,14 @@ export class ShowControlFlowComponentContainer extends BaseControlFlowComponentC
                 const isContainerChanged = postRenderContainerKay !== preRenderContainerKay;
                 if(isContainerChanged) {
                     setTimeout(() => {
-                        SignalRenderContextCommunicator.instance.getAllChildContexts(preRenderContainerKay)
-                            .forEach((ctx) => {
+                        const containerToUnmount = this.getComponentContainerToUnmount(preRenderContainerKay);
+                        containerToUnmount
+                            .forEach((cntr) => {
                                 try {
-                                    ctx.componentContainerRef.onUnmount();
+                                    console.log('unmounting', cntr.componentKey);
+                                    cntr.onUnmount();
                                 } catch (error) {
-                                    Logger.error(`[ShowControlFlowComponentContainer:getAllChildContexts:onUnmount]`,error);
+                                    Logger.error(`[ShowControlFlowComponentContainer:getComponentContainerToUnmount:onUnmount]`,error);
                                 }
                             }   
                         );
@@ -57,7 +60,7 @@ export class ShowControlFlowComponentContainer extends BaseControlFlowComponentC
     }
 
     resolveRenderedOutput(): OneOrMany<HTMLElement> | null {
-        SignalRenderContextCommunicator.instance.setContext(this.key, this);
+        // SignalRenderContextCommunicator.instance.setContext(this.key, this);
 
         const showProps = this.props as ShowProps;
         const defaultVirtualView = this._children as unknown as VirtualElement[];
@@ -81,8 +84,12 @@ export class ShowControlFlowComponentContainer extends BaseControlFlowComponentC
         } else if (whenResult && this.defaultElementMemo) {
             domElement = this.defaultElementMemo;
         } else {
-            const usedKey = whenResult ? this.key : `${this.key}-fallback`;
+
+            const usedKey = whenResult ? `${this.key}:default` : `${this.key}:fallback`;
+            SignalRenderContextCommunicator.instance.setContext(usedKey, this);
             domElement = this.coreRender(renderTarget, usedKey); 
+            SignalRenderContextCommunicator.instance.removeContext();
+
             this.containersMap.set(domElement, usedKey);
             if (whenResult) {
                 this.defaultElementMemo = domElement;
@@ -94,7 +101,6 @@ export class ShowControlFlowComponentContainer extends BaseControlFlowComponentC
         if (!domElement || (Array.isArray(domElement) && domElement.length == 0)) {
             domElement = this.placeholder;
         }
-        SignalRenderContextCommunicator.instance.removeContext();
         if (this._parent) {
             if (this.wasRenderedBefore) {
                 this.connectOnSelfRerender(domElement);
@@ -106,9 +112,24 @@ export class ShowControlFlowComponentContainer extends BaseControlFlowComponentC
     }
 
 
+    private getComponentContainerToUnmount(componentKey: string): SignalRenderContext[] {
+        const childContexts = SignalRenderContextCommunicator
+            .instance
+            .getAllChildContexts(componentKey);
+        return childContexts;
+        // if(componentKey.endsWith(':default')) {
+        //     return [
+        //         ...childContexts.map((ctx) => ctx.componentContainerRef),
+        //     ];
+        // } else if(componentKey.endsWith(':fallback')) {
+        //     return childContexts.map((ctx) => ctx.componentContainerRef);
+        // }
+        // return [];
+    }
+
+
     onDispose(): void {
         console.log('onDispose');
     }
 
-    // removeAllSignalListeners() {}
 }

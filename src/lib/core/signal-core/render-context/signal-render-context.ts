@@ -15,39 +15,12 @@ export class SignalRenderContext {
     elementSubscriptions: Map<HTMLElement | Node, SignalSubscription[]> = new Map();
     effectSubscription: Map<HTMLElement | Node, SignalSubscription[]> = new Map();
     signalsInUsed: Map<string, ISignal | IDecoratedSignal> = new Map();
-
     renderedPartition: number | string | null;
-
-    // controlledPartitionsSubs: Map<
-    //     string | number | null, // name or index of partition
-    //     {
-    //         active: boolean,
-    //         listeners: Map<
-    //             string, // signal id
-    //             ((value: unknown) => void)[] // array of listeners
-    //         >
-    //     }
-    // > = new Map();
-
-
     registeredHooks = {
         onMount: noop,
-        onUnmount: noop
+        onUnmount: noop,
+        onDispose: noop
     }
-
-    // addSubscription(partition: string | number | null, sid: string, listener: (value: unknown) => void) {
-    //     if (!this.controlledPartitionsSubs.has(partition)) {
-    //         this.controlledPartitionsSubs.set(partition, { active: true, listeners: new Map() });
-    //     }
-    //     const partitionEntry = this.controlledPartitionsSubs.get(partition);
-    //     if (partitionEntry) {
-    //         if (!partitionEntry.listeners.has(sid)) {
-    //             partitionEntry.listeners.set(sid, []);
-    //         }
-    //     }
-    //     const listeners = partitionEntry.listeners.get(sid);
-    //     listeners?.push(listener);
-    // }
 
     subscribeSignal(signal: ISignal | IDecoratedSignal, subscription: SignalSubscriptionDetails) {
         const subscribableSignal = signal;
@@ -60,7 +33,6 @@ export class SignalRenderContext {
         };
         subscribableSignal.subscribe(listener);
         this.signalsInUsed.set(subscribableSignal.id, subscribableSignal);
-        // this.addSubscription(this.renderedPartition, subscribableSignal.id, listener)
     }
 
     registerEffect(effect: () => void, deps: Trackable[]) {
@@ -114,25 +86,49 @@ export class SignalRenderContext {
         return this._componentKey;
     }
 
-    onMount(): void {
+    onDispose(): void {
         try {
-            this.registeredHooks.onMount();
+            this.registeredHooks.onDispose();
+            this.elementSubscriptions.forEach((subscriptions) => {
+                subscriptions.forEach((sub) => {
+                    const signal = this.signalsInUsed.get(sub.subscription.id);
+                    signal?.unsubscribe(sub.listener);
+                });
+            });
+            this.elementSubscriptions.clear();
+            this.signalsInUsed.clear();
+
         } catch (error) {
             // handle this
             console.log(error);
         }
     }
+
+    onMount(): void {
+        try {
+            this.elementSubscriptions.forEach((subscriptions) => {
+                subscriptions.forEach((sub) => {
+                    sub.subscription.connected = true;
+                });
+            });
+        } catch (error) {
+            console.log(error);
+        }
+        try {
+            this.registeredHooks.onMount();
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     onUnmount() {
-        this.registeredHooks.onUnmount()
+        this.registeredHooks.onUnmount();
         // this.mutationObserver?.disconnect();
         this.elementSubscriptions.forEach((subscriptions) => {
             subscriptions.forEach((sub) => {
-                const signal = this.signalsInUsed.get(sub.subscription.id);
-                signal?.unsubscribe(sub.listener);
+                sub.subscription.connected = false;
             });
         });
-        this.elementSubscriptions.clear();
-        this.signalsInUsed.clear();
     }
 }
 

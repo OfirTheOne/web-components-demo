@@ -1,4 +1,4 @@
-import ExamplePage from './example-app-03/form-example';
+import ExamplePage from './example-app-03/show-example';
 import './app.scss';
 
 export function App() {

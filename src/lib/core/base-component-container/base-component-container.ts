@@ -59,8 +59,8 @@ export abstract class BaseComponentContainer implements IComponentContainer {
     }
 
     abstract render(): OneOrMany<HTMLElement> | null;
-    abstract onUnmount(): void;
-    abstract onDispose(): void;
+    // abstract onUnmount(): void;
+    // abstract onDispose(): void;
 
     public connectOnMount(domElement: OneOrMany<HTMLElement>) {
         DOMUtils.appendToParent(this._parent, domElement);

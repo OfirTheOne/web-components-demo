@@ -1,24 +1,32 @@
 import { IComponentContainer } from '../../../models/i-component-container';
 import { SignalRenderContext } from './signal-render-context';
 import { signaledContextMemoryMap } from '../../global-storage';
+import { findLastIndex } from '@lib/common/utils';
 
 class SignalRenderContextCommunicatorInstance {
   calledContextStack: SignalRenderContext[] = [];
   /* eslint-disable  @typescript-eslint/no-empty-function */
   protected constructor() {}
+  
   get currentContext() {
     return this.calledContextStack.at(-1);
   }
 
   public getAllChildContexts(componentKey: string): SignalRenderContext[] {
-    if(!signaledContextMemoryMap.has(componentKey)) {
-      return [];
-    }
     const sortedEntries = Array
       .from(signaledContextMemoryMap.entries())
       .sort((ea, eb) => ea[0].localeCompare(eb[0]));
+
     const keyIndex = sortedEntries.findIndex(([key]) => componentKey === key);
-    return sortedEntries.slice(keyIndex).map(([, ctx]) => ctx);
+    const lastStartsWithKeyIndex = findLastIndex(sortedEntries, ([key]) => key.startsWith(componentKey));
+    if(keyIndex === -1 || lastStartsWithKeyIndex === -1) {
+      return [];
+    }
+    if(keyIndex === lastStartsWithKeyIndex) {
+      return [sortedEntries[keyIndex][1]];
+    }    
+    console.log(sortedEntries.slice(keyIndex, lastStartsWithKeyIndex+1).map(([key]) => key));
+    return sortedEntries.slice(keyIndex, lastStartsWithKeyIndex+1).map(([, ctx]) => ctx);
   }
 
   public accessContext(componentKey: string): SignalRenderContext | null {
@@ -32,7 +40,7 @@ class SignalRenderContextCommunicatorInstance {
   public setContext(componentKey: string, componentContainerRef: IComponentContainer) {
     let context: SignalRenderContext;
     if (signaledContextMemoryMap.has(componentKey)) {
-      context = signaledContextMemoryMap.get(componentKey) as SignalRenderContext;
+      context = signaledContextMemoryMap.get(componentKey);
     } else {
       context = new SignalRenderContext(componentContainerRef, componentKey);
       signaledContextMemoryMap.set(componentKey, context);
@@ -59,3 +67,5 @@ export class SignalRenderContextCommunicator extends SignalRenderContextCommunic
     return SignalRenderContextCommunicator._instance;
   }
 }
+
+

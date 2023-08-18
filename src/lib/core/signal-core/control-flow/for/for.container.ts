@@ -25,7 +25,7 @@ export class ForControlFlowComponentContainer extends BaseControlFlowComponentCo
 
     render(): OneOrMany<HTMLElement> | null {
         const domElement = this.resolveRenderedOutput();
-        const forProps = this.props as ForProps;
+        const forProps = this.props as unknown as ForProps;
         const trackable: Trackable = forProps.each;
         const source = 'source' in trackable ? trackable.source : trackable;
         const listener = () => {
@@ -39,7 +39,7 @@ export class ForControlFlowComponentContainer extends BaseControlFlowComponentCo
 
     resolveRenderedOutput(): OneOrMany<HTMLElement> | null {
         SignalRenderContextCommunicator.instance.setContext(this.key, this);
-        const forProps = this.props as ForProps;
+        const forProps = this.props as unknown as ForProps;
         const trackable = forProps.each;
         const indexResolver = this.createItemResolver(forProps);
         const virtualItemViewFactory = (Array.isArray(this._children) ? this._children[0] : this._children) as unknown as (
