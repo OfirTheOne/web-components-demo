@@ -7,6 +7,8 @@ import { BaseControlFlowComponentContainer } from '../../component-container/bas
 import { ComponentKeyBuilder } from '../../../component-key-builder';
 import { defineComponent } from '../../../utils/define-component';
 import { createElementPlaceholder } from '../../../utils/create-element-placeholder';
+import { Logger } from '@lib/common/logger';
+import { DOMUtils } from '@lib/core/utils/dom-utils';
 
 const TAG_NAME = 'for-control'
 defineComponent(
@@ -29,12 +31,32 @@ export class ForControlFlowComponentContainer extends BaseControlFlowComponentCo
         const trackable: Trackable = forProps.each;
         const source = 'source' in trackable ? trackable.source : trackable;
         const listener = () => {
+            const preRenderComponentKeys = Array.from(this.itemsElementMemoMap.keys());
             this._container = this.resolveRenderedOutput();
+            const postRenderComponentKeys = Array.from(this.itemsElementMemoMap.keys());
+            const unmountedElementKeys = preRenderComponentKeys.filter(key => !postRenderComponentKeys.includes(key))
+            if(!unmountedElementKeys.length) return;
+            unmountedElementKeys.forEach(containerKay => {
+                setTimeout(() => {
+                    const contextsToUnmount = SignalRenderContextCommunicator.instance
+                        .getAllChildContexts(<string>containerKay);
+                    contextsToUnmount
+                        .forEach((ctx) => {
+                            try {
+                                Logger.log('unmounting', ctx.componentKey);
+                                ctx.onUnmount();
+                            } catch (error) {
+                                Logger.error(`[ForControlFlowComponentContainer:onUnmount]`,error);
+                            }
+                        }   
+                    );
+                }, 0);
+            })
         };
         this.listeners.push(listener);
         source.subscribe(listener);
         this._container = domElement;
-        return domElement;
+        return domElement;  
     }
 
     resolveRenderedOutput(): OneOrMany<HTMLElement> | null {
@@ -49,12 +71,13 @@ export class ForControlFlowComponentContainer extends BaseControlFlowComponentCo
         if(trackable.value === undefined || trackable.value === null || trackable.value.length === 0) {
             domElement = this.placeholder;
         } else {
+            const currentRenderedElementMap = new Set<unknown>();
             domElement = trackable.value.map((item, index) => {
-                const memoIndex = indexResolver(item, index);
+                const memoIndex = String(indexResolver(item, index));
+                currentRenderedElementMap.add(memoIndex);
                 if (this.itemsElementMemoMap.has(memoIndex)) {
                     return this.itemsElementMemoMap.get(memoIndex);
                 }
-    
                 const virtualItemView = virtualItemViewFactory(item, index);
                 const itemDomElement = <HTMLElement>this.coreRender( 
                     virtualItemView,
@@ -62,12 +85,27 @@ export class ForControlFlowComponentContainer extends BaseControlFlowComponentCo
                 this.itemsElementMemoMap.set(memoIndex, itemDomElement);
                 return itemDomElement;
             });
+            Array.from(this.itemsElementMemoMap.keys()).forEach((key) => {
+                if(!currentRenderedElementMap.has(key)) {
+                    this.itemsElementMemoMap.delete(key);
+                }
+            });
         } 
 
         SignalRenderContextCommunicator.instance.removeContext();
         if (this._parent) {
             if (this.wasRenderedBefore) {
-                this.connectOnSelfRerender(domElement);
+                if(this._container !== this.placeholder) {
+                    this.parent.children.length > 0 ?
+                        this.parent.insertBefore(this.placeholder, 
+                            Array.isArray(this._container) ? 
+                                this._container.at(0) : this._container) :
+                        this.parent.append(this.placeholder);
+                    DOMUtils.removeSelf(this._container);
+                    DOMUtils.replace(this._parent, this.placeholder, domElement);
+                } else {
+                    this.connectOnSelfRerender(domElement);
+                }
             } else {
                 this.connectOnMount(domElement);
             }
