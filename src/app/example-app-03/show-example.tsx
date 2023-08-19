@@ -1,5 +1,5 @@
 import { Show, signal, signalComponent } from '@lib/core/signal-core';
-import { onDispose, onMount, onUnmount } from '@lib/core/signal-core/hooks';
+import { onDispose, onMount, onUnmount } from '@lib/core/signal-core/life-cycles';
 import { FC } from '@lib/index';
 
 
