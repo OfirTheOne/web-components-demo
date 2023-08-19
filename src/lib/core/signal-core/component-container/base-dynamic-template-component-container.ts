@@ -1,6 +1,5 @@
 
 import { Props, VirtualRender, VirtualFnComponent } from '../../../models';
-import { SignalRenderContextCommunicator } from '../render-context/signal-render-context-communicator';
 import { BaseComponentContainer } from '../../base-component-container';
 
 
@@ -27,9 +26,4 @@ export abstract class BaseControlFlowComponentContainer extends BaseComponentCon
       internalRender
     )
   }
-
-  // onUnmount() {
-  //   alert('BaseControlFlowComponentContainer:onUnmount');
-  //   SignalRenderContextCommunicator.instance.accessContext(this.key)?.onUnmount();
-  // }
 }
