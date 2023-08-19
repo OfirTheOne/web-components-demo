@@ -17,7 +17,7 @@ export class ComponentKeyBuilder extends StringBuilder {
     this.append(ComponentKeyToken.FRAGMENT);
     return this;
   }
-  idx(index: number) {
+  idx(index: number | string) {
     this.append(`${index}`);
     return this;
   }
