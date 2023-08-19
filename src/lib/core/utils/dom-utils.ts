@@ -2,9 +2,19 @@ import { OneOrMany } from 'src/lib/types/utils';
 import { DomCompatibleElement } from '../../models/dom-element';
 
 export class DOMUtils {
-  static removeSelf(elm?: OneOrMany<HTMLElement>) {
+  static removeSelf(elm?: OneOrMany<HTMLElement> | OneOrMany<Node>) {
     if (elm) {
-      Array.isArray(elm) ? elm.forEach((node) => node.remove()) : elm.remove();
+      (Array.isArray(elm)) ?
+        elm.forEach((node) => DOMUtils.removeSingle(node)) :
+        DOMUtils.removeSingle(elm)
+    }
+  }
+
+  static removeSingle(e: HTMLElement | Node) {
+    if(e instanceof HTMLElement) {
+      e.remove(); 
+    } else {
+      e?.parentElement?.removeChild(e);
     }
   }
 
@@ -28,8 +38,9 @@ export class DOMUtils {
       const [firstNewChild, ...restChildren] = children;
       parent.insertBefore(firstNewChild, parent.firstChild);
       let referenceNode: DomCompatibleElement = firstNewChild;
-      for (let i = 0; i < restChildren.length; i++) {
-        const c = restChildren[i];
+      const filteredRestChildren = restChildren.filter(c => c !== null && c  !== undefined);
+      for (let i = 0; i < filteredRestChildren.length; i++) {
+        const c = filteredRestChildren[i];
         this.insertNodeAfter(c, referenceNode);
         referenceNode = c;
       }
