@@ -17,7 +17,7 @@ class SignalRenderContextCommunicatorInstance {
       .from(signaledContextMemoryMap.entries())
       .sort((ea, eb) => ea[0].localeCompare(eb[0]));
 
-    const keyIndex = sortedEntries.findIndex(([key]) => componentKey === key);
+    const keyIndex = sortedEntries.findIndex(([key]) => key.startsWith(componentKey));
     const lastStartsWithKeyIndex = findLastIndex(sortedEntries, ([key]) => key.startsWith(componentKey));
     if(keyIndex === -1 || lastStartsWithKeyIndex === -1) {
       return [];
