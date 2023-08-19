@@ -1,14 +1,15 @@
-import { OneOrMany } from '../../../../types/utils';
+import { Logger } from '@lib/common/logger';
+import { ComponentKeyBuilder } from '@lib/core/component-key-builder';
+import { DOMUtils } from '@lib/core/utils/dom-utils';
+import { defineComponent } from '@lib/core/utils/define-component';
+import { createElementPlaceholder } from '@lib/core/utils/create-element-placeholder';
+
+import { BaseControlFlowComponentContainer } from '../../component-container/base-dynamic-template-component-container';
 import { SignalRenderContextCommunicator } from '../../render-context/signal-render-context-communicator';
+import { OneOrMany } from '../../../../types/utils';
 import { ForProps } from './for.control';
 import { VirtualElement } from '../../../../models/virtual-element';
 import { Trackable } from '../../models';
-import { BaseControlFlowComponentContainer } from '../../component-container/base-dynamic-template-component-container';
-import { ComponentKeyBuilder } from '../../../component-key-builder';
-import { defineComponent } from '../../../utils/define-component';
-import { createElementPlaceholder } from '../../../utils/create-element-placeholder';
-import { Logger } from '@lib/common/logger';
-import { DOMUtils } from '@lib/core/utils/dom-utils';
 
 const TAG_NAME = 'for-control'
 defineComponent(
@@ -20,10 +21,10 @@ export class ForControlFlowComponentContainer extends BaseControlFlowComponentCo
         console.log('onDispose');
     }
     listeners: Array<(value?: unknown) => void> = [];
-    fallbackElementMemo: OneOrMany<HTMLElement> = null;
-    defaultElementMemo: OneOrMany<HTMLElement> = null;
     itemsElementMemoMap: Map<unknown, HTMLElement> = new Map();
     readonly placeholder = createElementPlaceholder(TAG_NAME, this.key);
+    // fallbackElementMemo: OneOrMany<HTMLElement> = null;
+    // defaultElementMemo: OneOrMany<HTMLElement> = null;
 
     render(): OneOrMany<HTMLElement> | null {
         const domElement = this.resolveRenderedOutput();
@@ -74,15 +75,14 @@ export class ForControlFlowComponentContainer extends BaseControlFlowComponentCo
             const currentRenderedElementMap = new Set<unknown>();
             domElement = trackable.value.map((item, index) => {
                 const memoIndex = String(indexResolver(item, index));
-                currentRenderedElementMap.add(memoIndex);
-                if (this.itemsElementMemoMap.has(memoIndex)) {
-                    return this.itemsElementMemoMap.get(memoIndex);
+                const usedKey = ComponentKeyBuilder.build(this.key).idx(memoIndex).toString();
+                currentRenderedElementMap.add(usedKey);
+                if (this.itemsElementMemoMap.has(usedKey)) {
+                    return this.itemsElementMemoMap.get(usedKey);
                 }
                 const virtualItemView = virtualItemViewFactory(item, index);
-                const itemDomElement = <HTMLElement>this.coreRender( 
-                    virtualItemView,
-                    ComponentKeyBuilder.build(this.key).idx(index).toString());
-                this.itemsElementMemoMap.set(memoIndex, itemDomElement);
+                const itemDomElement = <HTMLElement>this.coreRender(virtualItemView, usedKey);
+                this.itemsElementMemoMap.set(usedKey, itemDomElement);
                 return itemDomElement;
             });
             Array.from(this.itemsElementMemoMap.keys()).forEach((key) => {
@@ -112,7 +112,6 @@ export class ForControlFlowComponentContainer extends BaseControlFlowComponentCo
         }
         return domElement;
     }
-
 
     createItemResolver(forProps: ForProps): ((item: unknown, index: number) => unknown) {
         const { index: forPropsIndex} = forProps
