@@ -1,6 +1,4 @@
-import { FC } from 'sig';
-import { For, signal, signalComponent } from 'sig';
-import { onUnmount } from 'sig';
+import { For, signal, signalComponent, onUnmount, FC } from 'sig';
 
 const listItems = () => [
     { id: 1, text: "Item 1" },{ id: 2, text: "Item 2" },{ id: 3, text: "Item 3" },

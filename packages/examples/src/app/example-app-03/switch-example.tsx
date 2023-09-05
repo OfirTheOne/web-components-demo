@@ -1,6 +1,4 @@
-import { Switch, signal, signalComponent } from 'sig';
-import { FC } from 'sig';
-import { Case } from 'sig';
+import { Switch, signal, signalComponent, FC, Case } from 'sig';
 
 
 

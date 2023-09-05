@@ -1,6 +1,7 @@
-import { FC } from 'sig';
-import { Show, signal, signalComponent, derivedSignal } from 'sig';
+
+import { Show, signal, signalComponent, derivedSignal, FC } from 'sig';
 import './form-example.scss';
+
 type FormErrors = {
   firstName?: string;
   lastName?: string;

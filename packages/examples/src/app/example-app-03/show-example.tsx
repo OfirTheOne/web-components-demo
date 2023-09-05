@@ -1,6 +1,4 @@
-import { Show, signal, signalComponent } from 'sig';
-import { onDispose, onMount, onUnmount } from 'sig';
-import { FC } from 'sig';
+import { Show, signal, signalComponent, onDispose, onMount, onUnmount, FC } from 'sig';
 
 const BoxFallback: FC = function BoxFallback(props, children) {
     onUnmount(() => {
@@ -9,9 +7,9 @@ const BoxFallback: FC = function BoxFallback(props, children) {
     onMount(() => {
         console.log("Mount BoxFallback");
     });
-    // onDispose(() => {
-    //     console.log("Disposing BoxFallback");
-    // });
+    onDispose(() => {
+        console.log("Disposing BoxFallback");
+    });
     
     return <div style={{ background: "white", height: "200px" }}>
         {children}
@@ -28,9 +26,9 @@ const BoxFront: FC = function BoxFront(props, children) {
         console.log("Mount BoxFront");
     });
 
-    // onDispose(() => {
-    //     console.log("Disposing BoxFront");
-    // });
+    onDispose(() => {
+        console.log("Disposing BoxFront");
+    });
     return <div style={{ background: "blue", height: "200px" }}>
         {children}
     </div>
