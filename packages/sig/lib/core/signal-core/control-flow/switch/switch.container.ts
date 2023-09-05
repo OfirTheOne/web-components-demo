@@ -5,7 +5,7 @@ import { VirtualElement } from '../../../../models/virtual-element';
 import { ControlFlow, Trackable } from '../../models';
 import { BaseControlFlowComponentContainer } from '../../component-container/base-dynamic-template-component-container';
 import { defineComponent } from '../../../utils/define-component';
-import { ComponentKeyBuilder } from '../../../component-key-builder';
+import { ComponentKeyBuilder } from '../../../../common/component-key-builder';
 import { createElementPlaceholder } from '../../../utils/create-element-placeholder';
 import { Logger } from '@/common/logger';
 

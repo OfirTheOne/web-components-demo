@@ -3,7 +3,7 @@ import { Props, VirtualElement, VirtualRender } from '../../../models';
 import { VirtualFnComponent } from '../../../models/virtual-fn-component';
 import { SignalRenderContextCommunicator } from '../render-context/signal-render-context-communicator';
 import { BaseComponentContainer } from '../../base-component-container';
-import { ComponentKeyBuilder } from '../../component-key-builder';
+import { ComponentKeyBuilder } from '../../../common/component-key-builder';
 
 export class SignalComponentContainer extends BaseComponentContainer {
 

@@ -5,7 +5,7 @@ import { VirtualFnComponent } from "../../models/virtual-fn-component";
 import { OneOrMany } from "../../types/utils";
 import { VirtualRender } from "../../models/virtual-render";
 import { DOMUtils } from "../utils/dom-utils";
-import { ComponentKeyBuilder } from "../component-key-builder";
+import { ComponentKeyBuilder } from "../../common/component-key-builder";
 
 
 export abstract class BaseComponentContainer implements IComponentContainer {

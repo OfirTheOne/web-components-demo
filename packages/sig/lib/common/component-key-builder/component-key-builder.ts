@@ -1,5 +1,5 @@
 import { OneOrMany } from '../../types/utils';
-import { StringBuilder } from '../../common/string-builder';
+import { StringBuilder } from './string-builder';
 import { ComponentKeyToken } from './component-key-token';
 
 export class ComponentKeyBuilder extends StringBuilder {

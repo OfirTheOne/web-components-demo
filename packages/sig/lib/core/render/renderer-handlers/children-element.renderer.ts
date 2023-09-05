@@ -1,4 +1,4 @@
-import { ComponentKeyBuilder as ComponentKey } from '../../component-key-builder';
+import { ComponentKeyBuilder as ComponentKey } from '../../../common/component-key-builder';
 import { VirtualElement, DomCompatibleElement, VirtualRender } from '../../../models';
 import { SignalRenderContextCommunicator } from '../../signal-core/render-context/signal-render-context-communicator';
 import { RenderUtils } from '../../utils/render-utils';

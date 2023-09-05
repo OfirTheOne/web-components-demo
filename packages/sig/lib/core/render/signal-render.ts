@@ -1,4 +1,4 @@
-import { ComponentKeyBuilder as ComponentKey } from '../component-key-builder';
+import { ComponentKeyBuilder as ComponentKey } from '../../common/component-key-builder';
 import { primitiveElementRenderer } from './renderer-handlers/primitive-element.renderer';
 import { childrenElementRenderer } from './renderer-handlers/children-element.renderer';
 import { signalComponentRenderer } from './renderer-handlers/signal-component.renderer';
