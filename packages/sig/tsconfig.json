@@ -15,7 +15,6 @@
     "allowSyntheticDefaultImports": true,
     // "sourceMap": true,
     "jsx": "preserve",
-    "outDir": "./public/dist",
     "baseUrl": "./",
     "incremental": true,
     // "skipLibCheck": true,

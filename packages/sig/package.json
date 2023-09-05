@@ -6,12 +6,12 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/sig.js",
-  "module": "./dist/sig.umd.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.umd.js",
   "exports": {
     ".": {
-      "import": "./dist/sig.js",
-      "require": "./dist/sig.js"
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
     }
   },
   "scripts": {

@@ -7,7 +7,7 @@ export default defineConfig({
         lib: {
           entry: path.resolve(__dirname, "lib/index.ts"),
           name: "sig",
-          fileName: "sig",
+          fileName: "index",
         },
       },
     resolve: {
@@ -17,10 +17,4 @@ export default defineConfig({
     },
     css: { modules: { localsConvention: 'camelCase' } },
     plugins: [dts()],
-
-    // esbuild: {
-    //     jsxFactory: 'Sig.createElement',
-    //     jsxFragment: 'Sig.createFragment',
-    //     jsxInject: `import { Sig } from 'lib/jsx'`,
-    // },
 });
