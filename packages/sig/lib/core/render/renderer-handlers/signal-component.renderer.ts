@@ -1,12 +1,13 @@
-import { Logger } from '../../../common/logger';
-import { ComponentContainer } from '../../state-core/component-container/component-container';
-import { Props, VirtualElement, VirtualRender } from '../../../models';
-import { OneOrMany } from '../../../types/utils';
-import { VirtualFnComponent } from '../../../models/virtual-fn-component';
-import { SignalComponentContainer } from '../../signal-core/component-container/signal-component-container';
-import { SignalRenderContextCommunicator } from '../../signal-core/render-context/signal-render-context-communicator';
-import { ControlFlowComponentContainerFactory } from '../../signal-core/component-container/dynamic-template-component-container';
-import { isControlFlow } from '../../utils/validators/is-dynamic-template';
+import { Logger } from '@/common/logger';
+import { Props, VirtualElement, VirtualRender } from '@/models';
+import { VirtualFnComponent } from '@/models/virtual-fn-component';
+import { OneOrMany } from '@/types/utils';
+
+import { ComponentContainer } from '@/core/state-core/component-container/component-container';
+import { SignalComponentContainer } from '@/core/signal-core/component-container/signal-component-container';
+import { SignalRenderContextCommunicator } from '@/core/signal-core/render-context/signal-render-context-communicator';
+import { ControlFlowComponentContainerFactory } from '@/core/signal-core/component-container/dynamic-template-component-container';
+import { isControlFlow } from '@/core/utils/validators/is-dynamic-template';
 
 export function signalComponentRenderer(
     virtualRender: VirtualRender,

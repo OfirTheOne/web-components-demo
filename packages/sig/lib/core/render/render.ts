@@ -1,11 +1,11 @@
-import { ComponentKeyBuilder as ComponentKey } from '../../common/component-key-builder';
+import { ComponentKeyBuilder as ComponentKey } from '@/common/component-key-builder';
+import { RenderUtils } from '@/core/utils/render-utils';
+import { VirtualElement, DomCompatibleElement, VirtualElementType, VirtualRender } from '@/models';
 import { memoComponentRenderer } from './renderer-handlers/memo-component.renderer';
 import { primitiveElementRenderer } from './renderer-handlers/primitive-element.renderer';
 import { childrenElementRenderer } from './renderer-handlers/children-element.renderer';
 import { fnComponentRenderer } from './renderer-handlers/fn-component.renderer';
 import { signalComponentRenderer } from './renderer-handlers/signal-component.renderer';
-import { RenderUtils } from '../utils/render-utils';
-import { VirtualElement, DomCompatibleElement, VirtualElementType, VirtualRender } from '../../models';
 import { signalRender } from './signal-render';
 
 export function render(elem: JSX.Element | VirtualElement, id: string) {

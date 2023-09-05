@@ -1,9 +1,10 @@
-import { ComponentKeyBuilder as ComponentKey } from '../../common/component-key-builder';
+import { ComponentKeyBuilder as ComponentKey } from '@/common/component-key-builder';
+import { DomCompatibleElement, VirtualElementType, VirtualRender } from '@/models';
+
+import { RenderUtils } from '@/core/utils/render-utils';
 import { primitiveElementRenderer } from './renderer-handlers/primitive-element.renderer';
 import { childrenElementRenderer } from './renderer-handlers/children-element.renderer';
 import { signalComponentRenderer } from './renderer-handlers/signal-component.renderer';
-import { RenderUtils } from '../utils/render-utils';
-import { DomCompatibleElement, VirtualElementType, VirtualRender } from '../../models';
 
 
 export const signalRender: VirtualRender = (parent, vElem, key) => {

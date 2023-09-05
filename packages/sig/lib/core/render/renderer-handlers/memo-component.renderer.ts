@@ -1,9 +1,10 @@
-import { ComponentContainer } from "../../state-core/component-container/component-container";
-import { renderContextMemoryMap } from "../../global-storage";
-import { VirtualElement, VirtualRender, Props } from "../../../models";
-import { EqualFn } from "../../../models/equal-fn";
-import { VirtualFnComponent } from "../../../models/virtual-fn-component";
-import { Logger } from "../../../common/logger";
+import { Logger } from "@/common/logger";
+import { VirtualElement, VirtualRender, Props } from "@/models";
+import { EqualFn } from "@/models/equal-fn";
+import { VirtualFnComponent } from "@/models/virtual-fn-component";
+
+import { ComponentContainer } from "@/core/state-core/component-container/component-container";
+import { renderContextMemoryMap } from "@/core/global-storage";
 import { fnComponentRenderer } from "./fn-component.renderer";
 
 export function memoComponentRenderer(

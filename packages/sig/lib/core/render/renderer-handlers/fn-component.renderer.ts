@@ -1,9 +1,10 @@
-import { Logger } from '../../../common/logger';
-import { ComponentContainer } from '../../state-core/component-container/component-container';
-import { renderContextMemoryMap } from '../../global-storage';
-import { Props, VirtualElement, VirtualRender } from '../../../models';
-import { OneOrMany } from '../../../types/utils';
-import { VirtualFnComponent } from '../../../models/virtual-fn-component';
+import { Logger } from '@/common/logger';
+import { Props, VirtualElement, VirtualRender } from '@/models';
+import { VirtualFnComponent } from '@/models/virtual-fn-component';
+import { OneOrMany } from '@/types/utils';
+
+import { ComponentContainer } from '@/core/state-core/component-container/component-container';
+import { renderContextMemoryMap } from '@/core/global-storage';
 
 
 

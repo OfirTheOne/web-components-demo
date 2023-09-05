@@ -1,8 +1,9 @@
-import { ComponentKeyBuilder as ComponentKey } from '../../../common/component-key-builder';
-import { VirtualElement, DomCompatibleElement, VirtualRender } from '../../../models';
-import { SignalRenderContextCommunicator } from '../../signal-core/render-context/signal-render-context-communicator';
-import { RenderUtils } from '../../utils/render-utils';
-import { isRenderTextPrimitive , isSignal, isDerivedSignal} from '../../utils/validators';
+import { ComponentKeyBuilder as ComponentKey } from '@/common/component-key-builder';
+import { VirtualElement, DomCompatibleElement, VirtualRender } from '@/models';
+
+import { RenderUtils } from '@/core/utils/render-utils';
+import { isRenderTextPrimitive , isSignal, isDerivedSignal} from '@/core/utils/validators';
+import { SignalRenderContextCommunicator } from '@/core/signal-core/render-context/signal-render-context-communicator';
 
 export function childrenElementRenderer(
     virtualRender: VirtualRender,
