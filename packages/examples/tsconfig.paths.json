@@ -1,13 +1,4 @@
 {
     "compilerOptions": {
-        "baseUrl": ".",
-        // "paths": {
-        //     "sig/*": [
-        //         "sig/lib/*"
-        //     ],
-        //     "sig": [
-        //         "sig/lib/*"
-        //     ],
-        // }
     }
 }

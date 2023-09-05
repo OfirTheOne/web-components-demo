@@ -2,8 +2,6 @@ import { Show, signal, signalComponent } from 'sig';
 import { onDispose, onMount, onUnmount } from 'sig';
 import { FC } from 'sig';
 
-import asd from 'sig'
-
 const BoxFallback: FC = function BoxFallback(props, children) {
     onUnmount(() => {
         console.log("Unmounting BoxFallback");
