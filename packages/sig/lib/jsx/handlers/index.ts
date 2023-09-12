@@ -4,7 +4,7 @@ import { createFragment as createFragmentHandler } from './create-fragment';
 export const createElement = createElementHandler;
 export const createFragment = createFragmentHandler;
 
-export const Sig = {
+export const jsx = {
   createElement: createElementHandler,
   createFragment: createFragmentHandler,
 };

@@ -1,1 +1,1 @@
-export { createElement, createFragment, Sig } from './handlers';
+export { createElement, createFragment, jsx } from './handlers';

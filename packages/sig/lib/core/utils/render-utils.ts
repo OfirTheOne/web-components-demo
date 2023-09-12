@@ -11,7 +11,7 @@ export class RenderUtils {
         const eventName = name as keyof HTMLElementEventMap;
         element.addEventListener(eventName, value as EventListener);
       } else {
-        element.setAttribute(name, value.toString());
+        element.setAttribute(name, String(value));
       }
     });
   }
