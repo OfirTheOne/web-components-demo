@@ -1,12 +1,13 @@
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import path from 'path';
+import pkg from './package.json';
 
 export default defineConfig({
     build: {
         lib: {
           entry: path.resolve(__dirname, "lib/index.ts"),
-          name: "sig",
+          name: pkg.name,
           fileName: "index",
         },
       },
