@@ -1,4 +1,4 @@
-import ExamplePage from './example-signal-api/form-example';
+import ExamplePage from './example-form';
 import './app.scss';
 
 export function App() {

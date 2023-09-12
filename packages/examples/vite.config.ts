@@ -8,9 +8,9 @@ export default defineConfig({
     },
     css: { modules: { localsConvention: 'camelCase' } },
     esbuild: {
-        jsxFactory: 'Sig.createElement',
-        jsxFragment: 'Sig.createFragment',
-        jsxInject: `import { Sig } from 'sig'`,
+        jsxFactory: '__createElement',
+        jsxFragment: '__createFragment',
+        jsxInject: `import { createFragment as __createFragment, createElement as __createElement } from 'sig'`,
     },
     optimizeDeps: {
         disabled: true,
