@@ -13,7 +13,7 @@
       "import": "./dist/index.js",
       "require": "./dist/index.js"
     }
-  },
+    },
   "scripts": {
     "lint": "yarn eslint ./src.functional  --ext .ts,.tsx",
     "format": "yarn prettier --write .",
@@ -39,6 +39,7 @@
     "@types/reflect-metadata": "^0.1.0",
     "@typescript-eslint/eslint-plugin": "^5.58.0",
     "@typescript-eslint/parser": "^5.58.0",
+    "csstype": "^3.1.2",
     "eslint": "^8.38.0",
     "happy-dom": "^10.3.2",
     "http-server": "^14.1.1",

@@ -69,7 +69,7 @@ importers:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.17.13)(typescript@5.2.2)
       typescript:
-        specifier: ^5.0.4
+        specifier: ^5.2.2
         version: 5.2.2
       vite:
         specifier: ^4.4.4
@@ -82,6 +82,9 @@ importers:
 
   packages/sig:
     dependencies:
+      csstype:
+        specifier: ^3.1.2
+        version: 3.1.2
       events:
         specifier: ^3.3.0
         version: 3.3.0
@@ -1685,6 +1688,10 @@ packages:
     resolution: {integrity: sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==}
     engines: {node: '>=4'}
     hasBin: true
+    dev: false
+
+  /csstype@3.1.2:
+    resolution: {integrity: sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==}
     dev: false
 
   /de-indent@1.0.2:
