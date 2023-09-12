@@ -5,6 +5,7 @@ import pkg from './package.json';
 
 export default defineConfig({
     build: {
+        sourcemap: true,
         lib: {
           entry: path.resolve(__dirname, "lib/index.ts"),
           name: pkg.name,
