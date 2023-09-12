@@ -4,6 +4,7 @@ import type * as CSS from 'csstype';
 declare global {
   export namespace JSX {
 
+    type NativeElement = globalThis.Element;
     // eslint-disable-next-line @typescript-eslint/no-empty-interface
     interface CSSProperties extends CSS.Properties<string | number> {
       /**
@@ -11,21 +12,21 @@ declare global {
        */
     }
 
-    export type SigEvent = Event
-    export type SigEventHandler<T = Element> = (event: SigEvent) => void;
-    export type ClipboardEventHandler <T = Element> = (event: ClipboardEvent) => void;
-    export type CompositionEventHandler <T = Element> = (event: CompositionEvent) => void;
-    export type FocusEventHandler <T = Element> = (event: FocusEvent) => void;
-    export type DragEventHandler <T = Element> = (event: DragEvent) => void;
-    export type FormEventHandler <T = Element> = (event: SigEvent) => void;
-    export type KeyboardEventHandler <T = Element> = (event: KeyboardEvent) => void;
-    export type MouseEventHandler <T = Element> = (event: MouseEvent) => void;
-    export type TouchEventHandler <T = Element> = (event: TouchEvent) => void;
-    export type PointerEventHandler <T = Element> = (event: PointerEvent) => void;
-    export type UIEventHandler <T = Element> = (event: UIEvent) => void;
-    export type WheelEventHandler <T = Element> = (event: WheelEvent) => void;
-    export type AnimationEventHandler <T = Element> = (event: AnimationEvent) => void;
-    export type TransitionEventHandler <T = Element> = (event: TransitionEvent) => void;
+    export type SigEvent<T = NativeElement> = Event & { target: T;}
+    export type SigEventHandler<T = NativeElement> = (event: SigEvent<T>) => void;
+    export type ClipboardEventHandler <T = NativeElement> = (event: ClipboardEvent) => void;
+    export type CompositionEventHandler <T = NativeElement> = (event: CompositionEvent) => void;
+    export type FocusEventHandler <T = NativeElement> = (event: FocusEvent) => void;
+    export type DragEventHandler <T = NativeElement> = (event: DragEvent) => void;
+    export type FormEventHandler <T = NativeElement> = (event: SigEvent<T>) => void;
+    export type KeyboardEventHandler <T = NativeElement> = (event: KeyboardEvent) => void;
+    export type MouseEventHandler <T = NativeElement> = (event: MouseEvent) => void;
+    export type TouchEventHandler <T = NativeElement> = (event: TouchEvent) => void;
+    export type PointerEventHandler <T = NativeElement> = (event: PointerEvent) => void;
+    export type UIEventHandler <T = NativeElement> = (event: UIEvent) => void;
+    export type WheelEventHandler <T = NativeElement> = (event: WheelEvent) => void;
+    export type AnimationEventHandler <T = NativeElement> = (event: AnimationEvent) => void;
+    export type TransitionEventHandler <T = NativeElement> = (event: TransitionEvent) => void;
 
     interface DOMAttributes<T> {
       // children?: ReactNode;
@@ -585,7 +586,7 @@ declare global {
     // }
 
     export interface IntrinsicElements {
-      a: HTMLAttributes<unknown>;
+      a: HTMLAttributes<HTMLAnchorElement>;
       abbr: HTMLAttributes<unknown>;
       address: HTMLAttributes<unknown>;
       area: HTMLAttributes<unknown>;
@@ -600,7 +601,7 @@ declare global {
       blockquote: HTMLAttributes<unknown>;
       body: HTMLAttributes<unknown>;
       br: HTMLAttributes<unknown>;
-      button: HTMLAttributes<unknown>;
+      button: HTMLAttributes<HTMLButtonElement>;
       canvas: HTMLAttributes<unknown>;
       caption: HTMLAttributes<unknown>;
       cite: HTMLAttributes<unknown>;
@@ -614,7 +615,7 @@ declare global {
       details: HTMLAttributes<unknown>;
       dfn: HTMLAttributes<unknown>;
       dialog: HTMLAttributes<unknown>;
-      div: HTMLAttributes<unknown>;
+      div: HTMLAttributes<HTMLDivElement>;
       dl: HTMLAttributes<unknown>;
       dt: HTMLAttributes<unknown>;
       em: HTMLAttributes<unknown>;
@@ -624,12 +625,12 @@ declare global {
       figure: HTMLAttributes<unknown>;
       footer: HTMLAttributes<unknown>;
       form: HTMLAttributes<unknown>;
-      h1: HTMLAttributes<unknown>;
-      h2: HTMLAttributes<unknown>;
-      h3: HTMLAttributes<unknown>;
-      h4: HTMLAttributes<unknown>;
-      h5: HTMLAttributes<unknown>;
-      h6: HTMLAttributes<unknown>;
+      h1: HTMLAttributes<HTMLHeadingElement>;
+      h2: HTMLAttributes<HTMLHeadingElement>;
+      h3: HTMLAttributes<HTMLHeadingElement>;
+      h4: HTMLAttributes<HTMLHeadingElement>;
+      h5: HTMLAttributes<HTMLHeadingElement>;
+      h6: HTMLAttributes<HTMLHeadingElement>;
       head: HTMLAttributes<unknown>;
       header: HTMLAttributes<unknown>;
       hgroup: HTMLAttributes<unknown>;
@@ -638,14 +639,14 @@ declare global {
       i: HTMLAttributes<unknown>;
       iframe: HTMLAttributes<unknown>;
       img: HTMLAttributes<unknown>;
-      input: HTMLAttributes<unknown>;
+      input: HTMLAttributes<HTMLInputElement>;
       ins: HTMLAttributes<unknown>;
       kbd: HTMLAttributes<unknown>;
       keygen: HTMLAttributes<unknown>;
-      label: HTMLAttributes<unknown>;
+      label: HTMLAttributes<HTMLLabelElement>;
       legend: HTMLAttributes<unknown>;
       li: HTMLAttributes<unknown>;
-      link: HTMLAttributes<unknown>;
+      link: HTMLAttributes<HTMLLinkElement>;
       main: HTMLAttributes<unknown>;
       map: HTMLAttributes<unknown>;
       mark: HTMLAttributes<unknown>;
@@ -658,9 +659,9 @@ declare global {
       object: HTMLAttributes<unknown>;
       ol: HTMLAttributes<unknown>;
       optgroup: HTMLAttributes<unknown>;
-      option: HTMLAttributes<unknown>;
+      option: HTMLAttributes<HTMLOptionElement>;
       output: HTMLAttributes<unknown>;
-      p: HTMLAttributes<unknown>;
+      p: HTMLAttributes<HTMLParagraphElement>;
       param: HTMLAttributes<unknown>;
       picture: HTMLAttributes<unknown>;
       pre: HTMLAttributes<unknown>;
