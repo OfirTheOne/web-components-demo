@@ -1,8 +1,7 @@
 
 import { signal, signalComponent, derivedSignal, Switch, Case } from 'sig';
+import { CheckboxController, InputController } from '../../controllers';
 import './index.scss';
-import { CheckboxController, InputController } from '../../controllers/controllers'
-
 
 const setTimeoutAsync = (ms: number) => new Promise<void>((res) => setTimeout(res, ms))
 
