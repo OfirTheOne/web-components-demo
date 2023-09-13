@@ -1,13 +1,13 @@
-import { OneOrMany } from '../../../../types/utils';
-import { SignalRenderContextCommunicator } from '../../render-context/signal-render-context-communicator';
+import { OneOrMany } from '@/types/utils';
+import { VirtualElement } from '@/models/virtual-element';
+import { ComponentKeyBuilder } from '@/common/component-key-builder';
+import { Logger } from '@/common/logger';
 import { CaseProps, SwitchProps } from './switch.control';
-import { VirtualElement } from '../../../../models/virtual-element';
-import { ControlFlow, Trackable } from '../../models';
+import { SignalRenderContextCommunicator } from '../../render-context/signal-render-context-communicator';
 import { BaseControlFlowComponentContainer } from '../../component-container/base-dynamic-template-component-container';
 import { defineComponent } from '../../../utils/define-component';
-import { ComponentKeyBuilder } from '../../../../common/component-key-builder';
 import { createElementPlaceholder } from '../../../utils/create-element-placeholder';
-import { Logger } from '@/common/logger';
+import { ControlFlow, Trackable } from '../../models';
 
 const TAG_NAME = 'switch-control'
 defineComponent(
