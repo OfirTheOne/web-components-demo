@@ -1,5 +1,5 @@
 
-import { signal, signalComponent, FC } from 'sig';
+import { signal, signalComponent, FC, derivedSignal } from 'sig';
 import './form-example.scss';
 import { Checkbox, Dropdown, Input, InputController } from './controllers'
 
@@ -32,7 +32,7 @@ const Form: FC = function Form() {
 
   return (
     <form 
-      // noValidate={formNoValidate as unknown as boolean}
+      noValidate={derivedSignal(formNoValidate, (value) => value === false ? null : value) as unknown as boolean}
       onSubmit={handleSubmit}>
 
       <InputController 

@@ -39,7 +39,7 @@ export const InputController: Sig.FC<{
                     type={type}
                     id={id}
                     value={value}
-                    onInput={(e) =>{
+                    onInput={(e) => {
                         value.setValue(() => (e.target as HTMLInputElement).value)
                     }}
                     {...props}
@@ -49,7 +49,7 @@ export const InputController: Sig.FC<{
                         <Sig.Show
                             track={value}
                             when={([inputValue]) => {
-                                return (!ref.current || ref.current.checkValidity()) &&!validation(inputValue);
+                                return (!ref.current || ref.current.checkValidity()) && !validation(inputValue);
                             }}
                         >
                             <label className="error">{validationError}</label>
@@ -90,7 +90,7 @@ export const Checkbox: Sig.FC<{
     id: string
 }> = ({ value, label, id, ...props }) => {
     return (
-        <div style={{ display: 'flex'}}>
+        <div style={{ display: 'flex' }}>
             <input
                 type="checkbox"
                 id={id}
