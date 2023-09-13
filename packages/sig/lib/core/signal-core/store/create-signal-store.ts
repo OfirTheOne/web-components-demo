@@ -1,6 +1,5 @@
-import { createStore, Store, CreateStateFactory } from './../../../common';
-import { signal } from '../signal/create-signal';
-import { DerivedSignal, derivedSignal } from '../signal';
+import { createStore, Store, CreateStateFactory } from '@/common';
+import { DerivedSignal, derivedSignal, signal } from '../signal';
 
 
 export interface SignalStore<S extends object> extends Store<S> {
