@@ -7,9 +7,11 @@ export function renderSignalProperty(signalValue: unknown, signal: RenderSignalV
     if (signal.containerElement === null || signal.containerElement === undefined || !signal.connected) {
         return;
     }
-    if (signalValue !== null && signalValue !== undefined) {
-        if (signal.containerElement instanceof HTMLElement) {
+    if (signal.containerElement instanceof HTMLElement) {
+        if (signalValue !== null && signalValue !== undefined) {
             signal.containerElement.setAttribute(signal.propKey, String(signalValue));
+        } else {
+            signal.containerElement.removeAttribute(signal.propKey);
         }
     }
 }

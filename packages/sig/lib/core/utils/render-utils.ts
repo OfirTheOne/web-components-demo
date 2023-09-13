@@ -10,8 +10,10 @@ export class RenderUtils {
       if (typeof value === 'function') {
         const eventName = name as keyof HTMLElementEventMap;
         element.addEventListener(eventName, value as EventListener);
-      } else {
+      } else if(value !== null) {
         element.setAttribute(name, String(value));
+      } else {
+        element.removeAttribute(name);
       }
     });
   }
