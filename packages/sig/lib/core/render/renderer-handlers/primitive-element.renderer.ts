@@ -6,7 +6,7 @@ import { isSignal } from '@/core/utils/validators';
 
 interface RawPrimitiveProps {
   style?: Record<string, unknown>;
-  ref?: (e: HTMLElement) => void;
+  ref?: ((e: HTMLElement) => void) | { current: HTMLElement | null } | null;
   [key: string]: unknown;
 }
 
@@ -14,7 +14,7 @@ export function primitiveElementRenderer(tag: string, props: Record<string, unkn
   const element = document.createElement(tag);
   if (props) {
     const nonEmptyProps = props as RawPrimitiveProps;
-    const { style: styleProp = {}, ref, ...propsEntries } = nonEmptyProps   
+    const { style: styleProp = {}, ref, ...propsEntries } = nonEmptyProps
     const basicMutatedProps = BasicPropsUtils.mutateBasicProps(propsEntries);
     const eventMutatedProps = EventPropsUtils.mutateEventProps(basicMutatedProps);
     Object.entries(eventMutatedProps).forEach(([name, value]) => {
@@ -35,7 +35,7 @@ export function primitiveElementRenderer(tag: string, props: Record<string, unkn
     });
 
     const nativeStyleProp = StylePropsUtils.convertStylePropObjectToNativeStylePropObject(styleProp);
-    Object.entries(nativeStyleProp).map(([name, value]) => {
+    Object.entries(nativeStyleProp).forEach(([name, value]) => {
       if (isSignal(value)) {
         const currentContext = SignalRenderContextCommunicator.instance.currentContext;
         const signal: ISignal = value;
@@ -51,17 +51,28 @@ export function primitiveElementRenderer(tag: string, props: Record<string, unkn
         nativeStyleProp[name] = signal.value;
       }
     });
+
+    const isStylePropEmpty = Object.keys(nativeStyleProp).length === 0;
+
     const finalMutatedProps = {
       ...eventMutatedProps,
-      style: (nativeStyleProp && typeof nativeStyleProp === 'object') 
-        ? StylePropsUtils.convertNativeStylePropObjectString(nativeStyleProp) : ''
+      style: isStylePropEmpty ? null :
+        StylePropsUtils.convertNativeStylePropObjectString(nativeStyleProp)
     };
 
-    if (ref && typeof ref === 'function') {
-      ref(element);
-    }
-  
+    assignRef(ref, element);
+
     RenderUtils.appendDomProps(element, finalMutatedProps);
   }
   return element;
+}
+
+function assignRef(ref: ((e: HTMLElement) => void) | { current: HTMLElement | null } | null, element: HTMLElement) {
+  if (ref) {
+    if (typeof ref === 'function') {
+      ref(element);
+    } else if (!ref.current) {
+      ref.current = element;
+    }
+  }
 }
