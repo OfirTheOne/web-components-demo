@@ -2,7 +2,7 @@ import { ThemeProvider } from './providers';
 import { Layout } from './spotify-demo/layout/layout';
 
 
-export function ExamplePage() {
+export default function ExamplePage() {
   return (
     <div>
       <ThemeProvider>

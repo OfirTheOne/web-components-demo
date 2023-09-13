@@ -624,7 +624,7 @@ declare global {
       figcaption: HTMLAttributes<unknown>;
       figure: HTMLAttributes<unknown>;
       footer: HTMLAttributes<unknown>;
-      form: HTMLAttributes<unknown>;
+      form: HTMLAttributes<HTMLFormElement>;
       h1: HTMLAttributes<HTMLHeadingElement>;
       h2: HTMLAttributes<HTMLHeadingElement>;
       h3: HTMLAttributes<HTMLHeadingElement>;

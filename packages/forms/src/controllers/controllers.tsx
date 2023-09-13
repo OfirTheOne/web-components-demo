@@ -3,16 +3,18 @@ import * as Sig from "sig";
 export const Input: Sig.FC<
     { value: Sig.Signal<string> } &
     Omit<JSX.HTMLAttributes<HTMLInputElement>, 'value'>
-> = ({ value, ...props }) => {
-    return (
-        <input
-            value={(value) as unknown as string}
-            list={props.list}
-            onInput={(e) => value.setValue(() => e.target.value)}
-            {...props} />
-    );
-}
-
+> = ({
+    value,
+    list = null,
+    ...props }) => {
+        return (
+            <input
+                value={(value) as unknown as string}
+                list={list}
+                onInput={(e) => value.setValue(() => e.target.value)}
+                {...props} />
+        );
+    }
 
 export const InputController: Sig.FC<{
     value: Sig.Signal<string>,
@@ -21,14 +23,14 @@ export const InputController: Sig.FC<{
     validation?: (value: string) => boolean,
     validationError?: string
 } & Omit<JSX.HTMLAttributes<HTMLInputElement>, 'value' | 'id'>> = ({
-    value,
-    id,
-    label,
-    required = false,
-    validation,
-    validationError = '',
-    type = 'text',
-    ...props }) => {
+        value,
+        id,
+        label,
+        required = false,
+        validation,
+        validationError = '',
+        type = 'text',
+        ...props }) => {
         const ref: { current: HTMLInputElement | null } = { current: null };
         return (
             <div>
@@ -49,7 +51,7 @@ export const InputController: Sig.FC<{
                         <Sig.Show
                             track={value}
                             when={([inputValue]) => {
-                                return (!ref.current || ref.current.checkValidity()) && !validation(inputValue);
+                                return (ref.current && !ref.current.checkValidity()) || !validation(inputValue);
                             }}
                         >
                             <label className="error">{validationError}</label>
@@ -60,45 +62,33 @@ export const InputController: Sig.FC<{
         );
     }
 
-
-export const Dropdown: Sig.FC<{
-    value: Sig.Signal<string>,
-    options: string[],
-    key: string
-}> = ({ value, options, key, ...props }) => {
+export const Checkbox: Sig.FC<{
+    value: Sig.Signal<boolean>,
+    id: string
+}> = ({ value, ...props }) => {
     return (
-
-        <div>
-            <datalist id={"list_" + key}>
-                {options.map((option) => <option value={option} />)}
-            </datalist>
-            <Input
-                value={value}
-                onChange={(e) => value.setValue(() => e.target.value)}
-                list={"list_" + key}
-                {...props}
-            />
-        </div>
+        <input
+            type="checkbox"
+            checked={value as unknown as boolean}
+            onChange={(e) => value.setValue(() => e.target.checked)}
+            {...props}
+        />
     );
 }
 
-
-
-export const Checkbox: Sig.FC<{
+export const CheckboxController: Sig.FC<{
     value: Sig.Signal<boolean>,
     label: string,
     id: string
 }> = ({ value, label, id, ...props }) => {
     return (
         <div style={{ display: 'flex' }}>
-            <input
-                type="checkbox"
+            <Checkbox
+                value={value}
                 id={id}
-                checked={value as unknown as boolean}
-                onChange={(e) => value.setValue(() => e.target.checked)}
                 {...props}
             />
-            <label htmlFor={id}>{label}</label>
+            <label style={{ whiteSpace: "nowrap" }} htmlFor={id}>{label}</label>
         </div>
     );
 }
