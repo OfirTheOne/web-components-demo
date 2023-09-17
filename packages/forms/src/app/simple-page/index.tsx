@@ -21,7 +21,7 @@ const initialFormValues: FormValues = {
 type SubmissionState = 'un-submitted' | 'pending' | 'submitted';
 
 export default signalComponent(function Form() {
-  const formFirstNameValues = signal(initialFormValues.firstName);
+    const formFirstNameValues = signal(initialFormValues.firstName);
   const formLastNameValues = signal(initialFormValues.lastName);
   const formNoValidate = signal(initialFormValues.noValidate);
   const formSubmissionState = signal<SubmissionState>('un-submitted');
