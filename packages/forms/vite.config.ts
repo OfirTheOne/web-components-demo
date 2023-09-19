@@ -3,7 +3,7 @@ import path from 'path';
 export default defineConfig({
     resolve: {
         // alias: {
-        //     'sig': path.resolve(__dirname, 'sig/lib'),
+        //     'sig': path.resolve(__dirname, '../sig'),
         // }
     },
     css: { modules: { localsConvention: 'camelCase' } },

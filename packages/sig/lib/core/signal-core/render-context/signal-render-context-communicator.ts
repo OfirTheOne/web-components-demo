@@ -1,7 +1,7 @@
-import { IComponentContainer } from '../../../models/i-component-container';
+import { IComponentContainer } from '@/models/i-component-container';
+import { findLastIndex } from '@/common/utils';
 import { SignalRenderContext } from './signal-render-context';
 import { signaledContextMemoryMap } from '../../global-storage';
-import { findLastIndex } from '@/common/utils';
 
 class SignalRenderContextCommunicatorInstance {
   calledContextStack: SignalRenderContext[] = [];

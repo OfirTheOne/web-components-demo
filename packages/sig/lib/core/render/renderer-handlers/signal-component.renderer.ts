@@ -3,7 +3,6 @@ import { Props, VirtualElement, VirtualRender } from '@/models';
 import { VirtualFnComponent } from '@/models/virtual-fn-component';
 import { OneOrMany } from '@/types/utils';
 
-import { ComponentContainer } from '@/core/state-core/component-container/component-container';
 import { SignalComponentContainer } from '@/core/signal-core/component-container/signal-component-container';
 import { SignalRenderContextCommunicator } from '@/core/signal-core/render-context/signal-render-context-communicator';
 import { ControlFlowComponentContainerFactory } from '@/core/signal-core/component-container/dynamic-template-component-container';
@@ -18,7 +17,7 @@ export function signalComponentRenderer(
     key: string
 ): OneOrMany<HTMLElement> {
     const existingComponentContainer = SignalRenderContextCommunicator.instance.accessContext(key)
-        ?.componentContainerRef as ComponentContainer;
+        ?.componentContainerRef as SignalComponentContainer;
     const isMounted = existingComponentContainer && existingComponentContainer.wasRenderedBefore;
 
     if (isMounted) {
