@@ -3,12 +3,12 @@ import { ComponentKeyBuilder } from '@/common/component-key-builder';
 import { DOMUtils } from '@/core/utils/dom-utils';
 import { defineComponent } from '@/core/utils/define-component';
 import { createElementPlaceholder } from '@/core/utils/create-element-placeholder';
+import { OneOrMany } from '@/types/utils';
+import { VirtualElement } from '@/models/virtual-element';
 
-import { BaseControlFlowComponentContainer } from '../../component-container/base-dynamic-template-component-container';
+import { BaseControlFlowComponentContainer } from '../../../component-container/base-dynamic-template-component-container';
 import { SignalRenderContextCommunicator } from '../../render-context/signal-render-context-communicator';
-import { OneOrMany } from '../../../../types/utils';
 import { ForProps } from './for.control';
-import { VirtualElement } from '../../../../models/virtual-element';
 import { Trackable } from '../../models';
 
 const TAG_NAME = 'for-control'

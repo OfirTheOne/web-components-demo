@@ -1,8 +1,7 @@
-import { OneOrMany } from '../../../types/utils';
-import { Props, VirtualRender } from '../../../models';
-import { VirtualFnComponent } from '../../../models/virtual-fn-component';
+import { Props, VirtualRender, VirtualFnComponent } from '@/models';
+import { OneOrMany } from '@/types/utils';
 import { BaseControlFlowComponentContainer } from './base-dynamic-template-component-container';
-import { CONTROL_FLOW_HANDLER_MAP } from '../control-flow/handler-map';
+import { CONTROL_FLOW_HANDLER_MAP } from '../signal-core/control-flow/handler-map';
 
 export class NoneControlFlowComponentContainer extends BaseControlFlowComponentContainer {
   onDispose(): void {

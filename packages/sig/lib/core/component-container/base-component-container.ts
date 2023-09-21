@@ -1,11 +1,9 @@
 
-import { Props, VirtualElement } from "../../models";
-import { IComponentContainer } from "../../models/i-component-container";
-import { VirtualFnComponent } from "../../models/virtual-fn-component";
-import { OneOrMany } from "../../types/utils";
-import { VirtualRender } from "../../models/virtual-render";
+import { Props, VirtualElement, VirtualFnComponent, VirtualRender } from "@/models";
+import { IComponentContainer } from "@/models/i-component-container";
+import { OneOrMany } from "@/types/utils";
+import { ComponentKeyBuilder } from "@/common/component-key-builder";
 import { DOMUtils } from "../utils/dom-utils";
-import { ComponentKeyBuilder } from "../../common/component-key-builder";
 
 
 export abstract class BaseComponentContainer implements IComponentContainer {

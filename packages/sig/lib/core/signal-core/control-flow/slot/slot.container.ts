@@ -3,7 +3,7 @@ import { OneOrMany } from '../../../../types/utils';
 import { SignalRenderContextCommunicator } from '../../render-context/signal-render-context-communicator';
 import { SlotProps } from './slot.control';
 import { VirtualElement } from '../../../../models/virtual-element';
-import { BaseControlFlowComponentContainer } from '../../component-container/base-dynamic-template-component-container';
+import { BaseControlFlowComponentContainer } from '../../../component-container/base-dynamic-template-component-container';
 
 export class SlotControlFlowComponentContainer extends BaseControlFlowComponentContainer {
     onDispose(): void {

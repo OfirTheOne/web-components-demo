@@ -1,6 +1,6 @@
 import { noop, removeDuplicationWithOrder } from "../../../common/utils";
 import { IComponentContainer } from "../../../models/i-component-container";
-import { SignalComponentContainer } from "../component-container/signal-component-container";
+import { SignalComponentContainer } from "../../component-container/signal-component-container";
 import { IDecoratedSignal, ISignal, SignalSubscriptionDetails, Trackable } from "../models";
 import { renderSignalValueByType } from "../render-signal-value/render-signal-value-by-type";
 

@@ -1,4 +1,4 @@
-import { BaseControlFlowComponentContainer } from '../../../component-container/base-dynamic-template-component-container';
+import { BaseControlFlowComponentContainer } from '../../../../component-container/base-dynamic-template-component-container';
 import { defineComponent } from '../../../../utils/define-component';
 import { Route } from '../../../../../common/router';
 import { OneOrMany } from '../../../../../types/utils';

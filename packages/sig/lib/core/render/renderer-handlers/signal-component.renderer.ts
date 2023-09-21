@@ -3,9 +3,9 @@ import { Props, VirtualElement, VirtualRender } from '@/models';
 import { VirtualFnComponent } from '@/models/virtual-fn-component';
 import { OneOrMany } from '@/types/utils';
 
-import { SignalComponentContainer } from '@/core/signal-core/component-container/signal-component-container';
+import { SignalComponentContainer } from '@/core/component-container/signal-component-container';
+import { ControlFlowComponentContainerFactory } from '@/core/component-container/dynamic-template-component-container';
 import { SignalRenderContextCommunicator } from '@/core/signal-core/render-context/signal-render-context-communicator';
-import { ControlFlowComponentContainerFactory } from '@/core/signal-core/component-container/dynamic-template-component-container';
 import { isControlFlow } from '@/core/utils/validators/is-dynamic-template';
 
 export function signalComponentRenderer(

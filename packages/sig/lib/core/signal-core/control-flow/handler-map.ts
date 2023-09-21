@@ -1,4 +1,4 @@
-import { SignalComponentContainer } from "../component-container/signal-component-container";
+import { SignalComponentContainer } from "../../component-container/signal-component-container";
 import { ControlFlow } from "../models";
 import { ForControlFlowComponentContainer } from "./for/for.container";
 import { RouteControlFlowComponentContainer } from "./router/route/route.container";

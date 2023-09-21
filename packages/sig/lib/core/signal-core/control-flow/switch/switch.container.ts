@@ -4,7 +4,7 @@ import { ComponentKeyBuilder } from '@/common/component-key-builder';
 import { Logger } from '@/common/logger';
 import { CaseProps, SwitchProps } from './switch.control';
 import { SignalRenderContextCommunicator } from '../../render-context/signal-render-context-communicator';
-import { BaseControlFlowComponentContainer } from '../../component-container/base-dynamic-template-component-container';
+import { BaseControlFlowComponentContainer } from '../../../component-container/base-dynamic-template-component-container';
 import { defineComponent } from '../../../utils/define-component';
 import { createElementPlaceholder } from '../../../utils/create-element-placeholder';
 import { ControlFlow, Trackable } from '../../models';

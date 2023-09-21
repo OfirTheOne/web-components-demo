@@ -1,5 +1,4 @@
-import { FC } from "../../../models/functional-component";
-import { VirtualElementType } from "../../../models/virtual-element";
+import { FC, VirtualElementType } from "@/models";
 
 export function signalComponent<T extends FC<any>>(
     fn: T, 

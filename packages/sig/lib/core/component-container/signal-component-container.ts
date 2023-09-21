@@ -1,8 +1,8 @@
 import { OneOrMany } from '@/types/utils';
 import { Props, VirtualElement, VirtualRender, VirtualFnComponent } from '@/models';
 import { ComponentKeyBuilder } from '@/common/component-key-builder';
-import { SignalRenderContextCommunicator } from '../render-context/signal-render-context-communicator';
-import { BaseComponentContainer } from '../../base-component-container';
+import { BaseComponentContainer } from './base-component-container';
+import { SignalRenderContextCommunicator } from '../signal-core/render-context/signal-render-context-communicator';
 
 export class SignalComponentContainer extends BaseComponentContainer {
 

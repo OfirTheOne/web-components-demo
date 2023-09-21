@@ -1,6 +1,6 @@
 
-import { Props, VirtualRender, VirtualFnComponent } from '../../../models';
-import { BaseComponentContainer } from '../../base-component-container';
+import { Props, VirtualRender, VirtualFnComponent } from '@/models';
+import { BaseComponentContainer } from './base-component-container';
 
 
 export abstract class BaseControlFlowComponentContainer extends BaseComponentContainer {
