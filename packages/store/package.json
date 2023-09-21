@@ -1,9 +1,19 @@
 {
-  "name": "sig-examples",
+  "name": "@sig/store",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "private": true,
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.umd.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+    },
   "scripts": {
     "lint": "yarn eslint ./src.functional  --ext .ts,.tsx",
     "format": "yarn prettier --write .",
@@ -22,7 +32,8 @@
     "events": "^3.3.0",
     "mini-css-extract-plugin": "^2.7.3",
     "path-to-regexp": "^6.2.1",
-    "sig": "workspace:^"
+    "sig": "workspace:^",
+    "vite-plugin-dts": "^3.5.3"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.191",
