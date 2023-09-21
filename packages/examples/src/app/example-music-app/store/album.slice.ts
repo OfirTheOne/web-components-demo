@@ -1,4 +1,4 @@
-import { CreateStateFactory } from "sig';
+import { CreateStateFactory } from "@sig/store";
 import { getAlbums } from "../db";
 import { IAlbum } from "../model";
 

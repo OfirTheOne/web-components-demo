@@ -1,4 +1,4 @@
-import { createSignalStore } from "sig';
+import { createSignalStore } from "@sig/store";
 import { AlbumState, albumSlice } from "./album.slice";
 import { CurrentTrackState, currentTrackSlice } from "./current-track.slice";
 

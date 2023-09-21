@@ -10,6 +10,9 @@ importers:
 
   packages/examples:
     dependencies:
+      '@sig/store':
+        specifier: workspace:^
+        version: link:../store
       css-loader:
         specifier: ^6.7.3
         version: 6.8.1(webpack@5.88.2)
@@ -307,6 +310,9 @@ importers:
       sig:
         specifier: workspace:^
         version: link:../sig
+      vite-plugin-dts:
+        specifier: ^3.5.3
+        version: 3.5.3(@types/node@18.17.13)(typescript@5.2.2)(vite@4.4.9)
     devDependencies:
       '@types/lodash':
         specifier: ^4.14.191

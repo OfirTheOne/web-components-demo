@@ -1,4 +1,4 @@
-import { CreateStateFactory } from "sig';
+import { CreateStateFactory } from "@sig/store";
 import { IAlbumTrack } from "../model";
 
 export interface CurrentTrackState {
