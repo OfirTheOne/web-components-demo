@@ -1,7 +1,7 @@
 import EventEmitter from 'events';
 import { signalIdsMemorySet } from '../../global-storage';
 import { ISignal } from '../models';
-import { generateId } from '../../../common/utils';
+import { generateId } from '@/common/utils';
 
 export function signal<T = any>(initValue: T): Signal<T> {
   return new Signal(initValue);
@@ -24,6 +24,7 @@ export class Signal<T = unknown> implements ISignal<T> {
     }
     public readonly id: string;
     public readonly emitter: EventEmitter;
+    public readonly onUnsubscribe: (() => void)[] = [];
 
     constructor(initValue: T) {
         this._value = initValue;
@@ -31,8 +32,9 @@ export class Signal<T = unknown> implements ISignal<T> {
         this.id = generateId();
         signalIdsMemorySet.add(this.id);
     }
-    setValue(setter: ((curValue: T) => T)): void {
-        const newValue = setter(this._value);
+    setValue(setter: ((curValue: T) => T) | T): void {
+        
+        const newValue = isCallback(setter) ? setter(this._value) : setter ;
         this._value =  newValue;
         this.notify();
     }
@@ -41,8 +43,17 @@ export class Signal<T = unknown> implements ISignal<T> {
     }
     unsubscribe(listener: (value: T) => void) {
         this.emitter.removeListener(VALUE_CHANGE_EVENT, listener);
+        try {
+            this.onUnsubscribe.forEach(unsubscribe => unsubscribe());
+        } catch (error) {
+            console.error(error);
+        }
     }
     notify(): void {
         this.emitter.emit(VALUE_CHANGE_EVENT, this._value);
     }
 }
+
+// 
+export const isCallback = (maybeFunction: unknown): maybeFunction is (...args: any[]) => any =>
+    typeof maybeFunction === 'function'

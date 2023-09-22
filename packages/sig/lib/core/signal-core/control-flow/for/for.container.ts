@@ -29,7 +29,7 @@ export class ForControlFlowComponentContainer extends BaseControlFlowComponentCo
     render(): OneOrMany<HTMLElement> | null {
         const domElement = this.resolveRenderedOutput();
         const forProps = this.props as unknown as ForProps;
-        const trackable: Trackable = forProps.each;
+        const trackable: Trackable<unknown[]> = forProps.each;
         const source = 'source' in trackable ? trackable.source : trackable;
         const listener = () => {
             const preRenderComponentKeys = Array.from(this.itemsElementMemoMap.keys());

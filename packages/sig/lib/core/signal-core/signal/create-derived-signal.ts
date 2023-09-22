@@ -1,4 +1,4 @@
-import { reduceTransform, memoisedFunction } from '../../../common/utils';
+import { reduceTransform, memoisedFunction } from '@/common/utils';
 import { ISignal } from '../models';
 import { DecoratedSignal } from './decorated-signal';
 
@@ -7,7 +7,7 @@ export function derivedSignal<S = any, N = any>(sourceSignal: DecoratedSignal<S>
 export function derivedSignal<S = any, N = any>(sourceSignal: DerivedSignal<N>, transform: (value: S) => N): DerivedSignal<N>;
 export function derivedSignal<S = any, N = any>(sourceSignal: ISignal<S> | DecoratedSignal<S> | DerivedSignal<S>, transform: (value: S) => N
 ): DerivedSignal<N> {
-  return new DerivedSignal<N>(sourceSignal, transform);
+  return new DerivedSignal<N>(sourceSignal as ISignal<unknown>, transform);
 }
 
 

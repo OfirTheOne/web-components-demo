@@ -1,4 +1,5 @@
-import { createStore, Store, CreateStateFactory, DerivedSignal, derivedSignal, signal } from 'sig';
+import { DerivedSignal, derivedSignal, signal } from 'sig';
+import { createStore, Store, CreateStateFactory } from '../store';
 
 export interface SignalStore<S extends object> extends Store<S> {
     select: <T>(selector: (value: S) => T) => DerivedSignal<T>

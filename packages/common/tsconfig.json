@@ -48,5 +48,5 @@
     "plugins": [{ "name": "typescript-plugin-css-modules" }]
   },
   "include": ["types", "lib"],
-  "exclude": ["node_modules", "test", "dist", "**/*spec.ts", "public"]
+  "exclude": ["node_modules", "tests", "dist", "**/*spec.ts", "public"]
 }
