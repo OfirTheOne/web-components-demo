@@ -1,4 +1,4 @@
-import { OneOrMany } from '@/types/utils';
+import { OneOrMany } from '@/types';
 import { VirtualElement } from '@/models/virtual-element';
 import { ComponentKeyBuilder } from '@/common/component-key-builder';
 import { Logger } from '@/common/logger';

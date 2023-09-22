@@ -1,7 +1,7 @@
 import { BaseControlFlowComponentContainer } from '../../../../component-container/base-dynamic-template-component-container';
 import { defineComponent } from '../../../../utils/define-component';
 import { Route } from '../../../../../common/router';
-import { OneOrMany } from '../../../../../types/utils';
+import { OneOrMany } from '../../../../../types/one-or-many';
 import { createElementPlaceholder } from '../../../../utils/create-element-placeholder';
 
 const TAG_NAME = 'router-control'

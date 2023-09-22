@@ -1,5 +1,5 @@
 import { Props, VirtualRender, VirtualFnComponent } from '@/models';
-import { OneOrMany } from '@/types/utils';
+import { OneOrMany } from '@/types';
 import { BaseControlFlowComponentContainer } from './base-dynamic-template-component-container';
 import { CONTROL_FLOW_HANDLER_MAP } from '../signal-core/control-flow/handler-map';
 

@@ -1,4 +1,4 @@
-import { OneOrMany } from '@/types/utils';
+import { OneOrMany } from '@/types';
 import { DomCompatibleElement } from '../../models/dom-element';
 
 export class DOMUtils {

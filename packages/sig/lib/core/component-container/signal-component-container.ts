@@ -1,4 +1,4 @@
-import { OneOrMany } from '@/types/utils';
+import { OneOrMany } from '@/types';
 import { Props, VirtualElement, VirtualRender, VirtualFnComponent } from '@/models';
 import { ComponentKeyBuilder } from '@/common/component-key-builder';
 import { BaseComponentContainer } from './base-component-container';

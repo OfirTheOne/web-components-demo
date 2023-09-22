@@ -1,7 +1,7 @@
 import { VirtualElement, FC } from '@/models';
 import { ComponentKeyBuilder } from '@/common/component-key-builder';
 import { Route, router } from '@/common/router';
-import { OneOrMany } from '@/types/utils';
+import { OneOrMany } from '@/types';
 import { SignalRenderContextCommunicator } from '../../../render-context/signal-render-context-communicator';
 import { RouteProps } from './route.control';
 import { BaseControlFlowComponentContainer } from '../../../../component-container/base-dynamic-template-component-container';

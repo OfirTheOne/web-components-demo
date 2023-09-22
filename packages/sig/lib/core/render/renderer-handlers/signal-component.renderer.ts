@@ -1,7 +1,6 @@
 import { Logger } from '@/common/logger';
-import { Props, VirtualElement, VirtualRender } from '@/models';
-import { VirtualFnComponent } from '@/models/virtual-fn-component';
-import { OneOrMany } from '@/types/utils';
+import { Props, VirtualElement, VirtualRender, VirtualFnComponent } from '@/models';
+import { OneOrMany } from '@/types';
 
 import { SignalComponentContainer } from '@/core/component-container/signal-component-container';
 import { ControlFlowComponentContainerFactory } from '@/core/component-container/dynamic-template-component-container';

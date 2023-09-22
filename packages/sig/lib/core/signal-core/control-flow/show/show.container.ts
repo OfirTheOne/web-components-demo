@@ -1,5 +1,5 @@
 import { Logger } from '@/common/logger';
-import { OneOrMany } from '../../../../types/utils';
+import { OneOrMany } from '../../../../types/one-or-many';
 import { SignalRenderContextCommunicator } from '../../render-context/signal-render-context-communicator';
 import { ShowProps } from './show.control';
 import { VirtualElement } from '../../../../models/virtual-element';

@@ -1,5 +1,5 @@
 
-import { OneOrMany } from '../../../../types/utils';
+import { OneOrMany } from '../../../../types/one-or-many';
 import { SignalRenderContextCommunicator } from '../../render-context/signal-render-context-communicator';
 import { SlotProps } from './slot.control';
 import { VirtualElement } from '../../../../models/virtual-element';

@@ -1,4 +1,4 @@
-import { OneOrMany } from '../../types/utils';
+import { OneOrMany } from '../../types/one-or-many';
 import { StringBuilder } from './string-builder';
 import { ComponentKeyToken } from './component-key-token';
 

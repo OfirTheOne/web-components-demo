@@ -1,7 +1,7 @@
 
 import { Props, VirtualElement, VirtualFnComponent, VirtualRender } from "@/models";
 import { IComponentContainer } from "@/models/i-component-container";
-import { OneOrMany } from "@/types/utils";
+import { OneOrMany } from "@/types";
 import { ComponentKeyBuilder } from "@/common/component-key-builder";
 import { DOMUtils } from "../utils/dom-utils";
 

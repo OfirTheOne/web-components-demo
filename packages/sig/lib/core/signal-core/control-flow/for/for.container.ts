@@ -3,7 +3,7 @@ import { ComponentKeyBuilder } from '@/common/component-key-builder';
 import { DOMUtils } from '@/core/utils/dom-utils';
 import { defineComponent } from '@/core/utils/define-component';
 import { createElementPlaceholder } from '@/core/utils/create-element-placeholder';
-import { OneOrMany } from '@/types/utils';
+import { OneOrMany } from '@/types';
 import { VirtualElement } from '@/models/virtual-element';
 
 import { BaseControlFlowComponentContainer } from '../../../component-container/base-dynamic-template-component-container';
