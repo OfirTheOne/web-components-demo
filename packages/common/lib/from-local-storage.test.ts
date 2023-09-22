@@ -1,6 +1,6 @@
 import { Signal } from "sig";
 import { fromLocalStorage } from "./from-local-storage";
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { afterEach } from "node:test";
 // import * as tinyspy from "tinyspy";
 
