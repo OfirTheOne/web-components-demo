@@ -64,7 +64,9 @@ export default signalComponent(function Form() {
         label="No Validate"
         id="no-validate"
       />
-      <button type="submit">Submit</button>
+      <button class:list={
+        { 'no-validate': formNoValidate }
+      } type="submit">Submit</button>
 
       <p>
         <Switch 
@@ -79,6 +81,14 @@ export default signalComponent(function Form() {
         </Switch>
       </p>
 
+      <p>
+        <button type="button" onClick={() => {
+          formFirstNameValues.setValue(() => initialFormValues.firstName);
+          formLastNameValues.setValue(() => initialFormValues.lastName);
+          formNoValidate.setValue(() => initialFormValues.noValidate);
+          formSubmissionState.setValue(() => 'un-submitted');
+        }}> Reset </button>
+      </p>
     </form>
   );
 });

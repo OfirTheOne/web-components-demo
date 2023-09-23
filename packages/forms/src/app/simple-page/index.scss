@@ -10,7 +10,7 @@ form {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     background-color: #fff;
   }
-  
+
   label {
     font-size: 1.2rem;
     font-weight: bold;
@@ -44,4 +44,8 @@ form {
   
   button[type="submit"]:hover {
     background-color: #0069d9;
+  }
+    
+  .no-validate {
+    background-color: #1eb7d6 !important;
   }
