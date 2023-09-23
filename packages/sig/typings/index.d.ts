@@ -1,5 +1,5 @@
 import type * as CSS from 'csstype';
-
+import type { Trackable } from "@sig/signal";
 
 declare global {
   export namespace JSX {
@@ -527,7 +527,7 @@ declare global {
       /**
        * Assigns a CSS class to an element.
        * */
-      'class:list'?: string | string[] | Record<string, boolean>
+      'class:list'?: string | string[] | Record<string, boolean|Trackable>
       /**
        * Assigns a CSS class to an element.
        * */
