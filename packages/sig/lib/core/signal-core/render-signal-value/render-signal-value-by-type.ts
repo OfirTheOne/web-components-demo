@@ -12,6 +12,8 @@ export function renderSignalValueByType(
             return renderSignalContent(signalValue, sub);
         case SignalSubscriptionType.Property:
             return renderSignalProperty(signalValue, sub);
+        case SignalSubscriptionType.Class:
+            return renderSignalProperty(signalValue, sub);
         default:
             console.warn(`Unknown signal subscription type: ${sub.type}`);
     }

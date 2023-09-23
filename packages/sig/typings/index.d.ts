@@ -527,6 +527,10 @@ declare global {
       /**
        * Assigns a CSS class to an element.
        * */
+      'class:list'?: string | string[] | Record<string, boolean>
+      /**
+       * Assigns a CSS class to an element.
+       * */
       class?: string;
       /**
        * Assigns a CSS style to an element.

@@ -6,7 +6,8 @@ export enum SignalSubscriptionType {
     Content,
     Property,
     Event,
-    Style
+    Style,
+    Class
 
 }
 export interface SignalSubscriptionDetails {
