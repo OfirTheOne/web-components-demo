@@ -1,6 +1,6 @@
 import EventEmitter from 'events';
 import { signalIdsMemorySet } from '../../global-storage';
-import { ISignal } from '../models';
+import { ISignal } from '../signal';
 import { generateId } from '@/common/utils';
 
 export function signal<T = any>(initValue: T): Signal<T> {

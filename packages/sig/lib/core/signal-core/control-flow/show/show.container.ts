@@ -1,9 +1,10 @@
 import { Logger } from '@/common/logger';
-import { OneOrMany } from '../../../../types/one-or-many';
+import { OneOrMany } from '@/types/one-or-many';
 import { SignalRenderContextCommunicator } from '../../render-context/signal-render-context-communicator';
 import { ShowProps } from './show.control';
-import { VirtualElement } from '../../../../models/virtual-element';
-import { Trackable } from '../../models';
+import { VirtualElement } from '@/models/virtual-element';
+import { Trackable } from '../../signal';
+
 import { BaseControlFlowComponentContainer } from '../../../component-container/base-dynamic-template-component-container';
 import { defineComponent } from '../../../utils/define-component';
 import { createElementPlaceholder } from '../../../utils/create-element-placeholder';

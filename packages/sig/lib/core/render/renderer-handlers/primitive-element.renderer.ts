@@ -1,4 +1,6 @@
-import { ISignal, SignalSubscriptionType } from '@/core/signal-core/models';
+import { SignalSubscriptionType } from '@/core/signal-core/models';
+import { ISignal } from '@/core/signal-core/signal';
+
 import { SignalRenderContextCommunicator } from '@/core/signal-core/render-context/signal-render-context-communicator';
 import { RenderUtils, StylePropsUtils, BasicPropsUtils, EventPropsUtils } from '@/core/utils';
 import { isSignal } from '@/core/utils/validators';

@@ -1,4 +1,4 @@
-import { ISignal } from "../../signal-core/models";
+import { ISignal } from "../../signal-core/signal";
 
 
 

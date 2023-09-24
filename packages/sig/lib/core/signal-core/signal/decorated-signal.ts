@@ -1,14 +1,10 @@
-import { IDecoratedSignal, ISignal } from "../models";
-import { SourceExposer } from "./source-exposer";
+import { IDecoratedSignal, ISignal } from "../signal";
+// import { SourceExposer } from "./source-exposer";
 
 export class DecoratedSignal<N=unknown> implements IDecoratedSignal<N> {
     readonly source: ISignal<unknown>;
     protected wrappedListenersToOriginal: WeakMap<((value: N) => void), (value: unknown) => void> = new WeakMap();
 
-    public expose(sourceExposer: SourceExposer): SourceExposer {
-        sourceExposer.set(this.source);
-        return sourceExposer;
-    }
 
     constructor(source: ISignal<unknown>) {
         this.source = source;

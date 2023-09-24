@@ -7,6 +7,6 @@ export function onUnmount(fn: () => void) {
         throw 'No context found while registering onUnmount hook';
     }
     if(fn && typeof fn === 'function') {
-        currentContext.registeredHooks.onUnmount = fn;
+        currentContext.lifeCycle.onUnmount = fn;
     }
 }

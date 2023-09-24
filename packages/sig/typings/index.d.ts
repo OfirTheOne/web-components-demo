@@ -2,6 +2,7 @@ import type * as CSS from 'csstype';
 import type { Trackable } from "@sig/signal";
 
 declare global {
+
   export namespace JSX {
 
     type NativeElement = globalThis.Element;

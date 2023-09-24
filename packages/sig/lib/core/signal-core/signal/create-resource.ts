@@ -1,7 +1,7 @@
 
 
 import { Signal } from './create-signal';
-import { AsyncFetcher, ResourceStatus, SyncRun } from '../models';
+import { AsyncFetcher, ResourceStatus, SyncRun } from '../signal';
 import { DecoratedSignal } from './decorated-signal';
 
 

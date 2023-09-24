@@ -8,6 +8,6 @@ export function combine(fn:(...args: any[]) => void, _singals: ISignal[]): void 
         throw '';
     }
     if(fn && typeof fn === 'function') {
-        currentContext.registeredHooks.onMount = fn;
+        currentContext.lifeCycle.onMount = fn;
     }
   }

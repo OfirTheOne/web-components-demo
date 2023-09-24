@@ -15,7 +15,7 @@ class SignalRenderContextCommunicatorInstance {
   public getAllChildContexts(componentKey: string): SignalRenderContext[] {
     const sortedEntries = Array
       .from(signaledContextMemoryMap.entries())
-      .sort((ea, eb) => ea[0].localeCompare(eb[0]));
+      .sort((ea, eb) => ea[0].localeCompare(eb[0])) as [string, SignalRenderContext][];
 
     const keyIndex = sortedEntries.findIndex(([key]) => key.startsWith(componentKey));
     const lastStartsWithKeyIndex = findLastIndex(sortedEntries, ([key]) => key.startsWith(componentKey));
@@ -40,7 +40,7 @@ class SignalRenderContextCommunicatorInstance {
   public setContext(componentKey: string, componentContainerRef: IComponentContainer) {
     let context: SignalRenderContext;
     if (signaledContextMemoryMap.has(componentKey)) {
-      context = signaledContextMemoryMap.get(componentKey);
+      context = signaledContextMemoryMap.get(componentKey) as SignalRenderContext;
     } else {
       context = new SignalRenderContext(componentContainerRef, componentKey);
       signaledContextMemoryMap.set(componentKey, context);

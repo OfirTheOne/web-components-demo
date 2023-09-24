@@ -1,4 +1,5 @@
-import { DomElement } from '../../models/dom-element';
+import { BOOLEAN_ATTRIBUTES } from '@/constants';
+import { DomElement } from '@/models/dom-element';
 
 export class RenderUtils {
 
@@ -8,7 +9,14 @@ export class RenderUtils {
         const eventName = name as keyof HTMLElementEventMap;
         element.addEventListener(eventName, value as EventListener);
       } else if(value !== null) {
-        element.setAttribute(name, String(value));
+        if(BOOLEAN_ATTRIBUTES.has(name)) {
+          if (value !== false &&
+              value !== undefined) {
+              element.setAttribute(name, '');
+          }
+        } else {
+          element.setAttribute(name, String(value));
+        }
       } else {
         element.removeAttribute(name);
       }

@@ -8,6 +8,6 @@ export function onMount(fn: () => void) {
         throw '';
     }
     if(fn && typeof fn === 'function') {
-        currentContext.registeredHooks.onMount = fn;
+        currentContext.lifeCycle.onMount = fn;
     }
 }

@@ -1,5 +1,7 @@
 import { FC } from "../../../../models/functional-component";
-import { ControlFlow, Trackable } from "../../models";
+import { ControlFlow, } from "../../models";
+import { Trackable } from "../../signal";
+
 import { signalComponent } from "../../signal-component/signal-component";
 
 

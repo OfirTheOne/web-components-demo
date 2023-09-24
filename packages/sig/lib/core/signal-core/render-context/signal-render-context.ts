@@ -1,7 +1,9 @@
 import { noop, removeDuplicationWithOrder } from "../../../common/utils";
 import { IComponentContainer } from "../../../models/i-component-container";
 import { SignalComponentContainer } from "../../component-container/signal-component-container";
-import { IDecoratedSignal, ISignal, SignalSubscriptionDetails, Trackable } from "../models";
+import { SignalSubscriptionDetails } from "../models";
+import { IDecoratedSignal, ISignal, Trackable } from "../signal";
+
 import { renderSignalValueByType } from "../render-signal-value/render-signal-value-by-type";
 
 
@@ -16,7 +18,7 @@ export class SignalRenderContext {
     effectSubscription: Map<HTMLElement | Node, SignalSubscription[]> = new Map();
     signalsInUsed: Map<string, ISignal | IDecoratedSignal> = new Map();
     renderedPartition: number | string | null;
-    registeredHooks = {
+    lifeCycle = {
         onMount: noop,
         onUnmount: noop,
         onDispose: noop
@@ -88,7 +90,7 @@ export class SignalRenderContext {
 
     onDispose(): void {
         try {
-            this.registeredHooks.onDispose();
+            this.lifeCycle.onDispose();
             this.elementSubscriptions.forEach((subscriptions) => {
                 subscriptions.forEach((sub) => {
                     const signal = this.signalsInUsed.get(sub.subscription.id);
@@ -115,14 +117,14 @@ export class SignalRenderContext {
             console.log(error);
         }
         try {
-            this.registeredHooks.onMount();
+            this.lifeCycle.onMount();
         } catch (error) {
             console.log(error);
         }
     }
 
     onUnmount() {
-        this.registeredHooks.onUnmount();
+        this.lifeCycle.onUnmount();
         // this.mutationObserver?.disconnect();
         this.elementSubscriptions.forEach((subscriptions) => {
             subscriptions.forEach((sub) => {

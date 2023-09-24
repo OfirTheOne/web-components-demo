@@ -7,6 +7,6 @@ export function onDispose(fn: () => void) {
         throw '';
     }
     if(fn && typeof fn === 'function') {
-        currentContext.registeredHooks.onDispose = fn;
+        currentContext.lifeCycle.onDispose = fn;
     }
 }

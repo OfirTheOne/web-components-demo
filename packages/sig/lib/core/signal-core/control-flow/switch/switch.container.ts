@@ -7,7 +7,9 @@ import { SignalRenderContextCommunicator } from '../../render-context/signal-ren
 import { BaseControlFlowComponentContainer } from '../../../component-container/base-dynamic-template-component-container';
 import { defineComponent } from '../../../utils/define-component';
 import { createElementPlaceholder } from '../../../utils/create-element-placeholder';
-import { ControlFlow, Trackable } from '../../models';
+import { ControlFlow } from '../../models';
+import { Trackable } from "../../signal";
+
 
 const TAG_NAME = 'switch-control'
 defineComponent(

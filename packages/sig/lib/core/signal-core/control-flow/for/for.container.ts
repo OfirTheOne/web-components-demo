@@ -9,7 +9,7 @@ import { VirtualElement } from '@/models/virtual-element';
 import { BaseControlFlowComponentContainer } from '../../../component-container/base-dynamic-template-component-container';
 import { SignalRenderContextCommunicator } from '../../render-context/signal-render-context-communicator';
 import { ForProps } from './for.control';
-import { Trackable } from '../../models';
+import { Trackable } from '../../signal';
 
 const TAG_NAME = 'for-control'
 defineComponent(
