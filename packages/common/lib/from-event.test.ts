@@ -1,7 +1,5 @@
 import { fromEvent } from "./from-event";
-import { Signal } from "sig";
 import { describe, it, expect, vi } from "vitest";
-import { afterEach } from "node:test";
 
 describe("fromEvent", () => {
   it("should return a signal that emits when the event is triggered", () => {
