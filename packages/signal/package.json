@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "private": true,
+  "type": "module",
   "files": [
     "dist"
   ],
@@ -13,7 +14,7 @@
       "import": "./dist/index.js",
       "require": "./dist/index.js"
     }
-    },
+  },
   "scripts": {
     "lint": "yarn eslint ./src.functional  --ext .ts,.tsx",
     "format": "yarn prettier --write .",
@@ -28,11 +29,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "css-loader": "^6.7.3",
     "events": "^3.3.0",
-    "mini-css-extract-plugin": "^2.7.3",
-    "path-to-regexp": "^6.2.1",
-    "sig": "workspace:^",
     "vite-plugin-dts": "^3.5.3"
   },
   "devDependencies": {
