@@ -1,6 +1,6 @@
 
 import { signal, signalComponent, derivedSignal, Switch, Case } from 'sig';
-import { CheckboxController, InputController } from '../../controllers';
+import { CheckboxController, InputController } from '@sig/forms';
 import './index.scss';
 
 const setTimeoutAsync = (ms: number) => new Promise<void>((res) => setTimeout(res, ms))
@@ -8,8 +8,7 @@ const setTimeoutAsync = (ms: number) => new Promise<void>((res) => setTimeout(re
 type FormValues = {
   firstName: string;
   lastName: string;
-  noValidate: boolean
-
+  noValidate: boolean;
 };
 
 const initialFormValues: FormValues = {
@@ -66,7 +65,9 @@ export default signalComponent(function Form() {
       />
       <button class:list={
         { 'no-validate': formNoValidate }
-      } type="submit">Submit</button>
+      } type="submit">
+        Submit
+      </button>
 
       <p>
         <Switch 

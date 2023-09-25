@@ -1,19 +1,30 @@
 import { defineConfig } from 'vite';
 import path from 'path';
+import dts from 'vite-plugin-dts';
+import pkg from './package.json';
+
 export default defineConfig({
-    resolve: {
-        // alias: {
-        //     'sig': path.resolve(__dirname, '../sig'),
-        // }
+    build: {
+        sourcemap: true,
+        lib: {
+            entry: path.resolve(__dirname, "lib/index.ts"),
+            name: pkg.name,
+            fileName: "index",
+        },
+        rollupOptions: {
+            external: ['sig'],
+            output: {
+                globals: {
+                    sig: 'Sig',
+                },
+            },
+        },
     },
-    css: { modules: { localsConvention: 'camelCase' } },
     esbuild: {
         jsxFactory: '__createElement',
         jsxFragment: '__createFragment',
         jsxInject: `import { createFragment as __createFragment, createElement as __createElement } from 'sig'`,
     },
-    optimizeDeps: {
-        disabled: true,
-        // include: [path.resolve(__dirname, '../sig/dist/sig.js'),],
-    },
+    css: { modules: { localsConvention: 'camelCase' } },
+    plugins: [dts()],
 });

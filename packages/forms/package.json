@@ -2,8 +2,19 @@
   "name": "@sig/forms",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "private": true,
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.umd.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
   "scripts": {
     "lint": "yarn eslint ./src.functional  --ext .ts,.tsx",
     "format": "yarn prettier --write .",
@@ -21,8 +32,7 @@
     "css-loader": "^6.7.3",
     "events": "^3.3.0",
     "mini-css-extract-plugin": "^2.7.3",
-    "path-to-regexp": "^6.2.1",
-    "sig": "workspace:^"
+    "vite-plugin-dts": "^3.5.3"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.191",
@@ -38,9 +48,13 @@
     "prettier": "2.8.7",
     "sass": "^1.63.6",
     "serve": "^14.2.0",
+    "sig": "workspace:^",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2",
     "vite": "^4.4.4",
     "vitest": "^0.33.0"
+  },
+  "peerDependencies": {
+    "sig": "workspace:^"
   }
 }

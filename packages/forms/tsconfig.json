@@ -15,7 +15,7 @@
     "allowSyntheticDefaultImports": true,
     // "sourceMap": true,
     "jsx": "preserve",
-    "outDir": "./public/dist",
+    // "outDir": "./public/dist",
     "baseUrl": "./",
     "incremental": true,
     // "skipLibCheck": true,
@@ -47,6 +47,6 @@
     "typeRoots": ["node_modules/@types", "../sig/typings"],
     "plugins": [{ "name": "typescript-plugin-css-modules" }]
   },
-  "include": ["types", "src"],
+  "include": ["types", "lib"],
   "exclude": ["node_modules", "test", "dist", "**/*spec.ts", "public"]
 }
