@@ -1,2 +1,3 @@
 packages:
   - "./packages/**"
+  - '!**/_starter_package_/**'
