@@ -4,6 +4,7 @@ import { ISignal } from '@/core/signal-core/signal';
 import { SignalRenderContextCommunicator } from '@/core/signal-core/render-context/signal-render-context-communicator';
 import { RenderUtils, StylePropsUtils, BasicPropsUtils, EventPropsUtils } from '@/core/utils';
 import { isSignal } from '@/core/utils/validators';
+import { DOMUtils } from '@/core/utils/dom-utils';
 
 
 interface RawPrimitiveProps {
@@ -37,9 +38,9 @@ export function primitiveElementRenderer(tag: string, props: Record<string, unkn
           usedShouldAdd = Boolean(signal.value);
         }
         if(usedShouldAdd) {
-          element.classList.add(className);
+          DOMUtils.addClass(element, className);
         } else {
-          element.classList.remove(className);
+          DOMUtils.removeClass(element, className);
         }
       });
       delete basicMutatedProps['class:list'];

@@ -1,3 +1,4 @@
+import { DOMUtils } from '@/core/utils/dom-utils';
 import { SignalSubscriptionDetails } from '../models';
 
 
@@ -10,9 +11,9 @@ export function renderSignalClass(signalValue: unknown, signal: RenderSignalValu
     if (signal.containerElement instanceof HTMLElement) {
         const shouldAdd = Boolean(signalValue);
         if(shouldAdd) {
-            signal.containerElement.classList.add(signal.propKey);
+            DOMUtils.addClass(signal.containerElement, signal.propKey);
         } else {
-            signal.containerElement.classList.remove(signal.propKey);
+            DOMUtils.removeClass(signal.containerElement, signal.propKey);
         }
     }
 }

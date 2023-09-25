@@ -2,6 +2,15 @@ import { OneOrMany } from '@/types';
 import { DomCompatibleElement } from '../../models/dom-element';
 
 export class DOMUtils {
+
+  static addClass(elm: HTMLElement, className: string) {
+    className.split(' ').forEach((c) => elm.classList.add(c));
+  }
+
+  static removeClass(elm: HTMLElement, className: string) {
+    className.split(' ').forEach((c) => elm.classList.remove(c));
+  }
+
   static removeSelf(elm?: OneOrMany<HTMLElement> | OneOrMany<Node>) {
     if (elm) {
       (Array.isArray(elm)) ?

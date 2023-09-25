@@ -528,7 +528,7 @@ declare global {
       /**
        * Assigns a CSS class to an element.
        * */
-      'class:list'?: string | string[] | Record<string, boolean|Trackable>
+      'class:list'?: (string | string[] | Record<string, boolean|Trackable>)[]
       /**
        * Assigns a CSS class to an element.
        * */
