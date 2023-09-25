@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "private": true,
   "scripts": {
     "lint": "yarn eslint ./src.functional  --ext .ts,.tsx",
@@ -22,11 +23,14 @@
     "@sig/forms": "workspace:^",
     "@sig/signal": "workspace:^",
     "@sig/store": "workspace:^",
+    "autoprefixer": "^10.4.16",
     "css-loader": "^6.7.3",
     "events": "^3.3.0",
     "mini-css-extract-plugin": "^2.7.3",
     "path-to-regexp": "^6.2.1",
-    "sig": "workspace:^"
+    "postcss": "^8.4.30",
+    "sig": "workspace:^",
+    "tailwindcss": "^3.3.3"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.191",

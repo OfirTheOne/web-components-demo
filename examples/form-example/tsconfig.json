@@ -44,7 +44,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
-    "typeRoots": ["node_modules/@types", "../sig/typings"],
+    "typeRoots": ["node_modules/@types", "../../packages/sig/typings"],
     "plugins": [{ "name": "typescript-plugin-css-modules" }]
   },
   "include": ["types", "src"],
