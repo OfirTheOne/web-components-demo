@@ -10,25 +10,16 @@ importers:
 
   packages/common:
     dependencies:
-      css-loader:
-        specifier: ^6.7.3
-        version: 6.8.1(webpack@5.88.2)
       events:
         specifier: ^3.3.0
         version: 3.3.0
-      mini-css-extract-plugin:
-        specifier: ^2.7.3
-        version: 2.7.6(webpack@5.88.2)
-      path-to-regexp:
-        specifier: ^6.2.1
-        version: 6.2.1
-      sig:
-        specifier: workspace:^
-        version: link:../sig
       vite-plugin-dts:
         specifier: ^3.5.3
         version: 3.5.3(@types/node@18.17.13)(typescript@5.2.2)(vite@4.4.9)
     devDependencies:
+      '@sig/signal':
+        specifier: workspace:^
+        version: link:../signal
       '@types/lodash':
         specifier: ^4.14.191
         version: 4.14.197
@@ -86,9 +77,15 @@ importers:
 
   packages/examples:
     dependencies:
+      '@sig/common':
+        specifier: workspace:^
+        version: link:../common
       '@sig/forms':
         specifier: workspace:^
         version: link:../forms
+      '@sig/signal':
+        specifier: workspace:^
+        version: link:../signal
       '@sig/store':
         specifier: workspace:^
         version: link:../store
@@ -234,9 +231,6 @@ importers:
 
   packages/sig:
     dependencies:
-      '@sig/signal':
-        specifier: workspace:^
-        version: link:../signal
       events:
         specifier: ^3.3.0
         version: 3.3.0
@@ -250,6 +244,9 @@ importers:
         specifier: ^3.5.3
         version: 3.5.3(@types/node@18.17.13)(typescript@5.2.2)(vite@4.4.9)
     devDependencies:
+      '@sig/signal':
+        specifier: workspace:^
+        version: link:../signal
       '@types/lodash':
         specifier: ^4.14.191
         version: 4.14.197
@@ -366,91 +363,18 @@ importers:
         specifier: ^0.33.0
         version: 0.33.0(happy-dom@10.11.2)(sass@1.66.1)
 
-  packages/starter-package:
+  packages/store:
     dependencies:
-      css-loader:
-        specifier: ^6.7.3
-        version: 6.8.1(webpack@5.88.2)
       events:
         specifier: ^3.3.0
         version: 3.3.0
-      mini-css-extract-plugin:
-        specifier: ^2.7.3
-        version: 2.7.6(webpack@5.88.2)
-      path-to-regexp:
-        specifier: ^6.2.1
-        version: 6.2.1
-      sig:
-        specifier: workspace:^
-        version: link:../sig
       vite-plugin-dts:
         specifier: ^3.5.3
         version: 3.5.3(@types/node@18.17.13)(typescript@5.2.2)(vite@4.4.9)
     devDependencies:
-      '@types/lodash':
-        specifier: ^4.14.191
-        version: 4.14.197
-      '@types/node':
-        specifier: ^18.11.18
-        version: 18.17.13
-      '@types/reflect-metadata':
-        specifier: ^0.1.0
-        version: 0.1.0
-      '@typescript-eslint/eslint-plugin':
-        specifier: ^5.58.0
-        version: 5.62.0(@typescript-eslint/parser@5.62.0)(eslint@8.48.0)(typescript@5.2.2)
-      '@typescript-eslint/parser':
-        specifier: ^5.58.0
-        version: 5.62.0(eslint@8.48.0)(typescript@5.2.2)
-      eslint:
-        specifier: ^8.38.0
-        version: 8.48.0
-      happy-dom:
-        specifier: ^10.3.2
-        version: 10.11.2
-      http-server:
-        specifier: ^14.1.1
-        version: 14.1.1
-      lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
-      node-sass:
-        specifier: ^8.0.0
-        version: 8.0.0
-      prettier:
-        specifier: 2.8.7
-        version: 2.8.7
-      sass:
-        specifier: ^1.63.6
-        version: 1.66.1
-      serve:
-        specifier: ^14.2.0
-        version: 14.2.1
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.1(@types/node@18.17.13)(typescript@5.2.2)
-      typescript:
-        specifier: ^5.2.2
-        version: 5.2.2
-      vite:
-        specifier: ^4.4.4
-        version: 4.4.9(@types/node@18.17.13)(sass@1.66.1)
-      vitest:
-        specifier: ^0.33.0
-        version: 0.33.0(happy-dom@10.11.2)(sass@1.66.1)
-
-  packages/store:
-    dependencies:
       '@sig/signal':
         specifier: workspace:^
         version: link:../signal
-      events:
-        specifier: ^3.3.0
-        version: 3.3.0
-      vite-plugin-dts:
-        specifier: ^3.5.3
-        version: 3.5.3(@types/node@18.17.13)(typescript@5.2.2)(vite@4.4.9)
-    devDependencies:
       '@types/lodash':
         specifier: ^4.14.191
         version: 4.14.197

@@ -1,5 +1,5 @@
 import { history } from "../../../../common/router";
-import { signal } from "../../signal/create-signal";
+import { signal } from "../../signal";
 
 export const locationSignal = signal(history.currentLocation);
 history.addStateChangedListener((_state, location) => {

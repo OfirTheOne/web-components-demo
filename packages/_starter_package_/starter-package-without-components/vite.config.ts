@@ -11,6 +11,14 @@ export default defineConfig({
           name: pkg.name,
           fileName: "index",
         },
+        rollupOptions: {
+          external: ['sig'],
+          output: {
+              globals: {
+                  sig: 'Sig',
+              },
+          },
+      },
     },
     plugins: [dts()],
 });

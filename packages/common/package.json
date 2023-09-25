@@ -28,14 +28,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "css-loader": "^6.7.3",
     "events": "^3.3.0",
-    "mini-css-extract-plugin": "^2.7.3",
-    "path-to-regexp": "^6.2.1",
-    "sig": "workspace:^",
     "vite-plugin-dts": "^3.5.3"
   },
   "devDependencies": {
+    "@sig/signal": "workspace:^",
     "@types/lodash": "^4.14.191",
     "@types/node": "^18.11.18",
     "@types/reflect-metadata": "^0.1.0",
@@ -54,5 +51,8 @@
     "typescript": "^5.2.2",
     "vite": "^4.4.4",
     "vitest": "^0.33.0"
+  },
+  "peerDependencies": {
+    "@sig/signal": "workspace:^"
   }
 }

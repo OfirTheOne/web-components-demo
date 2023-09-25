@@ -18,7 +18,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@sig/common": "workspace:^",
     "@sig/forms": "workspace:^",
+    "@sig/signal": "workspace:^",
     "@sig/store": "workspace:^",
     "css-loader": "^6.7.3",
     "events": "^3.3.0",
