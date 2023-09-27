@@ -7,9 +7,11 @@ export function renderSignalStyle(signalValue: unknown, signal: RenderSignalStyl
     if (signal.containerElement === null || signal.containerElement === undefined || !signal.connected) {
         return;
     }
-    if (signalValue !== null && signalValue !== undefined) {
-        if (signal.containerElement instanceof HTMLElement) {
+    if (signal.containerElement instanceof HTMLElement) {
+        if (signalValue !== null && signalValue !== undefined && signalValue !== '' ) {
             signal.containerElement.style[signal.propKey] = String(signalValue);
+        } else {
+            signal.containerElement.style.removeProperty(signal.propKey);
         }
     }
 }
