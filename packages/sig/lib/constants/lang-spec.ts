@@ -1,5 +1,5 @@
 
-export const BOOLEAN_ATTRIBUTES = new Set([ 
+export const BOOLEAN_ATTRIBUTES = new Set([
     'allowfullscreen',
     'async',
     'autofocus',
@@ -25,3 +25,44 @@ export const BOOLEAN_ATTRIBUTES = new Set([
     'selected',
     'typemustmatch',
 ]);
+
+export const SVG_TAGS = new Set([
+    'svg',
+    'animate',
+    'circle',
+    'clippath',
+    'cursor',
+    'defs',
+    'desc',
+    'ellipse',
+    'filter',
+    'font-face',
+    'foreignObject',
+    'g',
+    'glyph',
+    'image',
+    'line',
+    'marker',
+    'mask',
+    'missing-glyph',
+    'path',
+    'pattern',
+    'polygon',
+    'polyline',
+    'rect',
+    'switch',
+    'symbol',
+    'text',
+    'textpath',
+    'tspan',
+    'use',
+    'view',
+]);
+
+export const NAMESPACES = {
+    svg: 'http://www.w3.org/2000/svg',
+    html: 'http://www.w3.org/1999/xhtml',
+    xml: 'http://www.w3.org/XML/1998/namespace',
+    xlink: 'http://www.w3.org/1999/xlink',
+    xmlns: 'http://www.w3.org/2000/xmlns/' // sic for the final slash...
+};
