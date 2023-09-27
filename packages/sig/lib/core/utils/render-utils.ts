@@ -1,9 +1,9 @@
 import { BOOLEAN_ATTRIBUTES } from '@/constants';
 import { DomElement } from '@/models/dom-element';
-
+import { DOMUtils } from './dom-utils';
 export class RenderUtils {
 
-  public static appendDomProps(element: HTMLElement, props: Record<string, unknown>) {
+  public static appendDomProps(element: Element, props: Record<string, unknown>) {
     Object.entries(props).forEach(([name, value]) => {
       if (typeof value === 'function') {
         const eventName = name as keyof HTMLElementEventMap;
@@ -12,13 +12,13 @@ export class RenderUtils {
         if(BOOLEAN_ATTRIBUTES.has(name)) {
           if (value !== false &&
               value !== undefined) {
-              element.setAttribute(name, '');
+            DOMUtils.addAttributes(element, name, '');
           }
         } else {
-          element.setAttribute(name, String(value));
+          DOMUtils.addAttributes(element, name, String(value));
         }
       } else {
-        element.removeAttribute(name);
+        DOMUtils.removeAttributes(element, name);
       }
     });
   }
