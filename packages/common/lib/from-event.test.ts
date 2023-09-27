@@ -16,7 +16,7 @@ describe("fromEvent", () => {
   it("should return a signal mapped value that emits when the event is triggered", () => {
     const target = document.createElement("div");
     const type = "click";
-    const signal = fromEvent(target, type, undefined, ((e: MouseEvent) => [e.clientX, e.clientY]));
+    const signal = fromEvent(target, type, undefined, ((e: MouseEvent) => [e.clientX, e.clientY] as const));
 
     const spy = vi.fn();
     signal.subscribe(spy);
