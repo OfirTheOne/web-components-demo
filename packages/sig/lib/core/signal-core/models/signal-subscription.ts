@@ -16,6 +16,6 @@ export interface SignalSubscriptionDetails {
     componentKey: string;
     signalId: string;   
     id: string;
-    containerElement: HTMLElement | Text| null;
+    containerElement: HTMLElement | Element | Text| null;
     connected: boolean;
 }

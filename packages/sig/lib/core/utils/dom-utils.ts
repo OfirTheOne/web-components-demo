@@ -1,13 +1,40 @@
 import { OneOrMany } from '@/types';
 import { DomCompatibleElement } from '../../models/dom-element';
+import { SVG_TAGS , NAMESPACES } from "@/constants/lang-spec";
 
 export class DOMUtils {
 
-  static addClass(elm: HTMLElement, className: string) {
+  static createElement(tag: string): HTMLElement | SVGAElement | Element {
+    return SVG_TAGS.has(tag) ? 
+      document.createElementNS(NAMESPACES.svg, tag) as SVGAElement :
+      document.createElement(tag);
+  }
+
+  static addAttributes(elm: HTMLElement | SVGAElement | Element, attribute: string, value: string) {
+    if(elm instanceof SVGAElement) {
+      const [nsPrefix, ..._rest] = attribute.split(':');
+      const ns = NAMESPACES[nsPrefix] || NAMESPACES.svg;
+      elm.setAttributeNS(ns, attribute, value);
+    } else {
+      elm.setAttribute(attribute, value);
+    }
+  }
+
+  static removeAttributes(elm: HTMLElement | SVGAElement | Element, attribute: string) {
+    if(elm instanceof SVGAElement) {
+      const [nsPrefix, ..._rest] = attribute.split(':');
+      const ns = NAMESPACES[nsPrefix] || NAMESPACES.svg;
+      elm.removeAttributeNS(ns, attribute);
+    } else {
+      elm.removeAttribute(attribute);
+    }
+  }
+
+  static addClass(elm: HTMLElement | Element, className: string) {
     className.split(' ').forEach((c) => elm.classList.add(c));
   }
 
-  static removeClass(elm: HTMLElement, className: string) {
+  static removeClass(elm: HTMLElement | Element, className: string) {
     className.split(' ').forEach((c) => elm.classList.remove(c));
   }
 

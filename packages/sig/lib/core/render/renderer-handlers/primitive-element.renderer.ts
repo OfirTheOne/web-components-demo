@@ -9,12 +9,12 @@ import { DOMUtils } from '@/core/utils/dom-utils';
 
 interface RawPrimitiveProps {
   style?: Record<string, unknown>;
-  ref?: ((e: HTMLElement) => void) | { current: HTMLElement | null } | null;
+  ref?: ((e: Element) => void) | { current: Element | null } | null;
   [key: string]: unknown;
 }
 
 export function primitiveElementRenderer(tag: string, props: Record<string, unknown>): HTMLElement {
-  const element = document.createElement(tag);
+  const element = DOMUtils.createElement(tag);
   if (props) {
     const nonEmptyProps = props as RawPrimitiveProps;
     const { style: styleProp = {}, ref, ...propsEntries } = nonEmptyProps
@@ -95,10 +95,10 @@ export function primitiveElementRenderer(tag: string, props: Record<string, unkn
 
     RenderUtils.appendDomProps(element, finalMutatedProps);
   }
-  return element;
+  return element as HTMLElement;
 }
 
-function assignRef(ref: ((e: HTMLElement) => void) | { current: HTMLElement | null } | null, element: HTMLElement) {
+function assignRef(ref: ((e: Element) => void) | { current: Element | null } | null, element: Element) {
   if (ref) {
     if (typeof ref === 'function') {
       ref(element);
