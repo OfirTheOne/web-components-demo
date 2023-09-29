@@ -1,10 +1,8 @@
+import { isSignal } from '@sig/signal';
 import { SignalSubscriptionType } from '@/core/signal-core/models';
 import { ISignal } from '@/core/signal-core/signal';
-
 import { SignalRenderContextCommunicator } from '@/core/signal-core/render-context/signal-render-context-communicator';
-import { RenderUtils, StylePropsUtils, BasicPropsUtils, EventPropsUtils } from '@/core/utils';
-import { isSignal } from '@/core/utils/validators';
-import { DOMUtils } from '@/core/utils/dom-utils';
+import { DOMUtils, RenderUtils, StylePropsUtils, BasicPropsUtils, EventPropsUtils } from '@/core/utils';
 
 
 interface RawPrimitiveProps {

@@ -2,15 +2,6 @@
 
 import { SignalRenderContext } from '../signal-core/render-context/signal-render-context';
 
-// declare global {
-//     interface Window {
-//         __SIG: {
-//             signaledContextMemoryMap: Map<string, SignalRenderContext>,
-//             signalIdsMemorySet: Set<string>,
-//         }
-//     }
-// }
-
 window.__SIG = window.__SIG || {
     signaledContextMemoryMap: new Map<string, SignalRenderContext>(),
     signalIdsMemorySet: new Set<string>(),
