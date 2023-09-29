@@ -1,7 +1,11 @@
-import { createSignal, derivedSignal, signal } from "sig";
+import { FC, derivedSignal, signal, Signal } from "sig";
 import { Input } from "@sig/forms";
+import { ArrowLeftCircleIcon, BatteryAnimation, MagnifyingGlassIcon, MicrophoneIcon } from "../icons";
 
 export default function AppSettingForm() {
+    const $cellular = signal(true);
+    const $brightness = signal(50);
+    const $search = signal('');
     return (
         <div className="h-screen w-screen">
             <div className=" bg-slate-100">
@@ -10,12 +14,23 @@ export default function AppSettingForm() {
                         <div className="flex flex-row justify-around h-[40px] w-full px-8">
                             <span className="text font-bold text-sm mt-2">9:41</span>
                             <span class="h-[25px] bg-black w-[200px] rounded-b-3xl "></span>
-                            <span className="text font-bold text-sm mt-2">battery</span>
+                            <span className="text font-bold text-sm mt-2">
+                                <BatteryAnimation />
+                            </span>
 
                         </div>
                         <div className="flex flex-col gap-4 w-full mt-4 ">
-                            <div className="flex items-center justify-center px-4 py-2 border-b">
-                                <IPhone14Search />
+                            <div className="flex items-center justify-between px-6 py-2 h-4 border-b">
+                                <IconButton icon={<ArrowLeftCircleIcon />} label="Back" onClick={() => {
+                                    console.log('clicked back');
+                                    console.log(
+                                        $brightness.value, $cellular.value, $search.value
+                                    );
+                                }} />
+                                <IPhone14Search $value={$search} />
+                                <IconButton icon={<ArrowLeftCircleIcon />} label="Back" onClick={() => {
+                                    console.log('clicked back');
+                                }} />
                             </div>
                             <div className="flex items-center justify-between px-4 py-2 border-b">
                                 <div className="text-lg font-bold text-gray-900">Settings</div>
@@ -36,7 +51,7 @@ export default function AppSettingForm() {
                                 <div className="bg-gray-100 border rounded-md w-100 m-2 pl-4">
                                     <div className="flex items-center justify-between py-2 border-b pr-4">
                                         <div className="text-gray-900">Cellular</div>
-                                        <IPhone14Toggle />
+                                        <IPhone14Toggle $value={$cellular} />
                                     </div>
                                     <div className="flex items-center justify-between py-2 border-b pr-4">
                                         <div className="text-gray-900">Personal Hotspot</div>
@@ -62,8 +77,7 @@ export default function AppSettingForm() {
                                     </div>
                                     <div className="flex items-center justify-between py-2 border-b pr-4">
                                         <div className="text-gray-900">Brightness</div>
-                                        {/* <div className="w-6 h-6 bg-gray-300 rounded-full"></div> */}
-                                        <IPhone14Slider />
+                                        <IPhone14Slider $value={$brightness} />
                                     </div>
                                     <div className="flex items-center justify-between py-2 border-b pr-4">
                                         <div className="text-gray-900">Wallpaper</div>
@@ -81,8 +95,7 @@ export default function AppSettingForm() {
 }
 
 
-const IPhone14Toggle = () => {
-    const $isOn = signal(true);
+const IPhone14Toggle: FC<{ $value: Signal<boolean> }> = ({ $value: $isOn }) => {
     const $isOff = derivedSignal($isOn, (isOn) => !isOn);
     const onToggle = () => {
         $isOn.setValue((prev) => !prev);
@@ -90,7 +103,7 @@ const IPhone14Toggle = () => {
 
     return (
         <div
-            class:list={[
+            class: list={[
                 `relative inline-block w-10 h-6 rounded-full`,
                 {
                     "bg-green-400": $isOn,
@@ -101,7 +114,7 @@ const IPhone14Toggle = () => {
         >
             <input type="radio" name="toggle" id="toggle" selected={$isOn as unknown as boolean} className="sr-only" />
             <span
-                class:list={[
+                class: list={[
                     `absolute inset-0 w-4 h-4 mt-1 ml-1 rounded-full transition-transform`,
                     {
                         "translate-x-full bg-white": $isOn,
@@ -114,12 +127,11 @@ const IPhone14Toggle = () => {
 
 
 
-const IPhone14Slider = () => {
-    const [value, setValue] = createSignal(50);
-    const valuePercent = derivedSignal(value, (value) => `${value}%`);
+const IPhone14Slider: FC<{ $value: Signal<number> }> = ({ $value }) => {
+    const valuePercent = derivedSignal($value, (value) => `${value}%`);
 
     const handleChange = (event) => {
-        setValue(event.target.value);
+        $value.setValue(event.target.value);
     };
 
     return (
@@ -128,7 +140,7 @@ const IPhone14Slider = () => {
                 type="range"
                 min="0"
                 max="100"
-                value={value as unknown as string}
+                value={$value as unknown as string}
                 onChange={handleChange}
                 className="absolute w-full h-full opacity-0 cursor-pointer z-30"
             />
@@ -146,27 +158,37 @@ const IPhone14Slider = () => {
     );
 };
 
+interface IconButtonProps { icon: JSX.Element, label: string, onClick: JSX.MouseEventHandler<HTMLButtonElement> }
+
+const IconButton: FC<IconButtonProps> = ({ icon, label, onClick }) => {
+    return (
+        <div
+            className="flex items-center justify-center w-6 h-6 text-sky-600 transition-colors duration-150 border-gray-300 rounded-full shadow-sm hover:text-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+            onClick={onClick}
+            aria-label={label}
+        >
+            {icon}
+        </div>
+    );
+};
 
 
-const IPhone14Search = () => {
-    const [value, setValue] = createSignal('')
+const IPhone14Search: FC<{ $value: Signal<string> }> = ({ $value }) => {
     return (
         <div className="flex items-center px-4 py-2 border-b">
             <div className="relative w-full">
-                <div className="absolute inset-y-0 left-0 flex items-center pl-3">
-                    <svg className="w-5 h-5 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-4.873-4.873" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.5 10.5a5 5 0 11-7.07 0 5 5 0 017.07 0z" />
-                    </svg>
-
+                <div className="absolute inset-y-0 left-0 flex items-center pl-2">
+                    {MagnifyingGlassIcon({}, undefined)}
                 </div>
-
                 <Input
-                    value={value}
+                    value={$value}
                     className="block w-full py-2 pl-10 pr-3 leading-5 bg-gray-300 border border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none focus:bg-gray-300 focus:border-gray-500 focus:placeholder-gray-400/50"
                     type="text"
                     placeholder="Search"
                 />
+                <div className="absolute inset-y-0 right-0 flex items-center pl-2">
+                    {MicrophoneIcon({}, undefined)}
+                </div>
             </div>
         </div>
     );
