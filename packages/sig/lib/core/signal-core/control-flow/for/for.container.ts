@@ -1,18 +1,16 @@
 import { Logger } from '@/common/logger';
 import { ComponentKeyBuilder } from '@/common/component-key-builder';
-import { DOMUtils } from '@/core/utils/dom-utils';
-import { defineComponent } from '@/core/utils/define-component';
-import { createElementPlaceholder } from '@/core/utils/create-element-placeholder';
+import { RenderUtils, DOMUtils } from '@/core/utils';
 import { OneOrMany } from '@/types';
 import { VirtualElement } from '@/models/virtual-element';
 
 import { BaseControlFlowComponentContainer } from '../../../component-container/base-dynamic-template-component-container';
 import { SignalRenderContextCommunicator } from '../../render-context/signal-render-context-communicator';
 import { ForProps } from './for.control';
-import { Trackable } from '../../signal';
+import { Trackable } from '@sig/signal';
 
 const TAG_NAME = 'for-control'
-defineComponent(
+DOMUtils.defineCustomElement(
     TAG_NAME,
     class extends HTMLElement {});
 
@@ -22,9 +20,7 @@ export class ForControlFlowComponentContainer extends BaseControlFlowComponentCo
     }
     listeners: Array<(value?: unknown) => void> = [];
     itemsElementMemoMap: Map<unknown, HTMLElement> = new Map();
-    readonly placeholder = createElementPlaceholder(TAG_NAME, this.key);
-    // fallbackElementMemo: OneOrMany<HTMLElement> = null;
-    // defaultElementMemo: OneOrMany<HTMLElement> = null;
+    readonly placeholder = RenderUtils.createElementPlaceholder(TAG_NAME, this.key);
 
     render(): OneOrMany<HTMLElement> | null {
         const domElement = this.resolveRenderedOutput();
@@ -39,9 +35,8 @@ export class ForControlFlowComponentContainer extends BaseControlFlowComponentCo
             if(!unmountedElementKeys.length) return;
             unmountedElementKeys.forEach(containerKay => {
                 setTimeout(() => {
-                    const contextsToUnmount = SignalRenderContextCommunicator.instance
-                        .getAllChildContexts(<string>containerKay);
-                    contextsToUnmount
+                    SignalRenderContextCommunicator.instance
+                        .getAllChildContexts(<string>containerKay)
                         .forEach((ctx) => {
                             try {
                                 Logger.log('unmounting', ctx.componentKey);
@@ -96,11 +91,12 @@ export class ForControlFlowComponentContainer extends BaseControlFlowComponentCo
         if (this._parent) {
             if (this.wasRenderedBefore) {
                 if(this._container !== this.placeholder) {
-                    this.parent.children.length > 0 ?
-                        this.parent.insertBefore(this.placeholder, 
-                            Array.isArray(this._container) ? 
-                                this._container.at(0) : this._container) :
-                        this.parent.append(this.placeholder);
+                    if(this.parent.children.length > 0) {
+                        const actualContainer = Array.isArray(this._container) ? this._container.at(0) : this._container;
+                        DOMUtils.insertBefore(this.parent, this.placeholder, actualContainer);
+                    } else {
+                        DOMUtils.appendToParent(this.parent, this.placeholder);
+                    }
                     DOMUtils.removeSelf(this._container);
                     DOMUtils.replace(this._parent, this.placeholder, domElement);
                 } else {
@@ -119,7 +115,7 @@ export class ForControlFlowComponentContainer extends BaseControlFlowComponentCo
             if(typeof forPropsIndex === 'function') {
                 return forPropsIndex;
             } else if(typeof forPropsIndex === 'string') {
-                return ((item) => item[forPropsIndex])
+                return ((item) => item[forPropsIndex]);
             }
         }
         return ((_item, index: number) => index);

@@ -3,14 +3,13 @@ import { OneOrMany } from '@/types/one-or-many';
 import { SignalRenderContextCommunicator } from '../../render-context/signal-render-context-communicator';
 import { ShowProps } from './show.control';
 import { VirtualElement } from '@/models/virtual-element';
+import { DOMUtils, RenderUtils } from '@/core/utils';
 import { Trackable } from '../../signal';
 
 import { BaseControlFlowComponentContainer } from '../../../component-container/base-dynamic-template-component-container';
-import { defineComponent } from '../../../utils/define-component';
-import { createElementPlaceholder } from '../../../utils/create-element-placeholder';
 
 const TAG_NAME = 'show-control'
-defineComponent(
+DOMUtils.defineCustomElement(
     TAG_NAME,
     class extends HTMLElement {},
 );
@@ -20,7 +19,7 @@ export class ShowControlFlowComponentContainer extends BaseControlFlowComponentC
 
     fallbackElementMemo: OneOrMany<HTMLElement> = null;
     defaultElementMemo: OneOrMany<HTMLElement> = null;
-    readonly placeholder = createElementPlaceholder(TAG_NAME, this.key);
+    readonly placeholder = RenderUtils.createElementPlaceholder(TAG_NAME, this.key);
     readonly containersMap = new WeakMap<OneOrMany<HTMLElement>, string>();
 
     currentConditionState: boolean | null = null;

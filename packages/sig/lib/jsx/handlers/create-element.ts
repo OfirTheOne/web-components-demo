@@ -1,6 +1,5 @@
-import { FRAGMENT_FACTORY_NAME } from '../../constants';
-import { Props } from '../../models/props';
-import { VirtualElement, VirtualElementType } from '../../models/virtual-element';
+import { FRAGMENT_FACTORY_NAME } from '@/constants';
+import { Props, VirtualElement, VirtualElementType } from '@/models';
 
 export const createElement = (
   tag: VirtualElement['tag'],

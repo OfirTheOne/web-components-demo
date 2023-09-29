@@ -2,17 +2,16 @@ import { OneOrMany } from '@/types';
 import { VirtualElement } from '@/models/virtual-element';
 import { ComponentKeyBuilder } from '@/common/component-key-builder';
 import { Logger } from '@/common/logger';
+import { DOMUtils, RenderUtils } from '@/core/utils';
 import { CaseProps, SwitchProps } from './switch.control';
 import { SignalRenderContextCommunicator } from '../../render-context/signal-render-context-communicator';
 import { BaseControlFlowComponentContainer } from '../../../component-container/base-dynamic-template-component-container';
-import { defineComponent } from '../../../utils/define-component';
-import { createElementPlaceholder } from '../../../utils/create-element-placeholder';
 import { ControlFlow } from '../../models';
 import { Trackable } from "../../signal";
 
 
 const TAG_NAME = 'switch-control'
-defineComponent(
+DOMUtils.defineCustomElement(
     TAG_NAME,
     class extends HTMLElement {});
 
@@ -23,7 +22,7 @@ export class SwitchControlFlowComponentContainer extends BaseControlFlowComponen
     caseElementMemoMap: Map<number, OneOrMany<HTMLElement>> = new Map();
     fallbackElementMemo: OneOrMany<HTMLElement> = null;
     currentConditionState: number | null = null;
-    readonly placeholder = createElementPlaceholder(TAG_NAME, this.key);
+    readonly placeholder = RenderUtils.createElementPlaceholder(TAG_NAME, this.key);
 
     render(): OneOrMany<HTMLElement> | null {
         const domElement = this.resolveRenderedOutput();

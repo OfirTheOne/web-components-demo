@@ -1,41 +1,56 @@
-import { BOOLEAN_ATTRIBUTES } from '@/constants';
-import { DomElement } from '@/models/dom-element';
 import { DOMUtils } from './dom-utils';
+import { DomElement, VirtualElement } from '@/models';
+import { OneOrMany } from '@/types';
 export class RenderUtils {
+
+  static isVirtualElement(child: unknown): child is VirtualElement {
+    return child !== null && 
+      typeof child === 'object' && 
+      'tag' in child && 
+      'props' in child && 
+      'children' in child;
+  }
 
   public static appendDomProps(element: Element, props: Record<string, unknown>) {
     Object.entries(props).forEach(([name, value]) => {
       if (typeof value === 'function') {
-        const eventName = name as keyof HTMLElementEventMap;
-        element.addEventListener(eventName, value as EventListener);
+        DOMUtils.addEventListener(element, name, value as EventListener);
       } else if(value !== null) {
-        if(BOOLEAN_ATTRIBUTES.has(name)) {
-          if (value !== false &&
-              value !== undefined) {
-            DOMUtils.addAttributes(element, name, '');
+        if(DOMUtils.isBooleanAttribute(name)) {
+          if (value !== false && value !== undefined) {
+            DOMUtils.setAttribute(element, name, '');
           }
         } else {
-          DOMUtils.addAttributes(element, name, String(value));
+          DOMUtils.setAttribute(element, name, String(value));
         }
       } else {
-        DOMUtils.removeAttributes(element, name);
+        DOMUtils.removeAttribute(element, name);
       }
     });
   }
 
-  public static appendDomChildren(parent: HTMLElement, child: DomElement) {
+  public static appendDomChildren(parent: HTMLElement, child?: OneOrMany<null | undefined | string | DomElement>) {
     if (child) {
       const children = Array.isArray(child) ? child : [child];
       children.forEach((nestedChild) => {
         if (nestedChild) {
-          parent.appendChild(typeof nestedChild !== 'string' ? nestedChild : this.renderText(nestedChild));
+          DOMUtils.appendToParent(parent, typeof nestedChild !== 'string' ? nestedChild : DOMUtils.createTextNode(nestedChild));
         }
       });
     }
   }
 
   public static renderText(child?: string | number | boolean) {
-    const nodeContent = (child === null || child === undefined )? '' : `${child}`;
-    return document.createTextNode(nodeContent);
+    return DOMUtils.createTextNode(child);
   }
+
+  public static createElementPlaceholder = (tagName: string, key: string) => {
+    const ph = DOMUtils.createElement<HTMLElement>(tagName);
+    DOMUtils.setAttribute(ph, 'role', 'ph');
+    DOMUtils.setAttribute(ph, 'for', key);
+    ph.style.display = 'none';
+    ph.style.visibility = 'hidden';
+    return ph;
+ }
+ 
 }

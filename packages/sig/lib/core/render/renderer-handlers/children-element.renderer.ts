@@ -1,5 +1,5 @@
 import { ComponentKeyBuilder as ComponentKey } from '@/common/component-key-builder';
-import { VirtualElement, DomCompatibleElement, VirtualRender } from '@/models';
+import { VirtualElement, DomElement, VirtualRender } from '@/models';
 
 import { RenderUtils } from '@/core/utils/render-utils';
 import { isRenderTextPrimitive , isSignal, isDerivedSignal} from '@/core/utils/validators';
@@ -10,7 +10,7 @@ export function childrenElementRenderer(
     parent: HTMLElement,
     children: (string | VirtualElement)[],
     key: string
-): DomCompatibleElement[] {
+): DomElement[] {
     if (children.length > 0) {
         return children
             .map((child) => {
@@ -50,7 +50,7 @@ export function childrenElementRenderer(
                     return child as null;
                 } else if (child instanceof Text) {
                     return child;
-                } else if (isVirtualElement(child)) {
+                } else if (RenderUtils.isVirtualElement(child)) {
                     return virtualRender(parent, child, ComponentKey.build(key).idx(i).toString());
                 } else {
                     return RenderUtils.renderText(child);
@@ -60,8 +60,4 @@ export function childrenElementRenderer(
     } else {
         return [];
     }
-}
-
-function isVirtualElement(child: any): child is VirtualElement {
-    return child !== null && typeof child === 'object' && 'tag' in child && 'props' in child && 'children' in child;
 }

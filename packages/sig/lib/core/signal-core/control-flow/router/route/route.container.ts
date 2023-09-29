@@ -5,11 +5,10 @@ import { OneOrMany } from '@/types';
 import { SignalRenderContextCommunicator } from '../../../render-context/signal-render-context-communicator';
 import { RouteProps } from './route.control';
 import { BaseControlFlowComponentContainer } from '../../../../component-container/base-dynamic-template-component-container';
-import { defineComponent } from '../../../../utils/define-component';
-import { createElementPlaceholder } from '../../../../utils/create-element-placeholder';
+import { DOMUtils, RenderUtils } from '@/core/utils';
 
 const TAG_NAME = 'route-control'
-defineComponent(
+DOMUtils.defineCustomElement(
     TAG_NAME,
     class extends HTMLElement {},
 );
@@ -21,7 +20,7 @@ export class RouteControlFlowComponentContainer extends BaseControlFlowComponent
     domElementMemo: OneOrMany<HTMLElement> = null;
     renderRunBefore = false;
     route: Route | null;
-    readonly placeholder = createElementPlaceholder(TAG_NAME, this.key);
+    readonly placeholder = RenderUtils.createElementPlaceholder(TAG_NAME, this.key);
 
     render(): OneOrMany<HTMLElement> | null {
         let domElement: OneOrMany<HTMLElement> = this.placeholder;
@@ -33,7 +32,6 @@ export class RouteControlFlowComponentContainer extends BaseControlFlowComponent
                     this._container = domElement;
                 },
                 () => {
-                    // domElement = this.resolveRenderedOutput(location, params, state);
                     if(this._container !== this.placeholder) {
                         this.connectOnSelfRerender(this.placeholder);
                         this._container = this.placeholder;

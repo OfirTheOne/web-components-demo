@@ -1,16 +1,62 @@
-import { OneOrMany } from '@/types';
+import { Ctor, OneOrMany } from '@/types';
 import { DomCompatibleElement } from '../../models/dom-element';
-import { SVG_TAGS , NAMESPACES } from "@/constants/lang-spec";
+import { SVG_TAGS , NAMESPACES, BOOLEAN_ATTRIBUTES } from "@/constants/lang-spec";
+
+const globalDom = window.document;
 
 export class DOMUtils {
 
-  static createElement(tag: string): HTMLElement | SVGAElement | Element {
-    return SVG_TAGS.has(tag) ? 
-      document.createElementNS(NAMESPACES.svg, tag) as SVGAElement :
-      document.createElement(tag);
+  // -- validation
+
+  static isElement(node: Node): node is HTMLElement {
+    return node.nodeType === Node.ELEMENT_NODE;
   }
 
-  static addAttributes(elm: HTMLElement | SVGAElement | Element, attribute: string, value: string) {
+  static isBooleanAttribute(attribute: string): boolean {
+    return BOOLEAN_ATTRIBUTES.has(attribute);
+  }
+
+  static isOnlyChild(child: DomCompatibleElement): boolean {
+    return child.isConnected && child.parentNode && child.parentNode.children.length == 1;
+  }
+
+  // -- creation
+
+  static createTextNode(content?: string | number | boolean) {
+    const nodeContent = (content === null || content === undefined )? '' : String(content);
+    return globalDom.createTextNode(nodeContent);
+  }
+
+  static createElement<T extends HTMLElement | SVGAElement | Element = Element>(tag: string): T {
+    return (SVG_TAGS.has(tag) ? 
+      globalDom.createElementNS(NAMESPACES.svg, tag) as SVGAElement :
+      globalDom.createElement(tag)) as T;
+  }
+
+  static defineCustomElement(tag: string, component: Ctor<any>,  options?: ElementDefinitionOptions | undefined) {
+    if(window.customElements) {
+      window.customElements.define(tag, component, options);
+    }
+    return component;
+  }
+
+  static buildShadow(elm: HTMLElement) {
+    return elm.attachShadow({ mode: 'open' });
+  }
+
+  // -- access
+
+  static getElementById(id: string): HTMLElement | null {
+    return globalDom.getElementById(id);
+  }
+
+  static getGlobalDocument(): Document {
+    return globalDom;
+  }
+
+  // -- self manipulation
+
+  static setAttribute(elm: HTMLElement | SVGAElement | Element, attribute: string, value: string) {
     if(elm instanceof SVGAElement) {
       const [nsPrefix, ..._rest] = attribute.split(':');
       const ns = NAMESPACES[nsPrefix] || NAMESPACES.svg;
@@ -20,7 +66,7 @@ export class DOMUtils {
     }
   }
 
-  static removeAttributes(elm: HTMLElement | SVGAElement | Element, attribute: string) {
+  static removeAttribute(elm: HTMLElement | SVGAElement | Element, attribute: string) {
     if(elm instanceof SVGAElement) {
       const [nsPrefix, ..._rest] = attribute.split(':');
       const ns = NAMESPACES[nsPrefix] || NAMESPACES.svg;
@@ -38,7 +84,27 @@ export class DOMUtils {
     className.split(' ').forEach((c) => elm.classList.remove(c));
   }
 
-  static removeSelf(elm?: OneOrMany<HTMLElement> | OneOrMany<Node>) {
+  static addEventListener(elm: HTMLElement | Element, eventName: string, listener: EventListener) {
+    if (elm && typeof listener === 'function') {
+      elm.addEventListener(eventName, listener);
+    }
+  }
+
+  static removeEventListener(elm: HTMLElement | Element, eventName: string, listener: EventListener) {
+    if (elm && typeof listener === 'function') {
+      elm.removeEventListener(eventName, listener);
+    }
+  }
+
+  // -- tree manipulation
+
+  static insertBefore(parent: DomCompatibleElement, node: DomCompatibleElement, child: DomCompatibleElement) {
+    if (parent && child) {
+      parent.insertBefore(child, node);
+    }
+  }
+
+  static removeSelf(elm?: OneOrMany<DomCompatibleElement>) {
     if (elm) {
       (Array.isArray(elm)) ?
         elm.forEach((node) => DOMUtils.removeSingle(node)) :
@@ -46,7 +112,7 @@ export class DOMUtils {
     }
   }
 
-  static removeSingle(e: HTMLElement | Node) {
+  static removeSingle(e: DomCompatibleElement) {
     if(e instanceof HTMLElement) {
       e.remove(); 
     } else {
@@ -54,18 +120,14 @@ export class DOMUtils {
     }
   }
 
-  static buildShadow(elm: HTMLElement) {
-    return elm.attachShadow({ mode: 'open' });
-  }
-
-  static appendToParent(parent: ShadowRoot | HTMLElement, elem?: OneOrMany<HTMLElement>): void {
+  static appendToParent(parent: ShadowRoot | HTMLElement | Element, elem?: OneOrMany<HTMLElement | Element | Text | Node>): void {
     if (parent && elem) {
       Array.isArray(elem) ? elem.forEach((node) => parent.appendChild(node)) : parent.appendChild(elem);
     }
   }
 
   static insertChildAfterNode(
-    parent: ShadowRoot | HTMLElement,
+    parent: ShadowRoot | DomCompatibleElement,
     child: OneOrMany<DomCompatibleElement>,
     node?: HTMLElement | null
   ): void {
@@ -94,11 +156,7 @@ export class DOMUtils {
     referenceNode.parentNode.insertBefore(child, referenceNode.nextSibling);
   }
 
-  static isOnlyChild(child: DomCompatibleElement): boolean {
-    return child.isConnected && child.parentNode && child.parentNode.children.length == 1;
-  }
-
-  static replace(parent: HTMLElement, oldElement: OneOrMany<HTMLElement>, newElement: OneOrMany<HTMLElement>): void {
+  static replace(parent: DomCompatibleElement, oldElement: OneOrMany<DomCompatibleElement>, newElement: OneOrMany<DomCompatibleElement>): void {
     const firstContainerNode = Array.isArray(oldElement) ? oldElement[0] : oldElement;
     const renderStartPointNode = (
       DOMUtils.isOnlyChild(firstContainerNode) ? null : firstContainerNode.previousSibling
@@ -106,6 +164,4 @@ export class DOMUtils {
     DOMUtils.removeSelf(oldElement);
     DOMUtils.insertChildAfterNode(parent, newElement, renderStartPointNode);
   }
-
-
 }

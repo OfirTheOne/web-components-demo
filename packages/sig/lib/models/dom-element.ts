@@ -1,3 +1,3 @@
-export type DomCompatibleElement = Text | HTMLElement;
+export type DomCompatibleElement = Text | HTMLElement | Element | Node;
 
-export type DomElement = null | undefined | string | Text | HTMLElement | (string | HTMLElement)[];
+export type DomElement = Text | HTMLElement | Element | Node;
