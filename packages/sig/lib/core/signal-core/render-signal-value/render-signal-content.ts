@@ -1,28 +1,27 @@
-import { SignalSubscriptionDetails } from '../models';
-
+import { SignalSubscriptionDetails, RenderSignalValueHandler } from '../models';
 
 export type RenderSignalContentPayload = Pick<SignalSubscriptionDetails, 'containerElement' | 'connected'>;
 
-export function renderSignalContent(signalValue: unknown, signal: RenderSignalContentPayload) {
-    if (signal.containerElement === null || signal.containerElement === undefined || !signal.connected) {
+export const renderSignalContent: RenderSignalValueHandler = (signalValue, _prevValue, sub): void => {
+    if (sub.containerElement === null || sub.containerElement === undefined || !sub.connected) {
         return;
     }
     if (signalValue !== null && signalValue !== undefined) {
-        if (signal.containerElement instanceof Text) {
-            signal.containerElement.textContent = String(signalValue);
+        if (sub.containerElement instanceof Text) {
+            sub.containerElement.textContent = String(signalValue);
         } else if (typeof signalValue === 'string') {
-            signal.containerElement.innerHTML = signalValue;
+            sub.containerElement.innerHTML = signalValue;
         } else if (signalValue instanceof HTMLElement) {
-            signal.containerElement.innerHTML = '';
-            signal.containerElement.appendChild(signalValue);
+            sub.containerElement.innerHTML = '';
+            sub.containerElement.appendChild(signalValue);
         } else {
-            signal.containerElement.innerHTML = String(signalValue);
+            sub.containerElement.innerHTML = String(signalValue);
         }
     } else {
-        if (signal.containerElement instanceof Text) {
-            signal.containerElement.textContent = '';
+        if (sub.containerElement instanceof Text) {
+            sub.containerElement.textContent = '';
         } else {
-            signal.containerElement.innerHTML = '';
+            sub.containerElement.innerHTML = '';
         }
     }
 }

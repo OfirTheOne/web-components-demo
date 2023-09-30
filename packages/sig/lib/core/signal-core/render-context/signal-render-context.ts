@@ -26,11 +26,12 @@ export class SignalRenderContext {
 
     subscribeSignal(signal: ISignal | IDecoratedSignal, subscription: SignalSubscriptionDetails) {
         const subscribableSignal = signal;
-        let lastValue = null;
+        let prevValue = null;
         const listener = (value: unknown) => {
-            if (lastValue !== value) {
-                lastValue = value;
-                renderSignalValueByType(value, subscription);
+            if (prevValue !== value) {
+                const prevValueRef = prevValue;
+                prevValue = value;
+                renderSignalValueByType(value, prevValueRef, subscription);
             }
         };
         subscribableSignal.subscribe(listener);

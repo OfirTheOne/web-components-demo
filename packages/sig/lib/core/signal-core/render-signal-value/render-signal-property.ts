@@ -1,10 +1,10 @@
 import { BOOLEAN_ATTRIBUTES } from '@/constants';
-import { SignalSubscriptionDetails } from '../models';
+import { SignalSubscriptionDetails, RenderSignalValueHandler } from '../models';
 import { DOMUtils } from "@/core/utils/dom-utils";
 
 export type RenderSignalValuePayload = Pick<SignalSubscriptionDetails, 'containerElement' | 'connected' | 'propKey'>;
 
-export function renderSignalProperty(signalValue: unknown, signal: RenderSignalValuePayload) {
+export const renderSignalProperty: RenderSignalValueHandler = (signalValue: unknown, _prevValue, signal) => {
     if (signal.containerElement === null || signal.containerElement === undefined || !signal.connected) {
         return;
     }

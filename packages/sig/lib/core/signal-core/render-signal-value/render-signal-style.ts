@@ -1,9 +1,8 @@
-import { SignalSubscriptionDetails } from '../models';
-
+import { SignalSubscriptionDetails, RenderSignalValueHandler } from '../models';
 
 export type RenderSignalStylePayload = Pick<SignalSubscriptionDetails, 'containerElement' | 'connected' | 'propKey'>;
 
-export function renderSignalStyle(signalValue: unknown, signal: RenderSignalStylePayload) {
+export const renderSignalStyle: RenderSignalValueHandler = (signalValue, _prevValue, signal) => {
     if (signal.containerElement === null || signal.containerElement === undefined || !signal.connected) {
         return;
     }

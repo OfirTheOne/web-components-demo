@@ -16,6 +16,10 @@ export interface SignalSubscriptionDetails {
     componentKey: string;
     signalId: string;   
     id: string;
-    containerElement: HTMLElement | Element | Text| null;
+    containerElement: HTMLElement | Element | Text | null;
     connected: boolean;
+}
+
+export interface RenderSignalValueHandler {
+    (signalValue: unknown, prevValue: unknown, sub: SignalSubscriptionDetails): void;
 }

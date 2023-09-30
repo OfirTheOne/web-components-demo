@@ -2,15 +2,40 @@ import { FC, derivedSignal, signal, Signal } from "sig";
 import { Input } from "@sig/forms";
 import { ArrowLeftCircleIcon, BatteryAnimation, MagnifyingGlassIcon, MicrophoneIcon } from "../icons";
 
+// 
+const _usedClasses = [
+    'opacity-0',
+    'opacity-5',
+    'opacity-10',
+    'opacity-20',
+    'opacity-25',
+    'opacity-30',
+    'opacity-40',
+    'opacity-50',
+    'opacity-60',
+    'opacity-70',
+    'opacity-75',
+    'opacity-80',
+    'opacity-90',
+    'opacity-95',
+    'opacity-100',
+
+]
+
 export default function AppSettingForm() {
     const $cellular = signal(true);
     const $brightness = signal(50);
+    const $brightnessClass = derivedSignal($brightness, (brightness) => {
+        const index = Math.round(brightness / 5);
+        return `opacity-${index * 5}`;
+    });
     const $search = signal('');
     return (
         <div className="h-screen w-screen">
             <div className=" bg-slate-100">
                 <div className="flex flex-col items-center h-screen py-4">
-                    <form className="flex flex-col items-start bg-slate-200 h-full w-1/4 border-4 border-black outline outline-8 outline-black rounded-[50px]">
+                    <form className="relative flex flex-col items-start bg-slate-200 h-full w-1/4 border-4 border-black outline outline-8 outline-black rounded-[50px]">
+                        <div class:list={["absolute h-full w-full rounded-[50px]"]}></div>
                         <div className="flex flex-row justify-around h-[40px] w-full px-8">
                             <span className="text font-bold text-sm mt-2">9:41</span>
                             <span class="h-[25px] bg-black w-[200px] rounded-b-3xl "></span>
@@ -103,7 +128,7 @@ const IPhone14Toggle: FC<{ $value: Signal<boolean> }> = ({ $value: $isOn }) => {
 
     return (
         <div
-            class: list={[
+            class:list={[
                 `relative inline-block w-10 h-6 rounded-full`,
                 {
                     "bg-green-400": $isOn,
@@ -114,7 +139,7 @@ const IPhone14Toggle: FC<{ $value: Signal<boolean> }> = ({ $value: $isOn }) => {
         >
             <input type="radio" name="toggle" id="toggle" selected={$isOn as unknown as boolean} className="sr-only" />
             <span
-                class: list={[
+                class:list={[
                     `absolute inset-0 w-4 h-4 mt-1 ml-1 rounded-full transition-transform`,
                     {
                         "translate-x-full bg-white": $isOn,
