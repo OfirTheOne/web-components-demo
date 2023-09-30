@@ -76,12 +76,17 @@ export class DOMUtils {
     }
   }
 
-  static addClass(elm: HTMLElement | Element, className: string) {
+  static addClass(elm: HTMLElement | SVGAElement | Element, className: string) {
     className.split(' ').forEach((c) => elm.classList.add(c));
   }
 
-  static removeClass(elm: HTMLElement | Element, className: string) {
+  static removeClass(elm: HTMLElement | SVGAElement | Element, className: string) {
     className.split(' ').forEach((c) => elm.classList.remove(c));
+  }
+
+  static replaceClass(elm: HTMLElement | SVGAElement | Element, oldClassName: string, newClassName: string) {
+    this.removeClass(elm, oldClassName);
+    this.addClass(elm, newClassName);
   }
 
   static addEventListener(elm: HTMLElement | Element, eventName: string, listener: EventListener) {

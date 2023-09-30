@@ -1,4 +1,3 @@
-import { BOOLEAN_ATTRIBUTES } from '@/constants';
 import { SignalSubscriptionDetails, RenderSignalValueHandler } from '../models';
 import { DOMUtils } from "@/core/utils/dom-utils";
 
@@ -9,7 +8,7 @@ export const renderSignalProperty: RenderSignalValueHandler = (signalValue: unkn
         return;
     }
     if (DOMUtils.isElement(signal.containerElement)) {
-        if(BOOLEAN_ATTRIBUTES.has(signal.propKey)) {
+        if(DOMUtils.isBooleanAttribute(signal.propKey)) {
             if (signalValue !== false &&
                 signalValue !== null && signalValue !== undefined) {
                 DOMUtils.setAttribute(signal.containerElement, signal.propKey, '');

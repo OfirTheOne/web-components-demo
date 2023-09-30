@@ -18,48 +18,71 @@ export function primitiveElementRenderer(tag: string, props: Record<string, unkn
     const { style: styleProp = {}, ref, ...propsEntries } = nonEmptyProps
     const basicMutatedProps = BasicPropsUtils.mutateBasicProps(propsEntries);
     if(basicMutatedProps['class:list']) {
-      const classList = basicMutatedProps['class:list'] as Record<string, boolean | ISignal<unknown>>;
-      Object.entries(classList).forEach(([className, shouldAdd]) => {
-        let usedShouldAdd = shouldAdd;
-        if(isSignal(shouldAdd)) {
-          const currentContext = SignalRenderContextCommunicator.instance.currentContext;
-          const signal: ISignal = shouldAdd;
-          currentContext.subscribeSignal(signal, {
-            componentKey: currentContext.componentKey,
-            containerElement: element,
-            signalId: signal.id,
-            connected: true,
-            type: SignalSubscriptionType.Class,
-            propKey: className,
-            id: signal.id,
-          });
-          usedShouldAdd = Boolean(signal.value);
-        }
-        if(usedShouldAdd) {
+      const {
+        classNameDict,
+        toggleClassList,
+        replaceClassList
+      } = BasicPropsUtils.resolveClassList(basicMutatedProps['class:list'] as Sig.ClassList)      
+      Object.entries(classNameDict).forEach(([className, shouldAdd]) => {
+        if(shouldAdd) {
           DOMUtils.addClass(element, className);
         } else {
           DOMUtils.removeClass(element, className);
         }
       });
+      replaceClassList.forEach(($signal) => {
+        const currentContext = SignalRenderContextCommunicator.instance.currentContext;
+        currentContext.subscribeSignal($signal, {
+          componentKey: currentContext.componentKey,
+          containerElement: element,
+          signalId: $signal.id,
+          connected: true,
+          type: SignalSubscriptionType.ClassReplace,
+          propKey: "class",
+          id: $signal.id,
+        });
+        const className = String($signal.value);
+        DOMUtils.addClass(element, className);
+      });
+
+      Object.entries(toggleClassList).forEach(([className, $shouldAddSignal]) => {
+        if(isSignal($shouldAddSignal)) {
+          const currentContext = SignalRenderContextCommunicator.instance.currentContext;
+          currentContext.subscribeSignal($shouldAddSignal, {
+            componentKey: currentContext.componentKey,
+            containerElement: element,
+            signalId: $shouldAddSignal.id,
+            connected: true,
+            type: SignalSubscriptionType.ClassToggle,
+            propKey: className,
+            id: $shouldAddSignal.id,
+          });
+          const shouldAdd = Boolean($shouldAddSignal.value);
+          if(shouldAdd) {
+            DOMUtils.addClass(element, className);
+          } else {
+            DOMUtils.removeClass(element, className);
+          }
+        }
+      });
       delete basicMutatedProps['class:list'];
     }
-
 
     const eventMutatedProps = EventPropsUtils.mutateEventProps(basicMutatedProps);
     Object.entries(eventMutatedProps).forEach(([name, value]) => {
       if (isSignal(value)) {
         const currentContext = SignalRenderContextCommunicator.instance.currentContext;
-        const signal: ISignal = value;
-        currentContext.subscribeSignal(signal, {
+        const $signal: ISignal = value;
+        currentContext.subscribeSignal($signal, {
           componentKey: currentContext.componentKey,
           containerElement: element,
-          signalId: signal.id,
+          signalId: $signal.id,
           connected: true,
           type: SignalSubscriptionType.Property,
           propKey: name,
-          id: signal.id,
+          id: $signal.id,
         });
-        eventMutatedProps[name] = signal.value;
+        eventMutatedProps[name] = $signal.value;
       }
     });
 
@@ -67,17 +90,17 @@ export function primitiveElementRenderer(tag: string, props: Record<string, unkn
     Object.entries(nativeStyleProp).forEach(([name, value]) => {
       if (isSignal(value)) {
         const currentContext = SignalRenderContextCommunicator.instance.currentContext;
-        const signal: ISignal = value;
-        currentContext.subscribeSignal(signal, {
+        const $signal: ISignal = value;
+        currentContext.subscribeSignal($signal, {
           componentKey: currentContext.componentKey,
           containerElement: element,
-          signalId: signal.id,
+          signalId: $signal.id,
           connected: true,
           type: SignalSubscriptionType.Style,
           propKey: name,
-          id: signal.id,
+          id: $signal.id,
         });
-        nativeStyleProp[name] = signal.value;
+        nativeStyleProp[name] = $signal.value;
       }
     });
 
@@ -105,3 +128,18 @@ function assignRef(ref: ((e: Element) => void) | { current: Element | null } | n
     }
   }
 }
+
+
+
+/*
+
+[ 
+  "class A",
+  "class B",
+  signal "class C",
+  { "class B": signal },
+ "class D",
+  single "class A" 
+]
+
+*/

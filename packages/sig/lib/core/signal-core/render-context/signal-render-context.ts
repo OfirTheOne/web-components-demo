@@ -26,7 +26,7 @@ export class SignalRenderContext {
 
     subscribeSignal(signal: ISignal | IDecoratedSignal, subscription: SignalSubscriptionDetails) {
         const subscribableSignal = signal;
-        let prevValue = null;
+        let prevValue = signal.value;
         const listener = (value: unknown) => {
             if (prevValue !== value) {
                 const prevValueRef = prevValue;

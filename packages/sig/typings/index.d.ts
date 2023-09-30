@@ -3,6 +3,10 @@ import type { Trackable } from "@sig/signal";
 
 declare global {
 
+  export namespace Sig {
+    export type ClassList = Array<Trackable<unknown> | string | string[] | Record<string, boolean | Trackable<unknown>>>;
+
+  }
   export namespace JSX {
 
     type NativeElement = globalThis.Element;
@@ -244,6 +248,8 @@ declare global {
       onDOMNodeRemovedFromDocumentCapture?: SigEventHandler<T>;
 
     }
+
+
 
     export interface AriaAttributes {
       /** Identifies the currently active element when DOM focus is on a composite widget, textbox, group, or application. */
@@ -536,7 +542,7 @@ declare global {
       /**
        * Assigns a CSS class to an element.
        * */
-      'class:list'?: (string | string[] | Record<string, boolean | Trackable>)[]
+      'class:list'?: Sig.ClassList;
       /**
        * Assigns a CSS class to an element.
        * */

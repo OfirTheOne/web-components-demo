@@ -1,14 +1,15 @@
 import { SignalSubscriptionType, RenderSignalValueHandler } from "../models";
 import { renderSignalContent } from "./render-signal-content";
 import { renderSignalProperty } from "./render-signal-property";
-import { renderSignalClass } from "./render-signal-class";
+import { renderSignalClassToggle, renderSignalClassReplace } from "./render-signal-class";
 import { renderSignalStyle } from "./render-signal-style";
 
 
 const handlerMap: Partial<Record<SignalSubscriptionType, RenderSignalValueHandler>> = {
     [SignalSubscriptionType.Content]: renderSignalContent,
     [SignalSubscriptionType.Property]: renderSignalProperty,
-    [SignalSubscriptionType.Class]: renderSignalClass,
+    [SignalSubscriptionType.ClassToggle]: renderSignalClassToggle,
+    [SignalSubscriptionType.ClassReplace]: renderSignalClassReplace,
     [SignalSubscriptionType.Style]: renderSignalStyle,
 }
 
