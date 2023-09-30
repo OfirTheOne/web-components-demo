@@ -26,8 +26,8 @@ export default function AppSettingForm() {
     const $cellular = signal(true);
     const $brightness = signal(50);
     const $brightnessClass = derivedSignal($brightness, (brightness) => {
-        const index = Math.round(brightness / 5);
-        return `opacity-${index * 5}`;
+        const index = Math.round(brightness / 10);
+        return `opacity-${index * 10}`;
     });
     const $search = signal('');
     return (
@@ -35,10 +35,14 @@ export default function AppSettingForm() {
             <div className=" bg-slate-100">
                 <div className="flex flex-col items-center h-screen py-4">
                     <form className="relative flex flex-col items-start bg-slate-200 h-full w-1/4 border-4 border-black outline outline-8 outline-black rounded-[50px]">
-                        <div class:list={["absolute h-full w-full rounded-[50px]"]}></div>
+                        <div 
+                            style={{ pointerEvents: 'none'}}
+                            class:list={["z-50 absolute h-full w-full border-4 border-black outline outline-8 outline-black rounded-[50px] bg-black", $brightnessClass]}
+                            onClick={(e) => { e.stopImmediatePropagation(); } }
+                        ></div>
                         <div className="flex flex-row justify-around h-[40px] w-full px-8">
                             <span className="text font-bold text-sm mt-2">9:41</span>
-                            <span class="h-[25px] bg-black w-[200px] rounded-b-3xl "></span>
+                            <span class="h-[25px] bg-black w-[200px] rounded-b-3xl"></span>
                             <span className="text font-bold text-sm mt-2">
                                 <BatteryAnimation />
                             </span>
