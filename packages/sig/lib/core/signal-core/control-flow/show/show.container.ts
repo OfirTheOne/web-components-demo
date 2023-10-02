@@ -1,15 +1,16 @@
+import { DOM } from '@sig/dom';
 import { Logger } from '@/common/logger';
 import { OneOrMany } from '@/types/one-or-many';
 import { SignalRenderContextCommunicator } from '../../render-context/signal-render-context-communicator';
 import { ShowProps } from './show.control';
 import { VirtualElement } from '@/models/virtual-element';
-import { DOMUtils, RenderUtils } from '@/core/utils';
+import { RenderUtils } from '@/core/utils';
 import { Trackable } from '../../signal';
 
 import { BaseControlFlowComponentContainer } from '../../../component-container/base-dynamic-template-component-container';
 
 const TAG_NAME = 'show-control'
-DOMUtils.defineCustomElement(
+DOM.creation.defineCustomElement(
     TAG_NAME,
     class extends HTMLElement {},
 );

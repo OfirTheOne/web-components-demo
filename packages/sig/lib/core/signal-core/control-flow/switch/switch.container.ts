@@ -1,17 +1,18 @@
+import { DOM } from '@sig/dom';
+import { Trackable } from "@sig/signal";
 import { OneOrMany } from '@/types';
 import { VirtualElement } from '@/models/virtual-element';
 import { ComponentKeyBuilder } from '@/common/component-key-builder';
 import { Logger } from '@/common/logger';
-import { DOMUtils, RenderUtils } from '@/core/utils';
+import { RenderUtils } from '@/core/utils';
 import { CaseProps, SwitchProps } from './switch.control';
 import { SignalRenderContextCommunicator } from '../../render-context/signal-render-context-communicator';
 import { BaseControlFlowComponentContainer } from '../../../component-container/base-dynamic-template-component-container';
 import { ControlFlow } from '../../models';
-import { Trackable } from "../../signal";
 
 
 const TAG_NAME = 'switch-control'
-DOMUtils.defineCustomElement(
+DOM.creation.defineCustomElement(
     TAG_NAME,
     class extends HTMLElement {});
 

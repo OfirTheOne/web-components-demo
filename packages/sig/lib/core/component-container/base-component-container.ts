@@ -3,8 +3,7 @@ import { Props, VirtualElement, VirtualFnComponent, VirtualRender } from "@/mode
 import { IComponentContainer } from "@/models/i-component-container";
 import { OneOrMany } from "@/types";
 import { ComponentKeyBuilder } from "@/common/component-key-builder";
-import { DOMUtils } from "../utils/dom-utils";
-
+import { DOM } from "@sig/dom";
 
 export abstract class BaseComponentContainer implements IComponentContainer {
     protected _container: OneOrMany<HTMLElement>;
@@ -61,10 +60,10 @@ export abstract class BaseComponentContainer implements IComponentContainer {
     // abstract onDispose(): void;
 
     public connectOnMount(domElement: OneOrMany<HTMLElement>) {
-        DOMUtils.appendToParent(this._parent, domElement);
+        DOM.treeManipulation.appendToParent(this._parent, domElement);
     }
     public connectOnSelfRerender(domElement: OneOrMany<HTMLElement>) {
-        DOMUtils.replace(this._parent, this._container, domElement);
+        DOM.treeManipulation.replace(this._parent, this._container, domElement);
     }
 
     protected coreRender(vElem: OneOrMany<VirtualElement>, overrideKey?: string): OneOrMany<HTMLElement> {

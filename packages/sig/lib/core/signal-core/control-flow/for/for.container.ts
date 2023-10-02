@@ -1,16 +1,17 @@
+import { DOM } from '@sig/dom';
+import { Trackable } from '@sig/signal';
 import { Logger } from '@/common/logger';
 import { ComponentKeyBuilder } from '@/common/component-key-builder';
-import { RenderUtils, DOMUtils } from '@/core/utils';
+import { RenderUtils } from '@/core/utils';
 import { OneOrMany } from '@/types';
 import { VirtualElement } from '@/models/virtual-element';
 
 import { BaseControlFlowComponentContainer } from '../../../component-container/base-dynamic-template-component-container';
 import { SignalRenderContextCommunicator } from '../../render-context/signal-render-context-communicator';
 import { ForProps } from './for.control';
-import { Trackable } from '@sig/signal';
 
 const TAG_NAME = 'for-control'
-DOMUtils.defineCustomElement(
+DOM.creation.defineCustomElement(
     TAG_NAME,
     class extends HTMLElement {});
 
@@ -93,12 +94,12 @@ export class ForControlFlowComponentContainer extends BaseControlFlowComponentCo
                 if(this._container !== this.placeholder) {
                     if(this.parent.children.length > 0) {
                         const actualContainer = Array.isArray(this._container) ? this._container.at(0) : this._container;
-                        DOMUtils.insertBefore(this.parent, this.placeholder, actualContainer);
+                        DOM.treeManipulation.insertBefore(this.parent, this.placeholder, actualContainer);
                     } else {
-                        DOMUtils.appendToParent(this.parent, this.placeholder);
+                        DOM.treeManipulation.appendToParent(this.parent, this.placeholder);
                     }
-                    DOMUtils.removeSelf(this._container);
-                    DOMUtils.replace(this._parent, this.placeholder, domElement);
+                    DOM.treeManipulation.removeSelf(this._container);
+                    DOM.treeManipulation.replace(this._parent, this.placeholder, domElement);
                 } else {
                     this.connectOnSelfRerender(domElement);
                 }

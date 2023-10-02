@@ -1,3 +1,4 @@
+import { DOM } from '@sig/dom';
 import { VirtualElement, FC } from '@/models';
 import { ComponentKeyBuilder } from '@/common/component-key-builder';
 import { Route, router } from '@/common/router';
@@ -5,10 +6,10 @@ import { OneOrMany } from '@/types';
 import { SignalRenderContextCommunicator } from '../../../render-context/signal-render-context-communicator';
 import { RouteProps } from './route.control';
 import { BaseControlFlowComponentContainer } from '../../../../component-container/base-dynamic-template-component-container';
-import { DOMUtils, RenderUtils } from '@/core/utils';
+import { RenderUtils } from '@/core/utils';
 
 const TAG_NAME = 'route-control'
-DOMUtils.defineCustomElement(
+DOM.creation.defineCustomElement(
     TAG_NAME,
     class extends HTMLElement {},
 );

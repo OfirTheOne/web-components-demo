@@ -1,10 +1,11 @@
+import { DOM } from '@sig/dom';
 import { BaseControlFlowComponentContainer } from '../../../../component-container/base-dynamic-template-component-container';
 import { Route } from '@/common/router';
 import { OneOrMany } from '@/types/one-or-many';
-import { DOMUtils, RenderUtils } from '@/core/utils';
+import { RenderUtils } from '@/core/utils';
 
 const TAG_NAME = 'router-control'
-DOMUtils.defineCustomElement(
+DOM.creation.defineCustomElement(
     TAG_NAME,
     class extends HTMLElement {},
 );

@@ -1,8 +1,9 @@
 import { isSignal } from '@sig/signal';
+import { DOM } from '@sig/dom';
 import { SignalSubscriptionType } from '@/core/signal-core/models';
 import { ISignal } from '@/core/signal-core/signal';
 import { SignalRenderContextCommunicator } from '@/core/signal-core/render-context/signal-render-context-communicator';
-import { DOMUtils, RenderUtils, StylePropsUtils, BasicPropsUtils, EventPropsUtils } from '@/core/utils';
+import {  RenderUtils, StylePropsUtils, BasicPropsUtils, EventPropsUtils } from '@/core/utils';
 
 
 interface RawPrimitiveProps {
@@ -12,7 +13,7 @@ interface RawPrimitiveProps {
 }
 
 export function primitiveElementRenderer(tag: string, props: Record<string, unknown>): HTMLElement {
-  const element = DOMUtils.createElement(tag);
+  const element = DOM.creation.createElement(tag);
   if (props) {
     const nonEmptyProps = props as RawPrimitiveProps;
     const { style: styleProp = {}, ref, ...propsEntries } = nonEmptyProps
@@ -25,9 +26,9 @@ export function primitiveElementRenderer(tag: string, props: Record<string, unkn
       } = BasicPropsUtils.resolveClassList(basicMutatedProps['class:list'] as Sig.ClassList)      
       Object.entries(classNameDict).forEach(([className, shouldAdd]) => {
         if(shouldAdd) {
-          DOMUtils.addClass(element, className);
+          DOM.elementManipulation.addClass(element, className);
         } else {
-          DOMUtils.removeClass(element, className);
+          DOM.elementManipulation.removeClass(element, className);
         }
       });
       replaceClassList.forEach(($signal) => {
@@ -42,7 +43,7 @@ export function primitiveElementRenderer(tag: string, props: Record<string, unkn
           id: $signal.id,
         });
         const className = String($signal.value);
-        DOMUtils.addClass(element, className);
+        DOM.elementManipulation.addClass(element, className);
       });
 
       Object.entries(toggleClassList).forEach(([className, $shouldAddSignal]) => {
@@ -59,9 +60,9 @@ export function primitiveElementRenderer(tag: string, props: Record<string, unkn
           });
           const shouldAdd = Boolean($shouldAddSignal.value);
           if(shouldAdd) {
-            DOMUtils.addClass(element, className);
+            DOM.elementManipulation.addClass(element, className);
           } else {
-            DOMUtils.removeClass(element, className);
+            DOM.elementManipulation.removeClass(element, className);
           }
         }
       });

@@ -28,6 +28,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@sig/dom": "workspace:^",
     "events": "^3.3.0",
     "mini-css-extract-plugin": "^2.7.3",
     "path-to-regexp": "^6.2.1",

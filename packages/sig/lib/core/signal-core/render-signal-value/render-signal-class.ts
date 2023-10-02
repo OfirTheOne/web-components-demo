@@ -1,4 +1,4 @@
-import { DOMUtils } from '@/core/utils/dom-utils';
+import { DOM } from '@sig/dom';
 import { SignalSubscriptionDetails, RenderSignalValueHandler } from '../models';
 
 
@@ -8,12 +8,12 @@ export const renderSignalClassToggle: RenderSignalValueHandler = (signalValue, _
     if (signal.containerElement === null || signal.containerElement === undefined || !signal.connected) {
         return;
     }
-    if (DOMUtils.isElement(signal.containerElement)) {
+    if (DOM.validation.isElement(signal.containerElement)) {
         const shouldAdd = Boolean(signalValue);
         if(shouldAdd) {
-            DOMUtils.addClass(signal.containerElement, signal.propKey);
+            DOM.elementManipulation.addClass(signal.containerElement, signal.propKey);
         } else {
-            DOMUtils.removeClass(signal.containerElement, signal.propKey);
+            DOM.elementManipulation.removeClass(signal.containerElement, signal.propKey);
         }
     }
 }
@@ -22,9 +22,9 @@ export const renderSignalClassReplace: RenderSignalValueHandler = (signalValue, 
     if (signal.containerElement === null || signal.containerElement === undefined || !signal.connected) {
         return;
     }
-    if (DOMUtils.isElement(signal.containerElement)) {
+    if (DOM.validation.isElement(signal.containerElement)) {
         const oldClassName = String(prevValue);
         const newClassName = String(signalValue);
-        DOMUtils.replaceClass(signal.containerElement, oldClassName, newClassName);
+        DOM.elementManipulation.replaceClass(signal.containerElement, oldClassName, newClassName);
     }
 }

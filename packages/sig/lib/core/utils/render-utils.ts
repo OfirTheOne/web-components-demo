@@ -1,6 +1,6 @@
-import { DOMUtils } from './dom-utils';
 import { DomElement, VirtualElement } from '@/models';
 import { OneOrMany } from '@/types';
+import { DOM } from '@sig/dom';
 export class RenderUtils {
 
   static isVirtualElement(child: unknown): child is VirtualElement {
@@ -14,17 +14,17 @@ export class RenderUtils {
   public static appendDomProps(element: Element, props: Record<string, unknown>) {
     Object.entries(props).forEach(([name, value]) => {
       if (typeof value === 'function') {
-        DOMUtils.addEventListener(element, name, value as EventListener);
+        DOM.elementManipulation.addEventListener(element, name, value as EventListener);
       } else if(value !== null) {
-        if(DOMUtils.isBooleanAttribute(name)) {
+        if(DOM.validation.isBooleanAttribute(name)) {
           if (value !== false && value !== undefined) {
-            DOMUtils.setAttribute(element, name, '');
+            DOM.elementManipulation.setAttribute(element, name, '');
           }
         } else {
-          DOMUtils.setAttribute(element, name, String(value));
+          DOM.elementManipulation.setAttribute(element, name, String(value));
         }
       } else {
-        DOMUtils.removeAttribute(element, name);
+        DOM.elementManipulation.removeAttribute(element, name);
       }
     });
   }
@@ -34,20 +34,20 @@ export class RenderUtils {
       const children = Array.isArray(child) ? child : [child];
       children.forEach((nestedChild) => {
         if (nestedChild) {
-          DOMUtils.appendToParent(parent, typeof nestedChild !== 'string' ? nestedChild : DOMUtils.createTextNode(nestedChild));
+          DOM.treeManipulation.appendToParent(parent, typeof nestedChild !== 'string' ? nestedChild : DOM.creation.createTextNode(nestedChild));
         }
       });
     }
   }
 
   public static renderText(child?: string | number | boolean) {
-    return DOMUtils.createTextNode(child);
+    return DOM.creation.createTextNode(child);
   }
 
   public static createElementPlaceholder = (tagName: string, key: string) => {
-    const ph = DOMUtils.createElement<HTMLElement>(tagName);
-    DOMUtils.setAttribute(ph, 'role', 'ph');
-    DOMUtils.setAttribute(ph, 'for', key);
+    const ph = DOM.creation.createElement<HTMLElement>(tagName);
+    DOM.elementManipulation.setAttribute(ph, 'role', 'ph');
+    DOM.elementManipulation.setAttribute(ph, 'for', key);
     ph.style.display = 'none';
     ph.style.visibility = 'hidden';
     return ph;

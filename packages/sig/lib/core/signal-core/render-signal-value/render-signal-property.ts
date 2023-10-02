@@ -1,5 +1,5 @@
+import { DOM } from '@sig/dom';
 import { SignalSubscriptionDetails, RenderSignalValueHandler } from '../models';
-import { DOMUtils } from "@/core/utils/dom-utils";
 
 export type RenderSignalValuePayload = Pick<SignalSubscriptionDetails, 'containerElement' | 'connected' | 'propKey'>;
 
@@ -7,22 +7,22 @@ export const renderSignalProperty: RenderSignalValueHandler = (signalValue: unkn
     if (signal.containerElement === null || signal.containerElement === undefined || !signal.connected) {
         return;
     }
-    if (DOMUtils.isElement(signal.containerElement)) {
-        if(DOMUtils.isBooleanAttribute(signal.propKey)) {
+    if (DOM.validation.isElement(signal.containerElement)) {
+        if(DOM.validation.isBooleanAttribute(signal.propKey)) {
             if (signalValue !== false &&
                 signalValue !== null && signalValue !== undefined) {
-                DOMUtils.setAttribute(signal.containerElement, signal.propKey, '');
+                DOM.elementManipulation.setAttribute(signal.containerElement, signal.propKey, '');
             } else {
-                DOMUtils.removeAttribute(signal.containerElement, signal.propKey);
+                DOM.elementManipulation.removeAttribute(signal.containerElement, signal.propKey);
             }
             return;
         }
         if (signalValue !== null && 
             signalValue !== undefined
         ) {
-            DOMUtils.setAttribute(signal.containerElement, signal.propKey, String(signalValue));
+            DOM.elementManipulation.setAttribute(signal.containerElement, signal.propKey, String(signalValue));
         } else {
-            DOMUtils.removeAttribute(signal.containerElement, signal.propKey);
+            DOM.elementManipulation.removeAttribute(signal.containerElement, signal.propKey);
         }
     }
 }
