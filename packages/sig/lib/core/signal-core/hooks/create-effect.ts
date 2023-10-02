@@ -1,4 +1,4 @@
-import { Trackable } from "../signal";
+import { Trackable } from "@sig/signal";
 import { SignalRenderContextCommunicator } from "../render-context/signal-render-context-communicator";
 
 export const createEffect = <T>(fn: () => T, deps: Trackable[] = []) => { 

@@ -1,8 +1,8 @@
+import { IDecoratedSignal, ISignal, Trackable } from "@sig/signal";
 import { noop, removeDuplicationWithOrder } from "../../../common/utils";
 import { IComponentContainer } from "../../../models/i-component-container";
 import { SignalComponentContainer } from "../../component-container/signal-component-container";
 import { SignalSubscriptionDetails } from "../models";
-import { IDecoratedSignal, ISignal, Trackable } from "../signal";
 
 import { renderSignalValueByType } from "../render-signal-value/render-signal-value-by-type";
 
