@@ -5,13 +5,29 @@
 
 ## render
 
-### class:list - JSX attribute
+### Standard JSX
+
+### Extended JSX - class:list
+
+### Binding JSX Signal 
+
+<br>
+
+## Lifecycle
+
+### onMount
+
+### onUnmount
+
+### onDispose
 
 <br>
 
 ## Signal Primitive
 
 ### signal 
+
+### decoratedSignal
 
 ### derivedSignal 
 
@@ -37,17 +53,7 @@
 
 <br>
 
-## Lifecycle
-
-### onMount
-
-### onUnmount
-
-### onDispose
-
-<br>
-
-## Store 
+## Store
 
 ### createStore
 
