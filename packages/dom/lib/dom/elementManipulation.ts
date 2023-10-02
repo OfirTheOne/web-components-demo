@@ -1,3 +1,4 @@
+import { DomElement } from "../types";
 import { NAMESPACES } from "../constants/lang-spec";
 
 export const elementManipulation = {
@@ -29,12 +30,12 @@ export const elementManipulation = {
         this.removeClass(elm, oldClassName);
         this.addClass(elm, newClassName);
     },
-    addEventListener(elm: HTMLElement | Element, eventName: string, listener: EventListener) {
+    addEventListener(elm: DomElement, eventName: string, listener: EventListener) {
         if (elm && typeof listener === 'function') {
             elm.addEventListener(eventName, listener);
         }
     },
-    removeEventListener(elm: HTMLElement | Element, eventName: string, listener: EventListener) {
+    removeEventListener(elm: DomElement, eventName: string, listener: EventListener) {
         if (elm && typeof listener === 'function') {
             elm.removeEventListener(eventName, listener);
         }

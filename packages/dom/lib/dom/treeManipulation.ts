@@ -1,20 +1,20 @@
-import { OneOrMany, DomCompatibleElement } from '../types';
+import { OneOrMany, DomElement } from '../types';
 import { validation } from './validation';
 
 export const treeManipulation = {
-    insertBefore(parent: DomCompatibleElement, node: DomCompatibleElement, child: DomCompatibleElement) {
+    insertBefore(parent: DomElement, node: DomElement, child: DomElement) {
         if (parent && child) {
             parent.insertBefore(child, node);
         }
     },
-    removeSelf(elm?: OneOrMany<DomCompatibleElement>) {
+    removeSelf(elm?: OneOrMany<DomElement>) {
         if (elm) {
             (Array.isArray(elm)) ?
                 elm.forEach((node) => treeManipulation.removeSingle(node)) :
                 treeManipulation.removeSingle(elm)
         }
     },
-    removeSingle(e: DomCompatibleElement) {
+    removeSingle(e: DomElement) {
         if (e instanceof HTMLElement) {
             e.remove();
         } else {
@@ -27,15 +27,15 @@ export const treeManipulation = {
         }
     },
     insertChildAfterNode(
-        parent: ShadowRoot | DomCompatibleElement,
-        child: OneOrMany<DomCompatibleElement>,
-        node?: HTMLElement | null
+        parent: ShadowRoot | DomElement,
+        child: OneOrMany<DomElement>,
+        node?: DomElement | null
     ): void {
         const children = Array.isArray(child) ? child : [child];
         if (!node) {
             const [firstNewChild, ...restChildren] = children;
             parent.insertBefore(firstNewChild, parent.firstChild);
-            let referenceNode: DomCompatibleElement = firstNewChild;
+            let referenceNode = firstNewChild;
             const filteredRestChildren = restChildren.filter(c => c !== null && c !== undefined);
             for (let i = 0; i < filteredRestChildren.length; i++) {
                 const c = filteredRestChildren[i];
@@ -43,7 +43,7 @@ export const treeManipulation = {
                 referenceNode = c;
             }
         } else {
-            let referenceNode: DomCompatibleElement = node;
+            let referenceNode = node;
             for (let i = 0; i < children.length; i++) {
                 const c = children[i];
                 treeManipulation.insertNodeAfter(c, referenceNode);
@@ -51,10 +51,10 @@ export const treeManipulation = {
             }
         }
     },
-    insertNodeAfter(child: DomCompatibleElement, referenceNode: DomCompatibleElement) {
+    insertNodeAfter(child: DomElement, referenceNode: DomElement) {
         referenceNode.parentNode.insertBefore(child, referenceNode.nextSibling);
     },
-    replace(parent: DomCompatibleElement, oldElement: OneOrMany<DomCompatibleElement>, newElement: OneOrMany<DomCompatibleElement>): void {
+    replace(parent: DomElement, oldElement: OneOrMany<DomElement>, newElement: OneOrMany<DomElement>): void {
         const firstContainerNode = Array.isArray(oldElement) ? oldElement[0] : oldElement;
         const renderStartPointNode = (
             validation.isOnlyChild(firstContainerNode) ? null : firstContainerNode.previousSibling
