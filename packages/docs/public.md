@@ -5,21 +5,17 @@
 
 ## render
 
+### class:list - JSX attribute
+
 <br>
 
 ## Signal Primitive
 
-### signal / createSignal 
+### signal 
 
-### derivedSignal / createDerivedSig    nal 
+### derivedSignal 
 
-### resourceSignal / createResourceSignal 
-
-<br>
-
-## Component Decorators
-
-### signalComponent
+### resourceSignal 
 
 <br>
 
@@ -41,10 +37,13 @@
 
 <br>
 
-## Hooks
+## Lifecycle
 
 ### onMount
 
+### onUnmount
+
+### onDispose
 
 <br>
 
@@ -53,3 +52,10 @@
 ### createStore
 
 ### createSignalStore
+
+<br>
+
+## Router
+
+### HistoryAdapter
+
