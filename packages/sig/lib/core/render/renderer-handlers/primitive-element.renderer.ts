@@ -1,7 +1,6 @@
-import { isSignal } from '@sig/signal';
+import { ISignal, isSignal } from '@sig/signal';
 import { DOM } from '@sig/dom';
 import { SignalSubscriptionType } from '@/core/signal-core/models';
-import { ISignal } from '@/core/signal-core/signal';
 import { SignalRenderContextCommunicator } from '@/core/signal-core/render-context/signal-render-context-communicator';
 import {  RenderUtils, StylePropsUtils, BasicPropsUtils, EventPropsUtils } from '@/core/utils';
 

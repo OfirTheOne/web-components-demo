@@ -1,11 +1,11 @@
 import { DOM } from '@sig/dom';
+import { Trackable } from '@sig/signal';
 import { Logger } from '@/common/logger';
 import { OneOrMany } from '@/types/one-or-many';
 import { SignalRenderContextCommunicator } from '../../render-context/signal-render-context-communicator';
 import { ShowProps } from './show.control';
 import { VirtualElement } from '@/models/virtual-element';
 import { RenderUtils } from '@/core/utils';
-import { Trackable } from '../../signal';
 
 import { BaseControlFlowComponentContainer } from '../../../component-container/base-dynamic-template-component-container';
 
