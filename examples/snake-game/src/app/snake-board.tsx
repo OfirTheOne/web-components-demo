@@ -1,5 +1,5 @@
 
-import { For, derivedSignal, onMount, signal, FC, ISignal, DerivedSignal } from "sig";
+import { For, derivedSignal, onMount, signal, FC, DerivedSignal } from "sig";
 
 const Button: FC<Record<'onUp' | 'onDown' | 'onLeft' | 'onRight', JSX.MouseEventHandler<HTMLInputElement>>> = ({ onUp, onDown, onLeft, onRight }) => {
     return (
@@ -54,11 +54,17 @@ const getRandomFood = (): [number, number] => {
     return [x, y];
 };
 
+const KEY_CODES_TO_DIRECTION = {
+    37: "LEFT",
+    38: "UP",
+    39: "RIGHT",
+    40: "DOWN"
+};
 const initialState = {
     food: getRandomFood(),
     direction: "RIGHT",
     speed: 100,
-    snakeDots: [[50, 50], [50, 52]]
+    snakeDots: [[50, 50], [50, 52]] as [number, number][]
 };
 
 function Game() {
@@ -70,9 +76,6 @@ function Game() {
         setInterval(moveSnake, $gameState.value.speed);
         document.onkeydown = onKeyDown;
     });
-
-
-
     $gameState.subscribe(() => {
         onSnakeOutOfBounds();
         onSnakeCollapsed();
@@ -80,22 +83,10 @@ function Game() {
     });
 
     const onKeyDown = e => {
-        switch (e.keyCode) {
-            case 37:
-                $gameState.setValue((prev => ({ ...prev, direction: "LEFT" })));
-                break;
-            case 38:
-                $gameState.setValue((prev => ({ ...prev, direction: "UP" })));
-                break;
-            case 39:
-                $gameState.setValue((prev => ({ ...prev, direction: "RIGHT" })));
-                break;
-            case 40:
-                $gameState.setValue((prev => ({ ...prev, direction: "DOWN" })));
-                break;
+        if(e.keyCode && e.keyCode in KEY_CODES_TO_DIRECTION) {
+            $gameState.setValue((prev => ({ ...prev, direction: KEY_CODES_TO_DIRECTION[e.keyCode] })));
         }
     };
-
     const moveSnake = () => {
         const dots = [...$gameState.value.snakeDots];
         let head = dots[dots.length - 1];
@@ -119,17 +110,13 @@ function Game() {
                 ...prev,
                 snakeDots: dots
             }));
-        
     };
-
     const onSnakeOutOfBounds = () => {
         const head = $gameState.value.snakeDots.at(-1);
-            if (head[0] >= 100 || head[1] >= 100 || head[0] < 0 || head[1] < 0) {
-                gameOver();
-            }
-        
+        if (head[0] >= 100 || head[1] >= 100 || head[0] < 0 || head[1] < 0) {
+            gameOver();
+        }
     }
-
     const onSnakeCollapsed = () => {
         const snake = [...$gameState.value.snakeDots];
         const head = snake.at(-1);
@@ -140,7 +127,6 @@ function Game() {
             }
         });
     }
-
     const onSnakeEats = () => {
         const head = $gameState.value.snakeDots.at(-1);
         const food = $gameState.value.food;
@@ -153,16 +139,14 @@ function Game() {
             increaseSpeed();
         }
     }
-
     const increaseSnake = () => {
         const newSnake = [...$gameState.value.snakeDots];
-        newSnake.unshift([]);
+        newSnake.unshift([] as any);
         $gameState.setValue(prev => ({
             ...prev,
             snakeDots: newSnake
         }));
     }
-
     const increaseSpeed = () => {
         if ($gameState.value.speed > 10) {
             $gameState.setValue(prev => ({
@@ -171,85 +155,43 @@ function Game() {
             }));
         }
     }
-
     const gameOver = () => {
         alert(`GAME OVER, your score is ${$gameState.value.snakeDots.length - 2}`);
         $gameState.setValue(_prev => initialState);
     }
-
-    const onDown = () => {
+    const createDirectionHandler = (direction: string, nextFrameDot: (dot: [number, number]) => [number, number]) => {
         const dots = [...$gameState.value.snakeDots];
         let head = dots[dots.length - 1];
-
-        head = [head[0], head[1] + 2];
+        head = nextFrameDot(head); 
         dots.push(head);
         dots.shift();
         $gameState.setValue(prev => ({
             ...prev,
-            direction: "DOWN",
+            direction: direction,
             snakeDots: dots
         }));
     };
 
-    const onUp = () => {
-        const dots = [...$gameState.value.snakeDots];
-        let head = dots[dots.length - 1];
-
-        head = [head[0], head[1] - 2];
-        dots.push(head);
-        dots.shift();
-        $gameState.setValue(prev => ({
-            ...prev,
-            direction: "UP",
-            snakeDots: dots
-        }));
-    };
-
-    const onRight = () => {
-        const dots = [...$gameState.value.snakeDots];
-        let head = dots[dots.length - 1];
-
-        head = [head[0] + 2, head[1]];
-        dots.push(head);
-        dots.shift();
-        $gameState.setValue(prev => ({
-            ...prev,
-            direction: "RIGHT",
-            snakeDots: dots
-        }));
-    };
-
-    const onLeft = () => {
-        const dots = [...$gameState.value.snakeDots];
-        let head = dots[dots.length - 1];
-
-        head = [head[0] - 2, head[1]];
-        dots.push(head);
-        dots.shift();
-        $gameState.setValue(prev => ({
-            ...prev,
-            direction: "LEFT",
-            snakeDots: dots
-        }));
-    };
+    const onDown = () => createDirectionHandler("DOWN", head => [head[0], head[1] + 2]);
+    const onUp = () => createDirectionHandler("UP", head => [head[0], head[1] - 2]);
+    const onRight = () => createDirectionHandler("RIGHT", head => [head[0] + 2, head[1]]);
+    const onLeft = () => createDirectionHandler("LEFT", head => [head[0] - 2, head[1]]);
 
     return (
         <div>
-
-                <div>
-                    <div className="game-area">
-                        <Snake snakeDots={$snakeDots} />
-                        <Food dot={$food} />
-                    </div>
-                    <Button
-                        onDown={onDown}
-                        onLeft={onLeft}
-                        onRight={onRight}
-                        onUp={onUp}
-                    />
+            <div>
+                <div className="game-area">
+                    <Snake snakeDots={$snakeDots} />
+                    <Food dot={$food} />
                 </div>
-            
-        </div>
+                <Button
+                    onDown={onDown}
+                    onLeft={onLeft}
+                    onRight={onRight}
+                    onUp={onUp}
+                />
+            </div>
+        </div> 
     );
 
 }
