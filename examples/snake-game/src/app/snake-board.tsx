@@ -1,7 +1,7 @@
 
-import { For, derivedSignal, onMount, signal } from "sig";
+import { For, derivedSignal, onMount, signal, FC, ISignal, DerivedSignal } from "sig";
 
-const Button = ({ onUp, onDown, onLeft, onRight }) => {
+const Button: FC<Record<'onUp' | 'onDown' | 'onLeft' | 'onRight', JSX.MouseEventHandler<HTMLInputElement>>> = ({ onUp, onDown, onLeft, onRight }) => {
     return (
         <div className="buttons">
             <div className="upwards">
@@ -23,12 +23,12 @@ const Button = ({ onUp, onDown, onLeft, onRight }) => {
     );
 };
 
-const Food = props => {
-    const style = {
-        left: `${props.dot[0]}%`,
-        top: `${props.dot[1]}%`
-    };
-    return <div className="food" style={style} />;
+const Food: FC<{ dot: DerivedSignal<[number, number]> }> = props => {
+    const $dotStyle = derivedSignal(props.dot, dot => ({
+        left: `${dot[0]}%`,
+        top: `${dot[1]}%`
+    }))
+    return <div className="food" style={$dotStyle as any} />;
 };
 
 const Snake = props => {
@@ -46,7 +46,7 @@ const Snake = props => {
     );
 };
 
-const getRandomFood = () => {
+const getRandomFood = (): [number, number] => {
     const min = 1;
     const max = 98;
     const x = Math.floor((Math.random() * (max - min + 1) + min) / 2) * 2;
@@ -173,8 +173,8 @@ function Game() {
     }
 
     const gameOver = () => {
-        // alert(`GAME OVER, your score is ${$gameState.value.snakeDots.length - 2}`);
-        // $gameState.setValue(_prev => initialState);
+        alert(`GAME OVER, your score is ${$gameState.value.snakeDots.length - 2}`);
+        $gameState.setValue(_prev => initialState);
     }
 
     const onDown = () => {
