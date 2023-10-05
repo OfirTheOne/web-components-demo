@@ -1,10 +1,10 @@
 import { OneOrMany, DomElement } from '../types';
 import { validation } from './validation';
 
-export const treeManipulation = {
-    insertBefore(parent: DomElement, node: DomElement, child: DomElement) {
-        if (parent && child) {
-            parent.insertBefore(child, node);
+export const treeManipulation = { 
+    insertBefore(parent: DomElement, newNode: DomElement, referenceNode: DomElement) {
+        if (parent && referenceNode) {
+            parent.insertBefore(newNode, referenceNode);
         }
     },
     removeSelf(elm?: OneOrMany<DomElement>) {
