@@ -20,13 +20,21 @@ export const elementManipulation = {
             elm.removeAttribute(attribute);
         }
     },
-    addClass(elm: HTMLElement | SVGAElement | Element, className: string) {
-        className.split(' ').forEach((c) => elm.classList.add(c));
+    addClass(elm: HTMLElement | SVGAElement | Element, className: string | string[]) {
+        (Array.isArray(className) ? className : [className])
+            .map(c => c.split(' '))
+            .flat()
+            .forEach((c) => elm.classList
+            .add(c));
     },
-    removeClass(elm: HTMLElement | SVGAElement | Element, className: string) {
-        className.split(' ').forEach((c) => elm.classList.remove(c));
+    removeClass(elm: HTMLElement | SVGAElement | Element, className: string | string[]) {
+        (Array.isArray(className) ? className : [className])
+            .map(c => c.split(' '))
+            .flat()
+            .forEach((c) => elm.classList
+            .remove(c));
     },
-    replaceClass(elm: HTMLElement | SVGAElement | Element, oldClassName: string, newClassName: string) {
+    replaceClass(elm: HTMLElement | SVGAElement | Element, oldClassName: string | string[], newClassName: string | string[]) {
         this.removeClass(elm, oldClassName);
         this.addClass(elm, newClassName);
     },
