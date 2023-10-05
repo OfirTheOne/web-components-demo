@@ -7,6 +7,7 @@ export enum SignalSubscriptionType {
     Property,
     Event,
     Style,
+    StyleProp,
     ClassToggle,
     ClassReplace,
 

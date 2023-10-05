@@ -1,8 +1,8 @@
-import { ISignal, isSignal } from '@sig/signal';
+import { isSignal, isDerivedSignal } from '@sig/signal';
 import { DOM } from '@sig/dom';
 import { SignalSubscriptionType } from '@/core/signal-core/models';
 import { SignalRenderContextCommunicator } from '@/core/signal-core/render-context/signal-render-context-communicator';
-import {  RenderUtils, StylePropsUtils, BasicPropsUtils, EventPropsUtils } from '@/core/utils';
+import { RenderUtils, StylePropsUtils, BasicPropsUtils, EventPropsUtils } from '@/core/utils';
 
 
 interface RawPrimitiveProps {
@@ -46,7 +46,7 @@ export function primitiveElementRenderer(tag: string, props: Record<string, unkn
       });
 
       Object.entries(toggleClassList).forEach(([className, $shouldAddSignal]) => {
-        if(isSignal($shouldAddSignal)) {
+        if(isSignal($shouldAddSignal) || isDerivedSignal($shouldAddSignal)) {
           const currentContext = SignalRenderContextCommunicator.instance.currentContext;
           currentContext.subscribeSignal($shouldAddSignal, {
             componentKey: currentContext.componentKey,
@@ -70,9 +70,9 @@ export function primitiveElementRenderer(tag: string, props: Record<string, unkn
 
     const eventMutatedProps = EventPropsUtils.mutateEventProps(basicMutatedProps);
     Object.entries(eventMutatedProps).forEach(([name, value]) => {
-      if (isSignal(value)) {
+      if (isSignal(value) || isDerivedSignal(value)) {
         const currentContext = SignalRenderContextCommunicator.instance.currentContext;
-        const $signal: ISignal = value;
+        const $signal = value;
         currentContext.subscribeSignal($signal, {
           componentKey: currentContext.componentKey,
           containerElement: element,
@@ -86,17 +86,35 @@ export function primitiveElementRenderer(tag: string, props: Record<string, unkn
       }
     });
 
-    const nativeStyleProp = StylePropsUtils.convertStylePropObjectToNativeStylePropObject(styleProp);
+    let nativeStyleProp:  Record<string, unknown>;
+    if(isSignal(styleProp)) {
+      const currentContext = SignalRenderContextCommunicator.instance.currentContext;
+      const $signal = styleProp;
+      currentContext.subscribeSignal($signal, {
+        componentKey: currentContext.componentKey,
+        containerElement: element,
+        signalId: $signal.id,
+        connected: true,
+        type: SignalSubscriptionType.Style,
+        propKey: "style",
+        id: $signal.id,
+      });
+      nativeStyleProp = StylePropsUtils
+        .convertStylePropObjectToNativeStylePropObject(styleProp.value as Record<string, unknown>);
+    } else {
+      nativeStyleProp = StylePropsUtils.convertStylePropObjectToNativeStylePropObject(styleProp);
+    }
+    
     Object.entries(nativeStyleProp).forEach(([name, value]) => {
-      if (isSignal(value)) {
+      if (isSignal(value) || isDerivedSignal(value)) {
         const currentContext = SignalRenderContextCommunicator.instance.currentContext;
-        const $signal: ISignal = value;
+        const $signal = value;
         currentContext.subscribeSignal($signal, {
           componentKey: currentContext.componentKey,
           containerElement: element,
           signalId: $signal.id,
           connected: true,
-          type: SignalSubscriptionType.Style,
+          type: SignalSubscriptionType.StyleProp,
           propKey: name,
           id: $signal.id,
         });
@@ -128,18 +146,3 @@ function assignRef(ref: ((e: Element) => void) | { current: Element | null } | n
     }
   }
 }
-
-
-
-/*
-
-[ 
-  "class A",
-  "class B",
-  signal "class C",
-  { "class B": signal },
- "class D",
-  single "class A" 
-]
-
-*/
