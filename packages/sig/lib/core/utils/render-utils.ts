@@ -4,10 +4,10 @@ import { DOM } from '@sig/dom';
 export class RenderUtils {
 
   static isVirtualElement(child: unknown): child is VirtualElement {
-    return child !== null && 
-      typeof child === 'object' && 
-      'tag' in child && 
-      'props' in child && 
+    return child !== null &&
+      typeof child === 'object' &&
+      'tag' in child &&
+      'props' in child &&
       'children' in child;
   }
 
@@ -15,13 +15,17 @@ export class RenderUtils {
     Object.entries(props).forEach(([name, value]) => {
       if (typeof value === 'function') {
         DOM.elementManipulation.addEventListener(element, name, value as EventListener);
-      } else if(value !== null) {
-        if(DOM.validation.isBooleanAttribute(name)) {
+      } else if (value !== null) {
+        if (DOM.validation.isBooleanAttribute(name)) {
           if (value !== false && value !== undefined) {
             DOM.elementManipulation.setAttribute(element, name, '');
           }
         } else {
-          DOM.elementManipulation.setAttribute(element, name, String(value));
+          if (name === 'class') {
+            DOM.elementManipulation.addClass(element, value as string);
+          } else {
+            DOM.elementManipulation.setAttribute(element, name, String(value));
+          }
         }
       } else {
         DOM.elementManipulation.removeAttribute(element, name);
@@ -51,6 +55,6 @@ export class RenderUtils {
     ph.style.display = 'none';
     ph.style.visibility = 'hidden';
     return ph;
- }
- 
+  }
+
 }
