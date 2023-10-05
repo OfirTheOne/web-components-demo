@@ -24,7 +24,7 @@ const Button: FC<{ text: string, onClick: () => void }> = function Button({ text
     </button>
 };
 
-const ForExamplePage = (function SwitchExamplePage() {
+const ForExamplePage = () => {
     const listSignal = signal(listItems().slice(0, 6));
     return (
         <>
@@ -32,19 +32,19 @@ const ForExamplePage = (function SwitchExamplePage() {
             <Button text={"Shuffle"} onClick={() => listSignal.setValue((list) => { list.pop(); return list;}) /* shuffleList(listItems()).slice(0, 7)) */ } />
             <Box>
                 <h2>With Index</h2>
-                <For each={listSignal} index={'id'}>
+                <For each={listSignal as any} index={'id'}>
                     {(item, i) => <Card id={i}>{item.text}</Card>}
                 </For>
             </Box>
             <Box>
                 <h2>Without Index</h2>
-                <For each={listSignal}>
+                <For each={listSignal as any}>
                     {(item, i) => <Card id={i}>{item.text}</Card>}
                 </For>
             </Box>
         </>
     );
-});
+};
 
 const shuffleList = (arr: any[]) => {
     const newArr = [...arr]
