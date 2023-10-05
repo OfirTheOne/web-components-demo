@@ -2,7 +2,7 @@ import { SignalSubscriptionType, RenderSignalValueHandler } from "../models";
 import { renderSignalContent } from "./render-signal-content";
 import { renderSignalProperty } from "./render-signal-property";
 import { renderSignalClassToggle, renderSignalClassReplace } from "./render-signal-class";
-import { renderSignalStyle } from "./render-signal-style";
+import { renderSignalStyleProp, renderSignalStyle } from "./render-signal-style";
 
 
 const handlerMap: Partial<Record<SignalSubscriptionType, RenderSignalValueHandler>> = {
@@ -10,6 +10,7 @@ const handlerMap: Partial<Record<SignalSubscriptionType, RenderSignalValueHandle
     [SignalSubscriptionType.Property]: renderSignalProperty,
     [SignalSubscriptionType.ClassToggle]: renderSignalClassToggle,
     [SignalSubscriptionType.ClassReplace]: renderSignalClassReplace,
+    [SignalSubscriptionType.StyleProp]: renderSignalStyleProp,
     [SignalSubscriptionType.Style]: renderSignalStyle,
 }
 
