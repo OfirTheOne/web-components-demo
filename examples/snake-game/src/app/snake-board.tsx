@@ -71,11 +71,12 @@ function Game() {
     const $gameState = signal(initialState);
     const $snakeDots = derivedSignal($gameState, (state) => state.snakeDots);
     const $food = derivedSignal($gameState, (state) => state.food )
-
+    let timer: NodeJS.Timer | null = null;
     onMount(() => {
-        setInterval(moveSnake, $gameState.value.speed);
+        timer = setInterval(moveSnake, $gameState.value.speed);
         document.onkeydown = onKeyDown;
     });
+
     $gameState.subscribe(() => {
         onSnakeOutOfBounds();
         onSnakeCollapsed();
