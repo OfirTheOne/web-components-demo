@@ -1,0 +1,35 @@
+{
+  "tasksRunnerOptions": {
+    
+    "default": {
+      "runner": "nx/tasks-runners/default",
+      "options": {
+        "cacheableOperations": [
+          "lint",
+          "format"
+        ]
+      }
+    }
+  },
+  "targetDefaults": {
+    "lint": {
+      "dependsOn": [
+        "^lint"
+      ],
+      "outputs": [
+        "{projectRoot}/lib"
+      ]
+    },
+    "format": {
+      "dependsOn": [
+        "^format"
+      ],
+      "outputs": [
+        "{projectRoot}/lib"
+      ]
+    }
+  },
+  "affected": {
+    "defaultBase": "master"
+  }
+}

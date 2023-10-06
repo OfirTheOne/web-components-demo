@@ -20,11 +20,11 @@ export default defineConfig({
             },
         },
     },
-    esbuild: {
-        jsxFactory: '__createElement',
-        jsxFragment: '__createFragment',
-        jsxInject: `import { createFragment as __createFragment, createElement as __createElement } from 'sig'`,
-    },
+    // esbuild: {
+    //     jsxFactory: '__createElement',
+    //     jsxFragment: '__createFragment',
+    //     jsxInject: `import { createFragment as __createFragment, createElement as __createElement } from 'sig'`,
+    // },
     css: { modules: { localsConvention: 'camelCase' } },
     plugins: [dts()],
 });

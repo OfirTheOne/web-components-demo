@@ -1,7 +1,8 @@
-import * as Sig from "sig";
+import type { FC, Signal } from "sig";
+import { Show } from "sig";
 
-export const Input: Sig.FC<
-    { value: Sig.Signal<string> } &
+export const Input: FC<
+    { value: Signal<string> } &
     Omit<JSX.HTMLAttributes<HTMLInputElement>, 'value'>
 > = ({
     value,
@@ -16,8 +17,8 @@ export const Input: Sig.FC<
         );
     }
 
-export const InputController: Sig.FC<{
-    value: Sig.Signal<string>,
+export const InputController: FC<{
+    value: Signal<string>,
     label?: string,
     id: string,
     validation?: (value: string) => boolean,
@@ -48,14 +49,14 @@ export const InputController: Sig.FC<{
                 />
                 {
                     validation ?
-                        <Sig.Show
+                        <Show
                             track={value}
                             when={([inputValue]) => {
                                 return (ref.current && !ref.current.checkValidity()) || !validation(inputValue);
                             }}
                         >
                             <label className="error">{validationError}</label>
-                        </Sig.Show>
+                        </Show>
                         : null
                 }
             </div>

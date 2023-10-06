@@ -1,7 +1,7 @@
-import * as Sig from "sig";
+import type { FC, Signal} from "sig";
 
-export const Checkbox: Sig.FC<{
-    value: Sig.Signal<boolean>,
+export const Checkbox: FC<{
+    value: Signal<boolean>,
     id: string
 }> = ({ value, ...props }) => {
     return (
@@ -14,8 +14,8 @@ export const Checkbox: Sig.FC<{
     );
 }
 
-export const CheckboxController: Sig.FC<{
-    value: Sig.Signal<boolean>,
+export const CheckboxController: FC<{
+    value: Signal<boolean>,
     label: string,
     id: string
 }> = ({ value, label, id, ...props }) => {

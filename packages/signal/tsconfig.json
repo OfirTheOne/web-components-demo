@@ -46,5 +46,5 @@
     "typeRoots": ["node_modules/@types"],
   },
   "include": ["lib"],
-  "exclude": ["node_modules", "test", "dist", "**/*spec.ts", "public"]
+  "exclude": ["node_modules", "test", "dist", "**/*spec.ts", "**/*test.ts", "public"]
 }

@@ -1,12 +1,18 @@
 {
-  "name": "sig-monorepo",
+  "name": "@sig/root",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
+    "affected:packages": "nx affected:packages",
+    "build": "nx run-many -t build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "nx": "16.10.0",
+    "nx-cloud": "latest"
+  }
 }
