@@ -4,12 +4,10 @@ import { signalRender } from './signal-render';
 import { DOM } from '@sig/dom';
 
 export function render(elem: JSX.Element | VirtualElement, id: string) {
-  if (window.document.readyState === 'complete') {
+  if (DOM.validation.isRenderReady()) {
     renderRoot(elem, id);
   } else {
-    window.onload = () => {
-      renderRoot(elem, id);
-    };
+    DOM.events.onRenderReady(() => renderRoot(elem, id));
   }
 }
 
