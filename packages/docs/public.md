@@ -1,9 +1,10 @@
 
+
 # API
 
+# `sig`
+
 <br>
-
-
 
 ## render
 
@@ -16,6 +17,10 @@ import { RootApp } from './root-app';
 
 render(<RootApp />, 'root');
 ```
+
+</br>
+
+<hr>
 
 </br>
 
@@ -72,17 +77,83 @@ export const Input: FC<
 }
 ```
 
-<br>
+</br>
+
+<hr>
+
+</br>
 
 ## Lifecycle
 
 ### onMount
 
+A lifecycle hook, called once the component mounted the dom.
+```tsx
+import { derivedSignal, signal, onMount } from "sig";
+
+function Game() {
+    const $gameState = signal(initialState);
+    const $snakeDots = derivedSignal($gameState, (state) => state.snakeDots);
+    const $food = derivedSignal($gameState, (state) => state.food);
+    let timer: NodeJS.Timer | null = null;
+
+    onMount(() => {
+        // will called once, when the component mounted. 
+        timer = setInterval(moveSnake, $gameState.value.speed);
+        document.onkeydown = onKeyDown;
+    });
+    
+    ...
+
+    return (
+        <div> ... 
+        </div>
+    );
+}
+    
+```
+
+
 ### onUnmount
+
+A lifecycle hook, called once the component unmount the dom.
+
+```tsx
+import { derivedSignal, signal, onMount } from "sig";
+
+function Game() {
+    const $gameState = signal(initialState);
+    const $snakeDots = derivedSignal($gameState, (state) => state.snakeDots);
+    const $food = derivedSignal($gameState, (state) => state.food);
+    let timer: NodeJS.Timer | null = null;
+
+    ...
+
+    onUnmount(() => {
+        clearInterval(timer);
+        document.onkeydown = null;
+    });
+    
+    ...
+
+    return (
+        <div> ... 
+        </div>
+    );
+}
+    
+```
+
 
 ### onDispose
 
-<br>
+A lifecycle hook, called once the component disposed from it's container.
+
+</br>
+
+<hr>
+
+</br>
 
 ## Signal Primitive
 
@@ -94,7 +165,11 @@ export const Input: FC<
 
 ### resourceSignal 
 
-<br>
+</br>
+
+<hr>
+
+</br>
 
 ## Control Flow
 
@@ -112,6 +187,15 @@ export const Input: FC<
 
 ### Link
 
+</br>
+
+<hr>
+
+</br>
+
+
+# `@sig/store`
+
 <br>
 
 ## Store
@@ -120,9 +204,46 @@ export const Input: FC<
 
 ### createSignalStore
 
+</br>
+
+<hr>
+
+</br>
+
+# `@sig/router`
+
 <br>
 
 ## Router
 
 ### HistoryAdapter
 
+</br>
+
+<hr>
+
+</br>
+
+# `@sig/forms`
+
+<br>
+
+## Form
+
+</br>
+
+<hr>
+
+</br>
+
+# `@sig/common`
+
+<br>
+
+## Common
+
+</br>
+
+<hr>
+
+</br>
