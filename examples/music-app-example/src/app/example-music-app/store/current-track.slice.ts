@@ -11,7 +11,7 @@ export interface CurrentTrackState {
     }) | null) => void,
 }
 
-export const currentTrackSlice: CreateStateFactory<CurrentTrackState> = (set, get) => {
+export const currentTrackSlice: CreateStateFactory<CurrentTrackState> = (set) => {
     return {
         selectedTrack: null as (IAlbumTrack & { albumName: string }) | null,
         played: false,

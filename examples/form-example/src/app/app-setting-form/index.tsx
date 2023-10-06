@@ -5,6 +5,7 @@ import { IPhone14Slider } from "./slider";
 import { IPhone14Toggle } from "./toggle";
 import { IconButton } from "./icon-button";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const _usedClasses = [
     'opacity-0',
     'opacity-10',
@@ -18,7 +19,7 @@ const _usedClasses = [
     'opacity-90',
     'opacity-100',
 ];
-
+console.log(_usedClasses)
 const buildPhoneHeader = () => (
     <div className="flex flex-row justify-around h-[40px] w-full px-8">
         <span className="text font-bold text-sm mt-2">9:41</span>

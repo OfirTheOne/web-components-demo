@@ -7,7 +7,7 @@ export interface AlbumState {
     fetchAlbums: () => Promise<IAlbum[][]>
 }
 
-export const albumSlice: CreateStateFactory<AlbumState> = (set, get) => {
+export const albumSlice: CreateStateFactory<AlbumState> = (set) => {
     return {
         albumList: [],
         fetchAlbums: async () => {

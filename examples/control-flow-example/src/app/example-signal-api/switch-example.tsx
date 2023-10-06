@@ -2,13 +2,13 @@ import { Switch, signal, signalComponent, FC, Case } from 'sig';
 
 
 
-const Box: FC = function Box(props, children) {
+const Box: FC = function Box(_props, children) {
   return <div style={{ background: "white", height: "200px"}}>
     { children }
   </div>
 }
 
-const Card: FC = function Card(props, children) {
+const Card: FC = function Card(_props, children) {
   return <div style={{ background: "blue", color: "white", height: "150", width: "150px"}}>
     { children }
   </div>

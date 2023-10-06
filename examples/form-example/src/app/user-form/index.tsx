@@ -63,9 +63,9 @@ export default signalComponent(function Form() {
         label="No Validate"
         id="no-validate"
       />
-      <button class:list={
+      <button class:list={[
         { 'no-validate': formNoValidate }
-      } type="submit">
+      ]} type="submit">
         Submit
       </button>
 

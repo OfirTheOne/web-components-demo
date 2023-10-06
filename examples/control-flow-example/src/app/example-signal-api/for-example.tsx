@@ -5,7 +5,7 @@ const listItems = () => [
     { id: 4, text: "Item 4" },{ id: 5, text: "Item 5" },{ id: 6, text: "Item 6" },
     { id: 7, text: "Item 7" }
 ];
-const Box: FC = function Box(props, children) {
+const Box: FC = function Box(_props, children) {
     return <div style={{ background: "white", height: "200px" }}>
         {children}
     </div>
@@ -45,14 +45,5 @@ const ForExamplePage = () => {
         </>
     );
 };
-
-const shuffleList = (arr: any[]) => {
-    const newArr = [...arr]
-    for (let i = newArr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
-    }
-    return newArr
-}
 
 export default signalComponent(ForExamplePage);

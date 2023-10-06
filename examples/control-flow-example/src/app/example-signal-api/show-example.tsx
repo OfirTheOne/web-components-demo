@@ -1,6 +1,6 @@
 import { Show, signal, signalComponent, onDispose, onMount, onUnmount, FC } from 'sig';
 
-const BoxFallback: FC = function BoxFallback(props, children) {
+const BoxFallback: FC = function BoxFallback(_props, children) {
     onUnmount(() => {
         console.log("Unmounting BoxFallback");
     });
@@ -17,7 +17,7 @@ const BoxFallback: FC = function BoxFallback(props, children) {
 };
 
 
-const BoxFront: FC = function BoxFront(props, children) {
+const BoxFront: FC = function BoxFront(_props, children) {
     onUnmount(() => {
         console.log("Unmounting BoxFront");
     });
@@ -34,7 +34,7 @@ const BoxFront: FC = function BoxFront(props, children) {
     </div>
 };
 
-const Card: FC = function Card(props, children) {
+const Card: FC = function Card(_props, children) {
     return <div style={{ background: "blue", color: "white", height: "150", width: "150px" }}>
         {children}
     </div>

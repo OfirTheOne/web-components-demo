@@ -35,7 +35,7 @@ const Snake = props => {
     return (
         <div>
             <For each={props.snakeDots} index={(dot) =>`${dot[0]},${dot[1]}`}>
-                {(dot, i) => {
+                {(dot) => {
                     const style = {
                         left: `${dot[0]}%`,
                         top: `${dot[1]}%`
@@ -71,9 +71,8 @@ function Game() {
     const $gameState = signal(initialState);
     const $snakeDots = derivedSignal($gameState, (state) => state.snakeDots);
     const $food = derivedSignal($gameState, (state) => state.food )
-    let timer: NodeJS.Timer | null = null;
     onMount(() => {
-        timer = setInterval(moveSnake, $gameState.value.speed);
+        setInterval(moveSnake, $gameState.value.speed);
         document.onkeydown = onKeyDown;
     });
 

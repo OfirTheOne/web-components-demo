@@ -1,6 +1,5 @@
 import { FC } from 'sig';
-import { history } from 'sig';
-import { Link, signal } from 'sig';
+import { Link } from 'sig';
 import './side-menu.scss';
 
 
@@ -54,26 +53,26 @@ const sections = [
 ];
 
 
-const resizeOffset = signal<number | null>(null);
-const sideMenuWidth  = signal('250px');
+// const resizeOffset = signal<number | null>(null);
+// const sideMenuWidth  = signal('250px');
 
-const handleResizeStart = (event) => {
-    resizeOffset.setValue(() => (event.clientX as number));
-};
+// const handleResizeStart = (event) => {
+//     resizeOffset.setValue(() => (event.clientX as number));
+// };
 
-const handleResizeEnd = () => {
-    resizeOffset.setValue(() => null);
-};
+// const handleResizeEnd = () => {
+//     resizeOffset.setValue(() => null);
+// };
 
-const handleResizeMove = (event) => {
-    if (resizeOffset.value !== null) {
-        const delta = event.clientX - resizeOffset.value;
-        const newWidth = Math.max(200, document.body.clientWidth - delta);
-        sideMenuWidth.setValue(() => `${newWidth}px`);
-    } else {
-        sideMenuWidth.setValue(() =>  '250px');
-    }
-};
+// const handleResizeMove = (event) => {
+//     if (resizeOffset.value !== null) {
+//         const delta = event.clientX - resizeOffset.value;
+//         const newWidth = Math.max(200, document.body.clientWidth - delta);
+//         sideMenuWidth.setValue(() => `${newWidth}px`);
+//     } else {
+//         sideMenuWidth.setValue(() =>  '250px');
+//     }
+// };
 
 export const SpotifySideMenu: FC = () => {
   return (
