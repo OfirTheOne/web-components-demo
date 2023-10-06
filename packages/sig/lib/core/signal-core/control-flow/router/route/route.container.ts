@@ -1,4 +1,4 @@
-import { DOM } from '@sig/dom';
+import { DOM } from '@sigjs/dom';
 import { VirtualElement, FC } from '@/models';
 import { ComponentKeyBuilder } from '@/common/component-key-builder';
 import { Route, router } from '@/common/router';

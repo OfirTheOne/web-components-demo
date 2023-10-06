@@ -1,5 +1,5 @@
 import type * as CSS from 'csstype';
-import type { Trackable } from "@sig/signal";
+import type { Trackable } from "@sigjs/signal";
 
 declare global {
 

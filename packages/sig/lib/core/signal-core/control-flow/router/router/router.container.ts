@@ -1,4 +1,4 @@
-import { DOM } from '@sig/dom';
+import { DOM } from '@sigjs/dom';
 import { BaseControlFlowComponentContainer } from '../../../../component-container/base-dynamic-template-component-container';
 import { Route } from '@/common/router';
 import { OneOrMany } from '@/types/one-or-many';

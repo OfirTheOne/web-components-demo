@@ -1,4 +1,4 @@
-import { Trackable } from "@sig/signal";
+import { Trackable } from "@sigjs/signal";
 import { FC } from "@/models/functional-component";
 import { ControlFlow } from "../../models";
 

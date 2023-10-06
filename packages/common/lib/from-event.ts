@@ -1,5 +1,5 @@
 
-import { Signal, createSignal } from "@sig/signal"
+import { Signal, createSignal } from "@sigjs/signal"
 
 export function fromEvent<T extends globalThis.Event = Event, V = T>(
     target: EventTarget,

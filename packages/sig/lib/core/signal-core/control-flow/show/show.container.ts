@@ -1,5 +1,5 @@
-import { DOM } from '@sig/dom';
-import { Trackable } from '@sig/signal';
+import { DOM } from '@sigjs/dom';
+import { Trackable } from '@sigjs/signal';
 import { Logger } from '@/common/logger';
 import { OneOrMany } from '@/types/one-or-many';
 import { SignalRenderContextCommunicator } from '../../render-context/signal-render-context-communicator';

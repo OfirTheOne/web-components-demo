@@ -1,4 +1,4 @@
-import type { FC, Signal} from "sig";
+import type { FC, Signal} from "@sigjs/sig";
 
 export const Checkbox: FC<{
     value: Signal<boolean>,

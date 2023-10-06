@@ -1,5 +1,5 @@
-import type { FC, Signal } from "sig";
-import { Show } from "sig";
+import type { FC, Signal } from "@sigjs/sig";
+import { Show } from "@sigjs/sig";
 
 export const Input: FC<
     { value: Signal<string> } &

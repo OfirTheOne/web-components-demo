@@ -1,5 +1,5 @@
 
-import { isSignal, Trackable } from '@sig/signal';
+import { isSignal, Trackable } from '@sigjs/signal';
 
 export class BasicPropsUtils {
     

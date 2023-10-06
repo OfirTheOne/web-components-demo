@@ -3,7 +3,7 @@ import { Props, VirtualElement, VirtualFnComponent, VirtualRender } from "@/mode
 import { IComponentContainer } from "@/models/i-component-container";
 import { OneOrMany } from "@/types";
 import { ComponentKeyBuilder } from "@/common/component-key-builder";
-import { DOM } from "@sig/dom";
+import { DOM } from "@sigjs/dom";
 
 export abstract class BaseComponentContainer implements IComponentContainer {
     protected _container: OneOrMany<HTMLElement>;

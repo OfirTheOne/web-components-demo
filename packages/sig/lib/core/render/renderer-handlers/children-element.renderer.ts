@@ -4,7 +4,7 @@ import { VirtualElement, DomElement, VirtualRender } from '@/models';
 import { RenderUtils } from '@/core/utils/render-utils';
 import { isRenderTextPrimitive } from '@/core/utils/validators';
 import { SignalRenderContextCommunicator } from '@/core/signal-core/render-context/signal-render-context-communicator';
-import { isDerivedSignal, isSignal } from '@sig/signal';
+import { isDerivedSignal, isSignal } from '@sigjs/signal';
 
 export function childrenElementRenderer(
     virtualRender: VirtualRender,

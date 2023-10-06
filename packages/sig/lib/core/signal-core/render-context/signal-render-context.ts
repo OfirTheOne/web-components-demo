@@ -1,4 +1,4 @@
-import { IDecoratedSignal, ISignal, Trackable } from "@sig/signal";
+import { IDecoratedSignal, ISignal, Trackable } from "@sigjs/signal";
 import { noop, removeDuplicationWithOrder } from "../../../common/utils";
 import { IComponentContainer } from "../../../models/i-component-container";
 import { SignalComponentContainer } from "../../component-container/signal-component-container";

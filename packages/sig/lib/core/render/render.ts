@@ -1,7 +1,7 @@
 import { ComponentKeyBuilder as ComponentKey } from '@/common/component-key-builder';
 import { VirtualElement } from '@/models';
 import { signalRender } from './signal-render';
-import { DOM } from '@sig/dom';
+import { DOM } from '@sigjs/dom';
 
 export function render(elem: JSX.Element | VirtualElement, id: string) {
   if (DOM.validation.isRenderReady()) {

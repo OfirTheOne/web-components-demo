@@ -1,6 +1,6 @@
 import { DomElement, VirtualElement } from '@/models';
 import { OneOrMany } from '@/types';
-import { DOM } from '@sig/dom';
+import { DOM } from '@sigjs/dom';
 export class RenderUtils {
 
   static isVirtualElement(child: unknown): child is VirtualElement {

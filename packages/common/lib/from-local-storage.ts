@@ -1,4 +1,4 @@
-import { Signal, createSignal } from "@sig/signal"
+import { Signal, createSignal } from "@sigjs/signal"
 
 
 export const fromLocalStorage = (key: string): Signal<string> => {

@@ -1,5 +1,5 @@
 {
-  "name": "sig",
+  "name": "@sigjs/sig",
   "version": "1.0.0",
   "description": "",
   "type": "module",
@@ -28,14 +28,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@sig/dom": "workspace:^",
+    "@sigjs/dom": "workspace:^",
     "events": "^3.3.0",
     "mini-css-extract-plugin": "^2.7.3",
     "path-to-regexp": "^6.2.1",
     "vite-plugin-dts": "^3.5.3"
   },
   "devDependencies": {
-    "@sig/signal": "workspace:^",
+    "@sigjs/signal": "workspace:^",
     "@types/lodash": "^4.14.191",
     "@types/node": "^18.11.18",
     "@types/reflect-metadata": "^0.1.0",
@@ -56,6 +56,6 @@
     "vitest": "^0.33.0"
   },
   "peerDependencies": {
-    "@sig/signal": "workspace:^"
+    "@sigjs/signal": "workspace:^"
   }
 }

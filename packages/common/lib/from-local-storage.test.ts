@@ -1,4 +1,4 @@
-import { Signal } from "@sig/signal";
+import { Signal } from "@sigjs/signal";
 import { fromLocalStorage } from "./from-local-storage";
 import { describe, it, expect, vi } from "vitest";
 import { afterEach } from "node:test";

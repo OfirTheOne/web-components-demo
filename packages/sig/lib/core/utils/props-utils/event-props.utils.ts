@@ -1,4 +1,4 @@
-import { DOM } from '@sig/dom'
+import { DOM } from '@sigjs/dom'
 
 export class EventPropsUtils {
   static mutateEventProps(props: Record<string, unknown>) {

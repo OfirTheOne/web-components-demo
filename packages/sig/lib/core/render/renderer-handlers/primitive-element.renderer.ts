@@ -1,5 +1,5 @@
-import { isSignal, isDerivedSignal } from '@sig/signal';
-import { DOM } from '@sig/dom';
+import { isSignal, isDerivedSignal } from '@sigjs/signal';
+import { DOM } from '@sigjs/dom';
 import { SignalSubscriptionType } from '@/core/signal-core/models';
 import { SignalRenderContextCommunicator } from '@/core/signal-core/render-context/signal-render-context-communicator';
 import { RenderUtils, StylePropsUtils, BasicPropsUtils, EventPropsUtils } from '@/core/utils';

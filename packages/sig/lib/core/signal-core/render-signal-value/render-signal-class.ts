@@ -1,4 +1,4 @@
-import { DOM } from '@sig/dom';
+import { DOM } from '@sigjs/dom';
 import { SignalSubscriptionDetails, RenderSignalValueHandler } from '../models';
 
 

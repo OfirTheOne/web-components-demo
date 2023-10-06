@@ -1,5 +1,5 @@
-import { DOM } from '@sig/dom';
-import { Trackable } from '@sig/signal';
+import { DOM } from '@sigjs/dom';
+import { Trackable } from '@sigjs/signal';
 import { Logger } from '@/common/logger';
 import { ComponentKeyBuilder } from '@/common/component-key-builder';
 import { RenderUtils } from '@/core/utils';

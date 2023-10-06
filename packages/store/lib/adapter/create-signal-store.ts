@@ -1,4 +1,4 @@
-import { DerivedSignal, derivedSignal, signal } from '@sig/signal';
+import { DerivedSignal, derivedSignal, signal } from '@sigjs/signal';
 import { createStore, Store, CreateStateFactory } from '../store';
 
 export interface SignalStore<S extends object> extends Store<S> {
