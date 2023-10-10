@@ -2,6 +2,7 @@ import EventEmitter from 'events';
 // import { signalIdsMemorySet } from '../../global-storage';
 import { ISignal } from './types/i-signal';
 import { generateId } from './utils';
+import { isCallback } from './utils/is-callback';
 
 declare global {
     interface Window {
@@ -13,12 +14,12 @@ declare global {
 }
 const signalIdsMemorySet = window.__SIG['signalIdsMemorySet'];
 
-export function signal<T = any>(initValue: T): Signal<T> {
+export function signal<T = any>(initValue: T): ISignal<T> {
   return new Signal(initValue);
 }
 
-export function createSignal<T = any>(initValue: T): Readonly<[Signal<T>, (newValue: T) => void]> {
-  const sourceSignal: Signal<T> = signal(initValue);
+export function createSignal<T = any>(initValue: T): Readonly<[ISignal<T>, (newValue: T) => void]> {
+  const sourceSignal: ISignal<T> = signal(initValue);
   const setSignal = sourceSignal.setValue.bind(sourceSignal);
   return [sourceSignal, setSignal] as const;
 }
@@ -35,6 +36,8 @@ export class Signal<T = unknown> implements ISignal<T> {
     public readonly id: string;
     public readonly emitter: EventEmitter;
     public readonly onUnsubscribe: (() => void)[] = [];
+    readonly _onDispose: (() => void)[] = [];
+    
 
     constructor(initValue: T) {
         this._value = initValue;
@@ -49,7 +52,8 @@ export class Signal<T = unknown> implements ISignal<T> {
         this.notify();
     }
     subscribe(listener: (value: T) => void) {
-        this.emitter.on(VALUE_CHANGE_EVENT, listener)
+        this.emitter.on(VALUE_CHANGE_EVENT, listener);
+        return () => this.unsubscribe(listener);
     }
     unsubscribe(listener: (value: T) => void) {
         this.emitter.removeListener(VALUE_CHANGE_EVENT, listener);
@@ -62,8 +66,17 @@ export class Signal<T = unknown> implements ISignal<T> {
     notify(): void {
         this.emitter.emit(VALUE_CHANGE_EVENT, this._value);
     }
+    
+    onDispose(disposeFn: () => void): void {
+        this._onDispose.push(disposeFn);
+    }
+    dispose(): void {
+        this.emitter.removeAllListeners();
+        signalIdsMemorySet.delete(this.id);
+        try {
+            this._onDispose.forEach(dispose => dispose());
+        } catch (error) {
+            console.error(error);
+        }
+    }
 }
-
-// 
-export const isCallback = (maybeFunction: unknown): maybeFunction is (...args: any[]) => any =>
-    typeof maybeFunction === 'function'
