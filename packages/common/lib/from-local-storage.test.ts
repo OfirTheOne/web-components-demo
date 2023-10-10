@@ -1,11 +1,11 @@
-import { Signal } from "@sigjs/signal";
+import { ISignal } from "@sigjs/signal";
 import { fromLocalStorage } from "./from-local-storage";
 import { describe, it, expect, vi } from "vitest";
 import { afterEach } from "node:test";
 // import * as tinyspy from "tinyspy";
 
 describe("fromLocalStorage", () => {
-  let lsSignal: Signal<string>
+  let lsSignal: ISignal<string>
   afterEach(() => {
     lsSignal.subscribe(() => { void 0; });
     localStorage.clear();

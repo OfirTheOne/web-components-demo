@@ -1,7 +1,7 @@
-import type { FC, Signal} from "@sigjs/sig";
+import type { FC, ISignal} from "@sigjs/sig";
 
 export const Checkbox: FC<{
-    value: Signal<boolean>,
+    value: ISignal<boolean>,
     id: string
 }> = ({ value, ...props }) => {
     return (
@@ -15,7 +15,7 @@ export const Checkbox: FC<{
 }
 
 export const CheckboxController: FC<{
-    value: Signal<boolean>,
+    value: ISignal<boolean>,
     label: string,
     id: string
 }> = ({ value, label, id, ...props }) => {

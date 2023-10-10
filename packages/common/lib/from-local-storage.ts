@@ -1,7 +1,7 @@
-import { Signal, createSignal } from "@sigjs/signal"
+import { ISignal, createSignal } from "@sigjs/signal"
 
 
-export const fromLocalStorage = (key: string): Signal<string> => {
+export const fromLocalStorage = (key: string): ISignal<string> => {
     const [get, set] = createSignal(localStorage.getItem(key));
     const handler = (e: StorageEvent) => {
         if (e.storageArea !== localStorage) return;

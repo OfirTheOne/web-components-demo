@@ -1,20 +1,20 @@
 
-import { Signal, createSignal } from "@sigjs/signal"
+import { ISignal, createSignal } from "@sigjs/signal"
 
 export function fromEvent<T extends globalThis.Event = Event, V = T>(
     target: EventTarget,
     type: string,
     options: AddEventListenerOptions | undefined,
-    map: (e: T) => V): Signal<V>;
+    map: (e: T) => V): ISignal<V>;
 export function fromEvent<T extends globalThis.Event = Event, V = T>(
     target: EventTarget,
     type: string,
-    options?: AddEventListenerOptions): Signal<T>;
+    options?: AddEventListenerOptions): ISignal<T>;
 export function fromEvent<T extends globalThis.Event = Event, V = T>(
     target: EventTarget,
     type: string,
     options?: AddEventListenerOptions,
-    map?: (e: T) => V): Signal<T | V> {
+    map?: (e: T) => V): ISignal<T | V> {
     const [get, set] = createSignal<V | T>(null as unknown as V);
 
     const handler = (map ?
