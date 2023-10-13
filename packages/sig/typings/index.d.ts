@@ -956,7 +956,7 @@ declare global {
       samp: HTMLAttributes<unknown>;
       script: HTMLAttributes<unknown>;
       section: HTMLAttributes<unknown>;
-      select: HTMLAttributes<unknown>;
+      select: HTMLAttributes<HTMLSelectElement>;
       small: HTMLAttributes<unknown>;
       source: HTMLAttributes<unknown>;
       span: HTMLAttributes<unknown>;
@@ -964,6 +964,7 @@ declare global {
       style: HTMLAttributes<unknown>;
       svg: SVGAttributes<SVGSVGElement>;
       path: SVGAttributes<SVGSVGElement>;
+      g: SVGAttributes<SVGSVGElement>;
       sub: HTMLAttributes<unknown>;
       summary: HTMLAttributes<unknown>;
       sup: HTMLAttributes<unknown>;
