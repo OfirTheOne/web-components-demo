@@ -1,4 +1,4 @@
-import { render } from 'sig';
+import { render } from '@sigjs/sig';
 
 import { RootApp } from './root-app';
 

@@ -8,7 +8,6 @@ import { GAME_STATUS } from "../types/gameStatus";
 import colors from "../styles/Colors";
 import { FC, ISubscribableSignal, createSignal, derivedSignal, onMount } from "@sigjs/sig";
 
-import './Pacman.scss'
 
 const Pacman = (props: Character) => {
   const {
@@ -16,7 +15,6 @@ const Pacman = (props: Character) => {
   } = useGameStore.getState();
 const $pacmanPosition = useGameStore.select(state => state.pacmanPosition);
 const $gameStatus = useGameStore.select(state => state.gameStatus);
-
 
   const [$direction, setDirection] = createSignal<Direction>(DIRECTION.RIGHT);
   const [$color, setColor] = createSignal<string>(props.color);
@@ -69,12 +67,12 @@ const $gameStatus = useGameStore.select(state => state.gameStatus);
         case DIRECTION.LEFT:
           newPosition = {
             top: currentTop,
-            left: Math.max(currentLeft - props.velocity.value, 0),
+            left: Math.max(currentLeft - props.velocity, 0),
           };
           break;
         case DIRECTION.UP:
           newPosition = {
-            top: Math.max(currentTop - props.velocity.value, 0),
+            top: Math.max(currentTop - props.velocity, 0),
             left: currentLeft,
           };
           break;
@@ -82,7 +80,7 @@ const $gameStatus = useGameStore.select(state => state.gameStatus);
           newPosition = {
             top: currentTop,
             left: Math.min(
-              currentLeft + props.velocity.value,
+              currentLeft + props.velocity,
               window.innerWidth - props.border - props.size
             ),
           };
@@ -91,7 +89,7 @@ const $gameStatus = useGameStore.select(state => state.gameStatus);
         default:
           newPosition = {
             top: Math.min(
-              currentTop + props.velocity.value,
+              currentTop + props.velocity,
               window.innerHeight -
                 props.size -
                 props.border -
@@ -150,7 +148,6 @@ return ( <div
     }}>{ children }</div>);
 
 };
-
 
 const PacmanEye = () => <div style={{
   position: 'absolute',

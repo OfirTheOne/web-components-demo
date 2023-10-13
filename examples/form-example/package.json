@@ -19,17 +19,17 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@sig/common": "workspace:^",
-    "@sig/forms": "workspace:^",
-    "@sig/signal": "workspace:^",
-    "@sig/store": "workspace:^",
+    "@sigjs/common": "workspace:^",
+    "@sigjs/forms": "workspace:^",
+    "@sigjs/signal": "workspace:^",
+    "@sigjs/sig": "workspace:^",
+    "@sigjs/store": "workspace:^",
     "autoprefixer": "^10.4.16",
     "css-loader": "^6.7.3",
     "events": "^3.3.0",
     "mini-css-extract-plugin": "^2.7.3",
     "path-to-regexp": "^6.2.1",
     "postcss": "^8.4.30",
-    "sig": "workspace:^",
     "tailwindcss": "^3.3.3"
   },
   "devDependencies": {

@@ -1,8 +1,8 @@
 
 
-import { FC, derivedSignal, Signal } from "sig";
+import { FC, derivedSignal, ISignal } from "@sigjs/sig";
 
-export const IPhone14Toggle: FC<{ $value: Signal<boolean> }> = ({ $value: $isOn }) => {
+export const IPhone14Toggle: FC<{ $value: ISignal<boolean> }> = ({ $value: $isOn }) => {
     const $isOff = derivedSignal($isOn, (isOn) => !isOn);
     const onToggle = () => {
         $isOn.setValue((prev) => !prev);

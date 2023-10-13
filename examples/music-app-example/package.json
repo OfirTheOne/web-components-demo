@@ -18,15 +18,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@sig/common": "workspace:^",
-    "@sig/forms": "workspace:^",
-    "@sig/signal": "workspace:^",
-    "@sig/store": "workspace:^",
+    "@sigjs/common": "workspace:^",
+    "@sigjs/forms": "workspace:^",
+    "@sigjs/signal": "workspace:^",
+    "@sigjs/store": "workspace:^",
+    "@sigjs/sig": "workspace:^",
     "css-loader": "^6.7.3",
     "events": "^3.3.0",
     "mini-css-extract-plugin": "^2.7.3",
-    "path-to-regexp": "^6.2.1",
-    "sig": "workspace:^"
+    "path-to-regexp": "^6.2.1"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.191",

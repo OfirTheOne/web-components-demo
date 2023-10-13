@@ -1,4 +1,4 @@
-import { FC } from "sig";
+import { FC } from "@sigjs/sig";
 
 interface IconButtonProps { icon: JSX.Element, label: string, onClick: JSX.MouseEventHandler<HTMLButtonElement> }
 

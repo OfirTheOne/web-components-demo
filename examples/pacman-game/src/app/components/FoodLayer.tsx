@@ -1,12 +1,8 @@
-import Pacman from "./Pacman";
-import Ghost from "./Ghost";
+import { signal } from "@sigjs/signal";
+import { FC, For } from "@sigjs/sig";
 import colors from "../styles/Colors";
 import { useGameStore } from "../store/game.store";
 import { GAME_STATUS } from "../types/gameStatus";
-import { COLOR } from "../types/color";
-import { DIFFICULTY, Difficulty } from "../types/difficulty";
-import { createSignal, signal } from "@sigjs/signal";
-import { Case, FC, For, Switch, onMount } from "@sigjs/sig";
 import { Position } from "../types/position";
 
 const eatPrecision = 18;

@@ -1,7 +1,7 @@
 import { ISignal } from "@sigjs/signal";
 
 export type Character = {
-  velocity: ISignal<number>;
+  velocity: number;
   size: number;
   border: number;
   topScoreBoard: number;

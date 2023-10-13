@@ -84,12 +84,12 @@ const Ghost = (props: Character) => {
           case DIRECTION.LEFT:
             newPosition = {
               top: currentTop,
-              left: Math.max(currentLeft - props.velocity.value, 0),
+              left: Math.max(currentLeft - props.velocity, 0),
             };
             break;
           case DIRECTION.UP:
             newPosition = {
-              top: Math.max(currentTop - props.velocity.value, 0),
+              top: Math.max(currentTop - props.velocity, 0),
               left: currentLeft,
             };
             break;
@@ -97,7 +97,7 @@ const Ghost = (props: Character) => {
             newPosition = {
               top: currentTop,
               left: Math.min(
-                currentLeft + props.velocity.value,
+                currentLeft + props.velocity,
                 window.innerWidth - props.border - props.size
               ),
             };
@@ -106,7 +106,7 @@ const Ghost = (props: Character) => {
           default:
             newPosition = {
               top: Math.min(
-                currentTop + props.velocity.value,
+                currentTop + props.velocity,
                 window.innerHeight -
                   props.size -
                   props.border -

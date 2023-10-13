@@ -1,6 +1,6 @@
 
-import { signal, signalComponent, derivedSignal, Switch, Case } from 'sig';
-import { CheckboxController, InputController } from '@sig/forms';
+import { signal, signalComponent, derivedSignal, Switch, Case } from '@sigjs/sig';
+import { CheckboxController, TextInputController } from '@sigjs/forms';
 import './index.scss';
 
 const setTimeoutAsync = (ms: number) => new Promise<void>((res) => setTimeout(res, ms))
@@ -42,7 +42,7 @@ export default signalComponent(function Form() {
       noValidate={derivedSignal(formNoValidate, (value) => value === false ? null : value) as unknown as boolean}
       onSubmit={handleSubmit}>
 
-      <InputController 
+      <TextInputController 
         value={formFirstNameValues}
         label="First Name"
         id="firstName"
@@ -50,7 +50,7 @@ export default signalComponent(function Form() {
         validation={(value) => !!value}
         validationError="First name is required"
       />
-      <InputController  
+      <TextInputController  
         value={formLastNameValues}
         label="Last Name"
         id='Last Name'

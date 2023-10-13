@@ -1,4 +1,4 @@
-import { FC, onMount, signal } from "sig";
+import { FC, onMount, signal } from "@sigjs/sig";
 
 
 export const ArrowLeftCircleIcon: FC<{ className?: string }> = ({ className = '' }) => (

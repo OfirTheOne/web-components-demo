@@ -1,4 +1,4 @@
-import { derivedSignal, signal } from "sig";
+import { derivedSignal, signal } from "@sigjs/sig";
 import { ArrowLeftCircleIcon, BatteryAnimation } from "../icons";
 import { IPhone14Search } from "./search";
 import { IPhone14Slider } from "./slider";
@@ -23,7 +23,7 @@ console.log(_usedClasses)
 const buildPhoneHeader = () => (
     <div className="flex flex-row justify-around h-[40px] w-full px-8">
         <span className="text font-bold text-sm mt-2">9:41</span>
-        <span class="h-[25px] bg-black w-[200px] rounded-b-3xl"></span>
+        <span className="h-[25px] bg-black w-[200px] rounded-b-3xl"></span>
         <span className="text font-bold text-sm mt-2">
             <BatteryAnimation />
         </span>

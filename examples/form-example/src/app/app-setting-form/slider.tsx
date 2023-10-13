@@ -1,7 +1,7 @@
-import { FC, derivedSignal, Signal } from "sig";
+import { FC, derivedSignal, ISignal } from "@sigjs/sig";
 
 
-export const IPhone14Slider: FC<{ $value: Signal<number> }> = ({ $value }) => {
+export const IPhone14Slider: FC<{ $value: ISignal<number> }> = ({ $value }) => {
     const valuePercent = derivedSignal($value, (value) => `${value}%`);
 
     const handleChange = (event) => {
