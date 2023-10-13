@@ -1,2 +1,2 @@
-export * from './checkbox';
-export * from './input';
+export * from './checkbox/checkbox';
+export * from './text-input/text-input';

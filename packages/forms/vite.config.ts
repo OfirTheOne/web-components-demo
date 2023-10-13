@@ -12,19 +12,19 @@ export default defineConfig({
             fileName: "index",
         },
         rollupOptions: {
-            external: ['sig'],
+            external: ['@sigjs/sig'],
             output: {
                 globals: {
-                    sig: 'Sig',
+                    '@sigjs/sig': 'Sig',
                 },
             },
         },
     },
-    // esbuild: {
-    //     jsxFactory: '__createElement',
-    //     jsxFragment: '__createFragment',
-    //     jsxInject: `import { createFragment as __createFragment, createElement as __createElement } from 'sig'`,
-    // },
+    esbuild: {
+        jsxFactory: '__createElement',
+        jsxFragment: '__createFragment',
+        jsxInject: `import { createFragment as __createFragment, createElement as __createElement } from '@sigjs/sig'`,
+    },
     css: { modules: { localsConvention: 'camelCase' } },
     plugins: [dts()],
 });
