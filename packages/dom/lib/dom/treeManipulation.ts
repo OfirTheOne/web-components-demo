@@ -23,7 +23,7 @@ export const treeManipulation = {
     },
     appendToParent(parent: ShadowRoot | HTMLElement | Element, elem?: OneOrMany<HTMLElement | Element | Text | Node>): void {
         if (parent && elem) {
-            Array.isArray(elem) ? elem.forEach((node) => parent.appendChild(node)) : parent.appendChild(elem);
+            Array.isArray(elem) ? elem.filter(Boolean).forEach((node) => parent.appendChild(node)) : parent.appendChild(elem);
         }
     },
     insertChildAfterNode(
