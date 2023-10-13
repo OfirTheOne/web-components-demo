@@ -1,0 +1,23 @@
+
+.header {
+    height: 100px;
+    background-color: --color3;
+    color: --color2;
+    display: flex;
+    padding-left: 10px;
+    padding-right: 10px;
+    justify-content: space-between;
+
+    .title {
+    font-size: 80px;
+    text-align: left;
+    margin-top: 10px;
+    }
+
+    .score {
+    font-size: 34px;
+    text-align: right;
+    margin-top: 10px;
+    }
+
+}
