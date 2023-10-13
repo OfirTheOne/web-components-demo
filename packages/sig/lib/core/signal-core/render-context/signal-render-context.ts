@@ -1,4 +1,4 @@
-import { IDecoratedSignal, ISignal, Trackable } from "@sigjs/signal";
+import { IDecoratedSignal, ISubscribableSignal, Trackable } from "@sigjs/signal";
 import { noop, removeDuplicationWithOrder } from "../../../common/utils";
 import { IComponentContainer } from "../../../models/i-component-container";
 import { SignalComponentContainer } from "../../component-container/signal-component-container";
@@ -16,7 +16,7 @@ export class SignalRenderContext {
     mutationObserver: MutationObserver;
     elementSubscriptions: Map<HTMLElement | Node, SignalSubscription[]> = new Map();
     effectSubscription: Map<HTMLElement | Node, SignalSubscription[]> = new Map();
-    signalsInUsed: Map<string, ISignal | IDecoratedSignal> = new Map();
+    signalsInUsed: Map<string, ISubscribableSignal | IDecoratedSignal> = new Map();
     renderedPartition: number | string | null;
     lifeCycle = {
         onMount: noop,
@@ -24,7 +24,7 @@ export class SignalRenderContext {
         onDispose: noop
     }
 
-    subscribeSignal(signal: ISignal | IDecoratedSignal, subscription: SignalSubscriptionDetails) {
+    subscribeSignal(signal: ISubscribableSignal | IDecoratedSignal, subscription: SignalSubscriptionDetails) {
         const subscribableSignal = signal;
         let prevValue = signal.value;
         const listener = (value: unknown) => {
@@ -39,7 +39,7 @@ export class SignalRenderContext {
     }
 
     registerEffect(effect: () => void, deps: Trackable[]) {
-        const signals: ISignal[] = removeDuplicationWithOrder(deps.map(dep => 'source' in dep ? dep.source : dep));
+        const signals = removeDuplicationWithOrder(deps.map(dep => 'source' in dep ? dep.source : dep));
         signals.forEach(signal => {
             signal.subscribe(() => {
                 effect();

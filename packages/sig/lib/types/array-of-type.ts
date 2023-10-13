@@ -1,0 +1,1 @@
+export type ArrayOfType<T extends Array<unknown>> =  T extends Array<infer I> ? I : never 
