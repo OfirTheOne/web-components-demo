@@ -18,7 +18,7 @@ export function signal<T = any>(initValue: T): ISignal<T> {
   return new Signal(initValue);
 }
 
-export function createSignal<T = any>(initValue: T): Readonly<[ISignal<T>, (newValue: T) => void]> {
+export function createSignal<T = any>(initValue: T): Readonly<[ISignal<T>, ISignal<T>['setValue']]> {
   const sourceSignal: ISignal<T> = signal(initValue);
   const setSignal = sourceSignal.setValue.bind(sourceSignal);
   return [sourceSignal, setSignal] as const;
@@ -35,7 +35,7 @@ export class Signal<T = unknown> implements ISignal<T> {
     }
     public readonly id: string;
     public readonly emitter: EventEmitter;
-    public readonly onUnsubscribe: (() => void)[] = [];
+    public readonly _onUnsubscribe: (() => void)[] = [];
     readonly _onDispose: (() => void)[] = [];
     
 
@@ -58,7 +58,7 @@ export class Signal<T = unknown> implements ISignal<T> {
     unsubscribe(listener: (value: T) => void) {
         this.emitter.removeListener(VALUE_CHANGE_EVENT, listener);
         try {
-            this.onUnsubscribe.forEach(unsubscribe => unsubscribe());
+            this._onUnsubscribe.forEach(unsubscribe => unsubscribe());
         } catch (error) {
             console.error(error);
         }
@@ -67,6 +67,9 @@ export class Signal<T = unknown> implements ISignal<T> {
         this.emitter.emit(VALUE_CHANGE_EVENT, this._value);
     }
     
+    onUnsubscribe(unsubscribeFn: () => void): void {
+        this._onUnsubscribe.push(unsubscribeFn);
+    }
     onDispose(disposeFn: () => void): void {
         this._onDispose.push(disposeFn);
     }

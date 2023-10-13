@@ -1,10 +1,11 @@
-import { ISignal } from "./i-signal";
+import { ISubscribableSignal, ISignal } from "./i-signal";
 
-export interface IDecoratedSignal<N=unknown> {
-    id: string;
-    value: N;
-    readonly source: ISignal<unknown>;
-    subscribe(listener: (value: N) => void): void;
-    unsubscribe(listener: (value: N) => void): void;
+export interface IDecoratedSignal< N=unknown, S extends ISignal<N> | ISubscribableSignal<N> = ISignal<N>>  extends ISubscribableSignal<N>{
+    readonly source: S;
+    computeValue(): N;
+}
+
+export interface ISubscribableDecoratedSignal<N=unknown> extends ISubscribableSignal<N>{
+    readonly source: ISubscribableSignal<unknown>;
     computeValue(): N;
 }

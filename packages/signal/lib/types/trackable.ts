@@ -1,4 +1,4 @@
 import { IDecoratedSignal } from "./i-decorated-signal";
-import { ISignal } from "./i-signal";
+import { ISubscribableSignal, ISignal } from "./i-signal";
 
-export type Trackable<N=unknown> = ISignal<N> | IDecoratedSignal<N>;
+export type Trackable<N=unknown> =  ISignal<N> | ISubscribableSignal<N> | IDecoratedSignal<N>;

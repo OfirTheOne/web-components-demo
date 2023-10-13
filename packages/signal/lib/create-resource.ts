@@ -3,6 +3,7 @@
 import { Signal } from './create-signal';
 import { AsyncFetcher, ResourceStatus, SyncRun } from './types/resource';
 import { DecoratedSignal } from './decorated-signal';
+import { ISignal } from './types/i-signal';
 
 
 export const createResourceSignal = <T, Args extends any[] = any[], >(fetcher: AsyncFetcher<T, Args>) => {
@@ -15,7 +16,7 @@ export const resourceSignal = <T, Args extends any[] = any[]>(fetcher: AsyncFetc
     return resource;
 }
 
-export class ResourceSignal<T, Args extends any[] = any[]> extends DecoratedSignal<T> {
+export class ResourceSignal<T, Args extends any[] = any[]> extends DecoratedSignal<T, ISignal<T>> {
     _error: Error | null;
     _status: ResourceStatus;
     get error() {
