@@ -13,9 +13,355 @@ importers:
         version: 16.10.0
       nx-cloud:
         specifier: latest
-        version: 16.5.1
+        version: 16.5.2
 
-  examples/pacman-game-new:
+  examples/control-flow-example:
+    dependencies:
+      '@sigjs/common':
+        specifier: workspace:^
+        version: link:../../packages/common
+      '@sigjs/forms':
+        specifier: workspace:^
+        version: link:../../packages/forms
+      '@sigjs/sig':
+        specifier: workspace:^
+        version: link:../../packages/sig
+      '@sigjs/signal':
+        specifier: workspace:^
+        version: link:../../packages/signal
+      '@sigjs/store':
+        specifier: workspace:^
+        version: link:../../packages/store
+      css-loader:
+        specifier: ^6.7.3
+        version: 6.8.1(webpack@5.88.2)
+      events:
+        specifier: ^3.3.0
+        version: 3.3.0
+      mini-css-extract-plugin:
+        specifier: ^2.7.3
+        version: 2.7.6(webpack@5.88.2)
+      path-to-regexp:
+        specifier: ^6.2.1
+        version: 6.2.1
+    devDependencies:
+      '@types/lodash':
+        specifier: ^4.14.191
+        version: 4.14.197
+      '@types/node':
+        specifier: ^18.11.18
+        version: 18.17.13
+      '@types/reflect-metadata':
+        specifier: ^0.1.0
+        version: 0.1.0
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^5.58.0
+        version: 5.62.0(@typescript-eslint/parser@5.62.0)(eslint@8.48.0)(typescript@5.2.2)
+      '@typescript-eslint/parser':
+        specifier: ^5.58.0
+        version: 5.62.0(eslint@8.48.0)(typescript@5.2.2)
+      eslint:
+        specifier: ^8.38.0
+        version: 8.48.0
+      happy-dom:
+        specifier: ^10.3.2
+        version: 10.11.2
+      http-server:
+        specifier: ^14.1.1
+        version: 14.1.1
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
+      node-sass:
+        specifier: ^8.0.0
+        version: 8.0.0
+      prettier:
+        specifier: 2.8.7
+        version: 2.8.7
+      sass:
+        specifier: ^1.63.6
+        version: 1.66.1
+      serve:
+        specifier: ^14.2.0
+        version: 14.2.1
+      ts-node:
+        specifier: ^10.9.1
+        version: 10.9.1(@types/node@18.17.13)(typescript@5.2.2)
+      typescript:
+        specifier: ^5.2.2
+        version: 5.2.2
+      vite:
+        specifier: ^4.4.4
+        version: 4.4.9(@types/node@18.17.13)(sass@1.66.1)
+      vitest:
+        specifier: ^0.33.0
+        version: 0.33.0(happy-dom@10.11.2)(sass@1.66.1)
+
+  examples/form-example:
+    dependencies:
+      '@sigjs/common':
+        specifier: workspace:^
+        version: link:../../packages/common
+      '@sigjs/forms':
+        specifier: workspace:^
+        version: link:../../packages/forms
+      '@sigjs/sig':
+        specifier: workspace:^
+        version: link:../../packages/sig
+      '@sigjs/signal':
+        specifier: workspace:^
+        version: link:../../packages/signal
+      '@sigjs/store':
+        specifier: workspace:^
+        version: link:../../packages/store
+      autoprefixer:
+        specifier: ^10.4.16
+        version: 10.4.16(postcss@8.4.30)
+      css-loader:
+        specifier: ^6.7.3
+        version: 6.8.1(webpack@5.88.2)
+      events:
+        specifier: ^3.3.0
+        version: 3.3.0
+      mini-css-extract-plugin:
+        specifier: ^2.7.3
+        version: 2.7.6(webpack@5.88.2)
+      path-to-regexp:
+        specifier: ^6.2.1
+        version: 6.2.1
+      postcss:
+        specifier: ^8.4.30
+        version: 8.4.30
+      tailwindcss:
+        specifier: ^3.3.3
+        version: 3.3.3(ts-node@10.9.1)
+    devDependencies:
+      '@types/lodash':
+        specifier: ^4.14.191
+        version: 4.14.197
+      '@types/node':
+        specifier: ^18.11.18
+        version: 18.17.13
+      '@types/reflect-metadata':
+        specifier: ^0.1.0
+        version: 0.1.0
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^5.58.0
+        version: 5.62.0(@typescript-eslint/parser@5.62.0)(eslint@8.48.0)(typescript@5.2.2)
+      '@typescript-eslint/parser':
+        specifier: ^5.58.0
+        version: 5.62.0(eslint@8.48.0)(typescript@5.2.2)
+      eslint:
+        specifier: ^8.38.0
+        version: 8.48.0
+      happy-dom:
+        specifier: ^10.3.2
+        version: 10.11.2
+      http-server:
+        specifier: ^14.1.1
+        version: 14.1.1
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
+      node-sass:
+        specifier: ^8.0.0
+        version: 8.0.0
+      prettier:
+        specifier: 2.8.7
+        version: 2.8.7
+      sass:
+        specifier: ^1.63.6
+        version: 1.66.1
+      serve:
+        specifier: ^14.2.0
+        version: 14.2.1
+      ts-node:
+        specifier: ^10.9.1
+        version: 10.9.1(@types/node@18.17.13)(typescript@5.2.2)
+      typescript:
+        specifier: ^5.2.2
+        version: 5.2.2
+      vite:
+        specifier: ^4.4.4
+        version: 4.4.9(@types/node@18.17.13)(sass@1.66.1)
+      vitest:
+        specifier: ^0.33.0
+        version: 0.33.0(happy-dom@10.11.2)(sass@1.66.1)
+
+  examples/music-app-example:
+    dependencies:
+      '@sigjs/common':
+        specifier: workspace:^
+        version: link:../../packages/common
+      '@sigjs/forms':
+        specifier: workspace:^
+        version: link:../../packages/forms
+      '@sigjs/sig':
+        specifier: workspace:^
+        version: link:../../packages/sig
+      '@sigjs/signal':
+        specifier: workspace:^
+        version: link:../../packages/signal
+      '@sigjs/store':
+        specifier: workspace:^
+        version: link:../../packages/store
+      css-loader:
+        specifier: ^6.7.3
+        version: 6.8.1(webpack@5.88.2)
+      events:
+        specifier: ^3.3.0
+        version: 3.3.0
+      mini-css-extract-plugin:
+        specifier: ^2.7.3
+        version: 2.7.6(webpack@5.88.2)
+      path-to-regexp:
+        specifier: ^6.2.1
+        version: 6.2.1
+    devDependencies:
+      '@types/lodash':
+        specifier: ^4.14.191
+        version: 4.14.197
+      '@types/node':
+        specifier: ^18.11.18
+        version: 18.17.13
+      '@types/reflect-metadata':
+        specifier: ^0.1.0
+        version: 0.1.0
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^5.58.0
+        version: 5.62.0(@typescript-eslint/parser@5.62.0)(eslint@8.48.0)(typescript@5.2.2)
+      '@typescript-eslint/parser':
+        specifier: ^5.58.0
+        version: 5.62.0(eslint@8.48.0)(typescript@5.2.2)
+      eslint:
+        specifier: ^8.38.0
+        version: 8.48.0
+      happy-dom:
+        specifier: ^10.3.2
+        version: 10.11.2
+      http-server:
+        specifier: ^14.1.1
+        version: 14.1.1
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
+      node-sass:
+        specifier: ^8.0.0
+        version: 8.0.0
+      prettier:
+        specifier: 2.8.7
+        version: 2.8.7
+      sass:
+        specifier: ^1.63.6
+        version: 1.66.1
+      serve:
+        specifier: ^14.2.0
+        version: 14.2.1
+      ts-node:
+        specifier: ^10.9.1
+        version: 10.9.1(@types/node@18.17.13)(typescript@5.2.2)
+      typescript:
+        specifier: ^5.2.2
+        version: 5.2.2
+      vite:
+        specifier: ^4.4.4
+        version: 4.4.9(@types/node@18.17.13)(sass@1.66.1)
+      vitest:
+        specifier: ^0.33.0
+        version: 0.33.0(happy-dom@10.11.2)(sass@1.66.1)
+
+  examples/pacman-game:
+    dependencies:
+      '@sigjs/common':
+        specifier: workspace:^
+        version: link:../../packages/common
+      '@sigjs/forms':
+        specifier: workspace:^
+        version: link:../../packages/forms
+      '@sigjs/sig':
+        specifier: workspace:^
+        version: link:../../packages/sig
+      '@sigjs/signal':
+        specifier: workspace:^
+        version: link:../../packages/signal
+      '@sigjs/store':
+        specifier: workspace:^
+        version: link:../../packages/store
+      autoprefixer:
+        specifier: ^10.4.16
+        version: 10.4.16(postcss@8.4.30)
+      css-loader:
+        specifier: ^6.7.3
+        version: 6.8.1(webpack@5.88.2)
+      events:
+        specifier: ^3.3.0
+        version: 3.3.0
+      mini-css-extract-plugin:
+        specifier: ^2.7.3
+        version: 2.7.6(webpack@5.88.2)
+      path-to-regexp:
+        specifier: ^6.2.1
+        version: 6.2.1
+      postcss:
+        specifier: ^8.4.30
+        version: 8.4.30
+      tailwindcss:
+        specifier: ^3.3.3
+        version: 3.3.3(ts-node@10.9.1)
+    devDependencies:
+      '@types/lodash':
+        specifier: ^4.14.191
+        version: 4.14.197
+      '@types/node':
+        specifier: ^18.11.18
+        version: 18.17.13
+      '@types/reflect-metadata':
+        specifier: ^0.1.0
+        version: 0.1.0
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^5.58.0
+        version: 5.62.0(@typescript-eslint/parser@5.62.0)(eslint@8.48.0)(typescript@5.2.2)
+      '@typescript-eslint/parser':
+        specifier: ^5.58.0
+        version: 5.62.0(eslint@8.48.0)(typescript@5.2.2)
+      eslint:
+        specifier: ^8.38.0
+        version: 8.48.0
+      happy-dom:
+        specifier: ^10.3.2
+        version: 10.11.2
+      http-server:
+        specifier: ^14.1.1
+        version: 14.1.1
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
+      node-sass:
+        specifier: ^8.0.0
+        version: 8.0.0
+      prettier:
+        specifier: 2.8.7
+        version: 2.8.7
+      sass:
+        specifier: ^1.63.6
+        version: 1.66.1
+      serve:
+        specifier: ^14.2.0
+        version: 14.2.1
+      ts-node:
+        specifier: ^10.9.1
+        version: 10.9.1(@types/node@18.17.13)(typescript@5.2.2)
+      typescript:
+        specifier: ^5.2.2
+        version: 5.2.2
+      vite:
+        specifier: ^4.4.4
+        version: 4.4.9(@types/node@18.17.13)(sass@1.66.1)
+      vitest:
+        specifier: ^0.33.0
+        version: 0.33.0(happy-dom@10.11.2)(sass@1.66.1)
+
+  examples/snake-game:
     dependencies:
       '@sigjs/common':
         specifier: workspace:^
@@ -945,10 +1291,10 @@ packages:
       rimraf: 3.0.2
     dev: true
 
-  /@nrwl/nx-cloud@16.5.1:
-    resolution: {integrity: sha512-ICsZNJanMaJg6VLfPQwmhwLPONN7chyf23bJk1VPzDdlF/XytCQ542LkR3PvSyBAH/Uxx5JevwnKoewX8UxIlA==}
+  /@nrwl/nx-cloud@16.5.2:
+    resolution: {integrity: sha512-oHO5T1HRJsR9mbRd8eUqMBPCgqVZLSbAh3zJoPFmhEmjbM4YB9ePRpgYFT8dRNeZUOUd/8Yt7Pb6EVWOHvpD/w==}
     dependencies:
-      nx-cloud: 16.5.1
+      nx-cloud: 16.5.2
     transitivePeerDependencies:
       - debug
     dev: true
@@ -1815,7 +2161,7 @@ packages:
     dependencies:
       browserslist: 4.21.10
       caniuse-lite: 1.0.30001539
-      fraction.js: 4.3.6
+      fraction.js: 4.3.7
       normalize-range: 0.1.2
       picocolors: 1.0.0
       postcss: 8.4.30
@@ -2754,8 +3100,8 @@ packages:
       mime-types: 2.1.35
     dev: true
 
-  /fraction.js@4.3.6:
-    resolution: {integrity: sha512-n2aZ9tNfYDwaHhvFTkhFErqOMIb8uyzSQ+vGJBjZyanAKZVbGUQ1sngfk9FdkBw7G26O7AgNjLcecLffD1c7eg==}
+  /fraction.js@4.3.7:
+    resolution: {integrity: sha512-ZsDfxO51wGAXREY55a7la9LScWpwv9RxIrYABrlvOFBlH/ShPnrtsXeuUIfXKKOVicNxQ+o8JTbJvjS4M89yew==}
     dev: false
 
   /fs-constants@1.0.0:
@@ -3893,11 +4239,11 @@ packages:
       set-blocking: 2.0.0
     dev: true
 
-  /nx-cloud@16.5.1:
-    resolution: {integrity: sha512-CBR/NkPWDBOIYO2NYgJyS9znvQeEX2M9sbW+7lpWqVtY1Gap6Vmg0WlJ0UuwSXY5lyrKkB4I9eDXn3eNLdj7Yg==}
+  /nx-cloud@16.5.2:
+    resolution: {integrity: sha512-1t1Ii9gojl8r/8hFGaZ/ZyYR0Cb0hzvXLCsaFuvg+EJEFdvua3P4cfNya/0bdRrm+7Eb/ITUOskbvYq4TSlyGg==}
     hasBin: true
     dependencies:
-      '@nrwl/nx-cloud': 16.5.1
+      '@nrwl/nx-cloud': 16.5.2
       axios: 1.1.3
       chalk: 4.1.2
       dotenv: 10.0.0
