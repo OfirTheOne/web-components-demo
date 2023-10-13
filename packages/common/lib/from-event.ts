@@ -22,6 +22,6 @@ export function fromEvent<T extends globalThis.Event = Event, V = T>(
         ((e: T) => { set(e) }) 
     ) as EventListener;
     target.addEventListener(type, handler, options);
-    get.onUnsubscribe.push(() => target.removeEventListener(type, handler, options));
+    get.onDispose(() => target.removeEventListener(type, handler, options));
     return get;
 }

@@ -10,6 +10,6 @@ export const fromLocalStorage = (key: string): ISignal<string> => {
         }
     };
     window.addEventListener("storage", handler);
-    get.onUnsubscribe.push(() => window.removeEventListener("storage", handler));
+    get.onDispose(() => window.removeEventListener("storage", handler));
     return get;
 }

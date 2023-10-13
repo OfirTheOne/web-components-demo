@@ -24,6 +24,7 @@ export const elementManipulation = {
         (Array.isArray(className) ? className : [className])
             .map(c => c.split(' '))
             .flat()
+            .filter(Boolean)
             .forEach((c) => elm.classList
             .add(c));
     },
@@ -31,6 +32,7 @@ export const elementManipulation = {
         (Array.isArray(className) ? className : [className])
             .map(c => c.split(' '))
             .flat()
+            .filter(Boolean)
             .forEach((c) => elm.classList
             .remove(c));
     },
