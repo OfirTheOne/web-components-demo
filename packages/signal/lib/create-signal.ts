@@ -1,5 +1,4 @@
 import EventEmitter from 'events';
-// import { signalIdsMemorySet } from '../../global-storage';
 import { ISignal } from './types/i-signal';
 import { generateId } from './utils';
 import { isCallback } from './utils/is-callback';
@@ -14,7 +13,7 @@ declare global {
 }
 const signalIdsMemorySet = window.__SIG['signalIdsMemorySet'];
 
-export function signal<T = any>(initValue: T): ISignal<T> {
+export function signal<T = any>(initValue?: T): ISignal<T> {
   return new Signal(initValue);
 }
 
@@ -39,14 +38,13 @@ export class Signal<T = unknown> implements ISignal<T> {
     readonly _onDispose: (() => void)[] = [];
     
 
-    constructor(initValue: T) {
+    constructor(initValue?: T) {
         this._value = initValue;
         this.emitter = new EventEmitter();
         this.id = generateId();
         signalIdsMemorySet.add(this.id);
     }
     setValue(setter: ((curValue: T) => T) | T): void {
-        
         const newValue = isCallback(setter) ? setter(this._value) : setter ;
         this._value =  newValue;
         this.notify();

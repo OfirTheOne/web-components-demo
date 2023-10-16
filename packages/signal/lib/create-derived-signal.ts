@@ -11,7 +11,6 @@ export function derivedSignal<S = any, N = any>(sourceSignal: ISubscribableSigna
   return new DerivedSignal<N>(sourceSignal as ISignal<unknown>, transform);
 }
 
-
 export class DerivedSignal<N = unknown> extends DecoratedSignal<N, ISubscribableSignal<N>> {
 
   readonly memoisedComputeValue: (currentSourceValue: unknown) => N;
@@ -24,11 +23,9 @@ export class DerivedSignal<N = unknown> extends DecoratedSignal<N, ISubscribable
       protected readonly transform: (value: any) => N
   ) {
       super(('source' in wrappedSignal ? wrappedSignal.source : wrappedSignal) as ISubscribableSignal<N>);
-      let transformers: DerivedSignal['transform'][];
+      const transformers: DerivedSignal['transform'][] = [transform];
       if ('transform' in wrappedSignal) {
-        transformers = [wrappedSignal.transform, transform];
-      } else {
-        transformers = [transform];
+        transformers.unshift(wrappedSignal.transform);
       }
       this.memoisedComputeValue = memoisedFunction(function computeDerivedSignalValue(currentSourceValue: unknown) {
         return reduceTransform<N>(currentSourceValue, transformers);
