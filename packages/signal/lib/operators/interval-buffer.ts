@@ -8,7 +8,7 @@ export function intervalBuffer<T>(sourceSignal: ISignal<T>, interval: number, ta
 export function intervalBuffer<T>(sourceSignal: ISignal<T>, interval: number): ISignal<T[]>
 export function intervalBuffer<T>(sourceSignal: ISignal<T>, interval: number, takeLast?: boolean): ISignal<T[] | T> {
     const source = signal<T[] | T>();
-    const buffer: T[] = [];
+    let buffer: T[] = [];
     let timeout: NodeJS.Timeout;
     sourceSignal.subscribe((value) => {
         buffer.push(value);
@@ -19,7 +19,7 @@ export function intervalBuffer<T>(sourceSignal: ISignal<T>, interval: number, ta
                 } else {
                     source.setValue(buffer);
                 }
-                buffer.length = 0;
+                buffer = [];
                 timeout = undefined;
             }, interval);
         }
